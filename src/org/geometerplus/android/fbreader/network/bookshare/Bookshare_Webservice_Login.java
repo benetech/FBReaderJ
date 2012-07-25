@@ -8,6 +8,8 @@ import org.accessibility.VoiceableDialog;
 import org.bookshare.net.BookshareWebservice;
 import org.benetech.android.R;
 
+import ca.idi.tecla.lib.InputAccess;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -72,9 +74,11 @@ public class Bookshare_Webservice_Login extends Activity{
 	private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
 	private boolean isOM = false;
 	private String response;
+	private InputAccess inputAccess = new InputAccess(this, true);
 
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
+		inputAccess.onCreate();
 		
 		// Obtain the SharedPreferences object shared across the application
 		SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
