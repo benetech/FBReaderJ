@@ -73,6 +73,13 @@ public class Bookshare_Webservice_Login extends Activity{
 	private boolean isOM = false;
 	private String response;
 
+	private int requestType;
+	private String uri;
+	private String periodicalEdition;
+	private String periodicalRevision;
+	private String periodicalId;
+	private String periodicalTitle;
+	
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
 		
@@ -90,6 +97,7 @@ public class Bookshare_Webservice_Login extends Activity{
 			finish();
 		}
 		
+		
 		// Remove the title bar
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
@@ -100,6 +108,23 @@ public class Bookshare_Webservice_Login extends Activity{
 
 		btn_login = (Button)findViewById(R.id.btn_bookshare_bookshare_webservice_login);
 		btn_continue_without_login = (Button)findViewById(R.id.btn_bookshare_bookshare_continue_without_login);
+		
+		//Disable 'continue without logging in' if required
+		Intent intent=getIntent();
+		Boolean disableContinue=intent.getBooleanExtra("disable_no_login",false);
+		requestType=intent.getIntExtra(Bookshare_Menu.REQUEST_TYPE, -1);
+		//If there is any extra then the continue without login button should be disabled
+		if(disableContinue){
+			btn_continue_without_login.setEnabled(false);
+		}
+		// These are the details passed by Periodical_Edition_Listing activity
+		// This occurs if the user choose to login when he clicks on a certain periodical
+		if(requestType!=-1){
+			periodicalId=intent.getStringExtra("periodical_edition_id");
+			periodicalEdition=intent.getStringExtra("periodical_edition");
+			periodicalRevision=intent.getStringExtra("periodical_revision");
+			periodicalTitle=intent.getStringExtra("PERIODICAL_TITLE");
+		}
 		
 		text_username = (TextView)findViewById(R.id.bookshare_login_username_text);
 		text_password = (TextView)findViewById(R.id.bookshare_login_password_text);
@@ -373,6 +398,13 @@ public class Bookshare_Webservice_Login extends Activity{
 			case LOGIN_SUCCESSFUL:
 				intent = new Intent(getApplicationContext(), Bookshare_Menu.class);
 				
+				//this is if user log in after prompted by Bookshare_Periodical_Edition_Listing class
+				if(requestType==Bookshare_Periodical_Edition_Listing.EDITION_METADATA_RESPONSE){
+					intent = new Intent(getApplicationContext(), Bookshare_Periodical_Edition_Details.class);
+					uri= Bookshare_Periodical_Edition_Listing.URI_BOOKSHARE_PERIODICAL_EDITION_SEARCH+ periodicalId + "/edition/" + periodicalEdition + "/revision/" + periodicalRevision+"/for/"+username+"?api_key="+BookshareDeveloperKey.DEVELOPER_KEY;
+					intent.putExtra("ID_SEARCH_URI", uri);
+					intent.putExtra("PERIODICAL_TITLE", periodicalTitle);;
+				}
 				if(!isFree){
 					intent.putExtra(USER, username);
 					intent.putExtra(PASSWORD, password);

@@ -131,5 +131,16 @@
     <string name="toc_view_subheadings">View sub headings</string>
     <string name="toc_close_subheadings">Close sub headings</string>
     <string name="toc_goto_heading">Go to heading</string>
+    <string name="bks_menu_periodicals_label">Newspapers &amp; Magazines</string>
+    <string name="fetching_periodicals">Fetching periodicals. Please wait.</string>
+    <string name="search_complete_with_periodicals">Search complete. Periodicals listing.</string>
+    <string name="login_to_continue">Please login to download this periodical.</string>
+    <string name="edition_details_download_success">Periodical Downloaded! Read Periodical.</string>
+    <string name="warning_no_general_downloads_for_periodicals">Warning! You are not logged in. Newspapers &amp; Magazines are not available for guests to download. Are you sure you want to continue? </string>
+    <string name="share_with_friends">Share with friends!</string>
+    <string name="subscription_chk_box">Subscribe to this periodical</string>
+    <string name="subscribe_chkbox_description">(Automatically download the latest issue)</string>
+    <string name="facebook_str">Share on Facebook</string>
+    <string name="twitter_str">Share on Twitter</string>
 
 </resources>

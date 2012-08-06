@@ -39,6 +39,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -79,6 +80,7 @@ public class Bookshare_Books_Listing extends ListActivity{
 	private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
     private Resources resources;
 
+    private EditText search_text;
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
@@ -179,6 +181,9 @@ public class Bookshare_Books_Listing extends ListActivity{
 
 				setContentView(R.layout.bookshare_menu_main);
 
+				search_text=(EditText)findViewById(R.id.searchText);
+				search_text.setVisibility(View.GONE);
+				
 				// Dismiss the progress dialog
 				pd_spinning.cancel();
 

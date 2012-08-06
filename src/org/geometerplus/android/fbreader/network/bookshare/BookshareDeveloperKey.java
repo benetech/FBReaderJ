@@ -8,6 +8,6 @@ package org.geometerplus.android.fbreader.network.bookshare;
 public class BookshareDeveloperKey {
 	
 	// Enter your developer key here
-	public static final String DEVELOPER_KEY = "";
-    public static final String BUGSENSE_KEY = "";
+	public static final String DEVELOPER_KEY = "xux97j6rr29g998285sypqbk";
+    public static final String BUGSENSE_KEY = "5e287170";
 }

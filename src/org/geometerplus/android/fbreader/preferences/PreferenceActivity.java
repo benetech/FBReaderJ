@@ -422,6 +422,10 @@ public class PreferenceActivity extends ZLPreferenceActivity {
 
 		    dictionaryScreen.addOption(fbReader.WordTappingActionOption, "tappingAction");
 
+		    final Screen subscriptionScreen = createPreferenceScreen("subscriptionSettings");
+		    //subscriptionScreen.addOption(, resourceKey)
+		    
+		    
             final Screen imagesScreen = createPreferenceScreen("images");
             imagesScreen.addOption(fbReader.ImageTappingActionOption, "tappingAction");
             imagesScreen.addOption(fbReader.ImageViewBackgroundOption, "backgroundColor");

@@ -219,8 +219,14 @@
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Books_Listing"  android:label="Books Listing" />
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Book_Details"  android:label="Book Details" />
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login"  android:label="Bookshare Log In" />
+        <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Periodical_Listing"  android:label="Periodical List" />
+        <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Periodical_Edition_Listing"  android:label="Periodical Edition List" />
+        <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Periodical_Edition_Details" android:label="Periodical Edition Details" />
+        <service android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Periodical_Download_Service"></service>
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_OM_List"  android:label="Bookshare OM List" />
         <activity android:name="org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity" android:label="Main Menu" />
         <activity android:name="org.geometerplus.android.fbreader.benetech.AccessibleNavigateActivity" android:label="Go to page" />
+        
+        <activity android:name="org.geometerplus.android.fbreader.network.bookshare.socialnetworks.TwitterWebActivity" android:label="Twitter Permission" />
 	</application>
 </manifest>
