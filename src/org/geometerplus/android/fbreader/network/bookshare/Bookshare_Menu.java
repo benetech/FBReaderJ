@@ -54,20 +54,28 @@ public class Bookshare_Menu extends ListActivity {
     protected final static int ISBN_SEARCH_REQUEST = 3;
     protected final static int LATEST_REQUEST = 4;
     protected final static int POPULAR_REQUEST = 5;
+    protected final static int ALL_PERIODICAL_REQUEST = 6; //(thushv)
+    protected final static int PERIODICAL_EDITION_REQUEST = 7;
 
 	ArrayList<TreeMap<String,Object>> list = new ArrayList<TreeMap<String, Object>>();
 	private Dialog dialog;
 	private EditText dialog_search_term;
 	private TextView dialog_search_title;
 	private TextView dialog_example_text;
+	private EditText search_text;
 	private Button dialog_ok;
     private String search_term = "";
 	private String URI_String = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL + Bookshare_Webservice_Login.BOOKSHARE_API_HOST + "/book/";
+	private String URI_Periodical_String = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL + Bookshare_Webservice_Login.BOOKSHARE_API_HOST + "/periodical/";
 	private int query_type;
 	private Intent intent;
 	private final int START_BOOKSHARE_BOOKS_LISTING_ACTIVITY = 0;
 	private final int BOOKSHARE_BOOKS_LISTING_FINISHED = 2;
 	private final int BOOKSHARE_MENU_FINISHED = 1;
+	
+	private final int START_BOOKSHARE_PERIODICAL_LISTING_ACTIVITY = 3; //This is to start listing periodicals (thushv)
+	private final int BOOKSHARE_PERIODICAL_LISTING_FINISHED=4;
+	
 	private String username;
 	private String password;
 	private boolean isFree = false; 
@@ -79,7 +87,9 @@ public class Bookshare_Menu extends ListActivity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.bookshare_menu_main);
-
+		
+		search_text=(EditText)findViewById(R.id.searchText);
+		search_text.setVisibility(View.GONE);
 		// Fetch the login info from the caller intent
 		Intent callerIntent  = getIntent();
 		username = callerIntent.getStringExtra("username");
@@ -94,6 +104,7 @@ public class Bookshare_Menu extends ListActivity {
             R.drawable.isbn,
             R.drawable.latest,
             R.drawable.isbn,
+            R.drawable.periodicals,		//Icon for 'All Periodicals' (thushv)
             R.drawable.titles
 		};
         
@@ -101,7 +112,7 @@ public class Bookshare_Menu extends ListActivity {
 		//Create a TreeMap for use in the SimpleAdapter
         String[] items = {getResources().getString(R.string.bks_menu_title_label),
                 getResources().getString(R.string.bks_menu_author_label), getResources().getString(R.string.bks_menu_isbn_label),
-                getResources().getString(R.string.bks_menu_latest_label), getResources().getString(R.string.bks_menu_popular_label), logInMenuItem};
+                getResources().getString(R.string.bks_menu_latest_label), getResources().getString(R.string.bks_menu_popular_label), getResources().getString(R.string.bks_menu_periodicals_label),logInMenuItem};
 		for(int i = 0; i < drawables.length; i++){
 			TreeMap<String, Object> row_item = new TreeMap<String, Object>();
 			row_item.put("Name", items[i]);
@@ -205,11 +216,38 @@ public class Bookshare_Menu extends ListActivity {
 					}
 					startActivityForResult(intent, START_BOOKSHARE_BOOKS_LISTING_ACTIVITY);
 				}
+				//This is when user clickes on 'All Periodicals' (thushv)
+				else if(txt_name.getText().equals(getResources().getString(R.string.bks_menu_periodicals_label))){
+					if(!isFree)
+						search_term= URI_Periodical_String+"list/for/"+username+"?api_key="+developerKey;
+					else
+						search_term= URI_Periodical_String+"list?api_key="+developerKey;
+						
+					
+					query_type= ALL_PERIODICAL_REQUEST;
+					intent = new Intent(getApplicationContext(),Bookshare_Periodical_Listing.class);
+					//set all the extras accordingly
+					intent.putExtra(REQUEST_TYPE, ALL_PERIODICAL_REQUEST);
+					intent.putExtra(REQUEST_URI, search_term);
+					if(!isFree){
+						
+						intent.putExtra("username", username);
+						intent.putExtra("password", password);
+						startActivityForResult(intent, START_BOOKSHARE_PERIODICAL_LISTING_ACTIVITY);
+					}else{
+						AlertDialog loginAlert=createLoginDialogBox();
+						loginAlert.show();
+					}
+							
+					
+					
+				}
                 else if(txt_name.getText().equals(getResources().getString(R.string.bks_menu_log_in))) {
                     Intent intent = new Intent(getApplicationContext(), Bookshare_Webservice_Login.class);
                     startActivity(intent);
                     finish();
                 }
+				
                 else if(txt_name.getText().equals(getResources().getString(R.string.bks_menu_log_out))) {
                     final Dialog confirmDialog = new Dialog(myActivity);
                     confirmDialog.setTitle(getResources().getString(R.string.accessible_alert_title));
@@ -246,6 +284,37 @@ public class Bookshare_Menu extends ListActivity {
 		});
 	}
 
+	private AlertDialog createLoginDialogBox(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setCancelable(true);
+		//builder.setIcon(android.R.drawable.dialog_question);
+		builder.setTitle("Login Required");
+		builder.setMessage(R.string.warning_no_general_downloads_for_periodicals);
+		builder.setInverseBackgroundForced(true);
+		builder.setPositiveButton("Login", new DialogInterface.OnClickListener() {
+			//Take the user to the login page with 'continue without logging in' disabled
+		  @Override
+		  public void onClick(DialogInterface dialog, int which) {
+			  Intent intent = new Intent(getApplicationContext(),Bookshare_Webservice_Login.class);
+				intent.putExtra("disable_no_login", true);
+		    dialog.dismiss();
+		    
+		    startActivity(intent);
+		  }
+		});
+		//Just close the dialog box and activity
+		builder.setNegativeButton("Continue Anyway", new DialogInterface.OnClickListener() {
+		  @Override
+		  public void onClick(DialogInterface dialog, int which) {
+		    dialog.dismiss();
+		    startActivityForResult(intent, START_BOOKSHARE_PERIODICAL_LISTING_ACTIVITY);
+		  }
+		});
+		AlertDialog alert = builder.create();
+		return alert;
+		
+	}
+	
     private void showAuthorSearch() {
         intent = new Intent(getApplicationContext(),Bookshare_Books_Listing.class);
         intent.putExtra(REQUEST_TYPE, AUTHOR_SEARCH_REQUEST);
