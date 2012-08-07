@@ -32,15 +32,23 @@ public class BooksharePeriodicalDataSource extends PeriodicalsDatabase{
 	public void insertEntity(SQLiteDatabase db, String tableName,PeriodicalEntity pEntity) {
 		
 		String[] allCols = null;
+		Cursor cursor=null;
+		String periodicalId= pEntity.getId();
+		
 		if(PeriodicalsSQLiteHelper.TABLE_SUBSCRIBED_PERIODICALS.equals(tableName)){
 			allCols= subscribedAllColumns;
+			cursor = db.query(tableName, allCols, PeriodicalsSQLiteHelper.COLUMN_ID + "= ?", new String[]{periodicalId}, null, null, null);
 		}
 		else if(PeriodicalsSQLiteHelper.TABLE_ALL_PERIODICALS.equals(tableName)){
 			allCols = allPAllColumns; 
+			AllDbPeriodicalEntity allEntity = (AllDbPeriodicalEntity) pEntity;
+			cursor = db.query(tableName, allCols, PeriodicalsSQLiteHelper.COLUMN_ID + "= ? "
+					+"AND "+PeriodicalsSQLiteHelper.ALL_P_COLUMN_EDITION + "= ? "
+					+"AND "+PeriodicalsSQLiteHelper.ALL_P_COLUMN_REVISION + "= ? ", new String[]{periodicalId,allEntity.getEdition(),allEntity.getRevision()+""}, null, null, null);
 		}
 		
-		String periodicalId= pEntity.getId();
-		Cursor cursor = db.query(tableName, allCols, PeriodicalsSQLiteHelper.COLUMN_ID + "="+periodicalId, null, null, null, null);
+		
+		
 
 		ContentValues values = composeCValue(pEntity);
 		
@@ -50,7 +58,7 @@ public class BooksharePeriodicalDataSource extends PeriodicalsDatabase{
 		if(cursor.getCount()<=0){
 			db.insert(tableName, null, values);
 		}else{
-			db.update(tableName, values, PeriodicalsSQLiteHelper.COLUMN_ID+"=?", new String[]{periodicalId+""});
+			db.update(tableName, values, PeriodicalsSQLiteHelper.COLUMN_ID+"= ?", new String[]{periodicalId});
 		}
 		
 		cursor.close();
@@ -108,6 +116,32 @@ public class BooksharePeriodicalDataSource extends PeriodicalsDatabase{
 		
 	}
 
+	
+	public List<PeriodicalEntity> getEntityByIdOnly(SQLiteDatabase db,String tableName,String id) {
+		String[] allCols = null;
+		ArrayList<PeriodicalEntity> entities = new ArrayList<PeriodicalEntity>();
+		if(PeriodicalsSQLiteHelper.TABLE_SUBSCRIBED_PERIODICALS.equals(tableName)){
+			allCols= subscribedAllColumns;
+		}
+		else if(PeriodicalsSQLiteHelper.TABLE_ALL_PERIODICALS.equals(tableName)){
+			allCols = allPAllColumns; 
+		}
+		
+		Cursor cursor = db.query(tableName, allCols, PeriodicalsSQLiteHelper.COLUMN_ID + "= ?", new String[]{id}, null, null, null);
+		
+		if(cursor != null && cursor.getCount()>0){
+			cursor.moveToFirst();
+			while(!cursor.isAfterLast()){
+				entities.add(PeriodicalFromCursorFactory.getPeriodicalEntityInstance(tableName,cursor));
+				cursor.moveToNext();
+			}
+			cursor.close();
+			
+		}
+		return entities;
+		
+	}
+	
 	/** This method checks whether a specified entry exists in the table in the database 
 	 * @param db
 	 * @param tableName

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -41,6 +42,7 @@ import org.geometerplus.android.fbreader.network.bookshare.socialnetworks.Twitte
 import org.geometerplus.android.fbreader.subscription.AllDbPeriodicalEntity;
 import org.geometerplus.android.fbreader.subscription.BooksharePeriodicalDataSource;
 import org.geometerplus.android.fbreader.subscription.PeriodicalDBUtils;
+import org.geometerplus.android.fbreader.subscription.PeriodicalEntity;
 import org.geometerplus.android.fbreader.subscription.PeriodicalsSQLiteHelper;
 import org.geometerplus.android.fbreader.subscription.SubscribedDbPeriodicalEntity;
 import org.geometerplus.fbreader.Paths;
@@ -457,8 +459,21 @@ public class Bookshare_Periodical_Edition_Details extends Activity implements Tw
 									SubscribedDbPeriodicalEntity sEntity = new SubscribedDbPeriodicalEntity();
 									sEntity.setId(metadata_bean.getPeriodicalId());
 									sEntity.setTitle(metadata_bean.getTitle());
-									sEntity.setLatestEdition("00000000");
-									sEntity.setLatestRevision(0);
+									
+									ArrayList<AllDbPeriodicalEntity> entities = new ArrayList<AllDbPeriodicalEntity>();
+									ArrayList<PeriodicalEntity> prevEntities = (ArrayList<PeriodicalEntity>) dataSource.getEntityByIdOnly(periodicalDb, PeriodicalsSQLiteHelper.TABLE_ALL_PERIODICALS, metadata_bean.getPeriodicalId());
+									for(PeriodicalEntity entity : prevEntities){
+										entities.add((AllDbPeriodicalEntity) entity);
+									}
+									
+									if(entities.size()<=0){
+										sEntity.setLatestEdition("00000000");
+										sEntity.setLatestRevision(0);
+									}else{
+										AllDbPeriodicalEntity maxEntity = PeriodicalDBUtils.getMostRecentEdition(entities);
+										sEntity.setLatestEdition(maxEntity.getEdition());
+										sEntity.setLatestRevision(maxEntity.getRevision());
+									}
 									//TODO: Update sEntity revision/edition to latest from the AllDbPeriodical db
 									
 									//If user enables the subscribed option

@@ -9,4 +9,5 @@ public interface IPeriodicalDownloadAPI {
 
 	public boolean downloadPeriodical(Bookshare_Edition_Metadata_Bean bean);
 	public Vector<Bookshare_Periodical_Edition_Bean> getUpdates(String id);
+	public Bookshare_Edition_Metadata_Bean getDetails(Bookshare_Periodical_Edition_Bean bean);
 }

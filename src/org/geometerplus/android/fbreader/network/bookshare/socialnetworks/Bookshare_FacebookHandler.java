@@ -2,28 +2,21 @@ package org.geometerplus.android.fbreader.network.bookshare.socialnetworks;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Serializable;
 import java.net.MalformedURLException;
-import java.util.HashMap;
 
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Edition_Metadata_Bean;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Metadata_Bean;
-import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Periodical_Edition_Bean;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import com.facebook.android.DialogError;
-import com.facebook.android.Facebook;
-import com.facebook.android.Facebook.DialogListener;
-import com.facebook.android.FacebookError;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.widget.Toast;
+
+import com.facebook.android.DialogError;
+import com.facebook.android.Facebook;
+import com.facebook.android.Facebook.DialogListener;
+import com.facebook.android.FacebookError;
 
 public class Bookshare_FacebookHandler {
 
@@ -165,13 +158,16 @@ public class Bookshare_FacebookHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if (response != null && !response.equals("")
-					&& !response.equals("false")) {
+			if (response != null
+					&& !response.equals("")
+					&& !response.equals("false")
+					&& (!response.contains("error") || !response
+							.contains("OAuthException"))) {
 				Toast.makeText(context, "Successfully posted on your wall",
 						Toast.LENGTH_SHORT).show();
-				
+
 			}
-			
+
 		}
 
 	}
