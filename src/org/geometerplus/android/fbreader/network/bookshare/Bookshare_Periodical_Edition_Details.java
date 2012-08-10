@@ -675,9 +675,7 @@ public class Bookshare_Periodical_Edition_Details extends Activity implements
 		List<ZLFile> bookEntries = bookDir.children();
 		ZLFile opfFile = null;
 		for (ZLFile entry : bookEntries) {
-			if (entry.getExtension().equals("opf")
-					&& entry.getShortName()
-							.contains(metadata_bean.getEdition())) {
+			if (entry.getExtension().equals("opf")) {
 				opfFile = entry;
 				break;
 			}
@@ -895,15 +893,8 @@ public class Bookshare_Periodical_Edition_Details extends Activity implements
 									System.out.println(downloadedBookDir);
 									// Extract the file to the specified
 									// destination
-									zipFile.extractFile(
-											fileHeader,
-											downloadedBookDir,
-											null,
-											metadata_bean.getTitle()
-													+ "_"
-													+ metadata_bean
-															.getEdition()
-													+ ".opf");
+									zipFile.extractFile(fileHeader,
+											downloadedBookDir);
 								}
 								Log.i(getClass().getName(),
 										"Periodical extracted to: "
