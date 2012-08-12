@@ -10,7 +10,6 @@ import java.util.TreeMap;
 import org.accessibility.ParentCloserDialog;
 import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
-import org.geometerplus.android.fbreader.subscription.PeriodicalEditionListFetcher;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -89,7 +88,6 @@ public class Bookshare_Menu extends ListActivity {
 	private boolean isFree = false;
 	private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
 	private final Activity myActivity = this;
-	private PeriodicalEditionListFetcher listFectcher;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,24 +106,6 @@ public class Bookshare_Menu extends ListActivity {
 			isFree = true;
 		}
 
-		/*
-		 * listFectcher = PeriodicalEditionListFetcher.getInstance(); String
-		 * bookshare_ID = "197660"; String serviceURI =
-		 * Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL +
-		 * Bookshare_Webservice_Login.BOOKSHARE_API_HOST + "/periodical/id/" +
-		 * bookshare_ID + "/for/" + username + "?api_key=" + developerKey;
-		 * listFectcher.getListing(serviceURI, password, new
-		 * PeriodicalEditionListener() {
-		 * 
-		 * @Override public void onPeriodicalEditionListResponce(
-		 * Vector<Bookshare_Periodical_Edition_Bean> results) { if (results ==
-		 * null) { Log.e(getClass().getName(),
-		 * "Couldn't fetch any periodical Editions"); } else {
-		 * Log.i(getClass().getName(), "Fetched " + results.size() +
-		 * " periodicals"); }
-		 * 
-		 * } });
-		 */
 		final int[] drawables = new int[] { R.drawable.titles,
 				R.drawable.authors, R.drawable.isbn, R.drawable.latest,
 				R.drawable.isbn, R.drawable.periodicals, // Icon for 'All

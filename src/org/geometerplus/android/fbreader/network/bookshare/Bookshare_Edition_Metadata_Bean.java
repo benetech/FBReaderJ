@@ -1,8 +1,15 @@
 package org.geometerplus.android.fbreader.network.bookshare;
 
-public class Bookshare_Edition_Metadata_Bean {
-	private String periodicalId;	//This id is common for different editions of same periodical
-	private String contentId;	//This id is unique for each edition
+import java.io.Serializable;
+
+public class Bookshare_Edition_Metadata_Bean implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String periodicalId; // This id is common for different editions of
+									// same periodical
+	private String contentId; // This id is unique for each edition
 	private String daisy;
 	private String brf;
 	private String[] downloadFormats;
@@ -13,8 +20,7 @@ public class Bookshare_Edition_Metadata_Bean {
 	private String revisionTime;
 	private String category;
 	private String freelyAvailable;
-	
-	
+
 	public String getPeriodicalId() {
 		return periodicalId;
 	}
@@ -23,9 +29,9 @@ public class Bookshare_Edition_Metadata_Bean {
 		this.periodicalId = periodicalId;
 	}
 
-	public Bookshare_Edition_Metadata_Bean(){
-		downloadFormats=new String[0];
-		freelyAvailable=0+"";
+	public Bookshare_Edition_Metadata_Bean() {
+		downloadFormats = new String[0];
+		freelyAvailable = 0 + "";
 	}
 
 	public String getContentId() {
@@ -115,6 +121,5 @@ public class Bookshare_Edition_Metadata_Bean {
 	public void setFreelyAvailable(String freelyAvailable) {
 		this.freelyAvailable = freelyAvailable;
 	}
-	
-	
+
 }

@@ -228,5 +228,7 @@
         
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.socialnetworks.TwitterWebActivity" android:label="Twitter Permission" />
         <service android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Subscription_Download_Service"></service>
+        <service android:name="org.geometerplus.android.fbreader.network.bookshare.SubscriptionAlarmTriggerService"></service>
+        <service android:name="org.geometerplus.android.fbreader.network.bookshare.SubscriptionDownloadService"></service>
 	</application>
 </manifest>

@@ -201,7 +201,6 @@ public class Bookshare_Periodical_Edition_Details extends Activity implements
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		periodicalDBHelper.close();
 	}
@@ -539,8 +538,6 @@ public class Bookshare_Periodical_Edition_Details extends Activity implements
 											sEntity.setLatestRevision(maxEntity
 													.getRevision());
 										}
-										// TODO: Update sEntity revision/edition
-										// to latest from the AllDbPeriodical db
 
 										// If user enables the subscribed option
 										if (isChecked) {
@@ -799,10 +796,12 @@ public class Bookshare_Periodical_Edition_Details extends Activity implements
 				if (entity != null) {
 					String filename = "bookshare_" + Math.random() * 10000
 							+ ".zip";
-					if (metadata_bean.getTitle() != null) {
+					if (metadata_bean.getTitle() != null
+							&& metadata_bean.getEdition() != null) {
 						String temp = "";
 
-						temp = metadata_bean.getTitle();
+						temp = metadata_bean.getTitle() + "_"
+								+ metadata_bean.getEdition();
 
 						filename = temp;
 						filename = filename.replaceAll(" +", "_").replaceAll(
