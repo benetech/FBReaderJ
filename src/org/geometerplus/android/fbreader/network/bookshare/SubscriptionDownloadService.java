@@ -51,7 +51,8 @@ import android.widget.RemoteViews;
 
 /**
  * This is an intent service. This was used to stop simultaneous downloas as it
- * causes system not to respond
+ * causes system not to respond as well as corrupt zip files. So with this
+ * downloads are done sequentially
  * 
  * @author thushan
  * 

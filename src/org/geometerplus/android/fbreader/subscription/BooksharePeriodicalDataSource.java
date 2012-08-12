@@ -75,6 +75,7 @@ public class BooksharePeriodicalDataSource extends PeriodicalsDatabase {
 		if (cursor.getCount() <= 0) {
 			db.insert(tableName, null, values);
 		} else {
+
 			db.update(tableName, values, PeriodicalsSQLiteHelper.COLUMN_ID
 					+ "= ?", new String[] { periodicalId });
 		}
