@@ -1,4 +1,4 @@
-package org.geometerplus.android.fbreader.subscription;
+package org.geometerplus.android.fbreader.network.bookshare.subscription;
 
 import java.util.List;
 

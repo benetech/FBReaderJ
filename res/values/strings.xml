@@ -36,11 +36,20 @@
     <string name="book_details_open_error">Error opening book!</string>
     <string name="bookshare_book_detail_publish_date">Date Added:\u0020</string>
 
+    <!-- Subscription Checkbox -->
+    <string name="subscription_chk_box">Subscribe to this periodical</string>
+    <string name="subscribe_chkbox_description">(Automatically download the latest issue)</string>
+    
     <!-- Bookshare_Books_Listing -->
     <string name="fetching_books">Fetching books. Please wait.</string>
     <string name="search_complete_with_books">Search complete. Books listing.</string>
     <string name="search_complete_no_books">Search complete. No books found.</string>
 
+    <!--  Bookshare Periodicals Listing -->
+    <string name="fetching_periodicals">Fetching periodicals. Please wait.</string>
+    <string name="search_complete_no_periodicals">Search complete. No periodicals found.</string>
+    <string name="search_complete_with_periodicals">Search complete. Periodicals listing.</string>
+    
     <!-- Bookshare_Menu -->
     <string name="logout_dialog_message">Log out of the Bookshare catalog. Do you want to continue?</string>
     <string name="search_dialog_title_title">Search by Book Title</string>
@@ -132,15 +141,13 @@
     <string name="toc_close_subheadings">Close sub headings</string>
     <string name="toc_goto_heading">Go to heading</string>
     <string name="bks_menu_periodicals_label">Newspapers &amp; Magazines</string>
-    <string name="fetching_periodicals">Fetching periodicals. Please wait.</string>
-    <string name="search_complete_with_periodicals">Search complete. Periodicals listing.</string>
     <string name="login_to_continue">Please login to download this periodical.</string>
     <string name="edition_details_download_success">Periodical Downloaded! Read Periodical.</string>
     <string name="warning_no_general_downloads_for_periodicals">Warning! You are not logged in. Newspapers &amp; Magazines are not available for guests to download. Are you sure you want to continue? </string>
     <string name="share_with_friends">Share with friends!</string>
-    <string name="subscription_chk_box">Subscribe to this periodical</string>
-    <string name="subscribe_chkbox_description">(Automatically download the latest issue)</string>
+    
+    <!--  Social Network -->
     <string name="facebook_str">Share on Facebook</string>
     <string name="twitter_str">Share on Twitter</string>
-
+    
 </resources>

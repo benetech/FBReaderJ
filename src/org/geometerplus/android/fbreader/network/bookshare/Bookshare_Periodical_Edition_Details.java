@@ -39,12 +39,12 @@ import org.geometerplus.android.fbreader.network.bookshare.socialnetworks.Booksh
 import org.geometerplus.android.fbreader.network.bookshare.socialnetworks.Bookshare_Twitter_Handler.GetAccessTokenTask;
 import org.geometerplus.android.fbreader.network.bookshare.socialnetworks.SocialNetowkPosts;
 import org.geometerplus.android.fbreader.network.bookshare.socialnetworks.TwitterAccessTokenListener;
-import org.geometerplus.android.fbreader.subscription.AllDbPeriodicalEntity;
-import org.geometerplus.android.fbreader.subscription.BooksharePeriodicalDataSource;
-import org.geometerplus.android.fbreader.subscription.PeriodicalDBUtils;
-import org.geometerplus.android.fbreader.subscription.PeriodicalEntity;
-import org.geometerplus.android.fbreader.subscription.PeriodicalsSQLiteHelper;
-import org.geometerplus.android.fbreader.subscription.SubscribedDbPeriodicalEntity;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.AllDbPeriodicalEntity;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.BooksharePeriodicalDataSource;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.PeriodicalDBUtils;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.PeriodicalEntity;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.PeriodicalsSQLiteHelper;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.SubscribedDbPeriodicalEntity;
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
@@ -268,17 +268,17 @@ public class Bookshare_Periodical_Edition_Details extends Activity implements
 
 				if (metadata_bean == null) {
 					TextView txtView_msg = (TextView) findViewById(R.id.bookshare_blank_txtView_msg);
-					String noBookFoundMsg = "Periodical not found.";
-					txtView_msg.setText(noBookFoundMsg);
+					String noPeriodicalFoundMsg = "Periodical not found.";
+					txtView_msg.setText(noPeriodicalFoundMsg);
 					// todo : return book not found result code
 
 					View decorView = getWindow().getDecorView();
 					if (null != decorView) {
-						decorView.setContentDescription(noBookFoundMsg);
+						decorView.setContentDescription(noPeriodicalFoundMsg);
 					}
 
-					setResult(InternalReturnCodes.NO_PERIODICAL_EDITION_FOUND);
-					confirmAndClose(noBookFoundMsg, 3000);
+					setResult(InternalReturnCodes.NO_PERIODICAL_FOUND);
+					confirmAndClose(noPeriodicalFoundMsg, 3000);
 					return;
 				}
 				if (metadata_bean != null) {
@@ -779,7 +779,7 @@ public class Bookshare_Periodical_Edition_Details extends Activity implements
 			}
 
 			final Notification progressNotification = createDownloadProgressNotification(metadata_bean
-					.getTitle());
+					.getTitle() + "_" + metadata_bean.getEdition());
 
 			final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 			myOngoingNotifications.add(Integer.valueOf(id));
@@ -892,8 +892,22 @@ public class Bookshare_Periodical_Edition_Details extends Activity implements
 									System.out.println(downloadedBookDir);
 									// Extract the file to the specified
 									// destination
-									zipFile.extractFile(fileHeader,
-											downloadedBookDir);
+									// if it's the opf file rename it!
+									if (!fileHeader.getFileName().contains(
+											".opf")) {
+										zipFile.extractFile(fileHeader,
+												downloadedBookDir);
+									} else {
+										zipFile.extractFile(
+												fileHeader,
+												downloadedBookDir,
+												null,
+												metadata_bean.getTitle()
+														+ " "
+														+ metadata_bean
+																.getEdition()
+														+ ".opf");
+									}
 								}
 								Log.i(getClass().getName(),
 										"Periodical extracted to: "
@@ -920,7 +934,9 @@ public class Bookshare_Periodical_Edition_Details extends Activity implements
 									zipentry = zipinputstream.getNextEntry();
 									while (zipentry != null) {
 										// for each entry to be extracted
-										String entryName = zipentry.getName();
+										String entryName = zipentry.getName()
+												+ "_"
+												+ metadata_bean.getEdition();
 										System.out.println("entryname "
 												+ entryName);
 										int n;
@@ -958,6 +974,9 @@ public class Bookshare_Periodical_Edition_Details extends Activity implements
 							if (downloaded_zip_file.exists()) {
 								downloaded_zip_file.delete();
 							}
+
+							// rename the file
+
 							downloadSuccess = true;
 						} catch (ZipException e) {
 							Log.e("FBR", "Zip Exception", e);
@@ -1049,11 +1068,12 @@ public class Bookshare_Periodical_Edition_Details extends Activity implements
 								"Download sucess. File found at: "
 										+ file.getAbsolutePath());
 					}
-					notificationManager
-							.notify(id,
-									createDownloadFinishNotification(file,
-											metadata_bean.getTitle(),
-											message.what != 0));
+					notificationManager.notify(
+							id,
+							createDownloadFinishNotification(file,
+									metadata_bean.getTitle() + "_"
+											+ metadata_bean.getEdition(),
+									message.what != 0));
 				}
 			};
 			btn_download.requestFocus();

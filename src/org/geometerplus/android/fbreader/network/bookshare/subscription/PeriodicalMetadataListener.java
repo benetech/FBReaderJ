@@ -1,4 +1,4 @@
-package org.geometerplus.android.fbreader.subscription;
+package org.geometerplus.android.fbreader.network.bookshare.subscription;
 
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Edition_Metadata_Bean;
 
