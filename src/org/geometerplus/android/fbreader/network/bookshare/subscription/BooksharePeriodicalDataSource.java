@@ -8,6 +8,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * All the helper methods are found here get insert delete
+ * 
+ * @author thushan
+ * 
+ */
 public class BooksharePeriodicalDataSource extends PeriodicalsDatabase {
 
 	private static BooksharePeriodicalDataSource dSource;

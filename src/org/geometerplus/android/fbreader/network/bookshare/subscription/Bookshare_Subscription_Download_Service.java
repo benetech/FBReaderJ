@@ -54,6 +54,12 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+/**
+ * Main automatic dowload service
+ * 
+ * @author thushan
+ * 
+ */
 public class Bookshare_Subscription_Download_Service extends Service {
 
 	// SubscriptionSQLiteHelper dbHelper;

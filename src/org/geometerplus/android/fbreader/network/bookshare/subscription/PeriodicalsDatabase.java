@@ -4,6 +4,12 @@ import java.util.List;
 
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * Has all the absctract db helper methods
+ * 
+ * @author thushan
+ * 
+ */
 public abstract class PeriodicalsDatabase {
 
 	public abstract void insertEntity(SQLiteDatabase db, String tableName,

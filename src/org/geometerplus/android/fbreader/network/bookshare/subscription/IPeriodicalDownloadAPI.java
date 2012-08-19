@@ -4,6 +4,12 @@ import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Edition_Met
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Periodical_Edition_Bean;
 import org.geometerplus.fbreader.fbreader.FBReaderApp.AutomaticDownloadType;
 
+/**
+ * Automatic download API
+ * 
+ * @author thushan
+ * 
+ */
 public interface IPeriodicalDownloadAPI {
 
 	public boolean downloadPeriodical(Bookshare_Edition_Metadata_Bean bean);

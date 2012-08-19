@@ -3,6 +3,12 @@ package org.geometerplus.android.fbreader.network.bookshare.subscription;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * Some utility methods for db
+ * 
+ * @author thushan
+ * 
+ */
 public class PeriodicalDBUtils {
 
 	public static AllDbPeriodicalEntity getMostRecentEdition(

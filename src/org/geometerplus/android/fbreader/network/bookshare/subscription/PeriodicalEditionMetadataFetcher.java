@@ -22,6 +22,12 @@ import org.xml.sax.helpers.DefaultHandler;
 import android.os.Handler;
 import android.os.Message;
 
+/**
+ * Fetch metadata of the periodical specified
+ * 
+ * @author thushan
+ * 
+ */
 public class PeriodicalEditionMetadataFetcher {
 
 	private static PeriodicalEditionMetadataFetcher singleton;

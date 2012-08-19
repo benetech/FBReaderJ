@@ -22,6 +22,12 @@ import org.xml.sax.helpers.DefaultHandler;
 import android.os.Handler;
 import android.os.Message;
 
+/**
+ * Fetch periodical editions of the given periodical id
+ * 
+ * @author thushan
+ * 
+ */
 public class PeriodicalEditionListFetcher {
 
 	private static PeriodicalEditionListFetcher singleton;

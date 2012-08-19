@@ -7,4 +7,6 @@ public class SocialNetworkKeys {
 
 	public static final String TWITTER_CONSUMER_KEY = "";
 	public static final String TWITTER_CONSUMER_SECRET = "";
+
+	public static final String TWITTER_CALL_BACKURL = "";
 }
