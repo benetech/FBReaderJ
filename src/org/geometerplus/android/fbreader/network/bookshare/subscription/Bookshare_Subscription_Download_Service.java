@@ -80,13 +80,16 @@ public class Bookshare_Subscription_Download_Service extends Service {
 	private PeriodicalEditionMetadataFetcher metadataFetcher;
 	private ServiceBinder serviceBinder = new ServiceBinder();
 
+	private String usernameKey = "username";
+	private String passwordKey = "password";
+
 	@Override
 	public IBinder onBind(Intent arg0) {
 
 		SharedPreferences logingPrefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
-		username = logingPrefs.getString("username", "");
-		password = logingPrefs.getString("password", "");
+		username = logingPrefs.getString(usernameKey, "");
+		password = logingPrefs.getString(passwordKey, "");
 
 		// TODO: Get first name, last name, member id
 		dataSource = BooksharePeriodicalDataSource
@@ -136,8 +139,8 @@ public class Bookshare_Subscription_Download_Service extends Service {
 
 		SharedPreferences logingPrefs = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
-		username = logingPrefs.getString("username", "");
-		password = logingPrefs.getString("password", "");
+		username = logingPrefs.getString(usernameKey, "");
+		password = logingPrefs.getString(passwordKey, "");
 
 		dataSource = BooksharePeriodicalDataSource
 				.getInstance(getApplicationContext());
@@ -204,8 +207,8 @@ public class Bookshare_Subscription_Download_Service extends Service {
 			Intent downloadService = new Intent(
 					Bookshare_Subscription_Download_Service.this,
 					SubscriptionDownloadService.class);
-			downloadService.putExtra("username", username);
-			downloadService.putExtra("password", password);
+			downloadService.putExtra(usernameKey, username);
+			downloadService.putExtra(passwordKey, password);
 			downloadService.putExtra("metadata_bean", metadata_bean);
 			startService(downloadService);
 			// new DownloadFilesTask().execute();
