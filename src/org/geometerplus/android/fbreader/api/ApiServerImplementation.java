@@ -122,6 +122,14 @@ public class ApiServerImplementation extends ApiInterface.Stub implements Api, A
 					));
 				case GET_BOOK_TAGS:
 					return ApiObject.envelope(getBookTags());
+                case GET_PARAGRAPH_WORDS:
+                    return ApiObject.envelope(getParagraphWords(
+                            ((ApiObject.Integer)parameters[0]).Value
+                    ));
+                case GET_PARAGRAPH_INDICES:
+                    return ApiObject.envelope(getParagraphIndices(
+                            ((ApiObject.Integer)parameters[0]).Value
+                    ));
 				default:
 					return Collections.<ApiObject>singletonList(unsupportedMethodError(method));
 			}
@@ -129,6 +137,38 @@ public class ApiServerImplementation extends ApiInterface.Stub implements Api, A
 			return Collections.<ApiObject>singletonList(exceptionInMethodError(method, e));
 		}
 	}
+
+    private List<String> requestStringList(int method, ApiObject[] params) throws ApiException {
+        final List<ApiObject> list = requestList(method, params);
+        final ArrayList<String> stringList = new ArrayList<String>(list.size());
+        for (ApiObject object : list) {
+            if (!(object instanceof ApiObject.String)) {
+                throw new ApiException("Cannot cast an element returned from method " + method + " to String");
+            }
+            stringList.add(((ApiObject.String)object).Value);
+        }
+        return stringList;
+    }
+
+    private ArrayList<Integer> requestIntegerList(int method, ApiObject[] params) throws ApiException {
+        final List<ApiObject> list = requestList(method, params);
+        final ArrayList<Integer> intList = new ArrayList<Integer>(list.size());
+        for (ApiObject object : list) {
+            if (!(object instanceof ApiObject.Integer)) {
+                throw new ApiException("Cannot cast an element returned from method " + method + " to Integer");
+            }
+            intList.add(((ApiObject.Integer)object).Value);
+        }
+        return intList;
+    }
+
+    private static ApiObject[] envelope(String value) {
+        return new ApiObject[] { ApiObject.envelope(value) };
+    }
+
+    private static ApiObject[] envelope(int value) {
+        return new ApiObject[] { ApiObject.envelope(value) };
+    }
 
 	private Map<ApiObject,ApiObject> errorMap(ApiObject.Error error) {
 		return Collections.<ApiObject,ApiObject>singletonMap(error, error);
@@ -266,4 +306,34 @@ public class ApiServerImplementation extends ApiInterface.Stub implements Api, A
 		}
 		return sb.toString();
 	}
+
+    public List<String> getParagraphWords(int paragraphIndex) {
+        final ArrayList<String> words = new ArrayList<String>();
+        final ZLTextWordCursor cursor = new ZLTextWordCursor(myReader.getTextView().getStartCursor());
+        cursor.moveToParagraph(paragraphIndex);
+        cursor.moveToParagraphStart();
+        while (!cursor.isEndOfParagraph()) {
+            ZLTextElement element = cursor.getElement();
+            if (element instanceof ZLTextWord) {
+                words.add(element.toString());
+            }
+            cursor.nextWord();
+        }
+        return words;
+    }
+
+    public ArrayList<Integer> getParagraphIndices(int paragraphIndex) {
+        final ArrayList<Integer> indices = new ArrayList<Integer>();
+        final ZLTextWordCursor cursor = new ZLTextWordCursor(myReader.getTextView().getStartCursor());
+        cursor.moveToParagraph(paragraphIndex);
+        cursor.moveToParagraphStart();
+        while (!cursor.isEndOfParagraph()) {
+            ZLTextElement element = cursor.getElement();
+            if (element instanceof ZLTextWord) {
+                indices.add(cursor.getElementIndex());
+            }
+            cursor.nextWord();
+        }
+        return indices;
+    }
 }

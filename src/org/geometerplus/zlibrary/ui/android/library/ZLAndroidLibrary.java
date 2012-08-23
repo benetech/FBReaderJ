@@ -32,6 +32,7 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
@@ -54,7 +55,9 @@ public final class ZLAndroidLibrary extends ZLibrary {
 			// Eken M001
 			(Build.DISPLAY != null && Build.DISPLAY.contains("simenxie")) ||
 			// PanDigital
-			"PD_Novel".equals(Build.MODEL);
+			"PD_Novel".equals(Build.MODEL)  ||
+            // Nook
+            "nook".equals(Build.BRAND)   ;
 	}
 
 	private Boolean myIsKindleFire = null;

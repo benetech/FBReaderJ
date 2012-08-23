@@ -22,9 +22,16 @@ E.g., on my computer 'local.properties' consists of 2 lines:
   sdk.dir=/Users/geometer/android-sdk-mac_86
   ndk.dir=/Users/geometer/android-ndk-r4b
 
-2. If you use Linux or MacOS, just run 'ant package' and go to step 3. For debugging 
-purposes, you might want to run 'ant dbg' for building the package in debug mode, signing 
-with your debug key (in this case, you can skip step 3).
+2. You will have to edit src/org/geometerplus/android/fbreader/network/bookshare/BookshareDeveloperKey and enter your
+   Bookshare developer key if you want to access the Bookshare library. You can also optionally enter your Bugsense key
+   to get crash reports.
+
+3. You will have to edit src/org/geometerplus/android/fbreader/network/bookshare/socialnetworks/SocialNetworkKeys. 
+   To work with Facebook sharing features, create an App with Facebook Developer Account and obtain Access Token and
+   Application Id,. For Twitter sharing features, you will need to create a Twitter app and obtain Consumer Key and Consumer Secret.
+   Then populate respective fields in SocialNetworkKeys class with those information.
+
+4. If you use Linux or MacOS, just run 'ant clean debug' to create an installable package that will provide debugging info.
 
 If you are Windows user
   2a. Run ndk-build (a program from Android NDK directory) in your project catalog;
@@ -32,7 +39,7 @@ If you are Windows user
       Read and try config cygwin using 'cygwin_installation_and_configuration.pdf'
   2b. Run 'ant release'.
 
-3. Sign your package manually.
+4. Sign your package manually.
 
 ------------------------------------------------------------------------------------------------------
 Part B
@@ -54,6 +61,23 @@ Part B
 7. To enable use of the Bookshare library, you need to obtain a developer key at http://developer.bookshare.org.  One you have an application key, you need to enter it into org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey.java
 8. Build from within Eclipse  or 'ant clean debug' to build an installable .apk file
 9. The signed apk will be present in the /bin folder which can be installed on the Android device/emulator.
+
+------------------------------------------------------------------------------------------------------
+Part C
+------------------------------------------------------------------------------------------------------
+
+1. Setting up for Facebook
+- Following link has an in-depth explanation on how to set up the Facebook application 
+    https://developers.facebook.com/docs/mobile/android/sso/
+- Assign the (App ID/API Key) found from the Application page to the SocialNetworkKeys FACEBOOK_APP_ID variable
+- Assign the (ACCESS_TOKEN) from https://developers.facebook.com/tools/explorer by clicking "Get Access Token" to SocialNetworkKeys FACEBOOK_ACCESS_TOKEN
+
+2. Setting up for Twitter
+- Go to your https://dev.twitter.com/apps/new and Sign in with your Twitter account
+- Enter application name, description, Company, call-back url and click "Create"
+- You will be able to see to keys called Consumer Key and Consumer Secret
+- Assign those values to SocialNetworkKeys TWITTER_CONSUMER_KEY and TWITTER_CONSUMER_SECRET respectively
+- Also the callback url specified on the application settings page, should be assigned to the variable TWITTER_CALLBACK_URL in the SocialNetworkKeys.
 
 Side Notes:
 One common reason the build steps mentioned in Part A may fail is because 

@@ -9,5 +9,6 @@ obj/
 *.so
 *~
 src/org/geometerplus/android/fbreader/network/bookshare/BookshareDeveloperKey.java
+src/org/geometerplus/android/fbreader/network/bookshare/socialnetworks/SocialNetworkKeys.java
 project.properties
 res/raw/data__help__minihelp_en_fb2

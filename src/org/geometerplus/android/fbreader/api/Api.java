@@ -4,6 +4,7 @@
 
 package org.geometerplus.android.fbreader.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface Api {
@@ -28,6 +29,8 @@ public interface Api {
 	int getParagraphsNumber() throws ApiException;
 	int getElementsNumber(int paragraphIndex) throws ApiException;
 	String getParagraphText(int paragraphIndex) throws ApiException;
+    public List<String> getParagraphWords(int paragraphIndex) throws ApiException;
+    public ArrayList<Integer> getParagraphIndices(int paragraphIndex) throws ApiException;
 
 	// page information
 	TextPosition getPageStart() throws ApiException;

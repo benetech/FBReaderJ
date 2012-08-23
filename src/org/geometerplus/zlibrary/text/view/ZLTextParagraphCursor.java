@@ -197,7 +197,7 @@ public final class ZLTextParagraphCursor {
 		fill();
 	}
 
-	static ZLTextParagraphCursor cursor(ZLTextModel model, int index) {
+	public static ZLTextParagraphCursor cursor(ZLTextModel model, int index) {
 		ZLTextParagraphCursor result = ZLTextParagraphCursorCache.get(model, index);
 		if (result == null) {
 			result = new ZLTextParagraphCursor(model, index);

@@ -1,5 +1,7 @@
 package org.geometerplus.android.fbreader.network.bookshare.socialnetworks;
 
+import java.util.Set;
+
 import org.benetech.android.R;
 
 import android.app.Activity;
@@ -9,6 +11,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class TwitterWebActivity extends Activity {
+
+	private final String VERIFIER_PARAM = "oauth_verifier";
+	public static final String VERIFIER_EXTRA = "verifier";
 
 	WebView wView;
 
@@ -23,22 +28,20 @@ public class TwitterWebActivity extends Activity {
 		wView.setWebViewClient(new WebViewClient() {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-				if (url.contains(SocialNetworkKeys.TWITTER_CALL_BACKURL)) {
-					Uri uri = Uri.parse(url);
-					String oauthVerifier = uri
-							.getQueryParameter("oauth_verifier");
-					setResult(RESULT_OK,
-							getIntent().putExtra("verifier", oauthVerifier));
-					finish();
+				final Uri uri = Uri.parse(url);
+				final Set<String> queryParams = uri.getQueryParameterNames();
+				if (queryParams.contains(VERIFIER_PARAM)) {
+					getVerifier(uri);
 					return true;
+				} else {
+					return false;
 				}
-				return false;
 			}
 
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-				if (url.contains(SocialNetworkKeys.TWITTER_CALL_BACKURL)) {
+				if (url.contains(SocialNetworkKeys.TWITTER_CALLBACK_URL)) {
 					Uri uri = Uri.parse(url);
 					String oauthVerifier = uri
 							.getQueryParameter("oauth_verifier");
@@ -47,6 +50,13 @@ public class TwitterWebActivity extends Activity {
 					finish();
 
 				}
+			}
+
+			private void getVerifier(Uri uri) {
+				String oauthVerifier = uri.getQueryParameter(VERIFIER_PARAM);
+				setResult(RESULT_OK,
+						getIntent().putExtra(VERIFIER_EXTRA, oauthVerifier));
+				finish();
 			}
 		});
 		wView.loadUrl(url);
@@ -55,7 +65,6 @@ public class TwitterWebActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 	}
 

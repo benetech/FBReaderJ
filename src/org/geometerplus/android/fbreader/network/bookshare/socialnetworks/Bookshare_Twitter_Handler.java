@@ -1,8 +1,11 @@
 package org.geometerplus.android.fbreader.network.bookshare.socialnetworks;
 
+import org.accessibility.VoiceableDialog;
+import org.benetech.android.R;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Edition_Metadata_Bean;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Periodical_Edition_Details;
 
+import android.content.res.Resources;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -34,6 +37,7 @@ public class Bookshare_Twitter_Handler {
 	private AccessToken accessToken;
 
 	private RequestToken r;
+    private Resources resources;
 
 	public static final String SUCCESS_STRING = "SUCCESS";
 	public static final String FAILURE_STRING = "FAILURE";
@@ -48,6 +52,7 @@ public class Bookshare_Twitter_Handler {
 		twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(SocialNetworkKeys.TWITTER_CONSUMER_KEY,
 				SocialNetworkKeys.TWITTER_CONSUMER_SECRET);
+        resources = mActivity.getApplicationContext().getResources();
 
 	}
 
@@ -183,8 +188,9 @@ public class Bookshare_Twitter_Handler {
 		protected void onPostExecute(String result) {
 			
 			if(SUCCESS_STRING.equals(result)){
-				Toast.makeText(mActivity, "Update Successful",
-						Toast.LENGTH_LONG).show();
+                final String msg = resources.getString(R.string.twitter_successful_post);
+                final VoiceableDialog finishedDialog = new VoiceableDialog(mActivity);
+                finishedDialog.popup(msg, 1000);
 			}
 		}
 	}

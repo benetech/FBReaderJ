@@ -23,6 +23,28 @@ public final class TextPosition extends ApiObject {
 		return Type.TEXT_POSITION;
 	}
 
+    public int compareTo(TextPosition position) {
+        final int p0 = ParagraphIndex;
+        final int p1 = position.ParagraphIndex;
+        if (p0 != p1) {
+            return p0 < p1 ? -1 : 1;
+        }
+
+        final int e0 = ElementIndex;
+        final int e1 = position.ElementIndex;
+        if (e0 != e1) {
+            return e0 < e1 ? -1 : 1;
+        }
+
+        final int c0 = CharIndex;
+        final int c1 = position.CharIndex;
+        if (c0 != c1) {
+            return c0 < c1 ? -1 : 1;
+        }
+
+        return 0;
+    }
+
 	@Override
 	public void writeToParcel(Parcel parcel, int flags) {
 		super.writeToParcel(parcel, flags);

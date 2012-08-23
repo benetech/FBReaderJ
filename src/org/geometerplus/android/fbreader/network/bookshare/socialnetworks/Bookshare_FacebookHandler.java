@@ -9,6 +9,7 @@ import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Metadata_Be
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -23,72 +24,77 @@ public class Bookshare_FacebookHandler {
 	private Activity authActivity;
 	private Context context;
 	SharedPreferences mPrefs;
-	private Facebook fb;
-	private String accessToken;
-	private String api_key;
+	private Facebook facebook;
 
 	public Bookshare_FacebookHandler(Activity activity) {
-		accessToken = SocialNetworkKeys.FACEBOOK_ACCESS_TOKEN;
-		// accessToken="349676738412199|8Bcc9-LC70VGHPxdWT6ea2hkhpw";
 		authActivity = activity;
 		context = authActivity.getBaseContext();
-		fb = new Facebook(SocialNetworkKeys.FACEBOOK_APP_ID);
+		facebook = new Facebook(SocialNetworkKeys.FACEBOOK_APP_ID);
 	}
 
+    public void authorizeCallback(int requestCode, int resultCode, Intent data) {
+        facebook.authorizeCallback(requestCode, resultCode, data);
+    }
+
 	public void ssoInitialAuth() {
-		fb.authorize(authActivity, new DialogListener() {
-			@Override
-			public void onComplete(Bundle values) {
+		facebook.authorize(authActivity, new DialogListener() {
+            @Override
+            public void onComplete(Bundle values) {
 
-			}
+            }
 
-			@Override
-			public void onFacebookError(FacebookError error) {
+            @Override
+            public void onFacebookError(FacebookError error) {
 
-				Toast.makeText(context, "Couldn't connect to Facebook",
-						Toast.LENGTH_LONG).show();
-			}
+                Toast.makeText(context, "Couldn't connect to Facebook, " + error.getMessage(),
+                        Toast.LENGTH_LONG).show();
+            }
 
-			@Override
-			public void onError(DialogError e) {
-				Toast.makeText(context, "Something is awful happened.",
-						Toast.LENGTH_LONG).show();
-			}
+            @Override
+            public void onError(DialogError e) {
+                Toast.makeText(context, "Error during initial SSO Auth, " + e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+            }
 
-			@Override
-			public void onCancel() {
+            @Override
+            public void onCancel() {
 
-				Toast.makeText(context, "Connection terminated forcibly",
-						Toast.LENGTH_LONG).show();
-			}
+                Toast.makeText(context, "Connection terminated forcibly",
+                        Toast.LENGTH_LONG).show();
+            }
 
-		});
+        });
 	}
 
 	// get permission to access users information. When the user provide
 	// permission
 	// the application will automatically do the rest of the work
 	public void getFBPermission() {
-		fb.authorize(authActivity, new String[] { "publish_stream" },
+		facebook.authorize(authActivity, new String[]{"publish_stream"},
 
-		new DialogListener() {
-			@Override
-			public void onComplete(Bundle values) {
-			}
+                new DialogListener() {
+                    @Override
+                    public void onComplete(Bundle values) {
+                    }
 
-			@Override
-			public void onFacebookError(FacebookError error) {
-			}
+                    @Override
+                    public void onFacebookError(FacebookError error) {
+                        Toast.makeText(context, "Facebook Error getting publish permission, " + error.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                    }
 
-			@Override
-			public void onError(DialogError e) {
-			}
+                    @Override
+                    public void onError(DialogError e) {
+                        Toast.makeText(context, "Error getting publish permission, " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                    }
 
-			@Override
-			public void onCancel() {
-
-			}
-		});
+                    @Override
+                    public void onCancel() {
+                        Toast.makeText(context, "Connection terminated forcibly on permission",
+                            Toast.LENGTH_LONG).show();
+                    }
+                });
 	}
 
 	// Access token is needed in order to give access to the program for what is
@@ -99,14 +105,14 @@ public class Bookshare_FacebookHandler {
 		String accessToken = mPrefs.getString("access_token", null);
 		long tokenExpires = mPrefs.getLong("access_expires", 0);
 		if (accessToken != null) {
-			fb.setAccessToken(accessToken);
+			facebook.setAccessToken(accessToken);
 		}
 		if (tokenExpires != 0) {
-			fb.setAccessExpires(tokenExpires);
+			facebook.setAccessExpires(tokenExpires);
 		}
 
-		if (!fb.isSessionValid()) {
-			fb.authorize(authActivity, new String[] {}, new DialogListener() {
+		if (!facebook.isSessionValid()) {
+			facebook.authorize(authActivity, new String[] {}, new DialogListener() {
 
 				@Override
 				public void onFacebookError(FacebookError e) {
@@ -125,8 +131,8 @@ public class Bookshare_FacebookHandler {
 				@Override
 				public void onComplete(Bundle values) {
 					SharedPreferences.Editor editor = mPrefs.edit();
-					editor.putString("access_token", fb.getAccessToken());
-					editor.putLong("access_expires", fb.getAccessExpires());
+					editor.putString("access_token", facebook.getAccessToken());
+					editor.putLong("access_expires", facebook.getAccessExpires());
 					editor.commit();
 				}
 
@@ -149,8 +155,8 @@ public class Bookshare_FacebookHandler {
 
 		String response = null;
 		try {
-			response = fb.request("me/feed", parameters, "POST");
-			// String response = fb.request("me/home", parameters, "POST");
+			response = facebook.request("me/feed", parameters, "POST");
+			// String response = facebook.request("me/home", parameters, "POST");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (MalformedURLException e) {

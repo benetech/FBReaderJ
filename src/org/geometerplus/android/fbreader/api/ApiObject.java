@@ -128,6 +128,14 @@ public abstract class ApiObject implements Parcelable {
 		return objects;
 	}
 
+    static List<ApiObject> envelope(ArrayList<java.lang.Integer> values) {
+        final ArrayList<ApiObject> objects = new ArrayList<ApiObject>(values.size());
+        for (java.lang.Integer v : values) {
+            objects.add(new Integer(v));
+        }
+        return objects;
+    }
+
 	abstract protected int type();
 
 	public int describeContents() {

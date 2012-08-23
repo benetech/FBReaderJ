@@ -21,15 +21,24 @@ package org.geometerplus.fbreader;
 
 import org.geometerplus.zlibrary.core.options.ZLStringOption;
 
+import android.os.Build;
 import android.os.Environment;
 
 public abstract class Paths {
 	public static String cardDirectory() {
-		return Environment.getExternalStorageDirectory().getPath();
+        if ("nook".equals(Build.BRAND)) {
+          return "/media";
+        } else {
+		    return Environment.getExternalStorageDirectory().getPath();
+        }
 	}
 
 	public static ZLStringOption BooksDirectoryOption() {
-		return new ZLStringOption("Files", "BooksDirectory", cardDirectory() + "/Books");
+        String booksDir = "/Books";
+        if ("nook".equals(Build.BRAND)) {
+            booksDir = "/GoReadBooks";
+        }
+		return new ZLStringOption("Files", "BooksDirectory", cardDirectory() + booksDir);
 	}
 
 	public static ZLStringOption FontsDirectoryOption() {

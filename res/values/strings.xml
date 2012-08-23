@@ -45,7 +45,7 @@
     <string name="search_complete_with_books">Search complete. Books listing.</string>
     <string name="search_complete_no_books">Search complete. No books found.</string>
 
-    <!--  Bookshare Periodicals Listing -->
+    <!-- Bookshare Periodicals Listing -->
     <string name="fetching_periodicals">Fetching periodicals. Please wait.</string>
     <string name="search_complete_no_periodicals">Search complete. No periodicals found.</string>
     <string name="search_complete_with_periodicals">Search complete. Periodicals listing.</string>
@@ -80,6 +80,9 @@
     <string name="bks_menu_no_internet">You must first enable internet connectivity!</string>
     <string name="empty_search_term_error">Search Term cannot be blank!</string>
     <string name="accessible_alert_title">Are you sure?</string>
+
+    <!-- Bookshare Twitter Handler -->
+    <string name="twitter_successful_post">Posted to Twitter</string>
     
     <!-- Bug Report Activity -->
     <string name="crash_report_sent">Sorry, we had an error. Support has been notified.</string>

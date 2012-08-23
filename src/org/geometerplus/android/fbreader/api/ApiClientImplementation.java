@@ -163,6 +163,18 @@ public class ApiClientImplementation implements ServiceConnection, Api, ApiMetho
 		return stringList;
 	}
 
+    private ArrayList<Integer> requestIntegerList(int method, ApiObject[] params) throws ApiException {
+        final List<ApiObject> list = requestList(method, params);
+        final ArrayList<Integer> intList = new ArrayList<Integer>(list.size());
+        for (ApiObject object : list) {
+            if (!(object instanceof ApiObject.Integer)) {
+                throw new ApiException("Cannot cast an element returned from method " + method + " to Integer");
+            }
+            intList.add(((ApiObject.Integer)object).Value);
+        }
+        return intList;
+    }
+
 	private static final ApiObject[] EMPTY_PARAMETERS = new ApiObject[0];
 
 	private static ApiObject[] envelope(String value) {
@@ -244,6 +256,14 @@ public class ApiClientImplementation implements ServiceConnection, Api, ApiMetho
 	public String getParagraphText(int paragraphIndex) throws ApiException {
 		return requestString(GET_PARAGRAPH_TEXT, envelope(paragraphIndex));
 	}
+
+    public List<String> getParagraphWords(int paragraphIndex) throws ApiException {
+        return requestStringList(GET_PARAGRAPH_WORDS, envelope(paragraphIndex));
+    }
+
+    public ArrayList<Integer> getParagraphIndices(int paragraphIndex) throws ApiException {
+        return requestIntegerList(GET_PARAGRAPH_INDICES, envelope(paragraphIndex));
+    }
 
 	public int getElementsNumber(int paragraphIndex) throws ApiException {
 		return requestInt(GET_ELEMENTS_NUMBER, envelope(paragraphIndex));

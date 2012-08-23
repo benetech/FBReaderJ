@@ -43,6 +43,8 @@ import org.geometerplus.fbreader.library.*;
 
 import org.geometerplus.android.util.UIUtil;
 
+import ca.idi.tecla.lib.InputAccess;
+
 public class BookmarksActivity extends TabActivity implements MenuItem.OnMenuItemClickListener {
 	private static final int OPEN_ITEM_ID = 0;
 	private static final int EDIT_ITEM_ID = 1;
@@ -66,6 +68,9 @@ public class BookmarksActivity extends TabActivity implements MenuItem.OnMenuIte
     ListView list;
     Activity myActivity;
 
+    //todo:
+    //private InputAccess inputAccess = new InputAccess(this, true);
+
 	private ListView createTab(String tag, int id, final String label) {
 		final TabHost host = getTabHost();
 		host.addTab(host.newTabSpec(tag).setIndicator(label).setContent(id));
@@ -76,6 +81,9 @@ public class BookmarksActivity extends TabActivity implements MenuItem.OnMenuIte
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 
+        //todo
+		//inputAccess.onCreate();
+		
 		Thread.setDefaultUncaughtExceptionHandler(new org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler(this));
         accessibilityManager =
             (AccessibilityManager) getApplicationContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
