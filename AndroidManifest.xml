@@ -228,5 +228,8 @@
         <activity android:name="org.geometerplus.android.fbreader.benetech.AccessibleNavigateActivity" android:label="Go to page" />
         
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.socialnetworks.TwitterWebActivity" android:label="Twitter Permission" />
+        <service android:name="org.geometerplus.android.fbreader.network.bookshare.subscription.Bookshare_Subscription_Download_Service"></service>
+        <service android:name="org.geometerplus.android.fbreader.network.bookshare.subscription.SubscriptionAlarmTriggerService"></service>
+        <service android:name="org.geometerplus.android.fbreader.network.bookshare.subscription.SubscriptionDownloadService"></service>
 	</application>
 </manifest>

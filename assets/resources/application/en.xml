@@ -619,6 +619,13 @@
 					<node name="summaryOff" value="Key navigation visits hyperlinks only"/>
 				</node>
 			</node>
+			<node name="subscriptionSettings" value="Subscription Settings">
+			    <node name="summary" value="Set automatic download options"/>
+				<node name="downloadType" value="Automatic Download Type">
+					<node name="downloadAll" value="Download all the missing periodicals"/>
+					<node name="downloadMostRecent" value="Download only the recent periodicals"/>
+				</node>
+			</node>
 			<node name="images" value="Images">
 				<node name="summary" value="Image displaying options"/>
 				<node name="backgroundColor" value="Background color for image view"/>
