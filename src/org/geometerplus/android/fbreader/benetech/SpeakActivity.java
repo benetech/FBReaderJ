@@ -322,6 +322,12 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         }
 
         myPreferences = getSharedPreferences("GoReadTTS", MODE_PRIVATE);
+		
+		IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+		filter.addAction(Intent.ACTION_SCREEN_OFF);
+		filter.addAction(Intent.ACTION_USER_PRESENT);
+		BroadcastReceiver mReceiver = new ScreenUnlockReceiver();
+		registerReceiver(mReceiver, filter);
 	}
 
 	@Override
