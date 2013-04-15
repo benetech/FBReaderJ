@@ -176,6 +176,7 @@ public class SubscriptionDownloadService extends IntentService {
 						+ filename + ".zip";
 				downloadedBookDir = Paths.BooksDirectoryOption().getValue()
 						+ "/" + filename;
+				Log.i(FBReader.LOG_LABEL, "Download Book dir is set: "+downloadedBookDir);
 
 				File downloaded_zip_file = new File(zip_file);
 				if (downloaded_zip_file.exists()) {
@@ -281,6 +282,11 @@ public class SubscriptionDownloadService extends IntentService {
 				File file = null;
 				if (downloadSuccess) {
 					file = new File(getOpfFile().getPath());
+					if(file != null){
+						Log.i(FBReader.LOG_LABEL, "File path for "+metadata_bean.getTitle()+" is "+file.getPath());
+					}else{
+						Log.e(FBReader.LOG_LABEL,"File is null for getOpfFile in "+downloadedBookDir);
+					}
 				}
                 Log.i(FBReader.LOG_LABEL, " SubscriptionDownloadService handleMessage - should update notification");
 				notificationManager.notify(
@@ -292,10 +298,16 @@ public class SubscriptionDownloadService extends IntentService {
 
 		downloadFinishHandler.sendEmptyMessage(downloadSuccess ? 1 : 0);
         Log.i(FBReader.LOG_LABEL, "Just sent downloadFinishhandler a value of " + downloadSuccess);
-		periodicalDb.close();
 
 	}
 
+	 @Override
+	public void onDestroy() {
+		 final NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		 notificationManager.cancelAll();
+		 periodicalDb.close();
+		super.onDestroy();
+	}
 
 	private ZLFile getOpfFile() {
 		ZLFile bookDir = ZLFile.createFileByPath(downloadedBookDir);
