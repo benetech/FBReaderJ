@@ -71,7 +71,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     private static final int PLAY_AFTER_TOC = 1;
     private static final int CHECK_TTS_INSTALLED = 0;
     public static final int SPEAK_BACK_PRESSED = 77;
-    
+
     private SimpleGestureFilter detector;
     private Vibrator myVib;
     private int lastSentence = 0;
@@ -140,7 +140,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     private void setListener(int id, View.OnClickListener listener) {
 		findViewById(id).setOnClickListener(listener);
 	}
-    
+
     private void setTouchFocusEnabled(int id) {
         findViewById(id).setFocusableInTouchMode(true);
     }
@@ -207,7 +207,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         params.gravity = Gravity.BOTTOM;
         getWindow().setAttributes(params);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-        
+
         detector = new SimpleGestureFilter(this,this);
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         accessibilityManager =
@@ -509,6 +509,20 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 			public void run() {
                 if (myIsActive != active) {
                     ((Button)findViewById(R.id.speak_menu_pause)).setText(active ? R.string.on_press_pause : R.string.on_press_play);
+                    if(!accessibilityManager.isEnabled()){
+                    if(myIsActive){
+    				WindowManager.LayoutParams params =
+    				        getWindow().getAttributes();
+    				        params.alpha=1;
+    				        getWindow().setAttributes(params);
+                    }
+                    else{
+                        WindowManager.LayoutParams params =
+                                getWindow().getAttributes();
+                                params.alpha=0.2f;
+                                getWindow().setAttributes(params);
+                    }
+                    }
                 }
 			}
 		});
@@ -628,7 +642,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         }
         final Iterator<String> sentenceIterator = sentenceList.iterator();
         //sentenceListIterator = sentences.iterator();
-        
+
         String currentSentence;
         int sentenceNumber = 0;
         int numWordIndices = sentenceList.size();
@@ -656,7 +670,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             currentSentence = sentenceIterator.next();
             speakString(currentSentence, sentenceNumber);
         }
-        
+
         lastSentence = sentenceNumber;
 
         // Disable play button if this is last paragraph
@@ -708,12 +722,13 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         Intent tocIntent = new Intent(this, TOCActivity.class);
         startActivityForResult(tocIntent, PLAY_AFTER_TOC);
     }
-    
+
     private void showMainMenu() {
         stopTalking();
         justPaused = true;
         myTTS.playEarcon(MENU_EARCON, TextToSpeech.QUEUE_ADD, null);
         resumePlaying = true;
+        finish();
         Intent intent = new Intent(this, AccessibleMainMenuActivity.class);
         startActivityForResult(intent, PLAY_AFTER_TOC);
     }
