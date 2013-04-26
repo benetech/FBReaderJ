@@ -84,7 +84,7 @@ public final class FBReader extends ZLAndroidActivity {
     //Added for the detecting whether the talkback is on
     private AccessibilityManager accessibilityManager;
     private boolean initialOpen = true;
-    
+
 	final static int REPAINT_CODE = 1;
 	final static int CANCEL_CODE = 2;
     final static int AUTO_SPEAK_CODE = 3;
@@ -146,7 +146,7 @@ public final class FBReader extends ZLAndroidActivity {
         //todo:
 		//inputAccess.onCreate();
 		final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary)ZLibrary.Instance();
-        
+
         accessibilityManager =
                     (AccessibilityManager) getApplicationContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
 		myFullScreenFlag =
@@ -177,7 +177,7 @@ public final class FBReader extends ZLAndroidActivity {
 		fbReader.addAction(ActionCode.SHOW_TOC, new ShowTOCAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_BOOKMARKS, new ShowBookmarksAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_NETWORK_LIBRARY, new ShowNetworkLibraryAction(this, fbReader));
-		
+
 		fbReader.addAction(ActionCode.SHOW_MENU, new ShowMenuAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_NAVIGATION, new ShowNavigationAction(this, fbReader));
 		fbReader.addAction(ActionCode.SEARCH, new SearchAction(this, fbReader));
@@ -202,7 +202,7 @@ public final class FBReader extends ZLAndroidActivity {
 			fbReader.addAction(ActionCode.SET_SCREEN_ORIENTATION_REVERSE_LANDSCAPE, new SetScreenOrientationAction(this, fbReader, ZLibrary.SCREEN_ORIENTATION_REVERSE_LANDSCAPE));
 		}
 
-        
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int currentVersion = zlibrary.getVersionCode();
         int userManualVersion = prefs.getInt(PREFS_USER_MANUAL_VERSION, 0);
@@ -457,7 +457,24 @@ public final class FBReader extends ZLAndroidActivity {
 		final FBReaderApp fbreader = (FBReaderApp)FBReaderApp.Instance();
         if (resultCode == SpeakActivity.SPEAK_BACK_PRESSED) {
             //fbreader.doAction(ActionCode.SHOW_CANCEL_MENU);
-            fbreader.closeWindow();
+            //fbreader.closeWindow();
+            AlertDialog.Builder alt_bld = new AlertDialog.Builder(this);
+            alt_bld.setMessage("Are you sure you want to exit?")
+            .setCancelable(false)
+            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                finish();
+                }
+            })
+            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.cancel();
+                    fbreader.doAction(ActionCode.SPEAK);
+                }
+            });
+            AlertDialog alert = alt_bld.create();
+            alert.setTitle("Exit Go Read?");
+            alert.show();
             return;
         }
 		switch (requestCode) {
@@ -484,13 +501,13 @@ public final class FBReader extends ZLAndroidActivity {
 	public void navigate() {
         ((NavigationPopup)FBReaderApp.Instance().getPopupById(NavigationPopup.ID)).runNavigation();
 	}
-    
-    /** 
+
+    /**
      * If book is available, add it to application title.
      */
     private void setApplicationTitle() {
         final Book currentBook = Library.getRecentBook();
-        
+
         if (currentBook != null) {
             setTitle(getResources().getString(R.string.app_name) + " - " + currentBook.getTitle());
         }
@@ -515,7 +532,7 @@ public final class FBReader extends ZLAndroidActivity {
 		final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
 		application.myMainWindow.addMenuItem(menu, actionId, null, null);
 	}
-    
+
     private void addMenuItem(Menu menu, String actionId, String name, int iconId) {
     		final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
     		application.myMainWindow.addMenuItem(menu, actionId, iconId, name);
@@ -581,7 +598,7 @@ public final class FBReader extends ZLAndroidActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-    
+
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus && accessibilityManager.isEnabled() && initialOpen) {
             initialOpen = false;
