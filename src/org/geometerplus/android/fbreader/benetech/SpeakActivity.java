@@ -28,8 +28,10 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PowerManager;
@@ -75,10 +77,10 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     private SimpleGestureFilter detector;
     private Vibrator myVib;
     private int lastSentence = 0;
-    private int lastSpoken = 0;
     private boolean justPaused = false;
     private boolean resumePlaying = false;
-    private boolean abortedTOCReturn = false;
+    private boolean returnFromOtherScreen = false;
+	private boolean screenLockEventOccurred = false;
 
     //Added for the detecting whether the talkback is on
     private AccessibilityManager accessibilityManager;
@@ -322,6 +324,12 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         }
 
         myPreferences = getSharedPreferences("GoReadTTS", MODE_PRIVATE);
+
+		IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+		filter.addAction(Intent.ACTION_SCREEN_OFF);
+		filter.addAction(Intent.ACTION_USER_PRESENT);
+		BroadcastReceiver mReceiver = new ScreenUnlockReceiver();
+		registerReceiver(mReceiver, filter);
 	}
 
 	@Override
@@ -330,7 +338,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             myTTS = new TextToSpeech(this, this);
         } else {
             if (resultCode == TOCActivity.BACK_PRESSED) {
-                abortedTOCReturn = true;
+                returnFromOtherScreen = true;
             } else {
                 justPaused = false;
                 resumePlaying = true;
@@ -341,17 +349,26 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 	@Override
 	protected void onResume() {
 		super.onResume();
-        findViewById(R.id.speak_menu_pause).requestFocus();
+        try {
+            findViewById(R.id.speak_menu_pause).requestFocus();
+            if(accessibilityManager.isEnabled()){
+            	setButtonOpacity(1);
+            ((Button)findViewById(R.id.speak_menu_pause)).setText(R.string.on_press_play);
+            }
+            if (!returnFromOtherScreen) {
+                setCurrentLocation();
+            }
+            returnFromOtherScreen = false;
 
-        if (! abortedTOCReturn) {
-            setCurrentLocation();
-        }
-        abortedTOCReturn = false;
-
-        if (resumePlaying || justPaused) {
-            resumePlaying = false;
-            myTTS.playEarcon(START_READING_EARCON, TextToSpeech.QUEUE_ADD, null);
-            speakParagraph(getNextParagraph());
+            if ((resumePlaying || justPaused) && !screenLockEventOccurred) {
+                resumePlaying = false;
+                myTTS.playEarcon(START_READING_EARCON, TextToSpeech.QUEUE_ADD, null);
+                speakParagraph(getNextParagraph());
+            } else {
+	            screenLockEventOccurred = false;
+            }
+        } catch (Exception e) {
+            Log.e("GoRead", "Error on resuming of speak activity", e);
         }
 	}
 
@@ -455,11 +472,11 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                 stopTalking();
             }
 		} else {
-            lastSpoken = Integer.parseInt(uttId);
+			myCurrentSentence = Integer.parseInt(uttId);
             if (myIsActive) {
                 int listSize = mySentences.length;
-                if (listSize > 1 && lastSpoken < listSize) {
-                    highlightSentence(lastSpoken);
+                if (listSize > 1 && myCurrentSentence < listSize) {
+                    highlightSentence(myCurrentSentence);
                 }
             }
 		}
@@ -500,20 +517,17 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 			public void run() {
                 if (myIsActive != active) {
                     ((Button)findViewById(R.id.speak_menu_pause)).setText(active ? R.string.on_press_pause : R.string.on_press_play);
-                    if(!accessibilityManager.isEnabled()){
                     if(myIsActive){
-    				WindowManager.LayoutParams params =
-    				        getWindow().getAttributes();
-    				        params.alpha=1;
-    				        getWindow().setAttributes(params);
-                    }
-                    else{
-                        WindowManager.LayoutParams params =
-                                getWindow().getAttributes();
-                                params.alpha=0.2f;
-                                getWindow().setAttributes(params);
-                    }
-                    }
+	                    WindowManager.LayoutParams params =
+	                            getWindow().getAttributes();
+	                            params.alpha=1;
+	                            getWindow().setAttributes(params);
+	                    } else {
+	                        WindowManager.LayoutParams params =
+	                                getWindow().getAttributes();
+	                                params.alpha=0.2f;
+	                                getWindow().setAttributes(params);
+	                    }
                 }
 			}
 		});
@@ -640,14 +654,14 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 
         if (justPaused) {                    // on returning from pause, iterate to the last sentence spoken
             justPaused = false;
-            for (int i=1; i< lastSpoken; i++) {
+            for (int i=1; i< myCurrentSentence; i++) {
                 if (sentenceIterator.hasNext()) {
                     sentenceIterator.next();
                 }
             }
-            if (lastSpoken > 1 && numWordIndices > lastSpoken) {
-                sentenceNumber = lastSpoken - 1;
-                highlightSentence(lastSpoken + 1);
+            if (myCurrentSentence > 1 && numWordIndices > myCurrentSentence) {
+                sentenceNumber = myCurrentSentence - 1;
+                highlightSentence(myCurrentSentence + 1);
             }
 
         } else { //should only highlight first sentence of paragraph if we haven't just paused
@@ -693,6 +707,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     private void goForward() {
         stopTalking();
         myTTS.playEarcon(FORWARD_EARCON, TextToSpeech.QUEUE_ADD, null);
+	    setButtonOpacity(0.2f);
         if (myParagraphIndex < myParagraphsNumber) {
             ++myParagraphIndex;
             speakParagraph(getNextParagraph());
@@ -702,6 +717,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     private void goBackward() {
         stopTalking();
         myTTS.playEarcon(BACK_EARCON, TextToSpeech.QUEUE_ADD, null);
+	    setButtonOpacity(0.2f);
         gotoPreviousParagraph();
         speakParagraph(getNextParagraph());
     }
@@ -710,6 +726,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         justPaused = true;
         stopTalking();
         myTTS.playEarcon(CONTENTS_EARCON, TextToSpeech.QUEUE_FLUSH, null);
+	    setButtonOpacity(0.2f);
         Intent tocIntent = new Intent(this, TOCActivity.class);
         startActivityForResult(tocIntent, PLAY_AFTER_TOC);
     }
@@ -718,19 +735,34 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         stopTalking();
         justPaused = true;
         myTTS.playEarcon(MENU_EARCON, TextToSpeech.QUEUE_ADD, null);
-        resumePlaying = true;
-        finish();
+	    setButtonOpacity(0.2f);
         Intent intent = new Intent(this, AccessibleMainMenuActivity.class);
         startActivityForResult(intent, PLAY_AFTER_TOC);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent me){
-        this.detector.onTouchEvent(me);
+	    setButtonOpacity(1);
+	    if(accessibilityManager.isEnabled()){
+    	 	findViewById(R.id.speak_menu_pause).requestFocus();
+            ((Button)findViewById(R.id.speak_menu_pause)).setText(R.string.on_press_play);
+    	}this.detector.onTouchEvent(me);
           return super.dispatchTouchEvent(me);
     }
 
-    @Override
+	private void setButtonOpacity(final float value)
+	{
+		runOnUiThread(new Runnable() {
+	        public void run() {
+	            WindowManager.LayoutParams params =
+	                    getWindow().getAttributes();
+	                    params.alpha=value;
+	                    getWindow().setAttributes(params);
+	        }
+	    });
+	}
+
+	@Override
     public void onSwipe(int direction) {
         myVib.vibrate(VIBE_PATTERN, -1);
         switch (direction) {
@@ -782,4 +814,17 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         }
         return super.onKeyDown(keyCode, event);
     }
+
+	private class ScreenUnlockReceiver extends BroadcastReceiver{
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+					screenLockEventOccurred = true;
+				} else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
+					screenLockEventOccurred = true;
+				}
+			}
+
+	}
 }

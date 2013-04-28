@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.TOCActivity;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 
@@ -45,7 +46,7 @@ public class AccessibleMainMenuActivity extends Activity {
         for ( int i = 0; i < menuItemLimit; i++ ) {
 			Object object = new Object();
 			listItems.add(object);
-        }        
+        }
 		list = (ListView) findViewById(R.id.list);
         ListItemsAdapter adapter = new ListItemsAdapter(listItems);
 		list.setAdapter(adapter);
@@ -64,7 +65,7 @@ public class AccessibleMainMenuActivity extends Activity {
 			convertView = inflater.inflate(R.layout.dialog_items, null);
 
 			holder = new ViewHolder();
-			holder.text = (TextView) convertView.findViewById(R.id.text);		
+			holder.text = (TextView) convertView.findViewById(R.id.text);
 
 			convertView.setTag(holder);
 
@@ -94,12 +95,22 @@ public class AccessibleMainMenuActivity extends Activity {
 	}
 
 	@Override
+	    public void onBackPressed() {
+	        setResult(TOCActivity.BACK_PRESSED);
+	        super.onBackPressed();
+	    }
+
+	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent msg) {
 		if (keyCode == KeyEvent.KEYCODE_CAMERA) {
 			return true;
         } else if (keyCode == KeyEvent.KEYCODE_CALL) {
         	return true;
 		} else if (keyCode == KeyEvent.KEYCODE_BACK) {
+			setResult(TOCActivity.BACK_PRESSED);
+			ZLApplication.Instance().doAction(ActionCode.SPEAK);
+            EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU,
+                Analytics.EVENT_LABEL_READ, null);
 			finish();
 			return true;
 		}
@@ -122,15 +133,15 @@ public class AccessibleMainMenuActivity extends Activity {
      * Order of FBReader's main menu options. Each enum entry has an associated label and onClick operation.
      */
     private enum MenuControl {
-	    
-	    speak(resources.getString(R.string.menu_speak), new MenuOperation() {
+
+	    /*speak(resources.getString(R.string.menu_speak), new MenuOperation() {
 	        public void click(final Activity activity) {
                 ZLApplication.Instance().doAction(ActionCode.SPEAK);
                 EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU,
                     Analytics.EVENT_LABEL_READ, null);
                 activity.finish();
 	        }
-	    }),
+	    }),*/
         tableOfContents(resources.getString(R.string.menu_toc), new MenuOperation() {
             public void click(final Activity activity) {
                 ZLApplication.Instance().doAction(ActionCode.SHOW_TOC);
@@ -227,7 +238,7 @@ public class AccessibleMainMenuActivity extends Activity {
             this.menuOperation.click(menuActivity);
         }
 	}
-	
+
 	private interface MenuOperation {
 	    public void click(Activity activity);
 	}
