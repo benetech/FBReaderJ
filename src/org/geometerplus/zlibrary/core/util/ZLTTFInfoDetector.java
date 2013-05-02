@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.io.*;
 
+import org.geometerplus.zlibrary.core.filesystem.ZLResourceFile;
+
 public class ZLTTFInfoDetector {
 	public Map<String,File[]> collectFonts(File[] files) {
 		final HashMap<String,File[]> fonts = new HashMap<String,File[]>();
@@ -58,7 +60,15 @@ public class ZLTTFInfoDetector {
 	}
 
 	public ZLTTFInfo detectInfo(File file) throws IOException {
-		myStream = new FileInputStream(file);
+		final String path = file.getPath();
+		if (!path.startsWith("/")) {
+			ZLResourceFile asset = ZLResourceFile.createResourceFile(path);
+			if(asset.exists()){
+				myStream = asset.getInputStream();
+			}
+		} else{
+			myStream = new FileInputStream(file);
+		}
 		myPosition = 0;
 
 		final byte[] subtable = new byte[12];
