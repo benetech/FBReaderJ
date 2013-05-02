@@ -28,6 +28,7 @@ import java.lang.reflect.InvocationTargetException;
 import android.graphics.Typeface;
 
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.util.ZLTTFInfoDetector;
 
 import org.geometerplus.fbreader.Paths;
@@ -51,7 +52,11 @@ public final class AndroidFontUtil {
 			return null;
 		}
 		try {
-			return (Typeface)ourFontCreationMethod.invoke(null, file);
+			if(!file.getPath().startsWith("/")){
+				return Typeface.createFromAsset(ZLibrary.Instance().getAssetManager(), file.getPath());
+			} else{
+				return (Typeface)ourFontCreationMethod.invoke(null, file);
+			}
 		} catch (IllegalAccessException e) {
 			return null;
 		} catch (InvocationTargetException e) {
@@ -100,7 +105,17 @@ public final class AndroidFontUtil {
 							index++;
 						}
 					}
-					predefinedFontFilesArray = Arrays.copyOf(predefinedFontFilesArray, index);
+					
+					/*Arrays.copyOf() cannot be used
+					Since: API Level 9 */
+					
+					File[] tempArray = new File[index];
+					index = 0;
+					for(File f : predefinedFontFilesArray){
+						tempArray[index] = f;
+						index++;
+					}
+					predefinedFontFilesArray = tempArray;
 					fileList = predefinedFontFilesArray;
 				}
 				if(externalFontFiles != null){
