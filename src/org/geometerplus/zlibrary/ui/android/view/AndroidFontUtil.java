@@ -27,6 +27,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import android.graphics.Typeface;
 
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.util.ZLTTFInfoDetector;
 
 import org.geometerplus.fbreader.Paths;
@@ -74,7 +75,9 @@ public final class AndroidFontUtil {
 					ourFontMap = new HashMap<String,File[]>();
 				}
 			} else {
-				final File[] fileList = new File(Paths.FontsDirectoryOption().getValue()).listFiles(
+				File[] predefinedFontFilesArray = null;
+				File[] fileList = null;
+				final File[] externalFontFiles = new File(Paths.FontsDirectoryOption().getValue()).listFiles(
 					new FilenameFilter() {
 						public boolean accept(File dir, String name) {
 							if (name.startsWith(".")) {
@@ -85,6 +88,31 @@ public final class AndroidFontUtil {
 						}
 					}
 				);
+				List<ZLFile> predefinedFontFiles = ZLFile.createFileByPath("fonts").children();
+				if(predefinedFontFiles != null){
+					predefinedFontFilesArray = new File[predefinedFontFiles.size()];
+					int index = 0;
+					for (ZLFile f : predefinedFontFiles){
+						String path = f.getPath();
+						String pathlc = path.toLowerCase();
+						if(pathlc.endsWith(".ttf") || pathlc.endsWith(".otf")){
+							predefinedFontFilesArray[index] = new File(path);
+							index++;
+						}
+					}
+					predefinedFontFilesArray = Arrays.copyOf(predefinedFontFilesArray, index);
+					fileList = predefinedFontFilesArray;
+				}
+				if(externalFontFiles != null){
+					fileList = externalFontFiles;
+				}
+				if(fileList != null){
+					if(externalFontFiles != null && predefinedFontFiles != null){
+						fileList = new File[predefinedFontFilesArray.length + externalFontFiles.length];
+						System.arraycopy(predefinedFontFilesArray, 0, fileList, 0, predefinedFontFilesArray.length);
+						System.arraycopy(externalFontFiles, 0, fileList, predefinedFontFilesArray.length, externalFontFiles.length);
+					}
+				}
 				if (fileList == null) {
 					if (ourFileList != null) {
 						ourFileList = null;
