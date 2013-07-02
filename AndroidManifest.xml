@@ -221,7 +221,7 @@
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Menu"  android:label="Bookshare Menu" />
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Books_Listing"  android:label="Books Listing" />
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Book_Details"  android:label="Book Details" />
-        <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login"  android:label="Bookshare Log In" android:configChanges="orientation"/>
+        <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login"  android:label="Bookshare Log In" />
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Periodical_Listing"  android:label="Periodical List" />
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Periodical_Edition_Listing"  android:label="Periodical Edition List" />
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Periodical_Edition_Details" android:label="Periodical Edition Details" />

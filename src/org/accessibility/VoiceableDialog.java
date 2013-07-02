@@ -1,6 +1,6 @@
 package org.accessibility;
 
-import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
 
@@ -8,14 +8,14 @@ import android.os.Handler;
  * An 'accessible' dialog that pops up for a specified time and is voiced by TalkBack
  * @author roms
  */
-public class VoiceableDialog extends AlertDialog {
+public class VoiceableDialog extends Dialog {
 
     public VoiceableDialog(Context context) {
         super(context);
     }
     
     public void popup(final String message, final int wait) {
-        setMessage(message);
+        setTitle(message);
         show();
 
         // Close the dialog after a short wait

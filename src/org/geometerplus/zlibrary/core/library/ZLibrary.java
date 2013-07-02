@@ -24,8 +24,6 @@ import java.util.Collection;
 import org.geometerplus.zlibrary.core.filesystem.ZLResourceFile;
 import org.geometerplus.zlibrary.core.options.ZLStringOption;
 
-import android.content.res.AssetManager;
-
 public abstract class ZLibrary {
 	public static ZLibrary Instance() {
 		return ourImplementation;
@@ -51,7 +49,6 @@ public abstract class ZLibrary {
 
 	abstract public String getVersionName();
 	abstract public String getFullVersionName();
-	abstract public AssetManager getAssetManager();
     abstract public int getVersionCode();
 	abstract public String getCurrentTimeString();
 	abstract public void setScreenBrightness(int percent);

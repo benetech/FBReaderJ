@@ -300,6 +300,8 @@ public class Bookshare_Webservice_Login extends Activity{
 			if(isFree){
 				editText_username.setText("");
 				editText_password.setText("");
+				text_username.setText("");
+				text_password.setText("");
 			}
 			editText_username.setEnabled(false);
 			editText_password.setEnabled(false);
