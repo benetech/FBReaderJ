@@ -19,29 +19,36 @@
 
 package org.geometerplus.android.fbreader.preferences;
 
-import android.content.Context;
-import android.content.Intent;
-import android.view.KeyEvent;
-import android.view.accessibility.AccessibilityManager;
-import com.google.analytics.tracking.android.EasyTracker;
-
+import org.geometerplus.android.fbreader.DictionaryUtil;
+import org.geometerplus.fbreader.Paths;
+import org.geometerplus.fbreader.bookmodel.FBTextKind;
+import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.fbreader.fbreader.ColorProfile;
+import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.fbreader.fbreader.FBView;
+import org.geometerplus.fbreader.fbreader.ScrollingPreferences;
+import org.geometerplus.fbreader.tips.TipsManager;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
 import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
 import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
-
-import org.geometerplus.zlibrary.text.view.style.*;
-
+import org.geometerplus.zlibrary.text.view.style.ZLTextBaseStyle;
+import org.geometerplus.zlibrary.text.view.style.ZLTextFullStyleDecoration;
+import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
+import org.geometerplus.zlibrary.text.view.style.ZLTextStyleDecoration;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 import org.geometerplus.zlibrary.ui.android.view.AndroidFontUtil;
 
-import org.geometerplus.fbreader.fbreader.*;
-import org.geometerplus.fbreader.Paths;
-import org.geometerplus.fbreader.bookmodel.FBTextKind;
-import org.geometerplus.fbreader.tips.TipsManager;
+import android.content.Context;
+import android.content.Intent;
+import android.provider.Settings;
+import android.view.KeyEvent;
+import android.view.accessibility.AccessibilityManager;
 
-import org.geometerplus.android.fbreader.DictionaryUtil;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class PreferenceActivity extends ZLPreferenceActivity {
+	
+	private final String TECLA_IME_ID = "ca.idi.tekla/.ime.TeclaIME";
     
     private AccessibilityManager accessibilityManager;
     
@@ -65,6 +72,13 @@ public class PreferenceActivity extends ZLPreferenceActivity {
 			directoriesScreen.addOption(Paths.FontsDirectoryOption(), "fonts");
 		}
 		directoriesScreen.addOption(Paths.WallpapersDirectoryOption(), "wallpapers");
+		
+		if(Settings.Secure.getString(this.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD).equals(TECLA_IME_ID)){
+			final Screen teclaScreen = createPreferenceScreen("teclaAccess");
+			teclaScreen.addPreference(new ZLBooleanPreference(
+					this, fbReader.EnableTeclaGestureAlternativesOption,  
+					teclaScreen.Resource, "enableTeclaGestureAlternatives"));
+		}
 
         if (!accessibilityManager.isEnabled()) {
 		    final Screen appearanceScreen = createPreferenceScreen("appearance");
