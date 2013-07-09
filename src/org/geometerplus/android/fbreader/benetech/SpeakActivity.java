@@ -33,6 +33,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
@@ -240,6 +241,9 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                     if (b) {
                         stopTalking();
                         justPaused = true;
+                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
+                    } else{
+                    	view.setBackgroundResource(android.R.drawable.btn_default);
                     }
                 }
             }
@@ -257,6 +261,9 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                     if (b) {
                         stopTalking();
                         justPaused = true;
+                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
+                    } else{
+                    	view.setBackgroundResource(android.R.drawable.btn_default);
                     }
                 }
             }
@@ -274,6 +281,21 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                 playOrPause();
             }
 		});
+		
+		findViewById(R.id.speak_menu_pause).setOnFocusChangeListener(
+	            new View.OnFocusChangeListener() {
+	                public void onFocusChange(android.view.View view, boolean b) {
+	                    if (b) {
+	                        stopTalking();
+	                        justPaused = true;
+	                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
+	                    } else{
+	                    	view.setBackgroundResource(android.R.drawable.btn_default);
+	                    }
+	                }
+	            }
+	        );
+		
         setListener(R.id.speak_menu_contents, new View.OnClickListener() {
             public void onClick(View v) {
                 EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
@@ -287,6 +309,9 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                     if (b) {
                         stopTalking();
                         justPaused = true;
+                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
+                    } else{
+                    	view.setBackgroundResource(android.R.drawable.btn_default);
                     }
                 }
             }
