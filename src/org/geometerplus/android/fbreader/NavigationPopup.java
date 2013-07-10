@@ -19,21 +19,18 @@
 
 package org.geometerplus.android.fbreader;
 
+import org.benetech.android.R;
+import org.geometerplus.fbreader.bookmodel.TOCTree;
+import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.zlibrary.core.resources.ZLResource;
+import org.geometerplus.zlibrary.text.view.ZLTextView;
+import org.geometerplus.zlibrary.text.view.ZLTextWordCursor;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-
-import org.geometerplus.zlibrary.core.resources.ZLResource;
-
-import org.geometerplus.zlibrary.text.view.ZLTextView;
-import org.geometerplus.zlibrary.text.view.ZLTextWordCursor;
-
-import org.benetech.android.R;
-
-import org.geometerplus.fbreader.bookmodel.TOCTree;
-import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
 final class NavigationPopup extends PopupPanel {
 	final static String ID = "NavigationPopup";
@@ -49,6 +46,7 @@ final class NavigationPopup extends PopupPanel {
 			myIsInProgress = false;
 			initPosition();
 			Application.showPopup(ID);
+			myWindow.requestFocus();
 		}
 	}
 

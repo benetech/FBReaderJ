@@ -24,6 +24,7 @@ import android.graphics.*;
 import android.view.*;
 import android.util.AttributeSet;
 
+import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.zlibrary.core.view.ZLView;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
@@ -388,6 +389,27 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 
 	private int myKeyUnderTracking = -1;
 	private long myTrackingStartTime;
+	
+	@Override
+	public boolean dispatchKeyEvent(KeyEvent event) {
+		if(event.getAction() == KeyEvent.ACTION_UP){
+			switch(event.getKeyCode()){
+				case KeyEvent.KEYCODE_DPAD_UP:
+					ZLApplication.Instance().doAction(ActionCode.SHOW_NAVIGATION);
+					return true;
+				case KeyEvent.KEYCODE_DPAD_DOWN:
+					ZLApplication.Instance().doAction(ActionCode.SHOW_MENU);
+					return true;
+				case KeyEvent.KEYCODE_DPAD_RIGHT:
+					ZLApplication.Instance().doAction(ActionCode.TURN_PAGE_FORWARD);
+					return true;
+				case KeyEvent.KEYCODE_DPAD_LEFT:
+					ZLApplication.Instance().doAction(ActionCode.TURN_PAGE_BACK);
+					return true;
+			}
+		}
+		return super.dispatchKeyEvent(event);
+	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		final ZLApplication application = ZLApplication.Instance();
