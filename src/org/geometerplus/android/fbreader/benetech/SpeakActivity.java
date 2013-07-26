@@ -37,6 +37,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -50,6 +51,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.hyperionics.fbreader.plugin.tts_plus.TtsSentenceExtractor;
 
@@ -226,6 +228,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             findViewById(R.id.speak_menu_forward).setOnHoverListener(new MyHoverListener());
             findViewById(R.id.speak_menu_pause).setOnHoverListener(new MyHoverListener());
             findViewById(R.id.speak_menu_contents).setOnHoverListener(new MyHoverListener());
+            findViewById(R.id.speak_menu_mainmenu).setOnHoverListener(new MyHoverListener());
         }
 
 		setListener(R.id.speak_menu_back, new View.OnClickListener() {
@@ -316,6 +319,27 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                 }
             }
         );
+        
+        setListener(R.id.speak_menu_mainmenu, new View.OnClickListener() {
+            public void onClick(View v) {
+                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
+                    Analytics.EVENT_ACTION_MENU, null);
+                showMainMenu();
+            }
+        });
+        findViewById(R.id.speak_menu_mainmenu).setOnFocusChangeListener(
+            new View.OnFocusChangeListener() {
+                public void onFocusChange(android.view.View view, boolean b) {
+                    if (b) {
+                        stopTalking();
+                        justPaused = true;
+                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
+                    } else{
+                    	view.setBackgroundResource(android.R.drawable.btn_default);
+                    }
+                }
+            }
+        );
 
 		((TelephonyManager)getSystemService(TELEPHONY_SERVICE)).listen(
 			new PhoneStateListener() {
@@ -374,6 +398,12 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 	@Override
 	protected void onResume() {
 		super.onResume();
+		//TODO: Update if condition after merging issue 1 and 2 branches
+		if(!"ca.idi.tekla/.ime.TeclaIME".equals(Settings.Secure.getString(getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD))){
+			findViewById(R.id.speak_menu_mainmenu).setVisibility(View.GONE);
+		}else{
+			findViewById(R.id.speak_menu_mainmenu).setVisibility(View.VISIBLE);
+		}
         try {
             findViewById(R.id.speak_menu_pause).requestFocus();
 
@@ -449,6 +479,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 				findViewById(R.id.speak_menu_forward).setEnabled(enabled);
 				findViewById(R.id.speak_menu_pause).setEnabled(enabled);
 				findViewById(R.id.speak_menu_contents).setEnabled(enabled);
+				findViewById(R.id.speak_menu_mainmenu).setEnabled(enabled);
 			}
 		});
 	}
