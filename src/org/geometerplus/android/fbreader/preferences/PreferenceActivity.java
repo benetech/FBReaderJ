@@ -47,8 +47,6 @@ import android.view.accessibility.AccessibilityManager;
 import com.google.analytics.tracking.android.EasyTracker;
 
 public class PreferenceActivity extends ZLPreferenceActivity {
-	
-	private final String TECLA_IME_ID = "ca.idi.tekla/.ime.TeclaIME";
     
     private AccessibilityManager accessibilityManager;
     
@@ -73,7 +71,7 @@ public class PreferenceActivity extends ZLPreferenceActivity {
 		}
 		directoriesScreen.addOption(Paths.WallpapersDirectoryOption(), "wallpapers");
 		
-		if(Settings.Secure.getString(this.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD).equals(TECLA_IME_ID)){
+		if(defaultIME.equals(TECLA_IME_ID)){
 			final Screen teclaScreen = createPreferenceScreen("teclaAccess");
 			teclaScreen.addPreference(new ZLBooleanPreference(
 					this, fbReader.EnableTeclaGestureAlternativesOption,  
