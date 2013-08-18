@@ -425,7 +425,7 @@ public abstract class NetworkLibraryActivity extends TreeActivity implements Net
 		final ZLResource dialogResource = ZLResource.resource("dialog");
 		final ZLResource boxResource = dialogResource.getResource("networkError");
 		final ZLResource buttonResource = dialogResource.getResource("button");
-		new AlertDialog.Builder(this)
+		AlertDialog alertDialog = new AlertDialog.Builder(this)
 			.setTitle(boxResource.getResource("title").getValue())
 			.setMessage(error)
 			.setIcon(0)
@@ -436,7 +436,12 @@ public abstract class NetworkLibraryActivity extends TreeActivity implements Net
 					listener.onClick(dialog, DialogInterface.BUTTON_NEGATIVE);
 				}
 			})
-			.create().show();
+			.create();
+		alertDialog.show();
+		if(alertDialog.isShowing()){
+			alertDialog.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+			alertDialog.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		}		
 	}
 
 	private void checkAndRun(final Action action, final NetworkTree tree) {

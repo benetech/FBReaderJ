@@ -195,6 +195,14 @@ public class AccessibleMainMenuActivity extends Activity {
                 activity.finish();
             }
         }),
+        inputSettings(resources.getString(R.string.menu_input_settings), new MenuOperation() {
+            public void click(final Activity activity) {
+                ZLApplication.Instance().doAction(ActionCode.SHOW_INPUT_SETTINGS);
+                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU,
+                    Analytics.EVENT_LABEL_INPUT_SETTINGS, null);
+                activity.finish();
+            }
+        }),
         ttsSettings(resources.getString(R.string.menu_tts_settings), new MenuOperation() {
             public void click(final Activity activity) {
                 Intent intent = new Intent();
