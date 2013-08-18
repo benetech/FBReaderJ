@@ -52,6 +52,8 @@ import org.geometerplus.android.fbreader.network.action.*;
 
 import org.geometerplus.android.util.UIUtil;
 
+import ca.idi.tecla.lib.InputAccess;
+
 public abstract class NetworkLibraryActivity extends TreeActivity implements NetworkLibrary.ChangeListener {
 	static final String OPEN_CATALOG_ACTION = "android.fbreader.action.OPEN_NETWORK_CATALOG";
 
@@ -69,7 +71,8 @@ public abstract class NetworkLibraryActivity extends TreeActivity implements Net
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
-
+		new InputAccess(this, false).onCreate();
+		
 		AuthenticationActivity.initCredentialsCreator(this);
 
 		SQLiteCookieDatabase.init(this);

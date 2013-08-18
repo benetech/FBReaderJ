@@ -37,6 +37,8 @@ import android.view.*;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.RelativeLayout;
 
+import ca.idi.tecla.lib.InputAccess;
+
 import com.bugsense.trace.BugSenseHandler;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
@@ -90,7 +92,6 @@ public final class FBReader extends ZLAndroidActivity {
     final static int AUTO_SPEAK_CODE = 3;
 
 	private int myFullScreenFlag;
-	//private InputAccess inputAccess = new InputAccess(this, true);
 
 	private static final String PLUGIN_ACTION_PREFIX = "___";
 	private final List<PluginApi.ActionInfo> myPluginActions =
@@ -140,9 +141,8 @@ public final class FBReader extends ZLAndroidActivity {
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
-
-        //todo:
-		//inputAccess.onCreate();
+		new InputAccess(this, false).onCreate();
+		
 		final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary)ZLibrary.Instance();
         
         accessibilityManager =
