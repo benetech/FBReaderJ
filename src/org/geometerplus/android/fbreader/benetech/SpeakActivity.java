@@ -33,6 +33,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
@@ -50,6 +51,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
+
 import com.google.analytics.tracking.android.EasyTracker;
 import com.hyperionics.fbreader.plugin.tts_plus.TtsSentenceExtractor;
 
@@ -234,6 +236,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             findViewById(R.id.speak_menu_forward).setOnHoverListener(new MyHoverListener());
             findViewById(R.id.speak_menu_pause).setOnHoverListener(new MyHoverListener());
             findViewById(R.id.speak_menu_contents).setOnHoverListener(new MyHoverListener());
+            findViewById(R.id.speak_menu_mainmenu).setOnHoverListener(new MyHoverListener());
         }
 
 		setListener(R.id.speak_menu_back, new View.OnClickListener() {
@@ -246,9 +249,14 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         findViewById(R.id.speak_menu_back).setOnFocusChangeListener(
             new View.OnFocusChangeListener() {
                 public void onFocusChange(android.view.View view, boolean b) {
-                    if (b && !hidePlayBackBtns && accessibilityManager.isEnabled()) {
-                        stopTalking();
-                        justPaused = true;
+                    if (b && !hidePlayBackBtns) {
+                    	if(accessibilityManager.isEnabled()){
+                            stopTalking();
+                            justPaused = true;
+                    	}
+                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
+                    } else{
+                    	view.setBackgroundResource(android.R.drawable.btn_default);
                     }
                 }
             }
@@ -263,9 +271,14 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         findViewById(R.id.speak_menu_forward).setOnFocusChangeListener(
             new View.OnFocusChangeListener() {
                 public void onFocusChange(android.view.View view, boolean b) {
-                    if (b && !hidePlayBackBtns && accessibilityManager.isEnabled()) {
-                        stopTalking();
-                        justPaused = true;
+                    if (b && !hidePlayBackBtns) {
+                    	if(accessibilityManager.isEnabled()){
+                            stopTalking();
+                            justPaused = true;
+                    	}
+                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
+                    } else{
+                    	view.setBackgroundResource(android.R.drawable.btn_default);
                     }
                 }
             }
@@ -283,6 +296,23 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                 playOrPause();
             }
 		});
+		
+		findViewById(R.id.speak_menu_pause).setOnFocusChangeListener(
+	            new View.OnFocusChangeListener() {
+	                public void onFocusChange(android.view.View view, boolean b) {
+	                    if (b && !hidePlayBackBtns) {
+	                    	if(accessibilityManager.isEnabled()){
+	                            stopTalking();
+	                            justPaused = true;
+	                    	}
+	                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
+	                    } else{
+	                    	view.setBackgroundResource(android.R.drawable.btn_default);
+	                    }
+	                }
+	            }
+	        );
+		
         setListener(R.id.speak_menu_contents, new View.OnClickListener() {
             public void onClick(View v) {
                 EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
@@ -293,9 +323,37 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         findViewById(R.id.speak_menu_contents).setOnFocusChangeListener(
             new View.OnFocusChangeListener() {
                 public void onFocusChange(android.view.View view, boolean b) {
-                    if (b && !hidePlayBackBtns && accessibilityManager.isEnabled()) {
-                        stopTalking();
-                        justPaused = true;
+                    if (b && !hidePlayBackBtns) {
+                    	if(accessibilityManager.isEnabled()){
+                            stopTalking();
+                            justPaused = true;
+                    	}
+                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
+                    } else{
+                    	view.setBackgroundResource(android.R.drawable.btn_default);
+                    }
+                }
+            }
+        );
+        
+        setListener(R.id.speak_menu_mainmenu, new View.OnClickListener() {
+            public void onClick(View v) {
+                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
+                    Analytics.EVENT_ACTION_MENU, null);
+                showMainMenu();
+            }
+        });
+        findViewById(R.id.speak_menu_mainmenu).setOnFocusChangeListener(
+            new View.OnFocusChangeListener() {
+                public void onFocusChange(android.view.View view, boolean b) {
+                    if (b && !hidePlayBackBtns) {
+                    	if(accessibilityManager.isEnabled()){
+                            stopTalking();
+                            justPaused = true;
+                    	}
+                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
+                    } else{
+                    	view.setBackgroundResource(android.R.drawable.btn_default);
                     }
                 }
             }
@@ -361,6 +419,11 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 		defaultIME = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
 		hidePlayBackBtns = (defaultIME.equals(TECLA_IME_ID) && 
 							fbReader.EnableTeclaGestureAlternativesOption.getValue());
+		if(!defaultIME.equals(TECLA_IME_ID)){
+			findViewById(R.id.speak_menu_mainmenu).setVisibility(View.GONE);
+		}else{
+			findViewById(R.id.speak_menu_mainmenu).setVisibility(View.VISIBLE);
+		}
         try {
             findViewById(R.id.speak_menu_pause).requestFocus();
 
@@ -437,11 +500,13 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 					findViewById(R.id.speak_menu_forward).setEnabled(false);
 					findViewById(R.id.speak_menu_pause).setEnabled(false);
 					findViewById(R.id.speak_menu_contents).setEnabled(false);
+					findViewById(R.id.speak_menu_mainmenu).setEnabled(false);
 				}else{
 					findViewById(R.id.speak_menu_back).setEnabled(enabled);
 					findViewById(R.id.speak_menu_forward).setEnabled(enabled);
 					findViewById(R.id.speak_menu_pause).setEnabled(enabled);
 					findViewById(R.id.speak_menu_contents).setEnabled(enabled);
+					findViewById(R.id.speak_menu_mainmenu).setEnabled(enabled);
 				}
 			}
 		});
@@ -784,6 +849,8 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 		            	findViewById(R.id.speak_menu_contents).setFocusable(!hidePlayBackBtns);
 		            	findViewById(R.id.speak_menu_forward).setEnabled(!hidePlayBackBtns);
 		            	findViewById(R.id.speak_menu_forward).setFocusable(!hidePlayBackBtns);
+		            	findViewById(R.id.speak_menu_mainmenu).setEnabled(!hidePlayBackBtns);
+		            	findViewById(R.id.speak_menu_mainmenu).setFocusable(!hidePlayBackBtns);
 	                    getWindow().setAttributes(params);
 	        }
 	    });

@@ -116,6 +116,7 @@
     <string name="next">Next section</string>
     <string name="previous">Prev section</string>
     <string name="toc">Table of Contents</string>
+    <string name="mainmenu">Main Menu</string>
     <string name="on_press_play">Play/Pause</string>
     <string name="on_press_pause">Pause/Play</string>
     <string name="speak_title_postfix">\u0020- press play or double click screen</string>
