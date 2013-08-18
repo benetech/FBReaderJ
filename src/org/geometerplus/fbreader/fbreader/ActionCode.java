@@ -29,6 +29,7 @@ public interface ActionCode {
 	String SHOW_NETWORK_LIBRARY = "networkLibrary";
     String SHOW_ACCESSIBILITY_SETTINGS = "accessibilitySettings";
     String SHOW_INPUT_SETTINGS= "inputSettings";
+    String SHOW_TECLA_ACCESS_SETTINGS = "teclaAccessSettings";
 
 	String SWITCH_TO_NIGHT_PROFILE = "night";
 	String SWITCH_TO_DAY_PROFILE = "day";
