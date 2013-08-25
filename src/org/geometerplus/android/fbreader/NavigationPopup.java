@@ -31,6 +31,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 final class NavigationPopup extends PopupPanel {
 	final static String ID = "NavigationPopup";
@@ -46,7 +47,6 @@ final class NavigationPopup extends PopupPanel {
 			myIsInProgress = false;
 			initPosition();
 			Application.showPopup(ID);
-			myWindow.requestFocus();
 		}
 	}
 
@@ -59,6 +59,11 @@ final class NavigationPopup extends PopupPanel {
 	protected void show_() {
 		super.show_();
 		if (myWindow != null) {
+			Button btnOk = (Button)myWindow.findViewById(android.R.id.button1);
+			if(btnOk!=null){
+				btnOk.setFocusableInTouchMode(true);
+				btnOk.requestFocus();
+			}
 			setupNavigation(myWindow);
 		}
 	}
@@ -79,10 +84,10 @@ final class NavigationPopup extends PopupPanel {
 		myWindow = new PopupWindow(activity, root, location, true);
 
 		final View layout = activity.getLayoutInflater().inflate(R.layout.navigate, myWindow, false);
-
+		
 		final SeekBar slider = (SeekBar)layout.findViewById(R.id.book_position_slider);
 		final TextView text = (TextView)layout.findViewById(R.id.book_position_text);
-
+		
 		slider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			private void gotoPage(int page) {
 				final ZLTextView view = getReader().getTextView();
@@ -142,9 +147,10 @@ final class NavigationPopup extends PopupPanel {
 		final SeekBar slider = (SeekBar)panel.findViewById(R.id.book_position_slider);
 		final TextView text = (TextView)panel.findViewById(R.id.book_position_text);
 
+
 		final ZLTextView textView = getReader().getTextView();
 		final ZLTextView.PagePosition pagePosition = textView.pagePosition();
-
+		
 		if (slider.getMax() != pagePosition.Total - 1 || slider.getProgress() != pagePosition.Current - 1) {
 			slider.setMax(pagePosition.Total - 1);
 			slider.setProgress(pagePosition.Current - 1);

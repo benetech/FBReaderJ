@@ -22,6 +22,7 @@ package org.geometerplus.zlibrary.ui.android.view;
 import android.content.Context;
 import android.graphics.*;
 import android.view.*;
+import android.provider.Settings;
 import android.util.AttributeSet;
 
 import org.geometerplus.fbreader.fbreader.ActionCode;
@@ -35,6 +36,7 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 	private final Paint myPaint = new Paint();
 	private final BitmapManager myBitmapManager = new BitmapManager(this);
 	private Bitmap myFooterBitmap;
+	private final String TECLA_IME_ID = "ca.idi.tekla/.ime.TeclaIME";
 
 	public ZLAndroidWidget(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -412,6 +414,10 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 	}
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		String defaultIME = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+		if(defaultIME.equals(TECLA_IME_ID)){
+			return false;
+		}
 		final ZLApplication application = ZLApplication.Instance();
 
 		if (application.hasActionForKey(keyCode, true) ||
@@ -436,6 +442,10 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 	}
 
 	public boolean onKeyUp(int keyCode, KeyEvent event) {
+		String defaultIME = Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+		if(defaultIME.equals(TECLA_IME_ID)){
+			return false;
+		}
 		if (myKeyUnderTracking != -1) {
 			if (myKeyUnderTracking == keyCode) {
 				final boolean longPress = System.currentTimeMillis() >
