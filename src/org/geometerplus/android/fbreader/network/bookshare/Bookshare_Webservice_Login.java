@@ -33,6 +33,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+import ca.idi.tecla.lib.InputAccess;
+
 import com.google.analytics.tracking.android.EasyTracker;
 
 
@@ -73,7 +75,6 @@ public class Bookshare_Webservice_Login extends Activity{
 	private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
 	private boolean isOM = false;
 	private String response;
-	//private InputAccess inputAccess = new InputAccess(this, true);
 
 	private int requestType;
 	private String uri;
@@ -84,9 +85,7 @@ public class Bookshare_Webservice_Login extends Activity{
 	
 	protected void onCreate(Bundle savedInstanceState){
 		super.onCreate(savedInstanceState);
-
-        //todo:
-		//inputAccess.onCreate();
+		new InputAccess(this, false).onCreate();
 		
 		// Obtain the SharedPreferences object shared across the application
 		SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
