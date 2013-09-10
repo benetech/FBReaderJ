@@ -50,6 +50,16 @@
 							android:text="@string/book_details_download_button"
 							android:textStyle="bold"
                             android:focusable="true"/>
+						
+						<Button
+							android:id="@+id/bookshare_btn_download_images"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+                            android:layout_marginTop="20dip"
+                            android:layout_marginBottom="10dip"
+							android:text="@string/book_details_download_images"
+							android:textStyle="bold"
+                            android:focusable="true"/>
 
 						<TextView
 						    android:id="@+id/bookshare_download_not_available_msg"

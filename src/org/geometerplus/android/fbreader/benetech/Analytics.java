@@ -30,6 +30,7 @@ public class Analytics {
     public static final String EVENT_LABEL_TTS_SETTINGS = "tts_settings";
     public static final String EVENT_LABEL_HELP = "help";
     public static final String EVENT_LABEL_DOWNLOAD_BOOK = "download_book";
+    public static final String EVENT_LABEL_DOWNLOAD_BOOK_WITH_IMAGES = "download_book_with_images";
 
     public static final String EVENT_LABEL_SEARCH_TITLE = "title_search";
     public static final String EVENT_LABEL_SEARCH_AUTHOR = "author_search";

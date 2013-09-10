@@ -1,15 +1,14 @@
 package org.geometerplus.android.fbreader.network.bookshare;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.geometerplus.android.fbreader.FBReader;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -19,33 +18,34 @@ import org.xml.sax.helpers.DefaultHandler;
 import android.util.Log;
 
 /**
- * Parse error responses.
- * 
- * @author meghan larson
+ * @author yash 
+ * Parse xml response containing packaging status
  */
-public final class Bookshare_Error_Bean {
+public class Bookshare_PackagingStatus_Bean {
 
-	private String version;
-	private String statusCode;
+	final private String LOG_TAG = "status bean";
+	private String version = "";
+	private String contentId = "";
+	private String packagingStatus = "";
 	private List<String> messages;
-	private String LOG_TAG = FBReader.LOG_LABEL;
 
 	/**
 	 * Default constructor.
 	 */
-	public Bookshare_Error_Bean() {
-		// empty
+	public Bookshare_PackagingStatus_Bean() {
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @return statusCode
+	 * @return contentId
 	 */
-	public String getStatusCode() {
-		return statusCode;
+	public String getContentId() {
+		return contentId;
 	}
 
 	/**
 	 * @return messages
+	 * 
 	 */
 	public List<String> getMessages() {
 		return messages;
@@ -54,8 +54,8 @@ public final class Bookshare_Error_Bean {
 	/**
 	 * @return version
 	 */
-	public String getVersion() {
-		return version;
+	public String getPackagingStatus() {
+		return packagingStatus;
 	}
 
 	/**
@@ -75,7 +75,7 @@ public final class Bookshare_Error_Bean {
 	}
 
 	/**
-	 * Create an error bean from an input stream.
+	 * Create an packaging status bean from an input stream.
 	 * 
 	 * @param is
 	 *            not null
@@ -89,37 +89,45 @@ public final class Bookshare_Error_Bean {
 
 			/* Get the XMLReader of the SAXParser we created. */
 			XMLReader parser = sp.getXMLReader();
-			parser.setContentHandler(new ErrorHandler());
+			parser.setContentHandler(new PackagingStatusHander());
 			parser.parse(new InputSource(is));
 		} catch (SAXException e) {
-			Log.e(LOG_TAG, e.toString(), e);
+			System.out.println(e);
 		} catch (ParserConfigurationException e) {
-			Log.e(LOG_TAG, e.toString(), e);
+			System.out.println(e);
 		} catch (IOException ioe) {
-			Log.e(LOG_TAG, ioe.toString(), ioe);
 		}
 	}
 
-	// parse error information
-	private class ErrorHandler extends DefaultHandler {
+	// parse packaging status information
+	private class PackagingStatusHander extends DefaultHandler {
 
 		private boolean inVersion;
 		private boolean inStatusCode;
 		private boolean inMessages;
 		private boolean inString;
+		private boolean inContentId;
+		private boolean inStatus;
+		private boolean inBook;
 
 		@Override
 		public void characters(char[] c, int start, int length) {
 			final String content = new String(c, start, length);
 			if (inVersion) {
 				version = content;
-			} else if (inStatusCode) {
-				statusCode = content;
+				Log.d(LOG_TAG, "version = " + content);
 			} else if (inMessages && inString) {
 				if (messages == null) {
 					messages = new ArrayList<String>();
 				}
 				messages.add(content);
+				Log.d(LOG_TAG, "message = " + content);
+			} else if (inBook && inContentId) {
+				Log.d(LOG_TAG, "contentId = " + content);
+				contentId = content;
+			} else if (inBook && inStatus) {
+				Log.d(LOG_TAG, "packaging status =" + content);
+				packagingStatus = content;
 			}
 		}
 
@@ -137,12 +145,16 @@ public final class Bookshare_Error_Bean {
 		private void flipBoolean(final String qName) {
 			if (qName.equals("version")) {
 				inVersion = !inVersion;
-			} else if (qName.equals("status-code")) {
-				inStatusCode = !inStatusCode;
 			} else if (qName.equals("messages")) {
 				inMessages = !inMessages;
 			} else if (qName.equals("string")) {
 				inString = !inString;
+			} else if (qName.equals("book")) {
+				inBook = !inBook;
+			} else if (qName.equals("content-id")) {
+				inContentId = !inContentId;
+			} else if (qName.equals("packaging-status")) {
+				inStatus = !inStatus;
 			}
 		}
 	}

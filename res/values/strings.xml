@@ -27,7 +27,8 @@
 
     
     <!-- Bookshare_Book_Details -->
-    <string name="book_details_download_button">Download</string>
+    <string name="book_details_download_button">Download (text only)</string>
+     <string name="book_details_download_images">Download book with images</string>
     <string name="book_details_download_error">Download Failed! Download again</string>
     <string name="book_details_download_error_other_member">Download Failed! Try another member</string>
     <string name="book_details_download_started">Download started</string>
