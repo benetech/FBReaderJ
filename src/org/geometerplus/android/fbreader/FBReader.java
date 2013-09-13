@@ -140,6 +140,10 @@ public final class FBReader extends ZLAndroidActivity {
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
+		BookshareDeveloperKey.initialize(getApplicationContext());
+		Log.i(LOG_LABEL,BookshareDeveloperKey.BUGSENSE_KEY);
+		Log.i(LOG_LABEL,BookshareDeveloperKey.DEVELOPER_KEY);
+		Log.i(LOG_LABEL,String.valueOf(BookshareDeveloperKey.OPT_OUT_GOOGLE_ANALYTICS));
 		BugSenseHandler.initAndStartSession(this, BookshareDeveloperKey.BUGSENSE_KEY);
 
         //todo:

@@ -22,9 +22,18 @@ E.g., on my computer 'local.properties' consists of 2 lines:
   sdk.dir=/Users/geometer/android-sdk-mac_86
   ndk.dir=/Users/geometer/android-ndk-r4b
 
-2. You will have to edit src/org/geometerplus/android/fbreader/network/bookshare/BookshareDeveloperKey and enter your
-   Bookshare developer key if you want to access the Bookshare library. You can obtain a Bookshare developer key from
-   http://developer.bookshare.org.  You can also optionally enter your Bugsense key to get crash reports.
+2. Create a new folder 'developerSpecific' in assets folder.In that folder, Create 'developer.properties' file, that contains:
+        developerKey='your bookshare developer key'
+	bugSenseKey='your bugsense key'
+	optOutGoogleAnalytics='your choice'
+
+  If you want to access bookshare library, you will have to obtain a bookshare developer key at http://developer.bookshare.org.
+  You can also optionally enter your Bugsense key to get crash reports.
+ 
+ A sample file would be:
+    developerKey=abcdefgh123456789abcdefg
+	bugSenseKey=abcd12
+	optOutGoogleAnalytics=false
 
 3. If you use Linux or MacOS, just run 'ant clean debug' to create an installable package that will provide debugging info.
 

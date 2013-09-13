@@ -127,6 +127,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.bookshare_blank_page);
+		Log.i(LOG_TAG,developerKey);
 		resources = getApplicationContext().getResources();
 		myActivity = this;
 		// Set full screen
