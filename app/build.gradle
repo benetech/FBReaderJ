@@ -1,0 +1,34 @@
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.0.3"
+
+    defaultConfig {
+        packageName "org.benetech.android"
+        minSdkVersion 5
+        targetSdkVersion 19
+    }
+
+    sourceSets.main {
+        jniLibs.srcDir 'src/main/libs'
+        jni.srcDirs = []
+    }
+
+    buildTypes {
+        release {
+            runProguard true
+            proguardFiles 'proguard.cfg'
+        }
+    }
+}
+
+dependencies {
+    compile files('libs/android-support-v13.jar')
+    compile files('libs/Bookshare-API.jar')
+    compile files('libs/bugsense3.4.jar')
+    compile files('libs/commons-codec-1.4.jar')
+    compile files('libs/jmdns.jar')
+    compile files('libs/libGoogleAnalyticsV2.jar')
+    compile files('libs/zip4j_1.1.7.jar')
+}
