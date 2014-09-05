@@ -22,10 +22,10 @@ package org.geometerplus.zlibrary.core.tree;
 import java.util.*;
 
 public abstract class ZLTree<T extends ZLTree<T>> implements Iterable<T> {
-	private int mySize = 1;
+	protected int mySize = 1;
 	public final T Parent;
 	public final int Level;
-	private volatile List<T> mySubTrees;
+	protected volatile List<T> mySubTrees;
 
 	protected ZLTree() {
 		this(null);
@@ -91,7 +91,7 @@ public abstract class ZLTree<T extends ZLTree<T>> implements Iterable<T> {
 		throw new RuntimeException("That's impossible!!!");
 	}
 
-	private synchronized void addSubTree(T subtree, int position) {
+	protected synchronized void addSubTree(T subtree, int position) {
 		if (mySubTrees == null) {
 			mySubTrees = Collections.synchronizedList(new ArrayList<T>());
 		}
