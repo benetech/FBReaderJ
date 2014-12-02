@@ -1,6 +1,8 @@
------------------------------------------------------------------------------
+Go Read
+=========
+
 This fork is an initiative for developing an e-book reader for DAISY 3 files.
------------------------------------------------------------------------------
+--------------
 
 Web demo at http://benetech.github.com/FBReaderJ
 
@@ -28,6 +30,5 @@ To build this project, please follow the instructions in the HowToBuild file.
 If you plan to build this project, you need an API key, which can be obtained by registered at
 http://developer.bookshare.org and acquiring an API key.
 
-----------------------------
-Last Edited by - Gerardo Capiel 
-----------------------------
+
+Last Edited by - Meghan Larson
