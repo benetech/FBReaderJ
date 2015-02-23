@@ -24,7 +24,6 @@ import java.util.HashMap;
 
 import android.os.Bundle;
 import android.preference.*;
-import android.provider.Settings;
 import android.content.Intent;
 
 import org.geometerplus.zlibrary.core.options.*;
@@ -34,9 +33,6 @@ abstract class ZLPreferenceActivity extends android.preference.PreferenceActivit
 	public static String SCREEN_KEY = "screen";
 
 	private final HashMap<String,Screen> myScreenMap = new HashMap<String,Screen>();
-	
-	protected final String TECLA_IME_ID = "ca.idi.tekla/.ime.TeclaIME";
-	protected String  defaultIME;
 
 	protected class Screen {
 		public final ZLResource Resource;
@@ -128,8 +124,6 @@ abstract class ZLPreferenceActivity extends android.preference.PreferenceActivit
 		super.onCreate(bundle);
 
 		Thread.setDefaultUncaughtExceptionHandler(new org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler(this));
-		
-		defaultIME = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
 
 		myScreen = getPreferenceManager().createPreferenceScreen(this);
 
@@ -137,12 +131,5 @@ abstract class ZLPreferenceActivity extends android.preference.PreferenceActivit
 		init(intent);
 		final Screen screen = myScreenMap.get(intent.getStringExtra(SCREEN_KEY));
 		setPreferenceScreen(screen != null ? screen.myScreen : myScreen);
-	}
-
-	
-	@Override
-	protected void onResume() {
-		defaultIME = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
-		super.onResume();
 	}
 }

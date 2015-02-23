@@ -27,8 +27,6 @@ public class Analytics {
     public static final String EVENT_LABEL_PLAY_PAUSE = "play_pause";
     public static final String EVENT_LABEL_SETTINGS = "settings";
     public static final String EVENT_LABEL_ACCESSIBILITY_SETTINGS = "accessibility_settings";
-    public static final String EVENT_LABEL_INPUT_SETTINGS = "language_and_input_settings";
-    
     public static final String EVENT_LABEL_TTS_SETTINGS = "tts_settings";
     public static final String EVENT_LABEL_HELP = "help";
     public static final String EVENT_LABEL_DOWNLOAD_BOOK = "download_book";

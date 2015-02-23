@@ -1,49 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent" >
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-	<LinearLayout
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:baselineAligned="false"
-	    android:orientation="horizontal" >
-	
-	    <Button
-	        android:id="@+id/speak_menu_back"
-	        android:layout_width="72dp"
-	        android:layout_height="72dp"
-	        android:layout_weight="1"
-	        android:contentDescription="@string/previous"
-	        android:text="@string/previous" />
-	
-	    <Button android:id="@+id/speak_menu_pause"
-	            android:layout_width="72dp"
-	            android:layout_height="72dp"
-	            android:layout_weight="1"
-	            android:contentDescription="@string/play"
-	            android:text="@string/play" />
-	
-	    <Button android:id="@+id/speak_menu_mainmenu"
-		        android:layout_width="72dp"
-		        android:layout_height="72dp"
-		        android:layout_weight="1"
-		        android:contentDescription="@string/mainmenu"
-		        android:text="@string/mainmenu" />
-	    
-	    <Button android:id="@+id/speak_menu_contents"
-		        android:layout_width="72dp"
-		        android:layout_height="72dp"
-		        android:layout_weight="1"
-		        android:contentDescription="@string/toc"
-		        android:text="@string/toc" />
-	
-	    <Button android:id="@+id/speak_menu_forward"
-	            android:layout_width="72dp"
-	            android:layout_height="72dp"
-	            android:layout_weight="1"
-	            android:contentDescription="@string/next"
-	            android:text="@string/next" />
-	
-	</LinearLayout>
-</HorizontalScrollView>
+    <Button android:id="@+id/speak_menu_back"
+            android:layout_width="96dp"
+            android:layout_height="72dp"
+            android:layout_weight="1"
+            android:contentDescription="previous section"
+            android:text="@string/previous"/>
+
+    <Button android:id="@+id/speak_menu_pause"
+            android:layout_width="96dp"
+            android:layout_height="72dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/play"
+            android:text="@string/play" />
+
+    <Button android:id="@+id/speak_menu_contents"
+            android:layout_width="96dp"
+            android:layout_height="72dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/toc"
+            android:textSize="12sp"
+            android:text="@string/toc" />
+
+    <Button android:id="@+id/speak_menu_forward"
+            android:layout_width="96dp"
+            android:layout_height="72dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/next"
+            android:text="@string/next" />
+
+</LinearLayout>
