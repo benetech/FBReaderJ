@@ -37,6 +37,8 @@ import android.view.*;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.RelativeLayout;
 
+import ca.idi.tecla.lib.InputAccess;
+
 import com.bugsense.trace.BugSenseHandler;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
@@ -90,7 +92,6 @@ public final class FBReader extends ZLAndroidActivity {
     final static int AUTO_SPEAK_CODE = 3;
 
 	private int myFullScreenFlag;
-	//private InputAccess inputAccess = new InputAccess(this, true);
 
 	private static final String PLUGIN_ACTION_PREFIX = "___";
 	private final List<PluginApi.ActionInfo> myPluginActions =
@@ -146,8 +147,8 @@ public final class FBReader extends ZLAndroidActivity {
 		Log.i(LOG_LABEL,String.valueOf(BookshareDeveloperKey.OPT_OUT_GOOGLE_ANALYTICS));
 		BugSenseHandler.initAndStartSession(this, BookshareDeveloperKey.BUGSENSE_KEY);
 
-        //todo:
-		//inputAccess.onCreate();
+		new InputAccess(this, false).onCreate();
+        
 		final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary)ZLibrary.Instance();
         
         accessibilityManager =
@@ -174,7 +175,10 @@ public final class FBReader extends ZLAndroidActivity {
         fbReader.addAction(ActionCode.ACCESSIBLE_NAVIGATION, new ShowAccessiblePageNavigateAction(this, fbReader));
         fbReader.addAction(ActionCode.SHOW_HELP, new ShowHelpAction(this, fbReader));
         fbReader.addAction(ActionCode.SHOW_ACCESSIBILITY_SETTINGS, new ShowAccessibilitySettingsAction(this, fbReader));
-		fbReader.addAction(ActionCode.SHOW_LIBRARY, new ShowLibraryAction(this, fbReader));
+        fbReader.addAction(ActionCode.SHOW_INPUT_SETTINGS, new ShowInputSettingsAction(this, fbReader));
+        fbReader.addAction(ActionCode.SHOW_TECLA_ACCESS_SETTINGS, new ShowTeclaAccessSettingsAction (this, fbReader));
+
+        fbReader.addAction(ActionCode.SHOW_LIBRARY, new ShowLibraryAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_PREFERENCES, new ShowPreferencesAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_BOOK_INFO, new ShowBookInfoAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_TOC, new ShowTOCAction(this, fbReader));
@@ -528,6 +532,8 @@ public final class FBReader extends ZLAndroidActivity {
 		addMenuItem(menu, ActionCode.SEARCH, R.drawable.ic_menu_search);
 		addMenuItem(menu, ActionCode.SHOW_PREFERENCES);
 		addMenuItem(menu, ActionCode.SHOW_ACCESSIBILITY_SETTINGS);
+		addMenuItem(menu, ActionCode. SHOW_INPUT_SETTINGS);
+		addMenuItem(menu, ActionCode.SHOW_TECLA_ACCESS_SETTINGS);
 		addMenuItem(menu, ActionCode.SHOW_BOOK_INFO);
 		final Menu subMenu = addSubMenu(menu, "screenOrientation");
 		addMenuItem(subMenu, ActionCode.SET_SCREEN_ORIENTATION_SYSTEM);
