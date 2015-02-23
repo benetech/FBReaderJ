@@ -19,8 +19,11 @@
 
 package org.geometerplus.android.fbreader.preferences;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.preference.ListPreference;
+import android.view.WindowManager;
 
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 
@@ -69,6 +72,16 @@ abstract class ZLStringListPreference extends ListPreference {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	protected void showDialog(Bundle state) {
+		super.showDialog(state);
+		Dialog dialog = this.getDialog();
+		if(dialog.isShowing()){
+			dialog.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+			dialog.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+		}
 	}
 
 	@Override
