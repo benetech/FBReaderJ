@@ -49,7 +49,7 @@ import com.google.analytics.tracking.android.EasyTracker;
  *
  */
 public class Bookshare_Books_Listing extends ListActivity{
-    
+
     private final static int LIST_RESPONSE = 1;
     private final static int METADATA_RESPONSE = 2;
 
@@ -72,7 +72,6 @@ public class Bookshare_Books_Listing extends ListActivity{
 	final BookshareWebservice bws = new BookshareWebservice(Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
 	private int total_pages_result;
 	private int current_result_page = 1;
-	private boolean total_pages_count_known = false;
 	private boolean isFree = false;
 	private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
     private Resources resources;
@@ -90,11 +89,11 @@ public class Bookshare_Books_Listing extends ListActivity{
 		if(username == null || password == null){
 			isFree = true;
 		}
-		
+
 		requestURI = intent.getStringExtra(Bookshare_Menu.REQUEST_URI);
 		System.out.println("requestURI = "+requestURI);
 		requestType = intent.getIntExtra(Bookshare_Menu.REQUEST_TYPE, Bookshare_Menu.TITLE_SEARCH_REQUEST);
-		
+
 		if(requestType == Bookshare_Menu.TITLE_SEARCH_REQUEST
 				|| requestType == Bookshare_Menu.AUTHOR_SEARCH_REQUEST
 				|| requestType == Bookshare_Menu.LATEST_REQUEST
@@ -119,7 +118,7 @@ public class Bookshare_Books_Listing extends ListActivity{
         super.onStop();
         EasyTracker.getInstance().activityStop(this);
     }
-    
+
     /*
      * Display voiceable message and then close
      */
@@ -127,12 +126,12 @@ public class Bookshare_Books_Listing extends ListActivity{
         final ParentCloserDialog dialog = new ParentCloserDialog(this, this);
         dialog.popup(msg, timeout);
     }
-	
+
 	/*
 	 * Spawn a new Thread for carrying out the search
 	 */
 	private void getListing(final String uri){
-		
+
 		vectorResults = new Vector<Bookshare_Result_Bean>();
 
 		// Show a Progress Dialog before the book opens
@@ -341,10 +340,10 @@ public class Bookshare_Books_Listing extends ListActivity{
 			current_result_page--;
 		}
 		list.clear();
-		
+
 		StringBuilder strBuilder = new StringBuilder(requestURI);
 		int index;
-		
+
 		if((index = strBuilder.indexOf("?api_key=")) != -1){
 			strBuilder.delete(index, strBuilder.length());
 			strBuilder.append("/page/").append(current_result_page).append("?api_key=").append(developerKey);
@@ -400,135 +399,63 @@ public class Bookshare_Books_Listing extends ListActivity{
 	private class SAXHandler extends DefaultHandler{
 
 		boolean result = false;
-		boolean id = false;
-		boolean title = false;
-		boolean author = false;
-		boolean download_format = false;
-		boolean images = false;
-		boolean freely_available = false;
-		boolean available_to_download = false;
-		boolean num_pages = false;
 
-		boolean authorElementVisited = false;
-		boolean downloadFormatElementVisited = false; 
+    StringBuilder stringBuilder = new StringBuilder();
 		Vector<String> vector_author;
 		Vector<String> vector_downloadFormat;
 
 		Bookshare_Result_Bean result_bean;
 
 		public void startElement(String namespaceURI, String localName, String qName, Attributes atts){
-			
-			if(!total_pages_count_known)
-			{
-				if(qName.equalsIgnoreCase("num-pages")){
-					num_pages = true;
-					total_pages_count_known = false;
-				}
-			}
+
+      stringBuilder = new StringBuilder();
 
 			if(qName.equalsIgnoreCase("result")){
 				result = true;
 				result_bean = new Bookshare_Result_Bean();
-				authorElementVisited = false;
-				downloadFormatElementVisited = false;
 				vector_author = new Vector<String>();
 				vector_downloadFormat = new Vector<String>();
-			}
-			if(qName.equalsIgnoreCase("id")){
-				id = true;
-			}
-			if(qName.equalsIgnoreCase("title")){
-				title = true;
-			}
-			if(qName.equalsIgnoreCase("author")){
-				author = true;
-				if(!authorElementVisited){
-					authorElementVisited = true;
-				}
-			}
-			if(qName.equalsIgnoreCase("download-format")){
-				download_format = true;
-				if(!downloadFormatElementVisited){
-					downloadFormatElementVisited = true;
-				}
-			}
-			if(qName.equalsIgnoreCase("images")){
-				images = true;
-			}
-			if(qName.equalsIgnoreCase("freely-available")){
-				freely_available = true;
-			}
-			if(qName.equalsIgnoreCase("available-to-download")){
-				available_to_download = true;
 			}
 		}
 
 		public void endElement(String uri, String localName, String qName){
-
-			if(num_pages){
-				if(qName.equalsIgnoreCase("num-pages")){
-					num_pages = false;
-				}
-			}
-			if(qName.equalsIgnoreCase("result")){
-				result = false;
-				vectorResults.add(result_bean);
-				result_bean = null;
-			}
-			if(qName.equalsIgnoreCase("id")){
-				id = false;
-			}
-			if(qName.equalsIgnoreCase("title")){
-				title = false;
-			}
-			if(qName.equalsIgnoreCase("author")){
-				author = false;
-			}
-			if(qName.equalsIgnoreCase("download-format")){
-				download_format = false;
-			}
-			if(qName.equalsIgnoreCase("images")){
-				images = false;
-			}
-			if(qName.equalsIgnoreCase("freely-available")){
-				freely_available = false;
-			}
-			if(qName.equalsIgnoreCase("available-to-download")){
-				available_to_download = false;
-			}
+      if (result) {
+        if(qName.equalsIgnoreCase("result")){
+          result = false;
+          result_bean.setAuthor(vector_author.toArray(new String[0]));
+          result_bean.setDownloadFormats(vector_downloadFormat.toArray(new String[0]));
+          vectorResults.add(result_bean);
+          result_bean = null;
+        }
+        else if(qName.equalsIgnoreCase("id")){
+          result_bean.setId(stringBuilder.toString());
+        }
+        else if(qName.equalsIgnoreCase("title")){
+          result_bean.setTitle(stringBuilder.toString());
+        }
+        else if(qName.equalsIgnoreCase("author")){
+          vector_author.add(stringBuilder.toString());
+        }
+        else if(qName.equalsIgnoreCase("download-format")){
+          vector_downloadFormat.add(stringBuilder.toString());
+        }
+        else if(qName.equalsIgnoreCase("images")){
+          result_bean.setImages(stringBuilder.toString());
+        }
+        else if(qName.equalsIgnoreCase("freely-available")){
+          result_bean.setFreelyAvailable(stringBuilder.toString());
+        }
+        else if(qName.equalsIgnoreCase("available-to-download")){
+          result_bean.setAvailableToDownload(stringBuilder.toString());
+        }
+      }
+      else if(qName.equalsIgnoreCase("num-pages")){
+        total_pages_result = Integer.parseInt(stringBuilder.toString());
+      }
 		}
 
 		public void characters(char[] c, int start, int length){
-			
-			if(num_pages){
-				total_pages_result = Integer.parseInt(new String(c,start,length));
-			}
-			if(result){
-				if(id){
-					result_bean.setId(new String(c,start,length));
-				}
-				if(title){
-					result_bean.setTitle(new String(c,start,length));
-				}
-				if(author){
-					vector_author.add(new String(c,start,length));
-					result_bean.setAuthor(vector_author.toArray(new String[0]));
-				}
-				if(download_format){
-					vector_downloadFormat.add(new String(c,start,length));
-					result_bean.setDownloadFormats(vector_downloadFormat.toArray(new String[0]));
-				}
-				if(images){
-					result_bean.setImages(new String(c,start,length));
-				}
-				if(freely_available){
-					result_bean.setFreelyAvailable(new String(c,start,length));
-				}
-				if(available_to_download){
-					result_bean.setAvailableToDownload(new String(c,start,length));
-				}
-			}
-		}
+      stringBuilder.append(c, start, length);
 	}
 
 	// A custom SimpleAdapter class for providing data to the ListView
