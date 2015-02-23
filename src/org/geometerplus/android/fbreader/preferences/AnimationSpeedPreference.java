@@ -19,15 +19,12 @@
 
 package org.geometerplus.android.fbreader.preferences;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.*;
 import android.graphics.drawable.*;
-import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.SeekBar;
 
 import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
@@ -69,16 +66,6 @@ class AnimationSpeedPreference extends DialogPreference {
 	public void onClick(DialogInterface dialog, int which) {
 		if (which == DialogInterface.BUTTON_POSITIVE) {
 			myOption.setValue(myOption.MinValue + mySlider.getProgress());
-		}
-	}
-	
-	@Override
-	protected void showDialog(Bundle state) {
-		super.showDialog(state);
-		Dialog dialog = this.getDialog();
-		if(dialog.isShowing()){
-			dialog.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
-			dialog.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 		}
 	}
 

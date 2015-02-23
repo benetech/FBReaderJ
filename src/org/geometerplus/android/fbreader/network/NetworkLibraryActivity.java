@@ -52,8 +52,6 @@ import org.geometerplus.android.fbreader.network.action.*;
 
 import org.geometerplus.android.util.UIUtil;
 
-import ca.idi.tecla.lib.InputAccess;
-
 public abstract class NetworkLibraryActivity extends TreeActivity implements NetworkLibrary.ChangeListener {
 	static final String OPEN_CATALOG_ACTION = "android.fbreader.action.OPEN_NETWORK_CATALOG";
 
@@ -71,8 +69,7 @@ public abstract class NetworkLibraryActivity extends TreeActivity implements Net
 	@Override
 	public void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
-		new InputAccess(this, false).onCreate();
-		
+
 		AuthenticationActivity.initCredentialsCreator(this);
 
 		SQLiteCookieDatabase.init(this);
@@ -428,7 +425,7 @@ public abstract class NetworkLibraryActivity extends TreeActivity implements Net
 		final ZLResource dialogResource = ZLResource.resource("dialog");
 		final ZLResource boxResource = dialogResource.getResource("networkError");
 		final ZLResource buttonResource = dialogResource.getResource("button");
-		AlertDialog alertDialog = new AlertDialog.Builder(this)
+		new AlertDialog.Builder(this)
 			.setTitle(boxResource.getResource("title").getValue())
 			.setMessage(error)
 			.setIcon(0)
@@ -439,12 +436,7 @@ public abstract class NetworkLibraryActivity extends TreeActivity implements Net
 					listener.onClick(dialog, DialogInterface.BUTTON_NEGATIVE);
 				}
 			})
-			.create();
-		alertDialog.show();
-		if(alertDialog.isShowing()){
-			alertDialog.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
-			alertDialog.getWindow().setFlags(0, WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-		}		
+			.create().show();
 	}
 
 	private void checkAndRun(final Action action, final NetworkTree tree) {

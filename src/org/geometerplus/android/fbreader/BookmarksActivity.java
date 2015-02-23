@@ -27,8 +27,6 @@ import android.view.*;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.*;
 import android.content.*;
-import ca.idi.tecla.lib.InputAccess;
-
 import com.google.analytics.tracking.android.EasyTracker;
 
 import org.accessibility.VoiceableDialog;
@@ -69,7 +67,10 @@ public class BookmarksActivity extends TabActivity implements MenuItem.OnMenuIte
     ListView list;
     Activity myActivity;
 
- 	private ListView createTab(String tag, int id, final String label) {
+    //todo:
+    //private InputAccess inputAccess = new InputAccess(this, true);
+
+	private ListView createTab(String tag, int id, final String label) {
 		final TabHost host = getTabHost();
 		host.addTab(host.newTabSpec(tag).setIndicator(label).setContent(id));
 		return (ListView)findViewById(id);
@@ -78,7 +79,9 @@ public class BookmarksActivity extends TabActivity implements MenuItem.OnMenuIte
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
-		new InputAccess(this, false).onCreate();
+
+        //todo
+		//inputAccess.onCreate();
 		
 		Thread.setDefaultUncaughtExceptionHandler(new org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler(this));
         accessibilityManager =

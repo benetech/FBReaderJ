@@ -245,8 +245,6 @@
         <node name="accessible_navigation" value="Navigate to page"/>
         <node name="help" value="Help"/>
         <node name="accessibilitySettings" value="Accessibility Settings"/>
-        <node name="inputSettings" value="Language &amp; Input Settings"/>
-        <node name="teclaAccessSettings" value="Tecla Access Settings"/>
 		<node name="navigate" value="Navigate">
 			<node name="toc" value="Table of Contents"/>
 			<node name="gotoHome" value="Go to Start of Document"/>
@@ -314,13 +312,6 @@
 				<node name="books" value="Books directory"/>
 				<node name="fonts" value="Fonts directory"/>
 				<node name="wallpapers" value="Wallpapers directory"/>
-			</node>
-			<node name="teclaAccess" value="Tecla Gestures">
-							<node name="summary" value="Tecla gesture options"/>
-							<node name="enableTeclaGestureAlternatives" value="Tecla Gesture Alternatives">
-								<node name="summaryOn" value="Use Tecla Gesture Alternatives. Hide playback buttons"/>
-								<node name="summaryOff" value="Don't use Tecla Gesture Alternatives. Show playback buttons"/>
-							</node>
 			</node>
 			<node name="appearance" value="Appearance">
 				<node name="summary" value="Display settings"/>

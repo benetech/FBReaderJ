@@ -33,11 +33,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
-import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
@@ -51,7 +49,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
-
 import com.google.analytics.tracking.android.EasyTracker;
 import com.hyperionics.fbreader.plugin.tts_plus.TtsSentenceExtractor;
 
@@ -85,7 +82,6 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     private boolean returnFromOtherScreen = false;
 	private boolean screenLockEventOccurred = false;
 	private BroadcastReceiver mReceiver;
-	private boolean hidePlayBackBtns = false;
 
     //Added for the detecting whether the talkback is on
     private AccessibilityManager accessibilityManager;
@@ -109,9 +105,6 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     static private int myCurrentSentence = 0;
     static private final String UTTERANCE_ID = "GoReadTTS";
     static private HashMap<String, String> myCallbackMap;
-    
-    private final String TECLA_IME_ID = "ca.idi.tekla/.ime.TeclaIME";    
-	private String  defaultIME;
 
     static {
         initCompatibility();
@@ -225,10 +218,6 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         if (accessibilityManager.isEnabled()) {
             requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
-        
-		defaultIME = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
-		hidePlayBackBtns = (defaultIME.equals(TECLA_IME_ID) && 
-				fbReader.EnableTeclaGestureAlternativesOption.getValue());
 
         setContentView(R.layout.view_spokentext);
 
@@ -237,7 +226,6 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             findViewById(R.id.speak_menu_forward).setOnHoverListener(new MyHoverListener());
             findViewById(R.id.speak_menu_pause).setOnHoverListener(new MyHoverListener());
             findViewById(R.id.speak_menu_contents).setOnHoverListener(new MyHoverListener());
-            findViewById(R.id.speak_menu_mainmenu).setOnHoverListener(new MyHoverListener());
         }
 
 		setListener(R.id.speak_menu_back, new View.OnClickListener() {
@@ -250,14 +238,9 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         findViewById(R.id.speak_menu_back).setOnFocusChangeListener(
             new View.OnFocusChangeListener() {
                 public void onFocusChange(android.view.View view, boolean b) {
-                    if (b && !hidePlayBackBtns) {
-                    	if(accessibilityManager.isEnabled()){
-                            stopTalking();
-                            justPaused = true;
-                    	}
-                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
-                    } else{
-                    	view.setBackgroundResource(android.R.drawable.btn_default);
+                    if (b) {
+                        stopTalking();
+                        justPaused = true;
                     }
                 }
             }
@@ -272,14 +255,9 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         findViewById(R.id.speak_menu_forward).setOnFocusChangeListener(
             new View.OnFocusChangeListener() {
                 public void onFocusChange(android.view.View view, boolean b) {
-                    if (b && !hidePlayBackBtns) {
-                    	if(accessibilityManager.isEnabled()){
-                            stopTalking();
-                            justPaused = true;
-                    	}
-                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
-                    } else{
-                    	view.setBackgroundResource(android.R.drawable.btn_default);
+                    if (b) {
+                        stopTalking();
+                        justPaused = true;
                     }
                 }
             }
@@ -297,23 +275,6 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                 playOrPause();
             }
 		});
-		
-		findViewById(R.id.speak_menu_pause).setOnFocusChangeListener(
-	            new View.OnFocusChangeListener() {
-	                public void onFocusChange(android.view.View view, boolean b) {
-	                    if (b && !hidePlayBackBtns) {
-	                    	if(accessibilityManager.isEnabled()){
-	                            stopTalking();
-	                            justPaused = true;
-	                    	}
-	                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
-	                    } else{
-	                    	view.setBackgroundResource(android.R.drawable.btn_default);
-	                    }
-	                }
-	            }
-	        );
-		
         setListener(R.id.speak_menu_contents, new View.OnClickListener() {
             public void onClick(View v) {
                 EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
@@ -324,37 +285,9 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         findViewById(R.id.speak_menu_contents).setOnFocusChangeListener(
             new View.OnFocusChangeListener() {
                 public void onFocusChange(android.view.View view, boolean b) {
-                    if (b && !hidePlayBackBtns) {
-                    	if(accessibilityManager.isEnabled()){
-                            stopTalking();
-                            justPaused = true;
-                    	}
-                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
-                    } else{
-                    	view.setBackgroundResource(android.R.drawable.btn_default);
-                    }
-                }
-            }
-        );
-        
-        setListener(R.id.speak_menu_mainmenu, new View.OnClickListener() {
-            public void onClick(View v) {
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                    Analytics.EVENT_ACTION_MENU, null);
-                showMainMenu();
-            }
-        });
-        findViewById(R.id.speak_menu_mainmenu).setOnFocusChangeListener(
-            new View.OnFocusChangeListener() {
-                public void onFocusChange(android.view.View view, boolean b) {
-                    if (b && !hidePlayBackBtns) {
-                    	if(accessibilityManager.isEnabled()){
-                            stopTalking();
-                            justPaused = true;
-                    	}
-                        view.setBackgroundResource(R.drawable.speakmenu_button_focused);
-                    } else{
-                    	view.setBackgroundResource(android.R.drawable.btn_default);
+                    if (b) {
+                        stopTalking();
+                        justPaused = true;
                     }
                 }
             }
@@ -417,14 +350,6 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 	@Override
 	protected void onResume() {
 		super.onResume();
-		defaultIME = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
-		hidePlayBackBtns = (defaultIME.equals(TECLA_IME_ID) && 
-							fbReader.EnableTeclaGestureAlternativesOption.getValue());
-		if(!defaultIME.equals(TECLA_IME_ID)){
-			findViewById(R.id.speak_menu_mainmenu).setVisibility(View.GONE);
-		}else{
-			findViewById(R.id.speak_menu_mainmenu).setVisibility(View.VISIBLE);
-		}
         try {
             findViewById(R.id.speak_menu_pause).requestFocus();
             if(accessibilityManager.isEnabled()){
@@ -505,19 +430,10 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 	private void setActionsEnabled(final boolean enabled) {
 		runOnUiThread(new Runnable() {
 			public void run() {
-				if(hidePlayBackBtns){
-					findViewById(R.id.speak_menu_back).setEnabled(false);
-					findViewById(R.id.speak_menu_forward).setEnabled(false);
-					findViewById(R.id.speak_menu_pause).setEnabled(false);
-					findViewById(R.id.speak_menu_contents).setEnabled(false);
-					findViewById(R.id.speak_menu_mainmenu).setEnabled(false);
-				}else{
-					findViewById(R.id.speak_menu_back).setEnabled(enabled);
-					findViewById(R.id.speak_menu_forward).setEnabled(enabled);
-					findViewById(R.id.speak_menu_pause).setEnabled(enabled);
-					findViewById(R.id.speak_menu_contents).setEnabled(enabled);
-					findViewById(R.id.speak_menu_mainmenu).setEnabled(enabled);
-				}
+				findViewById(R.id.speak_menu_back).setEnabled(enabled);
+				findViewById(R.id.speak_menu_forward).setEnabled(enabled);
+				findViewById(R.id.speak_menu_pause).setEnabled(enabled);
+				findViewById(R.id.speak_menu_contents).setEnabled(enabled);
 			}
 		});
 	}
@@ -662,13 +578,8 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         highlightParagraph();
         runOnUiThread(new Runnable() {
             public void run() {
-            	if(hidePlayBackBtns){
-                    findViewById(R.id.speak_menu_forward).setEnabled(false);
-                    findViewById(R.id.speak_menu_pause).setEnabled(false);
-            	}else{
-                    findViewById(R.id.speak_menu_forward).setEnabled(true);
-                    findViewById(R.id.speak_menu_pause).setEnabled(true);
-            	}
+                findViewById(R.id.speak_menu_forward).setEnabled(true);
+                findViewById(R.id.speak_menu_pause).setEnabled(true);
             }
         });
 
@@ -855,23 +766,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 	        public void run() {
 	            WindowManager.LayoutParams params =
 	                    getWindow().getAttributes();
-			            if(hidePlayBackBtns){
-			            	params.alpha=0;
-			    		}else if(defaultIME.equals(TECLA_IME_ID)){
-			    			params.alpha=1;
-			    		}else{
-			    			params.alpha=value;
-			    		}
-		            	findViewById(R.id.speak_menu_back).setEnabled(!hidePlayBackBtns);
-		            	findViewById(R.id.speak_menu_back).setFocusable(!hidePlayBackBtns);
-		            	findViewById(R.id.speak_menu_pause).setEnabled(!hidePlayBackBtns);
-		            	findViewById(R.id.speak_menu_pause).setFocusable(!hidePlayBackBtns);
-		            	findViewById(R.id.speak_menu_contents).setEnabled(!hidePlayBackBtns);
-		            	findViewById(R.id.speak_menu_contents).setFocusable(!hidePlayBackBtns);
-		            	findViewById(R.id.speak_menu_forward).setEnabled(!hidePlayBackBtns);
-		            	findViewById(R.id.speak_menu_forward).setFocusable(!hidePlayBackBtns);
-		            	findViewById(R.id.speak_menu_mainmenu).setEnabled(!hidePlayBackBtns);
-		            	findViewById(R.id.speak_menu_mainmenu).setFocusable(!hidePlayBackBtns);
+	                    params.alpha=value;
 	                    getWindow().setAttributes(params);
 	        }
 	    });
@@ -911,41 +806,6 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             Analytics.EVENT_LABEL_PLAY_PAUSE, null);
         playOrPause();
     }
-    
-    @Override
-	public boolean dispatchKeyEvent(KeyEvent event) {
-		if(hidePlayBackBtns && event.getAction() == KeyEvent.ACTION_UP){
-			switch(event.getKeyCode()){
-				case KeyEvent.KEYCODE_DPAD_UP:
-	                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-	                        Analytics.EVENT_LABEL_TOC, null);
-	                showContents();
-					break;
-				case KeyEvent.KEYCODE_DPAD_DOWN:
-				case KeyEvent.KEYCODE_MENU:
-	                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-	                    Analytics.EVENT_LABEL_MENU, null);
-	                showMainMenu();
-					break;
-				case KeyEvent.KEYCODE_DPAD_LEFT:
-	                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-	                    Analytics.EVENT_LABEL_PREV, null);
-	                goBackward();
-					break;
-				case KeyEvent.KEYCODE_DPAD_RIGHT:
-	                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-	                    Analytics.EVENT_LABEL_NEXT, null);
-	                goForward();
-					break;
-				case KeyEvent.KEYCODE_DPAD_CENTER:
-			        EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-			                Analytics.EVENT_LABEL_PLAY_PAUSE, null);
-			        playOrPause();
-					break;
-			}
-		}
-    	return super.dispatchKeyEvent(event);
-	}
 
     /*
      * show accessible full screen menu when accessibility is turned on
