@@ -352,7 +352,10 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 		super.onResume();
         try {
             findViewById(R.id.speak_menu_pause).requestFocus();
-
+            if(accessibilityManager.isEnabled()){
+            	setButtonOpacity(1);
+                ((Button)findViewById(R.id.speak_menu_pause)).setText(R.string.on_press_play);
+            }
             if (!returnFromOtherScreen) {
                 setCurrentLocation();
             }
@@ -748,10 +751,13 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent me){
-
 	    setButtonOpacity(1);
-	    this.detector.onTouchEvent(me);
-          return super.dispatchTouchEvent(me);
+	    if(accessibilityManager.isEnabled()){
+    	 	findViewById(R.id.speak_menu_pause).requestFocus();
+            ((Button)findViewById(R.id.speak_menu_pause)).setText(R.string.on_press_play);
+    	}
+        this.detector.onTouchEvent(me);
+        return super.dispatchTouchEvent(me);
     }
 
 	private void setButtonOpacity(final float value)
