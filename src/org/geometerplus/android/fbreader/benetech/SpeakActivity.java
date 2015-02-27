@@ -63,12 +63,12 @@ import org.geometerplus.fbreader.fbreader.FBReaderApp;
 public class SpeakActivity extends Activity implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener, SimpleGestureFilter.SimpleGestureListener  {
     private ApiServerImplementation myApi;
 
-	private TextToSpeech myTTS;
+    private TextToSpeech myTTS;
 
-	private int myParagraphIndex = -1;
-	private int myParagraphsNumber;
+    private int myParagraphIndex = -1;
+    private int myParagraphsNumber;
 
-	private boolean myIsActive = false;
+    private boolean myIsActive = false;
 
     private static final int PLAY_AFTER_TOC = 1;
     private static final int CHECK_TTS_INSTALLED = 0;
@@ -80,8 +80,9 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     private boolean justPaused = false;
     private boolean resumePlaying = false;
     private boolean returnFromOtherScreen = false;
-	private boolean screenLockEventOccurred = false;
-	private BroadcastReceiver mReceiver;
+    private boolean screenLockEventOccurred = false;
+    private BroadcastReceiver mReceiver;
+    private PowerManager pm;
 
     //Added for the detecting whether the talkback is on
     private AccessibilityManager accessibilityManager;
@@ -141,8 +142,8 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     }
 
     private void setListener(int id, View.OnClickListener listener) {
-		findViewById(id).setOnClickListener(listener);
-	}
+        findViewById(id).setOnClickListener(listener);
+    }
 
     private void setTouchFocusEnabled(int id) {
         findViewById(id).setFocusableInTouchMode(true);
@@ -201,9 +202,9 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         }
     }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         WindowManager.LayoutParams params =
         getWindow().getAttributes();
@@ -228,13 +229,13 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             findViewById(R.id.speak_menu_contents).setOnHoverListener(new MyHoverListener());
         }
 
-		setListener(R.id.speak_menu_back, new View.OnClickListener() {
-			public void onClick(View v) {
+        setListener(R.id.speak_menu_back, new View.OnClickListener() {
+            public void onClick(View v) {
                 EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
                     Analytics.EVENT_LABEL_PREV, null);
                 goBackward();
-			}
-		});
+            }
+        });
         findViewById(R.id.speak_menu_back).setOnFocusChangeListener(
             new View.OnFocusChangeListener() {
                 public void onFocusChange(android.view.View view, boolean b) {
@@ -245,13 +246,13 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                 }
             }
         );
-		setListener(R.id.speak_menu_forward, new View.OnClickListener() {
-			public void onClick(View v) {
+        setListener(R.id.speak_menu_forward, new View.OnClickListener() {
+            public void onClick(View v) {
                 EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
                     Analytics.EVENT_LABEL_NEXT, null);
                 goForward();
-			}
-		});
+            }
+        });
         findViewById(R.id.speak_menu_forward).setOnFocusChangeListener(
             new View.OnFocusChangeListener() {
                 public void onFocusChange(android.view.View view, boolean b) {
@@ -262,19 +263,19 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                 }
             }
         );
-/*		setListener(R.id.button_close, new View.OnClickListener() {
-			public void onClick(View v) {
-				stopTalking();
-				finish();
-			}
-		});*/
-		setListener(R.id.speak_menu_pause, new View.OnClickListener() {
-			public void onClick(View v) {
+/*      setListener(R.id.button_close, new View.OnClickListener() {
+            public void onClick(View v) {
+                stopTalking();
+                finish();
+            }
+        });*/
+        setListener(R.id.speak_menu_pause, new View.OnClickListener() {
+            public void onClick(View v) {
                 EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
                     Analytics.EVENT_LABEL_PLAY_PAUSE, null);
                 playOrPause();
             }
-		});
+        });
         setListener(R.id.speak_menu_contents, new View.OnClickListener() {
             public void onClick(View v) {
                 EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
@@ -293,48 +294,50 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             }
         );
 
-		((TelephonyManager)getSystemService(TELEPHONY_SERVICE)).listen(
-			new PhoneStateListener() {
-				public void onCallStateChanged(int state, String incomingNumber) {
-					if (state == TelephonyManager.CALL_STATE_RINGING) {
-						stopTalking();
-					}
-				}
-			},
-			PhoneStateListener.LISTEN_CALL_STATE
-		);
+        ((TelephonyManager)getSystemService(TELEPHONY_SERVICE)).listen(
+            new PhoneStateListener() {
+                public void onCallStateChanged(int state, String incomingNumber) {
+                    if (state == TelephonyManager.CALL_STATE_RINGING) {
+                        stopTalking();
+                    }
+                }
+            },
+            PhoneStateListener.LISTEN_CALL_STATE
+        );
 
-		setActive(false);
-		setActionsEnabled(false);
+        setActive(false);
+        setActionsEnabled(false);
 
         if (myCallbackMap == null) {
             myCallbackMap = new HashMap<String, String>();
             myCallbackMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, UTTERANCE_ID);
         }
-		myApi = new ApiServerImplementation();
-		try {
-			startActivityForResult(
-				new Intent(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA), CHECK_TTS_INSTALLED
-			);
-		} catch (ActivityNotFoundException e) {
-			showErrorMessage(getText(R.string.no_tts_installed), true);
-		}
+        myApi = new ApiServerImplementation();
+        try {
+            startActivityForResult(
+                new Intent(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA), CHECK_TTS_INSTALLED
+            );
+        } catch (ActivityNotFoundException e) {
+            showErrorMessage(getText(R.string.no_tts_installed), true);
+        }
 
         if (!accessibilityManager.isEnabled()) {
-		    setTitle(R.string.initializing);
+            setTitle(R.string.initializing);
         }
 
         myPreferences = getSharedPreferences("GoReadTTS", MODE_PRIVATE);
 
-		IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-		filter.addAction(Intent.ACTION_SCREEN_OFF);
-		filter.addAction(Intent.ACTION_USER_PRESENT);
-		mReceiver = new ScreenUnlockReceiver();
-		registerReceiver(mReceiver, filter);
-	}
+        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        filter.addAction(Intent.ACTION_USER_PRESENT);
+        mReceiver = new ScreenUnlockReceiver();
+        registerReceiver(mReceiver, filter);
+        pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CHECK_TTS_INSTALLED) {
             myTTS = new TextToSpeech(this, this);
         } else {
@@ -345,15 +348,15 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                 resumePlaying = true;
             }
         }
-	}
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+    @Override
+    protected void onResume() {
+        super.onResume();
         try {
             findViewById(R.id.speak_menu_pause).requestFocus();
             if(accessibilityManager.isEnabled()){
-            	setButtonOpacity(1);
+                setButtonOpacity(1);
                 ((Button)findViewById(R.id.speak_menu_pause)).setText(R.string.on_press_play);
             }
             if (!returnFromOtherScreen) {
@@ -366,12 +369,12 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                 myTTS.playEarcon(START_READING_EARCON, TextToSpeech.QUEUE_ADD, null);
                 speakParagraph(getNextParagraph());
             } else {
-	            screenLockEventOccurred = false;
+                screenLockEventOccurred = false;
             }
         } catch (Exception e) {
             Log.e("GoRead", "Error on resuming of speak activity", e);
         }
-	}
+    }
 
     private void setCurrentLocation() {
         myParagraphIndex = myApi.getPageStart().ParagraphIndex;
@@ -385,60 +388,62 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     }
 
     @Override
-	protected void onPause() {
-		super.onPause();
-	}
+    protected void onPause() {
+        super.onPause();
+    }
 
-	@Override
-	protected void onStop() {
-		stopTalking();
-        myApi.clearHighlighting();
-        //LastReadPageOfCurrentBook.saveLocationOfLastReadPage(this);
-        savePosition();
+    @Override
+    protected void onStop() {
+        if (pm.isScreenOn()) {
+            stopTalking();
+            myApi.clearHighlighting();
+            //LastReadPageOfCurrentBook.saveLocationOfLastReadPage(this);
+            savePosition();
 
-		try {
-			unregisterReceiver(mReceiver);
-		} catch (Exception e) {
-			//do nothing
-		}
-		super.onStop();
+            try {
+                unregisterReceiver(mReceiver);
+            } catch (Exception e) {
+                //do nothing
+            }
+        }
+        super.onStop();
         EasyTracker.getInstance().activityStop(this);
-	}
+    }
 
-	@Override
-	protected void onDestroy() {
-		if (myTTS != null) {
-			myTTS.shutdown();
-		}
-		super.onDestroy();
-	}
+    @Override
+    protected void onDestroy() {
+        if (myTTS != null) {
+            myTTS.shutdown();
+        }
+        super.onDestroy();
+    }
 
-	private volatile int myInitializationStatus;
-	private final static int TTS_INITIALIZED = 2;
-	private final static int FULLY_INITIALIZED =  TTS_INITIALIZED;
+    private volatile int myInitializationStatus;
+    private final static int TTS_INITIALIZED = 2;
+    private final static int FULLY_INITIALIZED =  TTS_INITIALIZED;
 
-	// implements TextToSpeech.OnInitListener
-	public void onInit(int status) {
-		if (myInitializationStatus != FULLY_INITIALIZED) {
-			myInitializationStatus |= TTS_INITIALIZED;
-			if (myInitializationStatus == FULLY_INITIALIZED) {
-				doFinalInitialization();
-			}
-		}
-	}
+    // implements TextToSpeech.OnInitListener
+    public void onInit(int status) {
+        if (myInitializationStatus != FULLY_INITIALIZED) {
+            myInitializationStatus |= TTS_INITIALIZED;
+            if (myInitializationStatus == FULLY_INITIALIZED) {
+                doFinalInitialization();
+            }
+        }
+    }
 
-	private void setActionsEnabled(final boolean enabled) {
-		runOnUiThread(new Runnable() {
-			public void run() {
-				findViewById(R.id.speak_menu_back).setEnabled(enabled);
-				findViewById(R.id.speak_menu_forward).setEnabled(enabled);
-				findViewById(R.id.speak_menu_pause).setEnabled(enabled);
-				findViewById(R.id.speak_menu_contents).setEnabled(enabled);
-			}
-		});
-	}
+    private void setActionsEnabled(final boolean enabled) {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                findViewById(R.id.speak_menu_back).setEnabled(enabled);
+                findViewById(R.id.speak_menu_forward).setEnabled(enabled);
+                findViewById(R.id.speak_menu_pause).setEnabled(enabled);
+                findViewById(R.id.speak_menu_contents).setEnabled(enabled);
+            }
+        });
+    }
 
-	private void doFinalInitialization() {
+    private void doFinalInitialization() {
 
         if (null == myTTS.getLanguage()) {
             setActionsEnabled(false);
@@ -446,7 +451,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             return;
         }
 
-		myTTS.setOnUtteranceCompletedListener(this);
+        myTTS.setOnUtteranceCompletedListener(this);
 
         myTTS.addEarcon(CONTENTS_EARCON, "org.benetech.android", R.raw.sound_toc);
         myTTS.addEarcon(MENU_EARCON, "org.benetech.android", R.raw.sound_main_menu);
@@ -467,105 +472,105 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 
         setActionsEnabled(true);
         speakParagraph(getNextParagraph());
-	}
+    }
 
-	@Override
-	public void onUtteranceCompleted(String uttId) {
+    @Override
+    public void onUtteranceCompleted(String uttId) {
         String lastSentenceID = Integer.toString(lastSentence);
-		if (myIsActive && uttId.equals(lastSentenceID)) {
+        if (myIsActive && uttId.equals(lastSentenceID)) {
             ++myParagraphIndex;
             speakParagraph(getNextParagraph());
             if (myParagraphIndex >= myParagraphsNumber) {
                 stopTalking();
             }
-		} else {
-			myCurrentSentence = Integer.parseInt(uttId);
+        } else {
+            myCurrentSentence = Integer.parseInt(uttId);
             if (myIsActive) {
                 int listSize = mySentences.length;
                 if (listSize > 1 && myCurrentSentence < listSize) {
                     highlightSentence(myCurrentSentence);
                 }
             }
-		}
-	}
+        }
+    }
 
-	private void highlightParagraph()  {
-		if (0 <= myParagraphIndex && myParagraphIndex < myParagraphsNumber) {
-			myApi.highlightArea(
+    private void highlightParagraph()  {
+        if (0 <= myParagraphIndex && myParagraphIndex < myParagraphsNumber) {
+            myApi.highlightArea(
                     new TextPosition(myParagraphIndex, 0, 0),
                     new TextPosition(myParagraphIndex, Integer.MAX_VALUE, 0)
             );
-		} else {
-			myApi.clearHighlighting();
-		}
-	}
+        } else {
+            myApi.clearHighlighting();
+        }
+    }
 
-	private void stopTalking() {
-		setActive(false);
-		if (myTTS != null) {
-			myTTS.stop();
-		}
-	}
+    private void stopTalking() {
+        setActive(false);
+        if (myTTS != null) {
+            myTTS.stop();
+        }
+    }
 
-	private void showErrorMessage(final CharSequence text, final boolean fatal) {
+    private void showErrorMessage(final CharSequence text, final boolean fatal) {
         final VoiceableDialog finishedDialog = new VoiceableDialog(this);
         if (fatal) {
             setTitle(R.string.failure);
         }
         finishedDialog.popup(text.toString(), 5000);
-	}
+    }
 
-	private volatile PowerManager.WakeLock myWakeLock;
+    private volatile PowerManager.WakeLock myWakeLock;
 
-	private synchronized void setActive(final boolean active) {
+    private synchronized void setActive(final boolean active) {
 
 
-		runOnUiThread(new Runnable() {
-			public void run() {
-				if(!accessibilityManager.isEnabled()){
-	                if (myIsActive != active) {
-	                    ((Button)findViewById(R.id.speak_menu_pause)).setText(active ? R.string.on_press_pause : R.string.on_press_play);
-	                    if(myIsActive){
-		                    WindowManager.LayoutParams params =
-		                            getWindow().getAttributes();
-		                            params.alpha=1;
-		                            getWindow().setAttributes(params);
-		                    } else {
-		                        WindowManager.LayoutParams params =
-		                                getWindow().getAttributes();
-		                                params.alpha=0.2f;
-		                                getWindow().setAttributes(params);
-		                    }
-	                }
-				}
-			}
-		});
+        runOnUiThread(new Runnable() {
+            public void run() {
+                if(!accessibilityManager.isEnabled()){
+                    if (myIsActive != active) {
+                        ((Button)findViewById(R.id.speak_menu_pause)).setText(active ? R.string.on_press_pause : R.string.on_press_play);
+                        if(myIsActive){
+                            WindowManager.LayoutParams params =
+                                    getWindow().getAttributes();
+                                    params.alpha=1;
+                                    getWindow().setAttributes(params);
+                            } else {
+                                WindowManager.LayoutParams params =
+                                        getWindow().getAttributes();
+                                        params.alpha=0.2f;
+                                        getWindow().setAttributes(params);
+                            }
+                    }
+                }
+            }
+        });
 
         myIsActive = active;
 
-		if (active) {
-			if (myWakeLock == null) {
-				myWakeLock =
-					((PowerManager)getSystemService(POWER_SERVICE))
-						.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FBReader TTS plugin");
-				myWakeLock.acquire();
-			}
-		} else {
-			if (myWakeLock != null) {
-				myWakeLock.release();
-				myWakeLock = null;
-			}
-		}
-	}
+        if (active) {
+            if (myWakeLock == null) {
+                myWakeLock =
+                    ((PowerManager)getSystemService(POWER_SERVICE))
+                        .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FBReader TTS plugin");
+                myWakeLock.acquire();
+            }
+        } else {
+            if (myWakeLock != null) {
+                myWakeLock.release();
+                myWakeLock = null;
+            }
+        }
+    }
 
-	private void speakString(String text, final int sentenceNumber) {
-		HashMap<String, String> callbackMap = new HashMap<String, String>();
-		callbackMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, Integer.toString(sentenceNumber));
-		myTTS.speak(text, TextToSpeech.QUEUE_ADD, callbackMap);
-	}
+    private void speakString(String text, final int sentenceNumber) {
+        HashMap<String, String> callbackMap = new HashMap<String, String>();
+        callbackMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, Integer.toString(sentenceNumber));
+        myTTS.speak(text, TextToSpeech.QUEUE_ADD, callbackMap);
+    }
 
 
-	private void gotoPreviousParagraph() {
+    private void gotoPreviousParagraph() {
         for (int i = myParagraphIndex - 1; i >= 0; --i) {
             if (myApi.getParagraphText(i).length() > 0) {
                 myParagraphIndex = i;
@@ -583,9 +588,9 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             }
         });
 
-	}
+    }
 
-	private String getNextParagraph() {
+    private String getNextParagraph() {
         String text = "";
         List<String> wl = null;
         ArrayList<Integer> il = null;
@@ -617,7 +622,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         }
         return text;
 
-	}
+    }
 
     // Bookshare custom methods
 
@@ -679,7 +684,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             }
         }
 
-        while (sentenceIterator.hasNext())  { 	// if there are sentences in the sentence queue
+        while (sentenceIterator.hasNext())  {   // if there are sentences in the sentence queue
             sentenceNumber++;
             currentSentence = sentenceIterator.next();
             speakString(currentSentence, sentenceNumber);
@@ -716,7 +721,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     private void goForward() {
         stopTalking();
         myTTS.playEarcon(FORWARD_EARCON, TextToSpeech.QUEUE_ADD, null);
-	    setButtonOpacity(0.2f);
+        setButtonOpacity(0.2f);
         if (myParagraphIndex < myParagraphsNumber) {
             ++myParagraphIndex;
             speakParagraph(getNextParagraph());
@@ -726,7 +731,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     private void goBackward() {
         stopTalking();
         myTTS.playEarcon(BACK_EARCON, TextToSpeech.QUEUE_ADD, null);
-	    setButtonOpacity(0.2f);
+        setButtonOpacity(0.2f);
         gotoPreviousParagraph();
         speakParagraph(getNextParagraph());
     }
@@ -735,7 +740,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         justPaused = true;
         stopTalking();
         myTTS.playEarcon(CONTENTS_EARCON, TextToSpeech.QUEUE_FLUSH, null);
-	    setButtonOpacity(0.2f);
+        setButtonOpacity(0.2f);
         Intent tocIntent = new Intent(this, TOCActivity.class);
         startActivityForResult(tocIntent, PLAY_AFTER_TOC);
     }
@@ -744,35 +749,35 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         stopTalking();
         justPaused = true;
         myTTS.playEarcon(MENU_EARCON, TextToSpeech.QUEUE_ADD, null);
-	    setButtonOpacity(0.2f);
+        setButtonOpacity(0.2f);
         Intent intent = new Intent(this, AccessibleMainMenuActivity.class);
         startActivityForResult(intent, PLAY_AFTER_TOC);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent me){
-	    setButtonOpacity(1);
-	    if(accessibilityManager.isEnabled()){
-    	 	findViewById(R.id.speak_menu_pause).requestFocus();
+        setButtonOpacity(1);
+        if(accessibilityManager.isEnabled()){
+            findViewById(R.id.speak_menu_pause).requestFocus();
             ((Button)findViewById(R.id.speak_menu_pause)).setText(R.string.on_press_play);
-    	}
+        }
         this.detector.onTouchEvent(me);
         return super.dispatchTouchEvent(me);
     }
 
-	private void setButtonOpacity(final float value)
-	{
-		runOnUiThread(new Runnable() {
-	        public void run() {
-	            WindowManager.LayoutParams params =
-	                    getWindow().getAttributes();
-	                    params.alpha=value;
-	                    getWindow().setAttributes(params);
-	        }
-	    });
-	}
+    private void setButtonOpacity(final float value)
+    {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                WindowManager.LayoutParams params =
+                        getWindow().getAttributes();
+                        params.alpha=value;
+                        getWindow().setAttributes(params);
+            }
+        });
+    }
 
-	@Override
+    @Override
     public void onSwipe(int direction) {
         myVib.vibrate(VIBE_PATTERN, -1);
         switch (direction) {
@@ -825,16 +830,16 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         return super.onKeyDown(keyCode, event);
     }
 
-	private class ScreenUnlockReceiver extends BroadcastReceiver{
+    private class ScreenUnlockReceiver extends BroadcastReceiver{
 
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-					screenLockEventOccurred = true;
-				} else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
-					screenLockEventOccurred = true;
-				}
-			}
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+                    screenLockEventOccurred = true;
+                } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
+                    screenLockEventOccurred = true;
+                }
+            }
 
-	}
+    }
 }
