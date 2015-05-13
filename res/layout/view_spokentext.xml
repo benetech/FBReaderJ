@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:baselineAligned="false">
 
     <Button android:id="@+id/speak_menu_back"
             android:layout_width="96dp"
@@ -33,5 +34,13 @@
             android:layout_weight="1"
             android:contentDescription="@string/next"
             android:text="@string/next" />
+
+    <Button
+        android:layout_width="96dp"
+        android:layout_height="72dp"
+        android:text="@string/main_menu"
+        android:id="@+id/speak_main_menu"
+        android:layout_weight="1"
+        android:contentDescription="@string/main_menu" />
 
 </LinearLayout>

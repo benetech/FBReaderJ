@@ -227,6 +227,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             findViewById(R.id.speak_menu_forward).setOnHoverListener(new MyHoverListener());
             findViewById(R.id.speak_menu_pause).setOnHoverListener(new MyHoverListener());
             findViewById(R.id.speak_menu_contents).setOnHoverListener(new MyHoverListener());
+            findViewById(R.id.speak_main_menu).setOnHoverListener(new MyHoverListener());
         }
 
         setListener(R.id.speak_menu_back, new View.OnClickListener() {
@@ -293,6 +294,13 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
                 }
             }
         );
+        setListener(R.id.speak_main_menu, new View.OnClickListener() {
+            public void onClick(View v) {
+                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
+                        Analytics.EVENT_LABEL_TOC, null);
+                showMainMenu();
+            }
+        });
 
         ((TelephonyManager)getSystemService(TELEPHONY_SERVICE)).listen(
             new PhoneStateListener() {
