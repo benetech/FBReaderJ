@@ -29,6 +29,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -44,6 +45,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
 import com.google.analytics.tracking.android.EasyTracker;
 
 /**
@@ -152,26 +154,45 @@ public class Bookshare_OM_List extends ListActivity{
 				// Dismiss the progress dialog
 				pd_spinning.cancel();
 
-				String response_HTML = bws.convertStreamToString(inputStream);
+				new DownloadOMMembersTask().execute();
 
-				// Cleanup the HTML formatted tags
-				String response = response_HTML.replace("&apos;", "'").replace("&quot;", "\"").replace("&amp;", "&").replace("&#xd;","").replace("&#x97;", "-");
 
-				// Parse the response of search result
-				parseResponse(response);
-
-				list.clear();
-
-				// For each bean object stored in the vector, create a row in the list
-				for(Bookshare_OM_Member_Bean bean : vectorResults){
-					TreeMap<String, Object> row_item = new TreeMap<String, Object>();
-					System.out.println("Name = "+bean.getFirstName()+" "+bean.getlastName());
-					row_item.put("name", bean.getFirstName()+" "+bean.getlastName());
-					row_item.put("icon", R.drawable.authors);
-					list.add(row_item);
-				}
 			}
 
+
+		}
+		
+
+	};
+	
+	class DownloadOMMembersTask extends AsyncTask {
+
+		@Override
+		protected Object doInBackground(Object... arg0) {
+			String response_HTML = bws.convertStreamToString(inputStream);
+
+			// Cleanup the HTML formatted tags
+			String response = response_HTML.replace("&apos;", "'").replace("&quot;", "\"").replace("&amp;", "&").replace("&#xd;","").replace("&#x97;", "-");
+
+			// Parse the response of search result
+			parseResponse(response);
+			list.clear();
+
+			// For each bean object stored in the vector, create a row in the list
+			for(Bookshare_OM_Member_Bean bean : vectorResults){
+				TreeMap<String, Object> row_item = new TreeMap<String, Object>();
+				System.out.println("Name = "+bean.getFirstName()+" "+bean.getlastName());
+				row_item.put("name", bean.getFirstName()+" "+bean.getlastName());
+				row_item.put("icon", R.drawable.authors);
+				list.add(row_item);
+			}
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+
+			super.onPostExecute(result);
 			// Instantiate the custom SimpleAdapter for populating the ListView
 			MySimpleAdapter simpleadapter = new MySimpleAdapter(
 					getApplicationContext(),list,
@@ -207,7 +228,10 @@ public class Bookshare_OM_List extends ListActivity{
 				}
 			});
 		}
-	};
+		
+		
+
+	 }
 	
 	// Confirmation dialog to select the OM for download
 	private void buildDialog(final Bookshare_OM_Member_Bean bean){
