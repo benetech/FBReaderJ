@@ -112,7 +112,7 @@ public class PreferenceActivity extends ZLPreferenceActivity {
                 this, textScreen.Resource, "font",
                 baseStyle.FontFamilyOption, false
             ));
-            textScreen.addPreference(new ZLIntegerRangePreference(
+            textScreen.addPreference(new ZLIntegerArrayPreference(
                 this, textScreen.Resource.getResource("fontSize"),
                 baseStyle.FontSizeOption
             ));
