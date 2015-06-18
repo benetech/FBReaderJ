@@ -23,57 +23,63 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.benetech.android.R;
+import org.geometerplus.android.fbreader.api.ApiListener;
+import org.geometerplus.android.fbreader.api.ApiServerImplementation;
+import org.geometerplus.android.fbreader.api.PluginApi;
+import org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity;
+import org.geometerplus.android.fbreader.benetech.SpeakActivity;
+import org.geometerplus.android.fbreader.library.KillerCallback;
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
+import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.BooksharePeriodicalDataSource;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.MainPeriodicalDownloadService;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.PeriodicalEntity;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.PeriodicalsSQLiteHelper;
+import org.geometerplus.android.fbreader.tips.TipsActivity;
+import org.geometerplus.android.util.UIUtil;
+import org.geometerplus.fbreader.Paths;
+import org.geometerplus.fbreader.bookmodel.BookModel;
+import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.fbreader.library.Book;
+import org.geometerplus.fbreader.library.Library;
+import org.geometerplus.fbreader.tips.TipsManager;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.core.library.ZLibrary;
+import org.geometerplus.zlibrary.text.hyphenation.ZLTextHyphenator;
+import org.geometerplus.zlibrary.text.view.ZLTextView;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivity;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
 import android.app.SearchManager;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.*;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.RelativeLayout;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
-
-import org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity;
-import org.benetech.android.R;
-import org.geometerplus.android.fbreader.benetech.SpeakActivity;
-import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
-import org.geometerplus.android.fbreader.network.bookshare.subscription.BooksharePeriodicalDataSource;
-import org.geometerplus.android.fbreader.network.bookshare.subscription.MainPeriodicalDownloadService;
-import org.geometerplus.android.fbreader.network.bookshare.subscription.PeriodicalEntity;
-import org.geometerplus.android.fbreader.network.bookshare.subscription.PeriodicalsSQLiteHelper;
-import org.geometerplus.fbreader.Paths;
-import org.geometerplus.fbreader.library.Library;
-import org.geometerplus.zlibrary.core.application.ZLApplication;
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-import org.geometerplus.zlibrary.core.library.ZLibrary;
-
-import org.geometerplus.zlibrary.text.view.ZLTextView;
-import org.geometerplus.zlibrary.text.hyphenation.ZLTextHyphenator;
-
-import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivity;
-import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
-import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
-
-import org.geometerplus.fbreader.fbreader.ActionCode;
-import org.geometerplus.fbreader.fbreader.FBReaderApp;
-import org.geometerplus.fbreader.bookmodel.BookModel;
-import org.geometerplus.fbreader.library.Book;
-import org.geometerplus.fbreader.tips.TipsManager;
-
-import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
-import org.geometerplus.android.fbreader.library.KillerCallback;
-import org.geometerplus.android.fbreader.api.*;
-import org.geometerplus.android.fbreader.tips.TipsActivity;
-
-import org.geometerplus.android.util.UIUtil;
 
 public final class FBReader extends ZLAndroidActivity {
 	public static final String BOOK_PATH_KEY = "BookPath";
@@ -255,6 +261,28 @@ public final class FBReader extends ZLAndroidActivity {
     		}
     		return ids;
     	}
+    
+    /**
+     * This is a workaround solution because the Ice Cream Sandwich and later releases of Android
+     * made it so that the options menu will not open on larger sized screens.
+     * This solution is gross, but fixes the problem with the menu and 
+     * maintains backwards compatibility.
+     * http://stackoverflow.com/questions/9996333/openoptionsmenu-function-not-working-in-ics/17903128#17903128
+     * In the future we should replace this with the options overflow menu.
+     */
+    @Override
+    public void openOptionsMenu() {
+        super.openOptionsMenu();
+        Configuration config = getResources().getConfiguration();
+        if ((config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) > Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            int originalScreenLayout = config.screenLayout;
+            config.screenLayout = Configuration.SCREENLAYOUT_SIZE_LARGE;
+            super.openOptionsMenu();
+            config.screenLayout = originalScreenLayout;
+        } else {
+            super.openOptionsMenu();
+        }
+    }
 
  	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
