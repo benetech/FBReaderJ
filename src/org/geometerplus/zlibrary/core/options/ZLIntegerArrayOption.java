@@ -41,6 +41,35 @@ public final class ZLIntegerArrayOption extends ZLOption {
 		myValue = defaultValue;
 	}
 
+	/**
+	 * Get the Values array index of a value (or closest value less than)
+	 * 
+	 * @param value
+	 * @return
+	 */
+	public int getValueIndex(int value) {
+		for (int i = 0; i < Values.length - 1; i++) {
+			if (value >= Values[i] && value < Values[i + 1]) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	
+
+	public void zoom(int delta) {
+		int index = getValueIndex(getValue());
+		int newIndex = index + delta;
+		if (newIndex < 0) {
+			newIndex = 0;
+		}
+		if (newIndex > Values.length - 1) {
+			newIndex = Values.length - 1;
+		}
+		setValue(Values[newIndex]);
+	}
+
 	public int getValue() {
 		if (!myIsSynchronized) {
 			String value = getConfigValue(null);

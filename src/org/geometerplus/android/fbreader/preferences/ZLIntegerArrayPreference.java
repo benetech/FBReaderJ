@@ -21,6 +21,7 @@ package org.geometerplus.android.fbreader.preferences;
 
 import android.content.Context;
 import android.preference.ListPreference;
+import android.util.Log;
 
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.options.ZLIntegerArrayOption;
@@ -36,13 +37,27 @@ class ZLIntegerArrayPreference extends ListPreference {
 		for (int i = 0; i < entries.length; ++i) {
 			entries[i] = ((Integer) option.Values[i]).toString();
 			if (option.getValue() == option.Values[i]) {
-				setValueIndex(i);
+				setValue(entries[i]);
 			}
 		}
 		setEntries(entries);
 		setEntryValues(entries);
 		setSummary(getValue());
 	}
+	
+	
+
+	@Override
+	public int findIndexOfValue(String value) {		
+		try {
+			return myOption.getValueIndex(Integer.parseInt(value));
+		}
+		catch (NumberFormatException e) {
+			Log.e(this.getClass().getName(), "There should be a valid integer passed in but there was not.");
+			return 0;
+		}
+	}
+
 
 	@Override
 	protected void onDialogClosed(boolean result) {
