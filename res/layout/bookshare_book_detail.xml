@@ -62,15 +62,10 @@
 						    android:layout_height="wrap_content"
 						    android:layout_marginBottom="20dip"
 						    android:focusable="true"
-						    android:text="You must sign in to Bookshare to download this book."
+						    android:text="This book is not currently available for download to your account.  Are you signed in to Bookshare?"
 						    android:textSize="16dip"
 						    android:textStyle="bold"
 						    android:typeface="serif" />
-
-
-
-
-
 
 						<CheckBox
 						    android:id="@+id/bookshare_chkbx_subscribe_periodical"
@@ -144,7 +139,7 @@
 							<TextView
 								android:id="@+id/bookshare_book_detail_copyright"
 								android:text="Copyright: "
-								android:textColor="#ffffff"
+								
 								android:textSize="16dip"
 								android:typeface="serif"
 								android:paddingBottom="3dip"

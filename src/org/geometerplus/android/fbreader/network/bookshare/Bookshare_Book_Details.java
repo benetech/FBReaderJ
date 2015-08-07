@@ -982,6 +982,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 		boolean category = false;
 		boolean bookshareId = false;
 		boolean freelyAvailable = false;
+		boolean availableToDownload = false;
 
 		boolean authorElementVisited = false;
 		boolean downloadFormatElementVisited = false;
@@ -1018,6 +1019,9 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 			}
 			if (qName.equalsIgnoreCase("content-id")) {
 				contentId = true;
+			}
+			if (qName.equalsIgnoreCase("available-to-download")) {
+				availableToDownload = true;
 			}
 			if (qName.equalsIgnoreCase("daisy")) {
 				daisy = true;
@@ -1100,6 +1104,9 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 			if (qName.equalsIgnoreCase("content-id")) {
 				contentId = false;
 			}
+			if (qName.equalsIgnoreCase("available-to-download")) {
+				availableToDownload = false;
+			}
 			if (qName.equalsIgnoreCase("daisy")) {
 				daisy = false;
 			}
@@ -1159,6 +1166,9 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 			if (metadata) {
 				if (contentId) {
 					metadata_bean.setContentId(new String(c, start, length));
+				}
+				if (availableToDownload) {
+					metadata_bean.setAvailableToDownload(new String(c, start, length));
 				}
 				if (daisy) {
 					metadata_bean.setDaisy(new String(c, start, length));
@@ -1242,8 +1252,9 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 
 	// Determine whether the book is downloadable.
 	private void setIsDownloadable(final Bookshare_Metadata_Bean bean) {
-		isDownloadable = (bean.getDownloadFormats() != null && bean
-				.getDownloadFormats().length > 0);
+//		isDownloadable = (bean.getDownloadFormats() != null && bean
+//				.getDownloadFormats().length > 0);
+		isDownloadable = (!bean.getAvailableToDownload().equals("0"));
 	}
 
 	private void setImagesAvailable(final Bookshare_Metadata_Bean bean) {

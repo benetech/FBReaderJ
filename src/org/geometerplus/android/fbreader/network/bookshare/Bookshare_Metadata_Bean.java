@@ -19,7 +19,7 @@ public class Bookshare_Metadata_Bean {
 	private String[] category;
 	private String bookshareId;
 	private String freelyAvailable;
-
+	private String availableToDownload;
 	
 	public Bookshare_Metadata_Bean(){
 		this.downloadFormats = new String[0];
@@ -156,4 +156,14 @@ public class Bookshare_Metadata_Bean {
 	public String getFreelyAvailable(){
 		return this.freelyAvailable;
 	}
+
+	public String getAvailableToDownload() {
+		return availableToDownload;
+	}
+
+	public void setAvailableToDownload(String availableToDownload) {
+		this.availableToDownload = availableToDownload;
+	}
+	
+	
 }
