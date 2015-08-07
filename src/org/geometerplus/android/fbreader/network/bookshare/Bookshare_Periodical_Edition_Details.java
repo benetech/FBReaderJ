@@ -18,6 +18,7 @@ import java.util.TreeMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -33,7 +34,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.benetech.android.R;
-import org.bookshare.net.BookshareWebservice;
+import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.network.BookDownloaderService;
 import org.geometerplus.android.fbreader.network.bookshare.subscription.AllDbPeriodicalEntity;
@@ -92,7 +93,7 @@ public class Bookshare_Periodical_Edition_Details extends Activity {
 
     private InputStream inputStream;
 
-    private BookshareWebservice bws = new BookshareWebservice(Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
+    private BookshareWebServiceClient bws = new BookshareWebServiceClient(Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
 
     private final int DATA_FETCHED = 99;
 
@@ -635,11 +636,14 @@ public class Bookshare_Periodical_Edition_Details extends Activity {
 
             try {
                 Log.i("GoRead", " download_uri : " + download_uri);
-                HttpResponse response = bws.getHttpResponse(password, download_uri);
+                
+                HttpsURLConnection httpsUrlConnection = bws.getHttpsUrlConnection(password, download_uri);
+                String headerValue = httpsUrlConnection.getContentType();
+                
                 // Get hold of the response entity
-                HttpEntity entity = response.getEntity();
 
-                if (entity != null) {
+
+                if (httpsUrlConnection.getContent() != null && httpsUrlConnection.getContentLength() > 0) {
                     String filename = "bookshare_" + Math.random() * 10000 + ".zip";
                     if (metadata_bean.getTitle() != null) {
                         String temp = "";
@@ -659,13 +663,11 @@ public class Bookshare_Periodical_Edition_Details extends Activity {
                     if (downloaded_zip_file.exists()) {
                         downloaded_zip_file.delete();
                     }
-                    Header header = entity.getContentType();
-                    // Log.w("FBR", "******  zip_file *****" + zip_file);
-                    final String headerValue = header.getValue();
+
                     if (headerValue.contains("zip") || headerValue.contains("bks2")) {
                         try {
                             System.out.println("Contains zip");
-                            java.io.BufferedInputStream in = new java.io.BufferedInputStream(entity.getContent());
+                            java.io.BufferedInputStream in = new java.io.BufferedInputStream(httpsUrlConnection.getInputStream());
                             java.io.FileOutputStream fos = new java.io.FileOutputStream(downloaded_zip_file);
                             copyStream(in, fos);
 
@@ -690,11 +692,9 @@ public class Bookshare_Periodical_Edition_Details extends Activity {
                     } else {
                         downloadSuccess = false;
                         error = new Bookshare_Error_Bean();
-                        error.parseInputStream(response.getEntity().getContent());
+                        error.parseInputStream(httpsUrlConnection.getErrorStream());
                     }
                 }
-            } catch (URISyntaxException use) {
-                System.out.println("URISyntaxException: " + use);
             } catch (IOException ie) {
                 System.out.println("IOException: " + ie);
             }

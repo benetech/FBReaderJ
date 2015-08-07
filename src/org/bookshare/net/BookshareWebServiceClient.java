@@ -6,30 +6,17 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
-import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-
-import org.apache.http.Header;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.conn.ssl.X509HostnameVerifier;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.SingleClientConnManager;
-import org.apache.http.message.BasicHeader;
 
 /**
  * This class provides the services needed for getting data from Bookshare's Webservice API.
  */
-public final class BookshareWebservice {
+public final class BookshareWebServiceClient {
 
     // endpoint for bookshare API calls
     private static String URL = "api.bookshare.org";
@@ -37,7 +24,7 @@ public final class BookshareWebservice {
     /**
      * Default constructor.
      */
-    public BookshareWebservice() {
+    public BookshareWebServiceClient() {
         // empty
     }
 
@@ -45,7 +32,7 @@ public final class BookshareWebservice {
      * Constructor that allows setting of api host.
      * @param apiHost String api host
      */
-    public BookshareWebservice(final String apiHost) {
+    public BookshareWebServiceClient(final String apiHost) {
         URL = apiHost;
     }
 
@@ -120,61 +107,20 @@ public final class BookshareWebservice {
      * @return InputStream representing the response.
      * @throws URISyntaxException
      * @throws IOException
-     * @throws KeyStoreException
-     * @throws NoSuchAlgorithmException
-     * @throws UnrecoverableKeyException
-     * @throws KeyManagementException
      */
     public InputStream getResponseStream(final String wsPassword, final String requestUri)
             throws URISyntaxException, IOException
-    {
-        final HttpResponse response = getHttpResponse(wsPassword, requestUri);
-        return response.getEntity().getContent();
+    { 
+        return getHttpsUrlConnection(wsPassword, requestUri).getInputStream();
     }
-
-    /**
-     * Retrieves an HttpResponse for a requested URI.
-     * @param wsPassword password of the Bookshare web service account.
-     * @param requestUri The request URI.
-     * @return HttpResponse A HttpResponse object.
-     * @throws URISyntaxException
-     * @throws IOException
-     */
-    public HttpResponse getHttpResponse(final String wsPassword, final String requestUri)
-            throws URISyntaxException, IOException
-    {
-         
-        // BROWSER_COMPATIBLE_HOSTNAME_VERIFIER lets the *.bookshare.org certificate match the 
-        // *.qa.bookshare.org and *.staging.bookshare.org sites
-        
-        final HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER;
-
-        final DefaultHttpClient client = new DefaultHttpClient();
-
-        final SchemeRegistry registry = new SchemeRegistry();
-        final SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
-        socketFactory.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
-        
-        // We are only registering https scheme, which means http requests will throw an error
-        registry.register(new Scheme("https", socketFactory, 443));
-        final SingleClientConnManager mgr = new SingleClientConnManager(client.getParams(), registry);
-        final DefaultHttpClient httpClient = new DefaultHttpClient(mgr, client.getParams());
-
-        HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
-
-        final URI uri = new URI(requestUri);
-
-        // Prepare a HTTP GET Request
-        final HttpGet httpget = new HttpGet(uri);
-
-        if (wsPassword != null) {
-            final Header header = new BasicHeader("X-password", md5sum(wsPassword));
-            httpget.setHeader(header);
+    
+    public HttpsURLConnection getHttpsUrlConnection(final String wsPassword, final String requestUri) throws IOException {
+        URL url = new URL(requestUri);
+        HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+        if (wsPassword != null && wsPassword.length() > 0) {
+            urlConnection.setRequestProperty("X-password", md5sum(wsPassword));
         }
-
-        // Execute the request
-        return httpClient.execute(httpget);
-
-
-    }
+        return urlConnection;
+    }  
+    
 }

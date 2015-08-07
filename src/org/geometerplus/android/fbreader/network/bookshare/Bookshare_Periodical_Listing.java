@@ -16,7 +16,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.accessibility.ParentCloserDialog;
 import org.benetech.android.R;
-import org.bookshare.net.BookshareWebservice;
+import org.bookshare.net.BookshareWebServiceClient;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -73,7 +73,7 @@ public class Bookshare_Periodical_Listing extends ListActivity {
 	private boolean total_pages_count_known = false;
 	private ArrayList<TreeMap<String, Object>> list = new ArrayList<TreeMap<String, Object>>();
 	InputStream inputStream;
-	final BookshareWebservice bws = new BookshareWebservice(
+	final BookshareWebServiceClient bws = new BookshareWebServiceClient(
 			Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
 	private int total_pages_result;
 	private Boolean isFree = false;

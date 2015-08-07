@@ -12,7 +12,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.bookshare.net.BookshareWebservice;
+import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Periodical_Edition_Bean;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
 import org.geometerplus.android.fbreader.network.bookshare.PeriodicalEditionSAXHandler;
@@ -38,7 +38,7 @@ public class PeriodicalEditionListFetcher {
 	private final int DATA_FETCHED = 99;
 	ArrayList<Bookshare_Periodical_Edition_Bean> results;
 	String password;
-	BookshareWebservice bws;
+	BookshareWebServiceClient bws;
 	private PeriodicalEditionListener callback;
 	PeriodicalEditionSAXHandler saxHandler;
 
@@ -57,7 +57,7 @@ public class PeriodicalEditionListFetcher {
 		new Thread() {
 			public void run() {
 				try {
-					bws = new BookshareWebservice(
+					bws = new BookshareWebServiceClient(
 							Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
 
 					inputStream = bws.getResponseStream(password, uri);

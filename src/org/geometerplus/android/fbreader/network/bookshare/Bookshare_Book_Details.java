@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -15,22 +14,19 @@ import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.FileHeader;
 
 import org.accessibility.ParentCloserDialog;
 import org.accessibility.VoiceableDialog;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.benetech.android.R;
-import org.bookshare.net.BookshareWebservice;
+import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.benetech.Analytics;
 import org.geometerplus.android.fbreader.network.BookDownloaderService;
@@ -68,6 +64,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 /**
  * Shows the details of a selected book. Will also show a download option if
  * applicable.
@@ -81,7 +79,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 	private String password;
 	private Bookshare_Metadata_Bean metadata_bean;
 	private InputStream inputStream;
-	private BookshareWebservice bws = new BookshareWebservice(
+	private BookshareWebServiceClient bws = new BookshareWebServiceClient(
 			Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
 	private final int DATA_FETCHED = 99;
 	private View book_detail_view;
@@ -660,18 +658,14 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 			try {
 				Log.d(LOG_TAG, "download_uri :" + download_uri);
 
-				HttpResponse response = bws.getHttpResponse(password,
-						download_uri);
-				HttpEntity entity = response.getEntity();
-				Header header = entity.getContentType();
-				String headerValue = header.getValue();
+				HttpsURLConnection httpsUrlConnection = bws.getHttpsUrlConnection(password, download_uri);
+				String headerValue = httpsUrlConnection.getContentType();
 				Log.i(LOG_TAG, "header value " + headerValue);
 
 				if (downloadType == 4) {
 					if (!headerValue.contains("zip")) {
 						status = new Bookshare_PackagingStatus_Bean();
-						status.parseInputStream(response.getEntity()
-								.getContent());
+						status.parseInputStream(httpsUrlConnection.getInputStream());
 
 						Log.i(LOG_TAG, "packaging status, before while"
 								+ status.getPackagingStatus());
@@ -698,10 +692,9 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 										" problem waiting book with images to download",e);
 							}
 
-							response = bws.getHttpResponse(password,
-									download_uri);
-							entity = response.getEntity();
-							headerValue = entity.getContentType().getValue();
+				             httpsUrlConnection = bws.getHttpsUrlConnection(password, download_uri);
+				             headerValue = httpsUrlConnection.getContentType();
+
 
 						}
 					}
@@ -709,7 +702,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 				// response.
 				// Get hold of the response entity
 
-				if (entity != null) {
+				if (httpsUrlConnection.getContent() != null && httpsUrlConnection.getContentLength() > 0) {
 					Log.i(LOG_TAG, "get hold of the response entity");
 					String filename = "bookshare_" + Math.random() * 10000
 							+ ".zip";
@@ -745,7 +738,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 						try {
 							Log.d(LOG_TAG, "Contains zip");
 							java.io.BufferedInputStream in = new java.io.BufferedInputStream(
-									entity.getContent());
+							        httpsUrlConnection.getInputStream());
 							java.io.FileOutputStream fos = new java.io.FileOutputStream(
 									downloaded_zip_file);
 							java.io.BufferedOutputStream bout = new BufferedOutputStream(
@@ -871,15 +864,13 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 						}
 					} else {
 						Log.w(LOG_TAG, "zip not found !");
-						response = bws.getHttpResponse(password, download_uri);
+						httpsUrlConnection = bws.getHttpsUrlConnection(password, download_uri);
+			            headerValue = httpsUrlConnection.getContentType();
 						downloadSuccess = false;
 						error = new Bookshare_Error_Bean();
-						error.parseInputStream(response.getEntity()
-								.getContent());
+						error.parseInputStream(httpsUrlConnection.getErrorStream());
 					}
 				}
-			} catch (URISyntaxException use) {
-				Log.e(LOG_TAG, "URISyntaxException: " + use, use);
 			} catch (IOException ie) {
 				Log.e(LOG_TAG, "IOException: " + ie, ie);
 			}

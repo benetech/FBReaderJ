@@ -14,7 +14,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.accessibility.ParentCloserDialog;
-import org.bookshare.net.BookshareWebservice;
+import org.bookshare.net.BookshareWebServiceClient;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.FBReader;
 import org.xml.sax.Attributes;
@@ -69,7 +69,7 @@ public class Bookshare_Books_Listing extends ListActivity{
     private final int NEXT_PAGE_BOOK_ID = -2;
     private ArrayList<TreeMap<String,Object>> list = new ArrayList<TreeMap<String, Object>>();
     InputStream inputStream;
-    final BookshareWebservice bws = new BookshareWebservice(Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
+    final BookshareWebServiceClient bws = new BookshareWebServiceClient(Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
     private int total_pages_result;
     private int current_result_page = 1;
     private boolean isFree = false;

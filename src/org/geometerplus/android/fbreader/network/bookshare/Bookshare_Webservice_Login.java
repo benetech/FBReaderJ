@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 
 import org.accessibility.VoiceableDialog;
-import org.bookshare.net.BookshareWebservice;
+import org.bookshare.net.BookshareWebServiceClient;
 import org.benetech.android.R;
 
 import android.app.Activity;
@@ -325,7 +325,7 @@ public class Bookshare_Webservice_Login extends Activity{
 				inTry = true;	
 				// Get a BookshareWebservice instance for accessing the utility methods
 
-				final BookshareWebservice bws = new BookshareWebservice(BOOKSHARE_API_HOST);
+				final BookshareWebServiceClient bws = new BookshareWebServiceClient(BOOKSHARE_API_HOST);
 				if(isFree){
 					BOOKSHARE_URL = BOOKSHARE_URL + "?api_key="+developerKey;
 				}

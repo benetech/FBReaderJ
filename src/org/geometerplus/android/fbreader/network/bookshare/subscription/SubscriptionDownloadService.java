@@ -1,28 +1,19 @@
 
 package org.geometerplus.android.fbreader.network.bookshare.subscription;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
-import net.lingala.zip4j.core.ZipFile;
+import javax.net.ssl.HttpsURLConnection;
+
 import net.lingala.zip4j.exception.ZipException;
-import net.lingala.zip4j.model.FileHeader;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
 import org.benetech.android.R;
-import org.bookshare.net.BookshareWebservice;
+import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.network.BookDownloaderService;
 import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
@@ -39,13 +30,10 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -77,7 +65,7 @@ public class SubscriptionDownloadService extends IntentService {
 	private SQLiteDatabase periodicalDb;
 
 	private Bookshare_Error_Bean error;
-	final BookshareWebservice bws = new BookshareWebservice(
+	final BookshareWebServiceClient bws = new BookshareWebServiceClient(
 			Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
 
 	public SubscriptionDownloadService() {
@@ -150,11 +138,11 @@ public class SubscriptionDownloadService extends IntentService {
 
 		try {
             Log.i(FBReader.LOG_LABEL, getClass().getSimpleName() + " about to make http call with download_uri: " + download_uri);
-			HttpResponse response = bws.getHttpResponse(password, download_uri);
-			// Get hold of the response entity
-			HttpEntity entity = response.getEntity();
+            HttpsURLConnection httpsUrlConnection = bws.getHttpsUrlConnection(password, download_uri);
+            String headerValue = httpsUrlConnection.getContentType();
 
-			if (entity != null) {
+
+			if (httpsUrlConnection.getContent() != null && httpsUrlConnection.getContentLength() > 0) {
 				String filename = "bookshare_" + Math.random() * 10000 + ".zip";
 				if (metadata_bean.getTitle() != null
 						&& metadata_bean.getEdition() != null) {
@@ -182,13 +170,11 @@ public class SubscriptionDownloadService extends IntentService {
 				if (downloaded_zip_file.exists()) {
 					downloaded_zip_file.delete();
 				}
-				Header header = entity.getContentType();
-				// Log.w("FBR", "******  zip_file *****" + zip_file);
-				final String headerValue = header.getValue();
+
 				if (headerValue.contains("zip") || headerValue.contains("bks2")) {
 					try {
 						Log.i(FBReader.LOG_LABEL, "Contains zip");
-						java.io.BufferedInputStream in = new java.io.BufferedInputStream(entity.getContent());
+						java.io.BufferedInputStream in = new java.io.BufferedInputStream(httpsUrlConnection.getInputStream());
 						java.io.FileOutputStream fos = new java.io.FileOutputStream(downloaded_zip_file);
                         Bookshare_Periodical_Edition_Details.copyStream(in, fos);
 
@@ -214,11 +200,9 @@ public class SubscriptionDownloadService extends IntentService {
 				} else {
 					downloadSuccess = false;
 					error = new Bookshare_Error_Bean();
-					error.parseInputStream(response.getEntity().getContent());
+					error.parseInputStream(httpsUrlConnection.getErrorStream());
 				}
 			}
-		} catch (URISyntaxException use) {
-            Log.e(FBReader.LOG_LABEL, " uri problem downloading subscription", use);
 		} catch (IOException ie) {
             Log.e(FBReader.LOG_LABEL, " io problem downloading subscription", ie);
 		}

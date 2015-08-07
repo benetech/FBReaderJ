@@ -14,7 +14,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.bookshare.net.BookshareWebservice;
+import org.bookshare.net.BookshareWebServiceClient;
 import org.benetech.android.R;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -60,7 +60,7 @@ public class Bookshare_OM_List extends ListActivity{
 	private String password;
 	private InputStream inputStream;
 	private final int DATA_FETCHED = 99;
-	private BookshareWebservice bws = new BookshareWebservice(Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
+	private BookshareWebServiceClient bws = new BookshareWebServiceClient(Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
 	private ProgressDialog pd_spinning;
 	private List<TreeMap<String,Object>> list = new ArrayList<TreeMap<String, Object>>();
 	private Vector<Bookshare_OM_Member_Bean> vectorResults;

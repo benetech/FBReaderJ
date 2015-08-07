@@ -14,8 +14,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BookshareWebserviceTest {
-    private BookshareWebservice service;
+public class BookshareWebServiceClientTest {
+    private BookshareWebServiceClient service;
 
     private final static String TEST_PROPERTIES = "test.properties";
 
@@ -33,12 +33,17 @@ public class BookshareWebserviceTest {
 
     @Before
     public void setup() {
-        service = new BookshareWebservice();
+        service = new BookshareWebServiceClient();
         env = System.getenv("GOLDEN_KEY");
         if (env.equals("dev")) {
             logger.error("Mashery tests won't work against dev environment.");
         }
-        apiHost = "api." + env + ".bookshare.org";
+        if (env.equals("live")){
+            apiHost = "api.bookshare.org";
+        }
+        else {
+            apiHost = "api." + env + ".bookshare.org";
+        }
 
         logger = LoggerFactory.getLogger(this.getClass());
 
@@ -135,7 +140,7 @@ public class BookshareWebserviceTest {
     private String login(String url, String password)
             throws URISyntaxException, IOException
     {
-        final BookshareWebservice bws = new BookshareWebservice(apiHost);
+        final BookshareWebServiceClient bws = new BookshareWebServiceClient(apiHost);
         InputStream inputStream = bws.getResponseStream(password, url);
         String result_HTML = bws.convertStreamToString(inputStream);
 
