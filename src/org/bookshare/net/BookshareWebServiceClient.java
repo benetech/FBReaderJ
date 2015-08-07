@@ -1,9 +1,7 @@
 package org.bookshare.net;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
@@ -13,13 +11,19 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import org.apache.commons.io.IOUtils;
+
+import android.util.Log;
+
 /**
  * This class provides the services needed for getting data from Bookshare's Webservice API.
  */
 public final class BookshareWebServiceClient {
 
     // endpoint for bookshare API calls
-    private static String URL = "api.bookshare.org";
+    private static String bookshareApiUrl = "api.bookshare.org";
+
+    private static final String LOG_TAG = "BookshareWebServiceClient";
 
     /**
      * Default constructor.
@@ -33,7 +37,7 @@ public final class BookshareWebServiceClient {
      * @param apiHost String api host
      */
     public BookshareWebServiceClient(final String apiHost) {
-        URL = apiHost;
+        bookshareApiUrl = apiHost;
     }
 
     /**
@@ -56,6 +60,11 @@ public final class BookshareWebServiceClient {
         return toHex(md5sum);
     }
 
+    /**
+     * Convert a string to hexadecimal
+     * @param bytes
+     * @return
+     */
     private String toHex(final byte[] bytes) {
         final BigInteger bi = new BigInteger(1, bytes);
         return String.format("%0" + (bytes.length << 1) + "X", bi);
@@ -67,33 +76,12 @@ public final class BookshareWebServiceClient {
      * @return String representation of the InputStream data.
      */
     public String convertStreamToString(final InputStream inputStream) {
-        /*
-         * To convert the InputStream to String we use the BufferedReader.readLine() method. We iterate until the
-         * BufferedReader return null which means there's no more data to read. Each line will appended to a
-         * StringBuilder and returned as String.
-         */
-        // Construct a BufferedReader for the inputStream
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-        final StringBuilder sb = new StringBuilder();
-        String line = null;
         try {
-            // Read each line and append a newline character at the end
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-        } catch (final IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                // Close the stream irrespective of whether the read was successful or not
-                inputStream.close();
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
+            return IOUtils.toString(inputStream);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Unable to convert web service call result to string.", e);
         }
-        // Return the trimmed response String
-        return sb.toString().trim();
+        return null;
     }
 
     /**
@@ -110,17 +98,26 @@ public final class BookshareWebServiceClient {
      */
     public InputStream getResponseStream(final String wsPassword, final String requestUri)
             throws URISyntaxException, IOException
-    { 
+    {
         return getHttpsUrlConnection(wsPassword, requestUri).getInputStream();
     }
-    
-    public HttpsURLConnection getHttpsUrlConnection(final String wsPassword, final String requestUri) throws IOException {
-        URL url = new URL(requestUri);
-        HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+
+    /**
+     * Get a secure HTTPS connection to the Bookshare web service
+     * @param wsPassword Bookshare password, null if anonymous
+     * @param requestUri URI for Bookshare web service connection through Mashery
+     * @return The HTTPS connection
+     * @throws IOException
+     */
+    public HttpsURLConnection getHttpsUrlConnection(final String wsPassword, final String requestUri)
+            throws IOException
+    {
+        final URL url = new URL(requestUri);
+        final HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         if (wsPassword != null && wsPassword.length() > 0) {
             urlConnection.setRequestProperty("X-password", md5sum(wsPassword));
         }
         return urlConnection;
-    }  
-    
+    }
+
 }
