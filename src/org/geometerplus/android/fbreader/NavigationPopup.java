@@ -20,8 +20,8 @@
 package org.geometerplus.android.fbreader;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -73,7 +73,7 @@ final class NavigationPopup extends PopupPanel {
 	}
 
 	@Override
-	public void createControlPanel(FBReader activity, RelativeLayout root, PopupWindow.Location location) {
+	public void createControlPanel(FBReader activity, ViewGroup root, PopupWindow.Location location) {
 		if (myWindow != null && activity == myWindow.getActivity()) {
 			return;
 		}

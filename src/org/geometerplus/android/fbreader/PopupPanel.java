@@ -21,7 +21,6 @@ package org.geometerplus.android.fbreader;
 
 import android.app.Activity;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 
@@ -91,5 +90,5 @@ abstract class PopupPanel extends ZLApplication.PopupPanel {
 		}
 	}
 
-	public abstract void createControlPanel(FBReader activity, RelativeLayout root, PopupWindow.Location location);
+	public abstract void createControlPanel(FBReader activity, ViewGroup root, PopupWindow.Location location);
 }

@@ -19,7 +19,7 @@
 
 package org.geometerplus.android.fbreader;
 
-import android.widget.RelativeLayout;
+import android.view.ViewGroup;
 
 import org.benetech.android.R;
 
@@ -45,7 +45,7 @@ final class TextSearchPopup extends ButtonsPopupPanel {
 	}
 
 	@Override
-	public void createControlPanel(FBReader activity, RelativeLayout root, PopupWindow.Location location) {
+	public void createControlPanel(FBReader activity, ViewGroup root, PopupWindow.Location location) {
 		if (myWindow != null && activity == myWindow.getActivity()) {
 			return;
 		}

@@ -73,9 +73,9 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
-import android.widget.RelativeLayout;
 
 import com.bugsense.trace.BugSenseHandler;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -370,7 +370,7 @@ public final class FBReader extends ZLAndroidActivity {
 		SetScreenOrientationAction.setOrientation(this, zlibrary.OrientationOption.getValue());
 
 		final FBReaderApp fbReader = (FBReaderApp)FBReaderApp.Instance();
-		final RelativeLayout root = (RelativeLayout)findViewById(R.id.root_view);
+		final ViewGroup root = (ViewGroup)findViewById(R.id.root_view);
 		((PopupPanel)fbReader.getPopupById(TextSearchPopup.ID)).createControlPanel(this, root, PopupWindow.Location.Bottom);
 		((PopupPanel)fbReader.getPopupById(NavigationPopup.ID)).createControlPanel(this, root, PopupWindow.Location.Bottom);
 		((PopupPanel)fbReader.getPopupById(SelectionPopup.ID)).createControlPanel(this, root, PopupWindow.Location.Floating);
