@@ -81,7 +81,7 @@ import com.bugsense.trace.BugSenseHandler;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 
-public final class FBReader extends ZLAndroidActivity {
+public class FBReader extends ZLAndroidActivity {
 	public static final String BOOK_PATH_KEY = "BookPath";
     public static final String PREFS_USER_MANUAL_VERSION = "bks_userManualVersion";
     public static final String USER_GUIDE_FILE = "User-Guide.epub";
