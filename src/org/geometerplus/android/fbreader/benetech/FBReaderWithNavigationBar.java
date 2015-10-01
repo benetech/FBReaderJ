@@ -38,6 +38,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.hyperionics.fbreader.plugin.tts_plus.TtsSentenceExtractor;
@@ -661,12 +662,27 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
                     restorePosition();
                     justPaused = false;
                 }
+                enablePlayButton(true);
                 speakParagraph(nextParagraph);
             } else {
                 stopTalking();
                 justPaused = true;
+                enablePlayButton(false);
             }
         }
+    
+    private void enablePlayButton(boolean isPlayButtonEnabled) {
+    	ImageButton playButton = (ImageButton) findViewById(R.id.navigation_bar_play);
+    	final int resourceIdForButton = getPlayButtonImageResource(isPlayButtonEnabled);
+		playButton.setImageResource(resourceIdForButton);
+    }
+    
+    private int getPlayButtonImageResource(boolean isPlayButtonEnabled) {
+    	if (isPlayButtonEnabled)
+    		return R.drawable.ic_play_arrow_white_24dp;
+
+    	return R.drawable.ic_pause_white_24dp;
+    }
     
     private void goForward() {
         stopTalking();
