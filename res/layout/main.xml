@@ -15,4 +15,44 @@
         android:layout_weight="1"
         android:scrollbars="vertical" />
 
+    <LinearLayout
+        android:id="@+id/navigation_bar_id"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="#0097ff"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/navigation_bar_skip_previous"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:src="@drawable/ic_skip_previous_white_24dp" />
+
+        <ImageButton
+            android:id="@+id/navigation_bar_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:src="@drawable/ic_play_arrow_white_24dp" />
+        
+        <ImageButton
+            android:id="@+id/navigation_bar_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:src="@drawable/ic_pause_white_24dp" />
+
+        <ImageButton
+            android:id="@+id/navigation_bar_skip_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:src="@drawable/ic_skip_next_white_24dp" />
+    </LinearLayout>
+
 </LinearLayout>

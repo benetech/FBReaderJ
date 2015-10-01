@@ -159,7 +159,10 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
     }
 
     void restorePosition() {
-        String bookHash = "BP:" + fbReader.Model.Book.getId();;
+        String bookHash = "";
+        if (fbReader != null)
+        	bookHash = "BP:" + fbReader.Model.Book.getId();
+        
         String s = myPreferences.getString(bookHash, "");
         //int il = s.indexOf("l:");
         int para = s.indexOf("p:");
@@ -202,98 +205,55 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
             requestWindowFeature(Window.FEATURE_NO_TITLE);
         }
 
-        setContentView(R.layout.view_spokentext);
-
         if (isTouchExplorationEnabled(accessibilityManager)) {
-            findViewById(R.id.speak_menu_back).setOnHoverListener(new MyHoverListener());
-            findViewById(R.id.speak_menu_forward).setOnHoverListener(new MyHoverListener());
-            findViewById(R.id.speak_menu_pause).setOnHoverListener(new MyHoverListener());
-            findViewById(R.id.speak_menu_contents).setOnHoverListener(new MyHoverListener());
-            findViewById(R.id.speak_main_menu).setOnHoverListener(new MyHoverListener());
+//            findViewById(R.id.speak_menu_back).setOnHoverListener(new MyHoverListener());
+//            findViewById(R.id.speak_menu_forward).setOnHoverListener(new MyHoverListener());
+//            findViewById(R.id.speak_menu_pause).setOnHoverListener(new MyHoverListener());
+//            findViewById(R.id.speak_menu_contents).setOnHoverListener(new MyHoverListener());
+//            findViewById(R.id.speak_main_menu).setOnHoverListener(new MyHoverListener());
         }
 
-        setListener(R.id.speak_menu_back, new View.OnClickListener() {
-            public void onClick(View v) {
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                    Analytics.EVENT_LABEL_PREV, null);
-                goBackward();
-            }
-        });
-        findViewById(R.id.speak_menu_back).setOnFocusChangeListener(
-            new View.OnFocusChangeListener() {
-                public void onFocusChange(android.view.View view, boolean b) {
-                    if (b) {
-                        stopTalking();
-                        justPaused = true;
-                    }
-                }
-            }
-        );
-        setListener(R.id.speak_menu_forward, new View.OnClickListener() {
-            public void onClick(View v) {
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                    Analytics.EVENT_LABEL_NEXT, null);
-                goForward();
-            }
-        });
-        findViewById(R.id.speak_menu_forward).setOnFocusChangeListener(
-            new View.OnFocusChangeListener() {
-                public void onFocusChange(android.view.View view, boolean b) {
-                    if (b) {
-                        stopTalking();
-                        justPaused = true;
-                    }
-                }
-            }
-        );
-/*      setListener(R.id.button_close, new View.OnClickListener() {
-            public void onClick(View v) {
-                stopTalking();
-                finish();
-            }
-        });*/
-        setListener(R.id.speak_menu_pause, new View.OnClickListener() {
-            public void onClick(View v) {
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                    Analytics.EVENT_LABEL_PLAY_PAUSE, null);
-                playOrPause();
-            }
-        });
-        setListener(R.id.speak_menu_contents, new View.OnClickListener() {
-            public void onClick(View v) {
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                    Analytics.EVENT_LABEL_TOC, null);
-                showContents();
-            }
-        });
-        findViewById(R.id.speak_menu_contents).setOnFocusChangeListener(
-            new View.OnFocusChangeListener() {
-                public void onFocusChange(android.view.View view, boolean b) {
-                    if (b) {
-                        stopTalking();
-                        justPaused = true;
-                    }
-                }
-            }
-        );
-        setListener(R.id.speak_main_menu, new View.OnClickListener() {
-            public void onClick(View v) {
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                        Analytics.EVENT_LABEL_TOC, null);
-                showMainMenu();
-            }
+        
+        setListener(R.id.navigation_bar_play, new View.OnClickListener() {
+        	public void onClick(View v) {
+        		EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_PLAY_PAUSE, null);
+        		playOrPause();
+        	}
         });
 
-        ((TelephonyManager)getSystemService(TELEPHONY_SERVICE)).listen(
-            new PhoneStateListener() {
-                public void onCallStateChanged(int state, String incomingNumber) {
-                    if (state == TelephonyManager.CALL_STATE_RINGING) {
-                        stopTalking();
-                    }
-                }
-            },
-            PhoneStateListener.LISTEN_CALL_STATE
-        );
+        setListener(R.id.navigation_bar_skip_previous, new View.OnClickListener() {
+        	public void onClick(View v) {
+        		EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_PREV, null);
+        		goBackward();
+        	}
+        });
+
+        findViewById(R.id.navigation_bar_skip_previous).setOnFocusChangeListener(
+        		new View.OnFocusChangeListener() {
+        			public void onFocusChange(android.view.View view, boolean b) {
+        				if (b) {
+        					stopTalking();
+        					justPaused = true;
+        				}
+        			}
+        });
+
+        setListener(R.id.navigation_bar_skip_next, new View.OnClickListener() {
+        	public void onClick(View v) {
+        		EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_NEXT, null);
+        		goForward();
+        	}
+        });
+
+        findViewById(R.id.navigation_bar_skip_next).setOnFocusChangeListener(
+        		new View.OnFocusChangeListener() {
+        			public void onFocusChange(android.view.View view, boolean b) {
+        				if (b) {
+        					stopTalking();
+        					justPaused = true;
+        				}
+        			}
+        });
 
         setActive(false);
         setActionsEnabled(false);
@@ -425,10 +385,10 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
     private void setActionsEnabled(final boolean enabled) {
         runOnUiThread(new Runnable() {
             public void run() {
-                findViewById(R.id.speak_menu_back).setEnabled(enabled);
-                findViewById(R.id.speak_menu_forward).setEnabled(enabled);
-                findViewById(R.id.speak_menu_pause).setEnabled(enabled);
-                findViewById(R.id.speak_menu_contents).setEnabled(enabled);
+//                findViewById(R.id.speak_menu_back).setEnabled(enabled);
+//                findViewById(R.id.speak_menu_forward).setEnabled(enabled);
+//                findViewById(R.id.speak_menu_pause).setEnabled(enabled);
+//                findViewById(R.id.speak_menu_contents).setEnabled(enabled);
             }
         });
     }
@@ -519,7 +479,7 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
             public void run() {
                 if(!accessibilityManager.isEnabled()){
                     if (myIsActive != active) {
-                        ((Button)findViewById(R.id.speak_menu_pause)).setText(active ? R.string.on_press_pause : R.string.on_press_play);
+                        //((Button)findViewById(R.id.speak_menu_pause)).setText(active ? R.string.on_press_pause : R.string.on_press_play);
                         if(myIsActive){
                             WindowManager.LayoutParams params =
                                     getWindow().getAttributes();
@@ -583,7 +543,7 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
     private String getNextParagraph() {
         String text = "";
         List<String> wl = null;
-        ArrayList<Integer> il = null;
+        ArrayList<Integer> il = new ArrayList<Integer>();
         for (; myParagraphIndex < myParagraphsNumber; ++myParagraphIndex) {
             final String s = myApi.getParagraphText(myParagraphIndex);
             wl = myApi.getParagraphWords(myParagraphIndex);
@@ -707,7 +667,7 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
                 justPaused = true;
             }
         }
-
+    
     private void goForward() {
         stopTalking();
         myTTS.playEarcon(FORWARD_EARCON, TextToSpeech.QUEUE_ADD, null);

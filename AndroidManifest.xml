@@ -6,7 +6,7 @@
     android:installLocation="auto">
 	
 	<uses-sdk 
-	    android:minSdkVersion="5" 
+	    android:minSdkVersion="14" 
 	    android:targetSdkVersion="17" />
 	
 	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />
@@ -40,7 +40,7 @@
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</service>
-		<activity android:name="org.geometerplus.android.fbreader.FBReader" android:launchMode="singleTask" android:icon="@drawable/goread" android:label="@string/app_name" android:configChanges="orientation|keyboardHidden">
+		<activity android:name="org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar" android:launchMode="singleTask" android:icon="@drawable/goread" android:label="@string/app_name" android:configChanges="orientation|keyboardHidden">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
