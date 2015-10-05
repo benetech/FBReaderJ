@@ -16,6 +16,9 @@ import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.TextPosition;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.hyperionics.fbreader.plugin.tts_plus.TtsSentenceExtractor;
+
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -26,8 +29,6 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
-import android.telephony.PhoneStateListener;
-import android.telephony.TelephonyManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
@@ -39,9 +40,6 @@ import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.ImageButton;
-
-import com.google.analytics.tracking.android.EasyTracker;
-import com.hyperionics.fbreader.plugin.tts_plus.TtsSentenceExtractor;
 
 public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener, SimpleGestureFilter.SimpleGestureListener  {
     private ApiServerImplementation myApi;
