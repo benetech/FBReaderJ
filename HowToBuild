@@ -62,15 +62,16 @@ Part B: Eclipse
 
    Make sure directories res/raw and res/drawable get created and are populated.
    These newly created resource directories are mandatory for creating an Eclipse project.
-4. Import the project code into a new Eclipse project via: New -> Other -> Android Project from Existing Code
-5. Put the .jar files in the /libs directory in the build path (present in FBReaderJ directory).  In Eclipse this
+4. If you have not, Install ADT Plugin for eclipse (http://developer.android.com/sdk/installing/installing-adt.html)   
+5. Import the project code into a new Eclipse project via: New -> Other -> Android Project from Existing Code
+6. Put the .jar files in the /libs directory in the build path (present in FBReaderJ directory).  In Eclipse this
    is best done from FBReader->Properties->Java Build Path->Add JARs for both JAR files.  This step should remove
    all the errors mentioned in the step 3.
-6. To enable use of the Bookshare library, you need to obtain a developer key at http://developer.bookshare.org.
+7. To enable use of the Bookshare library, you need to obtain a developer key at http://developer.bookshare.org.
    One you have an application key, you need to enter it into
    org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey.java
-7. Build from within Eclipse  or 'ant clean debug' to build an installable .apk file
-8. The signed apk will be present in the /bin folder which can be installed on the Android device/emulator.
+8. Build from within Eclipse  or 'ant clean debug' to build an installable .apk file
+9. The signed apk will be present in the /bin folder which can be installed on the Android device/emulator.
 
 ------------------------------------------------------------------------------------------------------
 Part C: Android Studio
