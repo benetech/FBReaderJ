@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FictionBook xmlns="http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:l="http://www.w3.org/1999/xlink"><description><title-info><author><last-name>Bookshare</last-name></author> <book-title>Go Read &FBReaderVersion; Quick Start</book-title> <lang>en</lang></title-info></description>
+<body>
+<p>Welcome to Go Read.</p>
+<p>Please listen to the following quick tips on how to use this reader. You can press the menu button to access the main menu. From there, among other features, you may select "Read to Me" to have the book read to you</p>
+<p>While listening to a book, you may press the previous button to go back a paragraph, the play/pause button to pause or resume playback, the next button to go forward a paragraph, or table of contents button to access the table of contents.
+<p>During book playback you may also access the same features using gestures. Double tap to play or pause. Swipe left for the previous paragraph. Swipe right for the next paragraph. Swipe up for the table of contents. And swipe down for the main menu.
+ If you are using an Android device with the latest software (known as Ice Cream Sandwich or Android 4.0) you may need to use two fingers to perform the gestures. The gestures only work in the screen where the book is being read to you.</p>
+<empty-line/>
+<p>The main menu allows you to navigate through libraries, including Bookshare, and to navigate your book via bookmarks or page numbers. For a more detailed User Guide, click the Help option in the Main Menu.</p>
+<p>Enjoy!</p>
+</body>
+</FictionBook>

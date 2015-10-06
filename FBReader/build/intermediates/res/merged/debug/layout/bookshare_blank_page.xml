@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<TextView 
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:gravity="center"
+		android:textSize="20dip"
+		android:typeface="serif"
+		android:id="@+id/bookshare_blank_txtView_msg"/>
+
+</RelativeLayout><!-- From: file:/Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/res/layout/bookshare_blank_page.xml -->

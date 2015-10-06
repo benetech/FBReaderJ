@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "org.benetech.android.fbreader"
+        minSdkVersion 14
+        targetSdkVersion 17
+
+        ndk {
+            moduleName "DeflatingDecompressor-v2"
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles 'proguard.cfg'
+        }
+    }
+
+    sourceSets.main {
+        jniLibs.srcDir 'src/main/libs'
+        jni.srcDirs = [] //disable automatic ndk-build call
+    }
+}
+
+dependencies {
+    compile files('libs/android-support-v13.jar')
+    compile files('libs/bugsense3.4.jar')
+    compile files('libs/commons-codec-1.4.jar')
+    compile files('libs/commons-io-2.4.jar')
+    compile files('libs/jmdns.jar')
+    compile files('libs/libGoogleAnalyticsV2.jar')
+    compile files('libs/zip4j_1.1.7.jar')
+}

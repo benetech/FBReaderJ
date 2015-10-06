@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:state_pressed="false" android:drawable="@drawable/ic_tab_selected_library_title" />
+    <item android:drawable="@drawable/ic_tab_unselected_library_title" />
+</selector>
+
+<!-- From: file:/Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/res/drawable/ic_tab_library_title.xml -->

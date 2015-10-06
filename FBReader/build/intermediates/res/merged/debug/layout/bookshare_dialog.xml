@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+
+	>
+	<!-- This LinearLayout added to prevent the Edit Text box to get focus when dialog is shown.
+	  	If edit text box has focus it prevents talkback of other text on the dialog-->
+	<LinearLayout
+    	android:focusable="true" android:focusableInTouchMode="true"
+	    android:layout_width="0px" android:layout_height="0px"/>
+
+		<LinearLayout 
+		android:id="@+id/bookshare_dialog_title_group"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:paddingLeft="10dip"
+		android:paddingRight="10dip"
+		android:paddingTop="20dip">
+	
+		<TextView
+			android:id="@+id/bookshare_dialog_search_txt"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:textStyle="bold"/>
+
+		<EditText
+			android:id="@+id/bookshare_dialog_search_edit_txt"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/bookshare_dialog_search_txt"
+			android:inputType="text"
+			android:imeOptions="actionSearch"/>
+
+		<TextView
+			android:id="@+id/bookshare_dialog_search_example"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:gravity="right"
+			android:layout_alignParentBottom="true"
+			android:textStyle="bold"/>
+			
+		<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:paddingTop="30dip">
+
+			<TableLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:stretchColumns="*">
+				
+				<TableRow>
+					<Button
+						android:id="@+id/bookshare_dialog_btn_ok"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+                        android:nextFocusLeft="@+id/bookshare_dialog_search_edit_txt"
+                        android:nextFocusUp="@+id/bookshare_dialog_search_edit_txt"
+                        android:nextFocusRight="@+id/bookshare_dialog_btn_cancel"
+                        android:nextFocusDown="@+id/bookshare_dialog_btn_cancel"
+
+						android:text="OK"/>
+			
+					<Button
+						android:id="@+id/bookshare_dialog_btn_cancel"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+                        android:nextFocusLeft="@+id/bookshare_dialog_btn_ok"
+                        android:nextFocusUp="@+id/bookshare_dialog_btn_ok"
+                        android:nextFocusRight="@+id/bookshare_dialog_search_edit_txt"
+                        android:nextFocusDown="@+id/bookshare_dialog_search_edit_txt"
+						android:text="Cancel"/>
+				</TableRow>
+
+			</TableLayout>
+		</LinearLayout>
+	
+	</LinearLayout>
+</RelativeLayout><!-- From: file:/Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/res/layout/bookshare_dialog.xml -->

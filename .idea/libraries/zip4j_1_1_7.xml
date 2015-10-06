@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="zip4j_1.1.7">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/FBReader/libs/zip4j_1.1.7.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

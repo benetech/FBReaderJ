@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FictionBook xmlns="http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:l="http://www.w3.org/1999/xlink"><description><title-info><author><last-name>FBReader</last-name></author> <book-title>About FBReaderJ</book-title> <lang>en</lang></title-info></description>
+<body>
+<title><p>About FBReaderJ &FBReaderVersion;</p></title>
+<p>FBReaderJ is an e-book reader for the Android platform.  It is a clone of the http://www.fbreader.org/, FBReader book reader written in Java by the same authors.  FBReaderJ supports the <code>oeb</code>, <code>epub</code>, and <code>fb2</code> e-book formats.  Future releases will support the full set of formats of the original FBReader.  Direct reading from <code>zip</code>, <code>tar</code>, and <code>gzip</code> archives is also supported.</p>
+<p>You can configure FBReaderJ to read books with pleasure.  Colors, fonts, key bindings and many other properties can be changed in the <code>Preferences</code> menu.</p>
+<p>FBReaderJ is distributed under the terms of the http://www.gnu.org/licenses/gpl.html, GNU GPL.</p>
+<empty-line/>
+<subtitle><p>Adding Books</p></subtitle>
+<p>There are two ways to add books into the FBReaderJ library.</p>
+<p>The first is to copy a book file to your device into the directory <code>/sdcard/Books</code> (or any of its subdirectories).  FBReaderJ will add the book automatically.</p>
+<p>The second way to add a book is to click a book link (i.e. on a link to a file with extension <code>.epub</code>, <code>.oeb</code>, <code>.fb2</code>, or <code>.fb2.zip</code>) in the standard Android browser.  The book will be downloaded to the device and opened in FBReaderJ.  If you click the same link again, the book will not be downloaded again, as the local copy will be used for reading instead.</p>
+<empty-line/>
+<subtitle><p>Related sites</p></subtitle>
+<p>More information about FBReader and FBReaderJ can be found at the http://www.fbreader.org, FBReader site.</p>
+<p>If you want to be notified about new releases, please subscribe to the http://freshmeat.net/projects/fbreaderj, FBReaderJ project at freshmeat.</p>
+<p>If you have any questions or suggestions, please use the http://groups.google.com/group/fbreader, FBReader group at googlegroups.</p>
+<p>To begin, press the MENU button on your device.</p>
+</body>
+</FictionBook>
