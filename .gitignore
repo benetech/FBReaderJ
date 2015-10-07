@@ -4,6 +4,7 @@ local.properties
 bin/
 gen/
 obj/
+FBReader/build/
 .idea/
 assets/developerSpecific/
 .classpath

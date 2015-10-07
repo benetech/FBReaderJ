@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<searchable xmlns:android="http://schemas.android.com/apk/res/android"
-	android:label="@string/empty_string"
-    android:hint="@string/search_hint"
-/>
-<!-- From: file:/Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/res/xml/searchable.xml -->
