@@ -6,6 +6,7 @@ gen/
 obj/
 FBReader/build/
 .idea/
+.gradle
 assets/developerSpecific/
 .classpath
 .settings
