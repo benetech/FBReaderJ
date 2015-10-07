@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:id="@+id/book_detail_view"
+    android:focusable="true">
+
+		<TextView
+		    android:id="@+id/bookshare_book_detail_heading"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:text="Book Details"
+		    android:textSize="20dip"
+		    android:textStyle="bold" />
+
+							<TextView
+								android:id="@+id/bookshare_book_detail_title"
+								android:text="Title: "
+								android:textStyle="bold"
+								android:textSize="16dip"
+								android:typeface="serif"
+								android:paddingBottom="4dip"
+                                android:focusable="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+							<TextView
+								android:id="@+id/bookshare_book_detail_authors"
+								android:text="Author(s): "
+								android:textStyle="bold"
+								android:textSize="16dip"
+								android:typeface="serif"
+								android:paddingBottom="3dip"
+                                android:focusable="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+						<Button
+							android:id="@+id/bookshare_btn_download"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+                            android:layout_marginTop="20dip"
+                            android:layout_marginBottom="2dip"
+							android:text="@string/book_details_download_button"
+							android:textStyle="bold"
+                            android:focusable="true"/>
+						
+						<Button
+							android:id="@+id/bookshare_btn_download_images"
+							android:layout_width="fill_parent"
+							android:layout_height="wrap_content"
+                            android:layout_marginTop="2dip"
+                            android:layout_marginBottom="10dip"
+							android:text="@string/book_details_download_images"
+							android:textStyle="bold"
+                            android:focusable="true"/>
+
+						<TextView
+						    android:id="@+id/bookshare_download_not_available_msg"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:layout_marginBottom="20dip"
+						    android:focusable="true"
+						    android:text="This book is not currently available for download to your account.  Are you signed in to Bookshare?"
+						    android:textSize="16dip"
+						    android:textStyle="bold"
+						    android:typeface="serif" />
+
+						<CheckBox
+						    android:id="@+id/bookshare_chkbx_subscribe_periodical"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:text="@string/subscription_chk_box" />
+
+
+
+
+
+						<TextView
+						    android:id="@+id/bookshare_subscribe_explained"
+						    android:layout_width="wrap_content"
+						    android:layout_height="wrap_content"
+						    android:layout_marginBottom="20dp"
+						    android:text="@string/subscribe_chkbox_description"
+						    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+					
+							<TextView
+								android:id="@+id/bookshare_book_detail_isbn"
+								android:text="ISBN: "
+								android:textStyle="bold"
+								android:textSize="16dip"
+								android:typeface="serif"
+								android:paddingBottom="4dip"
+                                android:focusable="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+							<TextView
+								android:id="@+id/bookshare_book_detail_language"
+								android:text="Language:  "
+								android:textStyle="bold"
+								android:textSize="16dip"
+								android:typeface="serif"
+								android:paddingBottom="4dip"
+                                android:focusable="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+							<TextView
+								android:id="@+id/bookshare_book_detail_category"
+								android:text="Category: "
+								android:textSize="16dip"
+								android:typeface="serif"
+								android:paddingBottom="4dip"
+								android:textStyle="bold"
+                                android:focusable="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+							<TextView
+								android:id="@+id/bookshare_book_detail_publish_date"
+								android:text="@string/bookshare_book_detail_publish_date"
+								android:textSize="16dip"
+								android:typeface="serif"
+								android:paddingBottom="4dip"
+								android:textStyle="bold"
+                                android:focusable="true"
+                                android:layout_height="wrap_content"
+                                android:layout_width="wrap_content"/>
+							<TextView
+								android:id="@+id/bookshare_book_detail_publisher"
+								android:text="Publisher: "
+								android:textSize="16dip"
+								android:typeface="serif"
+								android:textStyle="bold"
+								android:paddingBottom="4dip"
+                                android:focusable="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+							<TextView
+								android:id="@+id/bookshare_book_detail_copyright"
+								android:text="Copyright: "
+								
+								android:textSize="16dip"
+								android:typeface="serif"
+								android:paddingBottom="3dip"
+								android:textStyle="bold"
+                                android:focusable="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+						<TextView
+								android:id="@+id/bookshare_book_detail_synopsis_text"
+								android:text="Synopsis: "
+								android:textSize="16dip"
+								android:typeface="serif"
+								android:paddingTop="3dip"
+								android:paddingBottom="3dip"
+								android:layout_marginBottom="5dip"
+                                android:textStyle="bold"
+                                android:focusable="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+								android:singleLine="false"/>
+
+</LinearLayout>
