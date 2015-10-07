@@ -142,7 +142,10 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
 
     void savePosition() {
         if (myCurrentSentence < mySentences.length) {
-            String bookHash = "BP:" + fbReader.Model.Book.getId();;
+            String bookHash = "";
+            if (fbReader != null && fbReader.Model != null)
+             bookHash = "BP:" + fbReader.Model.Book.getId();
+
             SharedPreferences.Editor myEditor = myPreferences.edit();
             Time time = new Time();
             time.setToNow();
@@ -159,7 +162,7 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
 
     void restorePosition() {
         String bookHash = "";
-        if (fbReader != null)
+        if (fbReader != null && fbReader.Model != null)
         	bookHash = "BP:" + fbReader.Model.Book.getId();
         
         String s = myPreferences.getString(bookHash, "");
@@ -206,8 +209,8 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
 
         if (isTouchExplorationEnabled(accessibilityManager)) {
 //            findViewById(R.id.speak_menu_back).setOnHoverListener(new MyHoverListener());
-//            findViewById(R.id.speak_menu_forward).setOnHoverListener(new MyHoverListener());
-//            findViewById(R.id.speak_menu_pause).setOnHoverListener(new MyHoverListener());
+//            findViewById(R.id.navigation_bar_skip_next).setOnHoverListener(new MyHoverListener());
+//            findViewById(R.id.navigation_bar_play).setOnHoverListener(new MyHoverListener());
 //            findViewById(R.id.speak_menu_contents).setOnHoverListener(new MyHoverListener());
 //            findViewById(R.id.speak_main_menu).setOnHoverListener(new MyHoverListener());
         }
@@ -303,10 +306,10 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
     public void onResume() {
         super.onResume();
         try {
-            findViewById(R.id.speak_menu_pause).requestFocus();
+            findViewById(R.id.navigation_bar_play).requestFocus();
             if(accessibilityManager.isEnabled()){
                 setButtonOpacity(1);
-                ((Button)findViewById(R.id.speak_menu_pause)).setText(R.string.on_press_play);
+                ((Button)findViewById(R.id.navigation_bar_play)).setText(R.string.on_press_play);
             }
             if (!returnFromOtherScreen) {
                 setCurrentLocation();
@@ -386,7 +389,7 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
             public void run() {
 //                findViewById(R.id.speak_menu_back).setEnabled(enabled);
 //                findViewById(R.id.speak_menu_forward).setEnabled(enabled);
-//                findViewById(R.id.speak_menu_pause).setEnabled(enabled);
+//                findViewById(R.id.navigation_bar_play).setEnabled(enabled);
 //                findViewById(R.id.speak_menu_contents).setEnabled(enabled);
             }
         });
@@ -478,7 +481,7 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
             public void run() {
                 if(!accessibilityManager.isEnabled()){
                     if (myIsActive != active) {
-                        //((Button)findViewById(R.id.speak_menu_pause)).setText(active ? R.string.on_press_pause : R.string.on_press_play);
+                        //((Button)findViewById(R.id.navigation_bar_play)).setText(active ? R.string.on_press_pause : R.string.on_press_play);
                         if(myIsActive){
                             WindowManager.LayoutParams params =
                                     getWindow().getAttributes();
@@ -532,8 +535,8 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
         highlightParagraph();
         runOnUiThread(new Runnable() {
             public void run() {
-                findViewById(R.id.speak_menu_forward).setEnabled(true);
-                findViewById(R.id.speak_menu_pause).setEnabled(true);
+                findViewById(R.id.navigation_bar_skip_next).setEnabled(true);
+                findViewById(R.id.navigation_bar_play).setEnabled(true);
             }
         });
 
@@ -565,7 +568,7 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
         if (myParagraphIndex >= (myParagraphsNumber - 1)) {
             runOnUiThread(new Runnable() {
                 public void run() {
-                    findViewById(R.id.speak_menu_forward).setEnabled(false);
+                    findViewById(R.id.navigation_bar_skip_next).setEnabled(false);
                 }
             });
         }
@@ -645,7 +648,7 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
         if (myParagraphIndex >= (myParagraphsNumber - 1)) {
             runOnUiThread(new Runnable() {
                 public void run() {
-                    findViewById(R.id.speak_menu_pause).setEnabled(false);
+                    findViewById(R.id.navigation_bar_play).setEnabled(false);
                 }
             });
         }
@@ -660,12 +663,12 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
                     restorePosition();
                     justPaused = false;
                 }
-                enablePlayButton(true);
+                enablePlayButton(false);
                 speakParagraph(nextParagraph);
             } else {
                 stopTalking();
                 justPaused = true;
-                enablePlayButton(false);
+                enablePlayButton(true);
             }
         }
     
@@ -722,8 +725,7 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
     public boolean dispatchTouchEvent(MotionEvent me){
         setButtonOpacity(1);
         if(accessibilityManager.isEnabled()){
-            findViewById(R.id.speak_menu_pause).requestFocus();
-            ((Button)findViewById(R.id.speak_menu_pause)).setText(R.string.on_press_play);
+            findViewById(R.id.navigation_bar_play).requestFocus();
         }
         this.detector.onTouchEvent(me);
         return super.dispatchTouchEvent(me);
