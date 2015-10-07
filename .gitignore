@@ -5,6 +5,7 @@ bin/
 gen/
 obj/
 FBReader/build/
+build/
 .idea/
 .gradle
 assets/developerSpecific/
