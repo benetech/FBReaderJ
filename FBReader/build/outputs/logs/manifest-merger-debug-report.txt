@@ -17,6 +17,8 @@ ADDED from /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/
 		ADDED from /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/AndroidManifest.xml:6:5-35
 uses-sdk
 ADDED from /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/AndroidManifest.xml:8:2-10:38
+MERGED from [com.android.support:support-v13:21.0.3] /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.3/AndroidManifest.xml:15:5-43
+MERGED from [com.android.support:support-v4:21.0.3] /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/AndroidManifest.xml:15:5-42
 	android:targetSdkVersion
 		ADDED from /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/AndroidManifest.xml:10:6-35
 		INJECTED from /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/AndroidManifest.xml
@@ -69,6 +71,8 @@ ADDED from /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/
 		ADDED from /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/AndroidManifest.xml:20:22-76
 application
 ADDED from /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/AndroidManifest.xml:21:2-246:19
+MERGED from [com.android.support:support-v13:21.0.3] /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.3/AndroidManifest.xml:16:5-19
+MERGED from [com.android.support:support-v4:21.0.3] /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/AndroidManifest.xml:16:5-19
 	android:label
 		ADDED from /Users/nimaa/Development/benetech/GoRead/FBReaderJ/FBReader/src/main/AndroidManifest.xml:21:162-194
 	android:icon

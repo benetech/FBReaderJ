@@ -4,6 +4,7 @@ local.properties
 bin/
 gen/
 obj/
+.idea/
 assets/developerSpecific/
 .classpath
 .settings

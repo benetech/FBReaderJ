@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/FBReader/FBReader.iml" filepath="$PROJECT_DIR$/FBReader/FBReader.iml" />
-      <module fileurl="file://$PROJECT_DIR$/FBReaderJ.iml" filepath="$PROJECT_DIR$/FBReaderJ.iml" />
-    </modules>
-  </component>
-</project>
