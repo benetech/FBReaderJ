@@ -33,7 +33,8 @@ android {
 }
 
 dependencies {
-    compile files('libs/android-support-v13.jar')
+    compile "com.android.support:support-v13:21.0.+"
+
     compile files('libs/bugsense3.4.jar')
     compile files('libs/commons-codec-1.4.jar')
     compile files('libs/commons-io-2.4.jar')
