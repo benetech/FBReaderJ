@@ -23,6 +23,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityManager;
+import android.widget.SeekBar;
+
 import com.google.analytics.tracking.android.EasyTracker;
 
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
@@ -74,20 +76,14 @@ public class PreferenceActivity extends ZLPreferenceActivity {
                 androidLibrary.OrientationOption, androidLibrary.allOrientations()
             ));
 
-            appearanceScreen.addPreference(new ZLBooleanPreference(
-                this,
-                fbReader.AllowScreenBrightnessAdjustmentOption,
-                appearanceScreen.Resource,
-                "allowScreenBrightnessAdjustment"
-            ) {
-                private final int myLevel = androidLibrary.ScreenBrightnessLevelOption.getValue();
-
+            final int myLevel = androidLibrary.ScreenBrightnessLevelOption.getValue();
+            appearanceScreen.addPreference(new SeekBarPreference(this, null, 1, myLevel) {
                 @Override
-                protected void onClick() {
-                    super.onClick();
-                    androidLibrary.ScreenBrightnessLevelOption.setValue(isChecked() ? myLevel : 0);
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    androidLibrary.ScreenBrightnessLevelOption.setValue(progress);
                 }
             });
+
             appearanceScreen.addPreference(new BatteryLevelToTurnScreenOffPreference(
                 this,
                 androidLibrary.BatteryLevelToTurnScreenOffOption,
