@@ -80,6 +80,9 @@ public class PreferenceActivity extends ZLPreferenceActivity {
             appearanceScreen.addPreference(new SeekBarPreference(this, null, 1, myLevel) {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (progress == 0)
+                        progress = 1;
+                    
                     androidLibrary.ScreenBrightnessLevelOption.setValue(progress);
                 }
             });
