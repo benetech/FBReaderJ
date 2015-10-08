@@ -165,8 +165,9 @@ public final class FBView extends ZLTextView {
 					myIsBrightnessAdjustmentInProgress = false;
 					startManualScrolling(x, y);
 				} else {
-					final int delta = (myStartBrightness + 30) * (myStartY - y) / myContext.getHeight();
-					ZLibrary.Instance().setScreenBrightness(myStartBrightness + delta);
+// FBR-360: Disabled swiping up/down on left side of screen to brighten/darken
+//					final int delta = (myStartBrightness + 30) * (myStartY - y) / myContext.getHeight();
+//					ZLibrary.Instance().setScreenBrightness(myStartBrightness + delta);
 					return true;
 				}
 			}
