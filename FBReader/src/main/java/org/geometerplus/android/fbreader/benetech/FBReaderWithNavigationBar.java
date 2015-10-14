@@ -385,10 +385,9 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private void setActionsEnabled(final boolean enabled) {
         runOnUiThread(new Runnable() {
             public void run() {
-//                findViewById(R.id.speak_menu_back).setEnabled(enabled);
-//                findViewById(R.id.speak_menu_forward).setEnabled(enabled);
-//                findViewById(R.id.navigation_bar_play).setEnabled(enabled);
-//                findViewById(R.id.speak_menu_contents).setEnabled(enabled);
+                findViewById(R.id.navigation_bar_skip_previous).setEnabled(enabled);
+                findViewById(R.id.navigation_bar_skip_next).setEnabled(enabled);
+                findViewById(R.id.navigation_bar_play).setEnabled(enabled);
             }
         });
     }
