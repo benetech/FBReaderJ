@@ -19,21 +19,24 @@
 
 package org.geometerplus.zlibrary.ui.android.library;
 
-import java.lang.reflect.*;
-
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.content.*;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.view.*;
 import android.os.PowerManager;
-
-import org.geometerplus.zlibrary.core.application.ZLApplication;
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import org.benetech.android.R;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.ui.android.application.ZLAndroidApplicationWindow;
+
+import java.lang.reflect.Field;
 
 public abstract class ZLAndroidActivity extends Activity {
 	protected abstract ZLApplication createApplication(ZLFile file);
