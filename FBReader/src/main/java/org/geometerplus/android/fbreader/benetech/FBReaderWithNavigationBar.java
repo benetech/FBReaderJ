@@ -134,7 +134,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
     }
 
-    void savePosition() {
+    private void savePosition() {
         if (myCurrentSentence < mySentences.length) {
             String bookHash = "";
             if (fbReader != null && fbReader.Model != null)
@@ -644,7 +644,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             });
         }
     }
-
 
     private void playOrPause() {
             if (!myIsActive) {
