@@ -124,10 +124,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         findViewById(id).setOnClickListener(listener);
     }
 
-    private void setTouchFocusEnabled(int id) {
-        findViewById(id).setFocusableInTouchMode(true);
-    }
-
     private class MyHoverListener implements View.OnHoverListener {
 
         @Override
