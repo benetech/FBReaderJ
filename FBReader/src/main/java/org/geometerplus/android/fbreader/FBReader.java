@@ -606,8 +606,6 @@ public class FBReader extends ZLAndroidActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus && accessibilityManager.isEnabled() && initialOpen) {
             initialOpen = false;
-            Intent intent = new Intent(this, SpeakActivity.class);
-            startActivityForResult(intent, AUTO_SPEAK_CODE);
         }
     }
 
