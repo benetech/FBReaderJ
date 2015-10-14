@@ -97,6 +97,7 @@
     <orderEntry type="library" exported="" name="zip4j_1.1.7" level="project" />
     <orderEntry type="library" exported="" name="libGoogleAnalyticsV2" level="project" />
     <orderEntry type="library" exported="" name="commons-io-2.4" level="project" />
+    <orderEntry type="library" exported="" name="guava-13.0.1" level="project" />
     <orderEntry type="library" exported="" name="jmdns" level="project" />
   </component>
 </module>

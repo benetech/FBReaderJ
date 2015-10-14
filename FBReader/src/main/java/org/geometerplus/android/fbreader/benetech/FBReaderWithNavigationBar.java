@@ -1,24 +1,5 @@
 package org.geometerplus.android.fbreader.benetech;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
-import org.accessibility.SimpleGestureFilter;
-import org.accessibility.VoiceableDialog;
-import org.benetech.android.R;
-import org.geometerplus.android.fbreader.FBReader;
-import org.geometerplus.android.fbreader.TOCActivity;
-import org.geometerplus.android.fbreader.api.ApiServerImplementation;
-import org.geometerplus.android.fbreader.api.TextPosition;
-import org.geometerplus.fbreader.fbreader.FBReaderApp;
-
-import com.google.analytics.tracking.android.EasyTracker;
-import com.hyperionics.fbreader.plugin.tts_plus.TtsSentenceExtractor;
-
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -38,10 +19,27 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 
-public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener, SimpleGestureFilter.SimpleGestureListener  {
+import com.google.analytics.tracking.android.EasyTracker;
+import com.hyperionics.fbreader.plugin.tts_plus.TtsSentenceExtractor;
+
+import org.accessibility.SimpleGestureFilter;
+import org.accessibility.VoiceableDialog;
+import org.benetech.android.R;
+import org.geometerplus.android.fbreader.TOCActivity;
+import org.geometerplus.android.fbreader.api.ApiServerImplementation;
+import org.geometerplus.android.fbreader.api.TextPosition;
+import org.geometerplus.fbreader.fbreader.FBReaderApp;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener, SimpleGestureFilter.SimpleGestureListener  {
     private ApiServerImplementation myApi;
 
     private TextToSpeech myTTS;
@@ -309,7 +307,7 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
             findViewById(R.id.navigation_bar_play).requestFocus();
             if(accessibilityManager.isEnabled()){
                 setButtonOpacity(1);
-                ((Button)findViewById(R.id.navigation_bar_play)).setText(R.string.on_press_play);
+                enablePlayButton(true);
             }
             if (!returnFromOtherScreen) {
                 setCurrentLocation();
@@ -489,10 +487,10 @@ public class FBReaderWithNavigationBar extends FBReader implements TextToSpeech.
                                     getWindow().setAttributes(params);
                             } else {
                                 WindowManager.LayoutParams params =
-                                        getWindow().getAttributes();
-                                        params.alpha=0.2f;
-                                        getWindow().setAttributes(params);
-                            }
+                                getWindow().getAttributes();
+                                params.alpha=0.2f;
+                                    getWindow().setAttributes(params);
+                        }
                     }
                 }
             }

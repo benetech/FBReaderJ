@@ -34,6 +34,7 @@ android {
 
 dependencies {
     compile "com.android.support:support-v13:21.0.+"
+    compile 'com.google.guava:guava:13.0.1'
 
     compile files('libs/bugsense3.4.jar')
     compile files('libs/commons-codec-1.4.jar')

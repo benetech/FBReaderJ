@@ -31,6 +31,7 @@ import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
 import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
 import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
 
+import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.text.view.style.*;
 
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
@@ -113,10 +114,9 @@ public class PreferenceActivity extends ZLPreferenceActivity {
                 this, textScreen.Resource, "font",
                 baseStyle.FontFamilyOption, false
             ));
-            textScreen.addPreference(new ZLIntegerArrayPreference(
-                this, textScreen.Resource.getResource("fontSize"),
-                baseStyle.FontSizeOption
-            ));
+
+            textScreen.addPreference(new ZLFontSizeListPreference(this, textScreen.Resource, baseStyle.FontSizeOption, "fontSize"));
+
             textScreen.addPreference(new FontStylePreference(
                 this, textScreen.Resource, "fontStyle",
                 baseStyle.BoldOption, baseStyle.ItalicOption

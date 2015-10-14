@@ -19,6 +19,7 @@
 
 package org.geometerplus.zlibrary.text.view.style;
 
+import org.geometerplus.android.fbreader.preferences.ZLFontSizeListPreference;
 import org.geometerplus.zlibrary.core.options.*;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.text.model.ZLTextAlignmentType;
@@ -51,8 +52,7 @@ public class ZLTextBaseStyle extends ZLTextStyle {
 		FontFamilyOption = new ZLStringOption(GROUP, "Base:fontFamily", fontFamily);
 		fontSize = fontSize * ZLibrary.Instance().getDisplayDPI() / 320 * 2;
 		// http://spencermortensen.com/articles/typographic-scale/
-		int[] standardFontSizes = new int[] { 5, 6, 7, 8, 9, 10, 12, 14, 16, 18, 21, 24, 28, 32, 26, 42, 48, 55, 60, 72, 84, 96, 110, 127, 146, 167, 192,
-				221, 253, 291, 334, 384, 441, 506, 582, 668, 768 };
+		int[] standardFontSizes = ZLFontSizeListPreference.getFontSizes();
 		FontSizeOption = new ZLIntegerArrayOption(GROUP, "Base:fontSize", standardFontSizes, fontSize);
 	}
 	
