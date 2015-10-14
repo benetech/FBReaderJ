@@ -32,7 +32,7 @@ import org.geometerplus.android.fbreader.api.ApiListener;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.PluginApi;
 import org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity;
-import org.geometerplus.android.fbreader.benetech.SpeakActivity;
+import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.android.fbreader.library.KillerCallback;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
@@ -175,7 +175,6 @@ public class FBReader extends ZLAndroidActivity {
 			new SelectionPopup(fbReader);
 		}
 
-        fbReader.addAction(ActionCode.SPEAK, new ShowSpeakAction(this, fbReader));
         fbReader.addAction(ActionCode.BOOKSHARE, new ShowBookshareMenuAction(this, fbReader));
         fbReader.addAction(ActionCode.ACCESSIBLE_NAVIGATION, new ShowAccessiblePageNavigateAction(this, fbReader));
         fbReader.addAction(ActionCode.SHOW_HELP, new ShowHelpAction(this, fbReader));
@@ -476,7 +475,7 @@ public class FBReader extends ZLAndroidActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		final FBReaderApp fbreader = (FBReaderApp)FBReaderApp.Instance();
-        if (resultCode == SpeakActivity.SPEAK_BACK_PRESSED) {
+        if (resultCode == FBReaderWithNavigationBar.SPEAK_BACK_PRESSED) {
             //fbreader.doAction(ActionCode.SHOW_CANCEL_MENU);
             fbreader.closeWindow();
             return;
@@ -606,8 +605,6 @@ public class FBReader extends ZLAndroidActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
         if (hasFocus && accessibilityManager.isEnabled() && initialOpen) {
             initialOpen = false;
-            Intent intent = new Intent(this, SpeakActivity.class);
-            startActivityForResult(intent, AUTO_SPEAK_CODE);
         }
     }
 

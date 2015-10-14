@@ -124,10 +124,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         findViewById(id).setOnClickListener(listener);
     }
 
-    private void setTouchFocusEnabled(int id) {
-        findViewById(id).setFocusableInTouchMode(true);
-    }
-
     private class MyHoverListener implements View.OnHoverListener {
 
         @Override
@@ -138,7 +134,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
     }
 
-    void savePosition() {
+    private void savePosition() {
         if (myCurrentSentence < mySentences.length) {
             String bookHash = "";
             if (fbReader != null && fbReader.Model != null)
@@ -206,11 +202,9 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
 
         if (isTouchExplorationEnabled(accessibilityManager)) {
-//            findViewById(R.id.speak_menu_back).setOnHoverListener(new MyHoverListener());
-//            findViewById(R.id.navigation_bar_skip_next).setOnHoverListener(new MyHoverListener());
-//            findViewById(R.id.navigation_bar_play).setOnHoverListener(new MyHoverListener());
-//            findViewById(R.id.speak_menu_contents).setOnHoverListener(new MyHoverListener());
-//            findViewById(R.id.speak_main_menu).setOnHoverListener(new MyHoverListener());
+            findViewById(R.id.navigation_bar_skip_previous).setOnHoverListener(new MyHoverListener());
+            findViewById(R.id.navigation_bar_skip_next).setOnHoverListener(new MyHoverListener());
+            findViewById(R.id.navigation_bar_play).setOnHoverListener(new MyHoverListener());
         }
 
         
@@ -478,7 +472,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             public void run() {
                 if(!accessibilityManager.isEnabled()){
                     if (myIsActive != active) {
-                        //((Button)findViewById(R.id.navigation_bar_play)).setText(active ? R.string.on_press_pause : R.string.on_press_play);
+                        enablePlayButton(!active);
                         if(myIsActive){
                             WindowManager.LayoutParams params =
                                     getWindow().getAttributes();
@@ -650,7 +644,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             });
         }
     }
-
 
     private void playOrPause() {
             if (!myIsActive) {
