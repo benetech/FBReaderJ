@@ -175,7 +175,6 @@ public class FBReader extends ZLAndroidActivity {
 			new SelectionPopup(fbReader);
 		}
 
-        fbReader.addAction(ActionCode.SPEAK, new ShowSpeakAction(this, fbReader));
         fbReader.addAction(ActionCode.BOOKSHARE, new ShowBookshareMenuAction(this, fbReader));
         fbReader.addAction(ActionCode.ACCESSIBLE_NAVIGATION, new ShowAccessiblePageNavigateAction(this, fbReader));
         fbReader.addAction(ActionCode.SHOW_HELP, new ShowHelpAction(this, fbReader));
