@@ -33,7 +33,6 @@ import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.PluginApi;
 import org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity;
 import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
-import org.geometerplus.android.fbreader.benetech.SpeakActivity;
 import org.geometerplus.android.fbreader.library.KillerCallback;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
