@@ -28,6 +28,7 @@ import android.net.Uri;
 import android.content.Intent;
 import android.content.DialogInterface;
 
+import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.network.ZLNetworkException;
 
@@ -209,7 +210,7 @@ public abstract class NetworkBookActions {
 				new Intent(Intent.ACTION_VIEW,
 					Uri.fromFile(new File(local)),
 					activity.getApplicationContext(),
-					FBReader.class
+					FBReaderWithNavigationBar.class
 				).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK)
 			);
 		}
