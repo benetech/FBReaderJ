@@ -244,5 +244,25 @@
 <!--        <service android:name="org.geometerplus.android.fbreader.network.bookshare.subscription.MainPeriodicalDownloadService" />
         <service android:name="org.geometerplus.android.fbreader.network.bookshare.subscription.SubscriptionDownloadService" />-->
 
-    </application>
+		<service android:name="com.google.android.gms.analytics.AnalyticsService" android:enabled="true" android:exported="false"/>
+		<receiver
+			android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+			android:enabled="true">
+			<intent-filter>
+				<action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH"/>
+			</intent-filter>
+		</receiver>
+
+		<receiver
+			android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+			android:exported="true"
+			android:enabled="true">
+			<intent-filter>
+				<action android:name="com.android.vending.INSTALL_REFERRER"/>
+			</intent-filter>
+		</receiver>
+		<service android:name="com.google.android.gms.analytics.CampaignTrackingService" android:enabled="true"/>
+
+
+	</application>
 </manifest>
