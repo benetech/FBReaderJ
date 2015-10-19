@@ -1,44 +1,5 @@
 package org.geometerplus.android.fbreader.network.bookshare;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import net.lingala.zip4j.core.ZipFile;
-import net.lingala.zip4j.exception.ZipException;
-import net.lingala.zip4j.model.FileHeader;
-
-import org.accessibility.ParentCloserDialog;
-import org.accessibility.VoiceableDialog;
-import org.benetech.android.R;
-import org.bookshare.net.BookshareWebServiceClient;
-import org.geometerplus.android.fbreader.FBReader;
-import org.geometerplus.android.fbreader.benetech.Analytics;
-import org.geometerplus.android.fbreader.network.BookDownloaderService;
-import org.geometerplus.fbreader.Paths;
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-import org.geometerplus.zlibrary.core.resources.ZLResource;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-
 import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -64,7 +25,45 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import net.lingala.zip4j.core.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+import net.lingala.zip4j.model.FileHeader;
+
+import org.accessibility.ParentCloserDialog;
+import org.accessibility.VoiceableDialog;
+import org.benetech.android.R;
+import org.bookshare.net.BookshareWebServiceClient;
+import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.android.fbreader.benetech.Analytics;
+import org.geometerplus.android.fbreader.network.BookDownloaderService;
+import org.geometerplus.fbreader.Paths;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.core.resources.ZLResource;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Vector;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 /**
  * Shows the details of a selected book. Will also show a download option if applicable.
@@ -490,13 +489,13 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance().activityStart(this);
+        ((ZLAndroidApplication) getApplication()).startTracker(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);
+        ((ZLAndroidApplication) getApplication()).stopTracker(this);
     }
 
     private void showAlert(String msg) {
@@ -1239,11 +1238,9 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 startActivityForResult(intent, START_BOOKSHARE_OM_LIST);
             } else {
                 if (downloadType == DAISY_DOWNLOAD_TYPE) {
-                    EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                            Analytics.EVENT_LABEL_DOWNLOAD_BOOK, null);
+                    ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_DOWNLOAD_BOOK);
                 } else if (downloadType == DAISY_WITH_IMAGES_DOWNLOAD_TYPE) {
-                    EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                            Analytics.EVENT_LABEL_DOWNLOAD_BOOK_WITH_IMAGES, null);
+                    ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_DOWNLOAD_BOOK_WITH_IMAGES);
                 }
                 new DownloadFilesTask().execute();
 

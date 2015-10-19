@@ -27,7 +27,7 @@ import android.view.*;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.*;
 import android.content.*;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.GoogleAnalytics;
 
 import org.accessibility.VoiceableDialog;
 import org.geometerplus.android.fbreader.benetech.LabelsListAdapter;
@@ -159,13 +159,13 @@ public class BookmarksActivity extends TabActivity implements MenuItem.OnMenuIte
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance().activityStart(this);
+		GoogleAnalytics.getInstance(this).reportActivityStart(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);
+		GoogleAnalytics.getInstance(this).reportActivityStop(this);
     }
 
 	@Override

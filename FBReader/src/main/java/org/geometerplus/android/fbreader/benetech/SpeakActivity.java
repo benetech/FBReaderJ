@@ -49,7 +49,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
-import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.analytics.GoogleAnalytics;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.hyperionics.fbreader.plugin.tts_plus.TtsSentenceExtractor;
 
 import org.accessibility.SimpleGestureFilter;
@@ -59,6 +62,7 @@ import org.geometerplus.android.fbreader.TOCActivity;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.TextPosition;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
 public class SpeakActivity extends Activity implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener, SimpleGestureFilter.SimpleGestureListener  {
     private ApiServerImplementation myApi;
@@ -232,8 +236,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
 
         setListener(R.id.speak_menu_back, new View.OnClickListener() {
             public void onClick(View v) {
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                    Analytics.EVENT_LABEL_PREV, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_PREV);
                 goBackward();
             }
         });
@@ -249,8 +252,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         );
         setListener(R.id.speak_menu_forward, new View.OnClickListener() {
             public void onClick(View v) {
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                    Analytics.EVENT_LABEL_NEXT, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_NEXT);
                 goForward();
             }
         });
@@ -272,15 +274,13 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         });*/
         setListener(R.id.speak_menu_pause, new View.OnClickListener() {
             public void onClick(View v) {
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                    Analytics.EVENT_LABEL_PLAY_PAUSE, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_PLAY_PAUSE);
                 playOrPause();
             }
         });
         setListener(R.id.speak_menu_contents, new View.OnClickListener() {
             public void onClick(View v) {
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                    Analytics.EVENT_LABEL_TOC, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_TOC);
                 showContents();
             }
         });
@@ -296,8 +296,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         );
         setListener(R.id.speak_main_menu, new View.OnClickListener() {
             public void onClick(View v) {
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON,
-                        Analytics.EVENT_LABEL_TOC, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_TOC);
                 showMainMenu();
             }
         });
@@ -392,7 +391,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance().activityStart(this);
+        ((ZLAndroidApplication) getApplication()).startTracker(this);
     }
 
     @Override
@@ -415,7 +414,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
             }
         }
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);
+        ((ZLAndroidApplication) getApplication()).stopTracker(this);
     }
 
     @Override
@@ -791,22 +790,18 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
         switch (direction) {
             case SimpleGestureFilter.SWIPE_RIGHT :
                 goForward();
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-                    Analytics.EVENT_LABEL_NEXT, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_NEXT);
                 break;
             case SimpleGestureFilter.SWIPE_LEFT :
                 goBackward();
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-                    Analytics.EVENT_LABEL_PREV, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_PREV);
                 break;
             case SimpleGestureFilter.SWIPE_DOWN :
                 showMainMenu();
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-                    Analytics.EVENT_LABEL_MENU, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_MENU);
                 break;
             case SimpleGestureFilter.SWIPE_UP :
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-                    Analytics.EVENT_LABEL_TOC, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_TOC);
                 showContents();
                 break;
           }
@@ -815,8 +810,7 @@ public class SpeakActivity extends Activity implements TextToSpeech.OnInitListen
     @Override
     public void onDoubleTap() {
         myVib.vibrate(VIBE_PATTERN, -1);
-        EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-            Analytics.EVENT_LABEL_PLAY_PAUSE, null);
+        ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_PLAY_PAUSE);
         playOrPause();
     }
 

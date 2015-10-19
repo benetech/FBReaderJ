@@ -1,13 +1,5 @@
 package org.geometerplus.android.fbreader.benetech;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.benetech.android.R;
-import org.geometerplus.android.fbreader.TOCActivity;
-import org.geometerplus.fbreader.fbreader.ActionCode;
-import org.geometerplus.zlibrary.core.application.ZLApplication;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -23,7 +15,15 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.google.analytics.tracking.android.EasyTracker;
+
+import org.benetech.android.R;
+import org.geometerplus.android.fbreader.TOCActivity;
+import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccessibleMainMenuActivity extends Activity {
 
@@ -109,8 +109,7 @@ public class AccessibleMainMenuActivity extends Activity {
 		} else if (keyCode == KeyEvent.KEYCODE_BACK) {
 			setResult(TOCActivity.BACK_PRESSED);
 			ZLApplication.Instance().doAction(ActionCode.SPEAK);
-            EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU,
-                Analytics.EVENT_LABEL_READ, null);
+            ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU, Analytics.EVENT_LABEL_READ);
 			finish();
 			return true;
 		}
@@ -120,13 +119,13 @@ public class AccessibleMainMenuActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance().activityStart(this);
+        ((ZLAndroidApplication) getApplication()).startTracker(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);
+        ((ZLAndroidApplication) getApplication()).stopTracker(this);
     }
 
     /**
@@ -145,16 +144,14 @@ public class AccessibleMainMenuActivity extends Activity {
         tableOfContents(resources.getString(R.string.menu_toc), new MenuOperation() {
             public void click(final Activity activity) {
                 ZLApplication.Instance().doAction(ActionCode.SHOW_TOC);
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU,
-                    Analytics.EVENT_LABEL_TOC, null);
+                ((ZLAndroidApplication) activity.getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU, Analytics.EVENT_LABEL_TOC);
                 activity.finish();
             }
         }),
         navigate(resources.getString(R.string.menu_navigate), new MenuOperation() {
             public void click(final Activity activity) {
                 ZLApplication.Instance().doAction(ActionCode.ACCESSIBLE_NAVIGATION);
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU,
-                    Analytics.EVENT_LABEL_NAVIGATE, null);
+                ((ZLAndroidApplication) activity.getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU, Analytics.EVENT_LABEL_NAVIGATE);
                 activity.finish();
             }
         }),
@@ -185,16 +182,14 @@ public class AccessibleMainMenuActivity extends Activity {
 	    settings(resources.getString(R.string.menu_settings), new MenuOperation() {
 	        public void click(final Activity activity) {
                 ZLApplication.Instance().doAction(ActionCode.SHOW_PREFERENCES);
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU,
-                    Analytics.EVENT_LABEL_SETTINGS, null);
+                ((ZLAndroidApplication) activity.getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU, Analytics.EVENT_LABEL_SETTINGS);
                 activity.finish();
 	        }
 	    }),
         accessibilitySettings(resources.getString(R.string.menu_accessibility_settings), new MenuOperation() {
             public void click(final Activity activity) {
                 ZLApplication.Instance().doAction(ActionCode.SHOW_ACCESSIBILITY_SETTINGS);
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU,
-                    Analytics.EVENT_LABEL_ACCESSIBILITY_SETTINGS, null);
+                ((ZLAndroidApplication) activity.getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU, Analytics.EVENT_LABEL_ACCESSIBILITY_SETTINGS);
                 activity.finish();
             }
         }),
@@ -204,16 +199,14 @@ public class AccessibleMainMenuActivity extends Activity {
                 intent.setAction("com.android.settings.TTS_SETTINGS");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 me.startActivity(intent);
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU,
-                    Analytics.EVENT_LABEL_TTS_SETTINGS, null);
+                ((ZLAndroidApplication) activity.getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU, Analytics.EVENT_LABEL_TTS_SETTINGS);
                 activity.finish();
             }
         }),
         help(resources.getString(R.string.menu_help), new MenuOperation() {
             public void click(final Activity activity) {
                 ZLApplication.Instance().doAction(ActionCode.SHOW_HELP);
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU,
-                    Analytics.EVENT_LABEL_HELP, null);
+                ((ZLAndroidApplication) activity.getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_MENU, Analytics.EVENT_LABEL_HELP);
                 activity.finish();
             }
         })

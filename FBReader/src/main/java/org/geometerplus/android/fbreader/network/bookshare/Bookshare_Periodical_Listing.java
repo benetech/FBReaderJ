@@ -1,28 +1,5 @@
 package org.geometerplus.android.fbreader.network.bookshare;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Vector;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.accessibility.ParentCloserDialog;
-import org.benetech.android.R;
-import org.bookshare.net.BookshareWebServiceClient;
-import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
-
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -43,7 +20,29 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.google.analytics.tracking.android.EasyTracker;
+import org.accessibility.ParentCloserDialog;
+import org.benetech.android.R;
+import org.bookshare.net.BookshareWebServiceClient;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
+import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Vector;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 public class Bookshare_Periodical_Listing extends ListActivity {
 
@@ -111,13 +110,13 @@ public class Bookshare_Periodical_Listing extends ListActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		EasyTracker.getInstance().activityStart(this);
+		((ZLAndroidApplication) getApplication()).startTracker(this);
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		EasyTracker.getInstance().activityStop(this);
+		((ZLAndroidApplication) getApplication()).stopTracker(this);
 	}
 
 	/**

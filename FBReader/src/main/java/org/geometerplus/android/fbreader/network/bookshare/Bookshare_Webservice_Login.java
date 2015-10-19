@@ -1,13 +1,5 @@
 package org.geometerplus.android.fbreader.network.bookshare;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-
-import org.accessibility.VoiceableDialog;
-import org.bookshare.net.BookshareWebServiceClient;
-import org.benetech.android.R;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -33,7 +25,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import com.google.analytics.tracking.android.EasyTracker;
+
+import org.accessibility.VoiceableDialog;
+import org.benetech.android.R;
+import org.bookshare.net.BookshareWebServiceClient;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 
 
 /**

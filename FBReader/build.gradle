@@ -1,13 +1,15 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 17
+    compileSdkVersion 21
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "org.benetech.android.fbreader"
         minSdkVersion 14
-        targetSdkVersion 17
+        targetSdkVersion 21
+        multiDexEnabled true
 
         ndk {
             moduleName "DeflatingDecompressor-v2"
@@ -33,13 +35,16 @@ android {
 }
 
 dependencies {
-    compile "com.android.support:support-v13:21.0.+"
+    compile 'com.android.support:support-v4:21.0.0'
     compile 'com.google.guava:guava:13.0.1'
+    compile 'com.android.support:appcompat-v7:21.+'
+    compile 'com.google.android.gms:play-services-analytics:8.1.0'
+    compile 'com.google.android.gms:play-services:8.1.0'
+    compile 'com.android.support:multidex:1.0.1'
 
     compile files('libs/bugsense3.4.jar')
     compile files('libs/commons-codec-1.4.jar')
     compile files('libs/commons-io-2.4.jar')
     compile files('libs/jmdns.jar')
-    compile files('libs/libGoogleAnalyticsV2.jar')
     compile files('libs/zip4j_1.1.7.jar')
 }

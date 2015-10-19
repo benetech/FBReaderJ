@@ -19,27 +19,28 @@
 
 package org.geometerplus.zlibrary.ui.android.library;
 
-import java.lang.reflect.*;
-
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
-import android.content.*;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.view.*;
 import android.os.PowerManager;
-
-import org.geometerplus.zlibrary.core.application.ZLApplication;
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import org.benetech.android.R;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.ui.android.application.ZLAndroidApplicationWindow;
 
-public abstract class ZLAndroidActivity extends Activity {
-	protected abstract ZLApplication createApplication(ZLFile file);
+import java.lang.reflect.Field;
 
-	private static final String REQUESTED_ORIENTATION_KEY = "org.geometerplus.zlibrary.ui.android.library.androidActiviy.RequestedOrientation";
-	private static final String ORIENTATION_CHANGE_COUNTER_KEY = "org.geometerplus.zlibrary.ui.android.library.androidActiviy.ChangeCounter";
+public abstract class ZLAndroidActivity extends ActionBarActivity {
+	protected abstract ZLApplication createApplication(ZLFile file);
 
 	private void setScreenBrightnessAuto() {
 		final WindowManager.LayoutParams attrs = getWindow().getAttributes();
@@ -82,11 +83,12 @@ public abstract class ZLAndroidActivity extends Activity {
 
 	@Override
 	public void onCreate(Bundle state) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(state);
 
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(this));
 
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 		setContentView(R.layout.main);
 		setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 

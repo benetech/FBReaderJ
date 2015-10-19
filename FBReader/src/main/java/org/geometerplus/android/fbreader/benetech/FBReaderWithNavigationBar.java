@@ -21,7 +21,6 @@ import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.ImageButton;
 
-import com.google.analytics.tracking.android.EasyTracker;
 import com.hyperionics.fbreader.plugin.tts_plus.TtsSentenceExtractor;
 
 import org.accessibility.SimpleGestureFilter;
@@ -31,6 +30,7 @@ import org.geometerplus.android.fbreader.TOCActivity;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.TextPosition;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -210,14 +210,14 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         
         setListener(R.id.navigation_bar_play, new View.OnClickListener() {
         	public void onClick(View v) {
-        		EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_PLAY_PAUSE, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_PLAY_PAUSE);
         		playOrPause();
         	}
         });
 
         setListener(R.id.navigation_bar_skip_previous, new View.OnClickListener() {
         	public void onClick(View v) {
-        		EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_PREV, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_PREV);
         		goBackward();
         	}
         });
@@ -234,7 +234,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
         setListener(R.id.navigation_bar_skip_next, new View.OnClickListener() {
         	public void onClick(View v) {
-        		EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_NEXT, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_NEXT);
         		goForward();
         	}
         });
@@ -328,7 +328,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     @Override
     public void onStart() {
         super.onStart();
-        EasyTracker.getInstance().activityStart(this);
+        ((ZLAndroidApplication) getApplication()).startTracker(this);
     }
 
     @Override
@@ -351,7 +351,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             }
         }
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);
+        ((ZLAndroidApplication) getApplication()).stopTracker(this);
     }
 
     @Override
@@ -739,22 +739,18 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         switch (direction) {
             case SimpleGestureFilter.SWIPE_RIGHT :
                 goForward();
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-                    Analytics.EVENT_LABEL_NEXT, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_NEXT);
                 break;
             case SimpleGestureFilter.SWIPE_LEFT :
                 goBackward();
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-                    Analytics.EVENT_LABEL_PREV, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_PREV);
                 break;
             case SimpleGestureFilter.SWIPE_DOWN :
                 showMainMenu();
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-                    Analytics.EVENT_LABEL_MENU, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_MENU);
                 break;
             case SimpleGestureFilter.SWIPE_UP :
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-                    Analytics.EVENT_LABEL_TOC, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_TOC);
                 showContents();
                 break;
           }
@@ -763,8 +759,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     @Override
     public void onDoubleTap() {
         myVib.vibrate(VIBE_PATTERN, -1);
-        EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE,
-            Analytics.EVENT_LABEL_PLAY_PAUSE, null);
+        ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_PLAY_PAUSE);
         playOrPause();
     }
 
