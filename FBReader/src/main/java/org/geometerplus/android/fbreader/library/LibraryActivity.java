@@ -19,36 +19,39 @@
 
 package org.geometerplus.android.fbreader.library;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.content.DialogInterface;
-import android.view.*;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.google.analytics.tracking.android.EasyTracker;
 
 import org.accessibility.VoiceableDialog;
+import org.benetech.android.R;
+import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.benetech.Analytics;
 import org.geometerplus.android.fbreader.benetech.LabelsListAdapter;
-import org.geometerplus.zlibrary.core.options.ZLStringOption;
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-import org.geometerplus.zlibrary.core.resources.ZLResource;
-
-import org.benetech.android.R;
-
-import org.geometerplus.fbreader.library.*;
-import org.geometerplus.fbreader.tree.FBTree;
-
-import org.geometerplus.android.util.UIUtil;
-import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.tree.TreeActivity;
+import org.geometerplus.android.util.UIUtil;
+import org.geometerplus.fbreader.library.Book;
+import org.geometerplus.fbreader.library.BooksDatabase;
+import org.geometerplus.fbreader.library.FileTree;
+import org.geometerplus.fbreader.library.Library;
+import org.geometerplus.fbreader.library.LibraryTree;
+import org.geometerplus.fbreader.tree.FBTree;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.core.options.ZLStringOption;
+import org.geometerplus.zlibrary.core.resources.ZLResource;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
+
+import java.util.ArrayList;
 
 public class LibraryActivity extends TreeActivity implements MenuItem.OnMenuItemClickListener, View.OnCreateContextMenuListener, Library.ChangeListener {
 	static volatile boolean ourToBeKilled = false;
@@ -110,14 +113,14 @@ public class LibraryActivity extends TreeActivity implements MenuItem.OnMenuItem
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance().activityStart(this);
-    }
+		((ZLAndroidApplication) getApplication()).startTracker(this);
+	}
 
     @Override
     public void onStop() {
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);
-    }
+		((ZLAndroidApplication) getApplication()).stopTracker(this);
+	}
 
 	@Override
 	public void onPause() {
@@ -382,8 +385,7 @@ public class LibraryActivity extends TreeActivity implements MenuItem.OnMenuItem
             dialog.hide();
             switch (position) {
                 case OPEN_BOOK_ITEM_ID:
-                    EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BOOK_MENU,
-                        Analytics.EVENT_LABEL_OPEN_BOOK, null);
+					((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BOOK_MENU, Analytics.EVENT_LABEL_OPEN_BOOK);
                     openBook(book);
                     break;
                 case 1:
@@ -391,19 +393,16 @@ public class LibraryActivity extends TreeActivity implements MenuItem.OnMenuItem
                         myLibrary.removeBookFromFavorites(book);
                         notifyFavoritesAction(R.string.library_removed_from_favorites);
                         getListView().invalidateViews();
-                        EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BOOK_MENU,
-                            Analytics.EVENT_LABEL_FAVORITES_REMOVE, null);
+						((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BOOK_MENU, Analytics.EVENT_LABEL_FAVORITES_REMOVE);
                     } else {
                         myLibrary.addBookToFavorites(book);
                         notifyFavoritesAction(R.string.library_added_to_favorites);
-                        EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BOOK_MENU,
-                            Analytics.EVENT_LABEL_FAVORITES_ADD, null);
+						((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BOOK_MENU, Analytics.EVENT_LABEL_FAVORITES_ADD);
                     }
                     break;
                 case 2:
                     tryToAccessiblyDeleteBook(book);
-                    EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BOOK_MENU,
-                        Analytics.EVENT_LABEL_DELETE_BOOK, null);
+					((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BOOK_MENU, Analytics.EVENT_LABEL_DELETE_BOOK);
                     break;
             }
         }

@@ -19,28 +19,32 @@
 
 package org.geometerplus.android.fbreader;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.view.*;
-import android.widget.*;
-import android.app.ListActivity;
-import com.google.analytics.tracking.android.EasyTracker;
+import android.view.ContextMenu;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import org.benetech.android.R;
 import org.geometerplus.android.fbreader.benetech.LabelsListAdapter;
-import org.geometerplus.fbreader.library.Bookmark;
+import org.geometerplus.fbreader.bookmodel.TOCTree;
+import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.tree.ZLTree;
-
-import org.benetech.android.R;
-
 import org.geometerplus.zlibrary.text.view.ZLTextWordCursor;
-import org.geometerplus.fbreader.bookmodel.TOCTree;
-import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
+
+import java.util.ArrayList;
 
 public class TOCActivity extends ListActivity {
 	private TOCAdapter myAdapter;
@@ -82,14 +86,14 @@ public class TOCActivity extends ListActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance().activityStart(this);
-    }
+		((ZLAndroidApplication) getApplication()).startTracker(this);
+	}
 
     @Override
     public void onStop() {
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);
-    }
+		((ZLAndroidApplication) getApplication()).stopTracker(this);
+	}
 
 	private static final int PROCESS_TREE_ITEM_ID = 0;
 	private static final int READ_BOOK_ITEM_ID = 1;

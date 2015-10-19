@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
@@ -38,7 +39,7 @@ import org.geometerplus.zlibrary.ui.android.application.ZLAndroidApplicationWind
 
 import java.lang.reflect.Field;
 
-public abstract class ZLAndroidActivity extends Activity {
+public abstract class ZLAndroidActivity extends ActionBarActivity {
 	protected abstract ZLApplication createApplication(ZLFile file);
 
 	private void setScreenBrightnessAuto() {
@@ -82,11 +83,12 @@ public abstract class ZLAndroidActivity extends Activity {
 
 	@Override
 	public void onCreate(Bundle state) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(state);
 
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(this));
 
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 		setContentView(R.layout.main);
 		setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 

@@ -19,13 +19,27 @@
 
 package org.geometerplus.android.fbreader;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import android.app.SearchManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.accessibility.AccessibilityManager;
+
+import com.bugsense.trace.BugSenseHandler;
+import com.google.android.gms.analytics.GoogleAnalytics;
 
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.api.ApiListener;
@@ -58,28 +72,13 @@ import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivity;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
-import android.app.SearchManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.accessibility.AccessibilityManager;
-
-import com.bugsense.trace.BugSenseHandler;
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.analytics.tracking.android.GoogleAnalytics;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class FBReader extends ZLAndroidActivity {
 	public static final String BOOK_PATH_KEY = "BookPath";
@@ -356,7 +355,7 @@ public class FBReader extends ZLAndroidActivity {
 	public void onStart() {
 		super.onStart();
         GoogleAnalytics.getInstance(getApplicationContext()).setAppOptOut(BookshareDeveloperKey.OPT_OUT_GOOGLE_ANALYTICS);
-        EasyTracker.getInstance().activityStart(this);
+		GoogleAnalytics.getInstance(this).reportActivityStart(this);
 
 		final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary)ZLibrary.Instance();
 
@@ -428,7 +427,7 @@ public class FBReader extends ZLAndroidActivity {
 		ApiServerImplementation.sendEvent(this, ApiListener.EVENT_READ_MODE_CLOSED);
 		PopupPanel.removeAllWindows(FBReaderApp.Instance(), this);
 		super.onStop();
-        EasyTracker.getInstance().activityStop(this);
+        GoogleAnalytics.getInstance(this).reportActivityStop(this);
 	}
 
 	@Override

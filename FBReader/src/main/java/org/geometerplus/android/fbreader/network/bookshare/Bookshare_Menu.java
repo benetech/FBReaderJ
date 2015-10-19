@@ -1,17 +1,5 @@
 package org.geometerplus.android.fbreader.network.bookshare;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import org.accessibility.ParentCloserDialog;
-import org.accessibility.VoiceableDialog;
-import org.benetech.android.R;
-import org.geometerplus.android.fbreader.benetech.Analytics;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -41,7 +29,19 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import com.google.analytics.tracking.android.EasyTracker;
+
+import org.accessibility.ParentCloserDialog;
+import org.accessibility.VoiceableDialog;
+import org.benetech.android.R;
+import org.geometerplus.android.fbreader.benetech.Analytics;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * This ListActivity shows options for retrieving data from Bookshare.
@@ -181,18 +181,15 @@ public class Bookshare_Menu extends ListActivity {
 
 
             if(position == MenuControl.title.ordinal()){
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_BKS_SEARCH,
-                    Analytics.EVENT_LABEL_SEARCH_TITLE, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_BKS_SEARCH, Analytics.EVENT_LABEL_SEARCH_TITLE);
                 showTitleSearch();
             }
             else if(position == MenuControl.author.ordinal()){
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_BKS_SEARCH,
-                    Analytics.EVENT_LABEL_SEARCH_AUTHOR, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_BKS_SEARCH, Analytics.EVENT_LABEL_SEARCH_AUTHOR);
                 showAuthorSearch();
             }
             else if(position == MenuControl.isbn.ordinal()){
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_BKS_SEARCH,
-                    Analytics.EVENT_LABEL_SEARCH_ISBN, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_BKS_SEARCH, Analytics.EVENT_LABEL_SEARCH_ISBN);
                 showISBNSearch();
             }
             else if(position == MenuControl.latest.ordinal()){
@@ -212,8 +209,7 @@ public class Bookshare_Menu extends ListActivity {
                     intent.putExtra("username", username);
                     intent.putExtra("password", password);
                 }
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_BKS_SEARCH,
-                    Analytics.EVENT_LABEL_SEARCH_LATEST, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_BKS_SEARCH, Analytics.EVENT_LABEL_SEARCH_LATEST);
                 startActivityForResult(intent, START_BOOKSHARE_BOOKS_LISTING_ACTIVITY);
             }
 
@@ -231,8 +227,7 @@ public class Bookshare_Menu extends ListActivity {
                     intent.putExtra("username", username);
                     intent.putExtra("password", password);
                 }
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_BKS_SEARCH,
-                    Analytics.EVENT_LABEL_SEARCH_POPULAR, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_BKS_SEARCH, Analytics.EVENT_LABEL_SEARCH_POPULAR);
                 startActivityForResult(intent, START_BOOKSHARE_BOOKS_LISTING_ACTIVITY);
             }
             //This is when user clickes on 'All Periodicals' (thushv)
@@ -252,8 +247,7 @@ public class Bookshare_Menu extends ListActivity {
                     intent.putExtra("username", username);
                     intent.putExtra("password", password);
                 }
-                EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_PERIODICALS_BROWSE,
-                    Analytics.EVENT_LABEL_SEARCH_PERIODICALS, null);
+                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_PERIODICALS_BROWSE, Analytics.EVENT_LABEL_SEARCH_PERIODICALS);
                 startActivityForResult(intent, START_BOOKSHARE_PERIODICAL_LISTING_ACTIVITY);
 
 
@@ -262,8 +256,7 @@ public class Bookshare_Menu extends ListActivity {
 	            if (txt_name.getText().toString().equals(getString(R.string.bks_menu_log_in))) {
 		            Intent intent = new Intent(getApplicationContext(), Bookshare_Webservice_Login.class);
                     startActivity(intent);
-                    EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_LOGIN,
-                        Analytics.EVENT_ACTION_LOGIN, null);
+                    ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_LOGIN, Analytics.EVENT_ACTION_LOGIN);
                     finish();
 	            } else {
 		            final Dialog confirmDialog = new Dialog(myActivity);
@@ -294,8 +287,7 @@ public class Bookshare_Menu extends ListActivity {
                             confirmDialog.dismiss();
                         }
                     });
-                    EasyTracker.getTracker().trackEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_LOGOUT,
-                        Analytics.EVENT_ACTION_LOGOUT, null);
+                    ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_LOGOUT, Analytics.EVENT_ACTION_LOGOUT);
                     confirmDialog.show();
 	            }
             }
@@ -375,7 +367,7 @@ public class Bookshare_Menu extends ListActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance().activityStart(this);
+        ((ZLAndroidApplication) getApplication()).startTracker(this);
         if (!isNetworkAvailable()) {
             confirmAndClose(getResources().getString(R.string.bks_menu_no_internet), 3500);
         }
@@ -384,7 +376,7 @@ public class Bookshare_Menu extends ListActivity {
     @Override
     public void onStop() {
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);
+        ((ZLAndroidApplication) getApplication()).stopTracker(this);
     }
 
     private void doSearch() {

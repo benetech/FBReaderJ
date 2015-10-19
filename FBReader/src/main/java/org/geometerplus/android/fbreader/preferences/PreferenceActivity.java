@@ -25,24 +25,25 @@ import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.SeekBar;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
+import org.geometerplus.android.fbreader.DictionaryUtil;
+import org.geometerplus.fbreader.Paths;
+import org.geometerplus.fbreader.bookmodel.FBTextKind;
+import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.fbreader.fbreader.ColorProfile;
+import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.fbreader.fbreader.FBView;
+import org.geometerplus.fbreader.fbreader.ScrollingPreferences;
+import org.geometerplus.fbreader.tips.TipsManager;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
 import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
 import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
-
-import org.geometerplus.zlibrary.core.resources.ZLResource;
-import org.geometerplus.zlibrary.text.view.style.*;
-
+import org.geometerplus.zlibrary.text.view.style.ZLTextBaseStyle;
+import org.geometerplus.zlibrary.text.view.style.ZLTextFullStyleDecoration;
+import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
+import org.geometerplus.zlibrary.text.view.style.ZLTextStyleDecoration;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 import org.geometerplus.zlibrary.ui.android.view.AndroidFontUtil;
-
-import org.geometerplus.fbreader.fbreader.*;
-import org.geometerplus.fbreader.Paths;
-import org.geometerplus.fbreader.bookmodel.FBTextKind;
-import org.geometerplus.fbreader.tips.TipsManager;
-
-import org.geometerplus.android.fbreader.DictionaryUtil;
 
 public class PreferenceActivity extends ZLPreferenceActivity {
     
@@ -463,12 +464,12 @@ public class PreferenceActivity extends ZLPreferenceActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        EasyTracker.getInstance().activityStart(this);
+        ((ZLAndroidApplication) getApplication()).startTracker(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        EasyTracker.getInstance().activityStop(this);
+        ((ZLAndroidApplication) getApplication()).stopTracker(this);
     }
 }

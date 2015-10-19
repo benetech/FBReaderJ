@@ -19,15 +19,24 @@
 
 package org.geometerplus.zlibrary.ui.android.library;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
+import org.benetech.android.R;
 import org.geometerplus.zlibrary.core.sqliteconfig.ZLSQLiteConfig;
-
 import org.geometerplus.zlibrary.ui.android.application.ZLAndroidApplicationWindow;
 import org.geometerplus.zlibrary.ui.android.image.ZLAndroidImageManager;
 
 public class ZLAndroidApplication extends Application {
 	public ZLAndroidApplicationWindow myMainWindow;
+	private Tracker mTracker;
+
 
 	@Override
 	public void onCreate() {
@@ -36,4 +45,42 @@ public class ZLAndroidApplication extends Application {
 		new ZLAndroidImageManager();
 		new ZLAndroidLibrary(this);
 	}
+
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(base);
+
+		MultiDex.install(this);
+	}
+
+	/**
+	 * Gets the default {@link Tracker} for this {@link Application}.
+	 * @return tracker
+	 */
+	synchronized public Tracker getDefaultTracker() {
+		if (mTracker == null) {
+			GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+			// To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
+			mTracker = analytics.newTracker(R.xml.global_tracker);
+		}
+		return mTracker;
+	}
+
+	public void trackGoogleAnalyticsEvent(String eventCategory, String eventAction, String eventLabel) {
+		getDefaultTracker().send(new HitBuilders.EventBuilder()
+				.setCategory(eventCategory)
+				.setAction(eventAction)
+				.setLabel(eventLabel)
+				.build());
+
+	}
+
+	public void stopTracker(Activity activity) {
+		GoogleAnalytics.getInstance(activity).reportActivityStop(activity);
+	}
+
+	public void startTracker(Activity activity) {
+		GoogleAnalytics.getInstance(activity).reportActivityStart(activity);
+	}
+
 }
