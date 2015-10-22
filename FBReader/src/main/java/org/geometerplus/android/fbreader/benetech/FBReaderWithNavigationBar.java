@@ -185,6 +185,11 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        accessibilityManager = (AccessibilityManager) getApplicationContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
+        if (accessibilityManager.isEnabled()) {
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
+        }
+
         super.onCreate(savedInstanceState);
 
         WindowManager.LayoutParams params =
@@ -195,11 +200,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
         detector = new SimpleGestureFilter(this,this);
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
-        accessibilityManager =
-            (AccessibilityManager) getApplicationContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
-        if (accessibilityManager.isEnabled()) {
-            requestWindowFeature(Window.FEATURE_NO_TITLE);
-        }
 
         if (isTouchExplorationEnabled(accessibilityManager)) {
             findViewById(R.id.navigation_bar_skip_previous).setOnHoverListener(new MyHoverListener());

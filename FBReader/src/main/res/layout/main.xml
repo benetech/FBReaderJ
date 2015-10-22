@@ -36,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
+                android:contentDescription="@string/previous"
                 android:src="@drawable/ic_skip_previous_white_24dp" />
 
             <ImageButton
@@ -44,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
+                android:contentDescription="@string/play"
                 android:src="@drawable/ic_play_arrow_white_24dp" />
 
             <ImageButton
@@ -52,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@null"
+                android:contentDescription="@string/next"
                 android:src="@drawable/ic_skip_next_white_24dp" />
         </LinearLayout>
 
