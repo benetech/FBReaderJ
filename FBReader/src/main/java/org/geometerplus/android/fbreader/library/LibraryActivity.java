@@ -37,6 +37,7 @@ import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.benetech.Analytics;
+import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.android.fbreader.benetech.LabelsListAdapter;
 import org.geometerplus.android.fbreader.tree.TreeActivity;
 import org.geometerplus.android.util.UIUtil;
@@ -295,7 +296,7 @@ public class LibraryActivity extends TreeActivity implements MenuItem.OnMenuItem
 
 	private void openBook(Book book) {
 		startActivity(
-			new Intent(getApplicationContext(), FBReader.class)
+			new Intent(getApplicationContext(), FBReaderWithNavigationBar.class)
 				.setAction(Intent.ACTION_VIEW)
 				.putExtra(FBReader.BOOK_PATH_KEY, book.File.getPath())
 				.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

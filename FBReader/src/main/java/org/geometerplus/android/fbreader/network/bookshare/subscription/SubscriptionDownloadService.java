@@ -15,6 +15,7 @@ import net.lingala.zip4j.exception.ZipException;
 import org.benetech.android.R;
 import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.android.fbreader.network.BookDownloaderService;
 import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Edition_Metadata_Bean;
@@ -308,7 +309,7 @@ public class SubscriptionDownloadService extends IntentService {
 
 	private Intent getFBReaderIntent(final File file) {
 		final Intent intent = new Intent(getApplicationContext(),
-				FBReader.class);
+				FBReaderWithNavigationBar.class);
 		if (file != null) {
 			intent.setAction(Intent.ACTION_VIEW).setData(Uri.fromFile(file));
 		}

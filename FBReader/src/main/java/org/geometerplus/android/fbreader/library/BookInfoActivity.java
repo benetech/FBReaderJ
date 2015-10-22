@@ -36,6 +36,7 @@ import android.view.Window;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.*;
 
+import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.image.ZLImage;
 import org.geometerplus.zlibrary.core.image.ZLLoadableImage;
@@ -113,7 +114,7 @@ public class BookInfoActivity extends Activity {
 					finish();
 				} else {
 					startActivity(
-						new Intent(getApplicationContext(), FBReader.class)
+						new Intent(getApplicationContext(), FBReaderWithNavigationBar.class)
 							.setAction(Intent.ACTION_VIEW)
 							.putExtra(FBReader.BOOK_PATH_KEY, myFile.getPath())
 							.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

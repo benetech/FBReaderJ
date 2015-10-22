@@ -38,6 +38,7 @@ import android.widget.Toast;
 import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
 
+import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.network.*;
 
@@ -210,7 +211,7 @@ public class BookDownloaderService extends Service {
 	}
 
 	private Intent getFBReaderIntent(final File file) {
-		final Intent intent = new Intent(getApplicationContext(), FBReader.class);
+		final Intent intent = new Intent(getApplicationContext(), FBReaderWithNavigationBar.class);
 		if (file != null) {
 			intent.setAction(Intent.ACTION_VIEW).setData(Uri.fromFile(file));
 		}
