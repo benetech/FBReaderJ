@@ -35,6 +35,7 @@ import org.benetech.android.R;
 import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.benetech.Analytics;
+import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.android.fbreader.network.BookDownloaderService;
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
@@ -517,7 +518,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
     }
 
     private Intent getFBReaderIntent(final File file) {
-        final Intent intent = new Intent(getApplicationContext(), FBReader.class);
+        final Intent intent = new Intent(getApplicationContext(), FBReaderWithNavigationBar.class);
         if (file != null) {
             intent.setAction(Intent.ACTION_VIEW).setData(Uri.fromFile(file));
         }
@@ -1260,7 +1261,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 if (null != downloadedBookDir) {
                     ZLFile opfFile = getOpfFile();
                     if (null != opfFile) {
-                        startActivity(new Intent(getApplicationContext(), FBReader.class).setAction(Intent.ACTION_VIEW)
+                        startActivity(new Intent(getApplicationContext(), FBReaderWithNavigationBar.class).setAction(Intent.ACTION_VIEW)
                                 .putExtra(FBReader.BOOK_PATH_KEY, opfFile.getPath())
                                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
                     }

@@ -36,6 +36,7 @@ import org.apache.http.HttpResponse;
 import org.benetech.android.R;
 import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.android.fbreader.network.BookDownloaderService;
 import org.geometerplus.android.fbreader.network.bookshare.subscription.AllDbPeriodicalEntity;
 import org.geometerplus.android.fbreader.network.bookshare.subscription.BooksharePeriodicalDataSource;
@@ -407,7 +408,7 @@ public class Bookshare_Periodical_Edition_Details extends Activity {
                                     if (null != downloadedBookDir) {
                                         ZLFile opfFile = getOpfFile();
                                         if (null != opfFile) {
-                                            startActivity(new Intent(getApplicationContext(), FBReader.class)
+                                            startActivity(new Intent(getApplicationContext(), FBReaderWithNavigationBar.class)
                                                     .setAction(Intent.ACTION_VIEW)
                                                     .putExtra(FBReader.BOOK_PATH_KEY, opfFile.getPath())
                                                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
@@ -554,7 +555,7 @@ public class Bookshare_Periodical_Edition_Details extends Activity {
     }
 
     private Intent getFBReaderIntent(final File file) {
-        final Intent intent = new Intent(getApplicationContext(), FBReader.class);
+        final Intent intent = new Intent(getApplicationContext(), FBReaderWithNavigationBar.class);
         if (file != null) {
             intent.setAction(Intent.ACTION_VIEW).setData(Uri.fromFile(file));
         }
