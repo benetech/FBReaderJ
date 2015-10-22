@@ -12,7 +12,6 @@ import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.text.format.Time;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -191,13 +190,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
 
         super.onCreate(savedInstanceState);
-
-        WindowManager.LayoutParams params =
-        getWindow().getAttributes();
-        params.gravity = Gravity.BOTTOM;
-        getWindow().setAttributes(params);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-
+        
         detector = new SimpleGestureFilter(this,this);
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
@@ -300,7 +293,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         try {
             findViewById(R.id.navigation_bar_play).requestFocus();
             if(accessibilityManager.isEnabled()){
-                setButtonOpacity(1);
                 enablePlayButton(true);
             }
             if (!returnFromOtherScreen) {
@@ -473,17 +465,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 if(!accessibilityManager.isEnabled()){
                     if (myIsActive != active) {
                         enablePlayButton(!active);
-                        if(myIsActive){
-                            WindowManager.LayoutParams params =
-                                    getWindow().getAttributes();
-                                    params.alpha=1;
-                                    getWindow().setAttributes(params);
-                            } else {
-                                WindowManager.LayoutParams params =
-                                getWindow().getAttributes();
-                                params.alpha=0.2f;
-                                    getWindow().setAttributes(params);
-                        }
                     }
                 }
             }
@@ -678,7 +659,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private void goForward() {
         stopTalking();
         myTTS.playEarcon(FORWARD_EARCON, TextToSpeech.QUEUE_ADD, null);
-        setButtonOpacity(0.2f);
         if (myParagraphIndex < myParagraphsNumber) {
             ++myParagraphIndex;
             speakParagraph(getNextParagraph());
@@ -688,7 +668,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private void goBackward() {
         stopTalking();
         myTTS.playEarcon(BACK_EARCON, TextToSpeech.QUEUE_ADD, null);
-        setButtonOpacity(0.2f);
         gotoPreviousParagraph();
         speakParagraph(getNextParagraph());
     }
@@ -697,7 +676,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         justPaused = true;
         stopTalking();
         myTTS.playEarcon(CONTENTS_EARCON, TextToSpeech.QUEUE_FLUSH, null);
-        setButtonOpacity(0.2f);
         Intent tocIntent = new Intent(this, TOCActivity.class);
         startActivityForResult(tocIntent, PLAY_AFTER_TOC);
     }
@@ -706,31 +684,17 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         stopTalking();
         justPaused = true;
         myTTS.playEarcon(MENU_EARCON, TextToSpeech.QUEUE_ADD, null);
-        setButtonOpacity(0.2f);
         Intent intent = new Intent(this, AccessibleMainMenuActivity.class);
         startActivityForResult(intent, PLAY_AFTER_TOC);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent me){
-        setButtonOpacity(1);
         if(accessibilityManager.isEnabled()){
             findViewById(R.id.navigation_bar_play).requestFocus();
         }
         this.detector.onTouchEvent(me);
         return super.dispatchTouchEvent(me);
-    }
-
-    private void setButtonOpacity(final float value)
-    {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                WindowManager.LayoutParams params =
-                        getWindow().getAttributes();
-                        params.alpha=value;
-                        getWindow().setAttributes(params);
-            }
-        });
     }
 
     @Override
