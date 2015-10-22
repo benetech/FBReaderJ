@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" 
     package="org.benetech.android" 
-    android:versionCode="23`"
+    android:versionCode="23"
     android:versionName="4.1.0.20150828" 
     android:installLocation="auto">
 	
