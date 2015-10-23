@@ -16,7 +16,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.ImageButton;
 
@@ -190,7 +189,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
 
         super.onCreate(savedInstanceState);
-        
+
         detector = new SimpleGestureFilter(this,this);
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
@@ -200,7 +199,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             findViewById(R.id.navigation_bar_play).setOnHoverListener(new MyHoverListener());
         }
 
-        
         setListener(R.id.navigation_bar_play, new View.OnClickListener() {
         	public void onClick(View v) {
                 ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_PLAY_PAUSE);
@@ -243,7 +241,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         });
 
         setActive(false);
-        setActionsEnabled(false);
 
         if (myCallbackMap == null) {
             myCallbackMap = new HashMap<String, String>();
@@ -368,20 +365,9 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
     }
 
-    private void setActionsEnabled(final boolean enabled) {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                findViewById(R.id.navigation_bar_skip_previous).setEnabled(enabled);
-                findViewById(R.id.navigation_bar_skip_next).setEnabled(enabled);
-                findViewById(R.id.navigation_bar_play).setEnabled(enabled);
-            }
-        });
-    }
-
     private void doFinalInitialization() {
 
         if (null == myTTS.getLanguage()) {
-            setActionsEnabled(false);
             showErrorMessage(getText(R.string.no_tts_language), true);
             return;
         }
@@ -404,9 +390,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         } else {
             setTitle(myApi.getBookTitle());
         }
-
-        setActionsEnabled(true);
-        speakParagraph(getNextParagraph());
     }
 
     @Override
@@ -458,11 +441,9 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private volatile PowerManager.WakeLock myWakeLock;
 
     private synchronized void setActive(final boolean active) {
-
-
         runOnUiThread(new Runnable() {
             public void run() {
-                if(!accessibilityManager.isEnabled()){
+                if (!accessibilityManager.isEnabled()) {
                     if (myIsActive != active) {
                         enablePlayButton(!active);
                     }
@@ -511,7 +492,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 findViewById(R.id.navigation_bar_play).setEnabled(true);
             }
         });
-
     }
 
     private String getNextParagraph() {
@@ -544,8 +524,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 }
             });
         }
-        return text;
 
+        return text;
     }
 
     // Bookshare custom methods
@@ -554,29 +534,26 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         if (myCurrentSentence >= mySentences.length) {
             return;
         }
-       // try {
-            int endEI = myCurrentSentence < mySentences.length-1 ?
-                            mySentences[myCurrentSentence+1].i-1: Integer.MAX_VALUE;
-            TextPosition stPos;
-            if (myCurrentSentence == 0)
-                stPos = new TextPosition(myParagraphIndex, 0, 0);
-            else
-                stPos = new TextPosition(myParagraphIndex, mySentences[myCurrentSentence].i, 0);
-            TextPosition edPos = new TextPosition(myParagraphIndex, endEI, 0);
-            if (stPos.compareTo(myApi.getPageStart()) < 0 || edPos.compareTo(myApi.getPageEnd()) > 0)
-                myApi.setPageStart(stPos);
-            myApi.highlightArea(stPos, edPos);
+        int endEI = myCurrentSentence < mySentences.length-1 ? mySentences[myCurrentSentence+1].i-1: Integer.MAX_VALUE;
 
-/*        } catch (ApiException e) {
-            switchOff();
-            TtsApp.ExitApp();
-        }*/
+        TextPosition stPos;
+        if (myCurrentSentence == 0)
+            stPos = new TextPosition(myParagraphIndex, 0, 0);
+        else
+            stPos = new TextPosition(myParagraphIndex, mySentences[myCurrentSentence].i, 0);
+
+        TextPosition edPos = new TextPosition(myParagraphIndex, endEI, 0);
+        if (stPos.compareTo(myApi.getPageStart()) < 0 || edPos.compareTo(myApi.getPageEnd()) > 0)
+            myApi.setPageStart(stPos);
+
+        myApi.highlightArea(stPos, edPos);
     }
 
     private void speakParagraph(String text) {
         if (text.length() < 1) {
             return;
         }
+
         setActive(true);
         //createSentenceIterator();
         ArrayList<String> sentenceList = new ArrayList<String>();
@@ -615,15 +592,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
 
         lastSentence = sentenceNumber;
-
-        // Disable play button if this is last paragraph
-        if (myParagraphIndex >= (myParagraphsNumber - 1)) {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    findViewById(R.id.navigation_bar_play).setEnabled(false);
-                }
-            });
-        }
     }
 
     private void playOrPause() {
@@ -746,7 +714,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private class ScreenUnlockReceiver extends BroadcastReceiver{
-
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
@@ -755,6 +722,5 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                     screenLockEventOccurred = true;
                 }
             }
-
     }
 }
