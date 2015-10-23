@@ -319,12 +319,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         super.onStart();
         ((ZLAndroidApplication) getApplication()).startTracker(this);
     }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
+    
     @Override
     public void onStop() {
         if (pm.isScreenOn()) {
