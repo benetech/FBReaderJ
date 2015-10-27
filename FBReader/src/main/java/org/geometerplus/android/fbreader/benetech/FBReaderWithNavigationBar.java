@@ -272,6 +272,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == CHECK_TTS_INSTALLED) {
             myTTS = new TextToSpeech(this, this);
         } else {
@@ -319,7 +321,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         super.onStart();
         ((ZLAndroidApplication) getApplication()).startTracker(this);
     }
-    
+
     @Override
     public void onStop() {
         if (pm.isScreenOn()) {
