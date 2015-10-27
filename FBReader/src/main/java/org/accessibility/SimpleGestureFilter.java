@@ -113,7 +113,6 @@ public class SimpleGestureFilter extends GestureDetector.SimpleOnGestureListener
 
         velocityX = Math.abs(velocityX);
         velocityY = Math.abs(velocityY);
-        boolean result = false;
 
         if (velocityX > this.swipe_Min_Velocity && xDistance > this.swipe_Min_Distance) {
             if (e1.getX() > e2.getX()) // right to left
@@ -121,17 +120,14 @@ public class SimpleGestureFilter extends GestureDetector.SimpleOnGestureListener
             else
                 this.listener.onSwipe(SWIPE_RIGHT);
 
-            result = true;
         } else if (velocityY > this.swipe_Min_Velocity && yDistance > this.swipe_Min_Distance) {
             if (e1.getY() > e2.getY()) // bottom to up
                 this.listener.onSwipe(SWIPE_UP);
             else
                 this.listener.onSwipe(SWIPE_DOWN);
-
-            result = true;
         }
 
-        return result;
+        return false;
     }
 
     @Override
