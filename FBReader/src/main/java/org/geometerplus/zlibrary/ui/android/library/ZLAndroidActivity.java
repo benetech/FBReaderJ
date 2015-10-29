@@ -19,17 +19,14 @@
 
 package org.geometerplus.zlibrary.ui.android.library;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 
 import org.benetech.android.R;
@@ -39,7 +36,7 @@ import org.geometerplus.zlibrary.ui.android.application.ZLAndroidApplicationWind
 
 import java.lang.reflect.Field;
 
-public abstract class ZLAndroidActivity extends ActionBarActivity {
+public abstract class ZLAndroidActivity extends ZLAndroidActivityWithActionBar {
 	protected abstract ZLApplication createApplication(ZLFile file);
 
 	private void setScreenBrightnessAuto() {
@@ -83,13 +80,12 @@ public abstract class ZLAndroidActivity extends ActionBarActivity {
 
 	@Override
 	public void onCreate(Bundle state) {
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(state);
 
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler(this));
 
-
-		setContentView(R.layout.main);
+		//BENTECH -- commented out since parent class is now setting the content view
+		//setContentView(R.layout.main);
 		setDefaultKeyMode(DEFAULT_KEYS_SEARCH_LOCAL);
 
 		getLibrary().setActivity(this);
