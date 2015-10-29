@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/drawer_item_my_books"
+            android:title="@string/menu_library"
+            android:icon="@drawable/ic_menu_networklibrary"
+            android:contentDescription="@string/menu_library"
+            />
+
+        <item
+            android:id="@+id/drawer_item_search_bookshare"
+            android:title="@string/menu_bookshare"
+            android:contentDescription="@string/menu_bookshare"
+            />
+
+        <item
+            android:id="@+id/drawer_item_other_catalogs"
+            android:title="Other Catalogs"
+            android:icon="@drawable/ic_menu_library"
+            android:contentDescription="Other Catalogs"
+            />
+
+    </group>
+
+    <item android:title="Shortcuts">
+        <menu
+
+            android:id="@+id/menu_bottom"
+            android:checkableBehavior="none">
+
+            <item
+                android:id="@+id/drawer_item_search_text"
+                android:title="Search Text"
+                android:icon="@drawable/ic_menu_search"
+                android:contentDescription="Search Text"
+                />
+
+            <item
+                android:id="@+id/drawer_item_night"
+                android:title="Night"
+                android:icon="@drawable/ic_menu_night"
+                android:contentDescription="Night"
+                />
+
+            <item
+                android:id="@+id/drawer_item_day"
+                android:title="Day"
+                android:icon="@drawable/ic_menu_day"
+                android:contentDescription="Day"
+                />
+
+            <!--Disbaled this item since its not handled. Need to fix popup -->
+            <!--<item-->
+                <!--android:id="@+id/drawer_item_screen_orientation"-->
+                <!--android:title="Screen Orientation"-->
+                <!--android:contentDescription="Screen Orientation"-->
+                <!--/>-->
+
+            <item
+                android:id="@+id/drawer_item_toc"
+                android:title="@string/menu_toc"
+                android:icon="@drawable/ic_menu_toc"
+                android:contentDescription="@string/menu_toc"
+                />
+
+            <item
+                android:id="@+id/drawer_item_navigate_to_page"
+                android:title="Navigate to Page"
+                android:contentDescription="Navigate to Page"
+                />
+
+            <item
+                android:id="@+id/drawer_item_bookmarks"
+                android:title="Bookmarks"
+                android:icon="@drawable/ic_menu_bookmarks"
+                android:contentDescription="Bookmarks"
+                />
+        </menu>
+    </item>
+</menu>
