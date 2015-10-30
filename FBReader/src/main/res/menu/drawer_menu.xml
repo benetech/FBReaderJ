@@ -27,7 +27,6 @@
 
     <item android:title="Shortcuts">
         <menu
-
             android:id="@+id/menu_bottom"
             android:checkableBehavior="none">
 
@@ -55,6 +54,7 @@
             <item
                 android:id="@+id/drawer_item_screen_orientation"
                 android:title="Screen Orientation"
+                android:enabled="false"
                 android:contentDescription="Screen Orientation"
                 />
 
@@ -63,10 +63,8 @@
                 android:title="Book Info"
                 android:contentDescription="Screen Orientation"
                 />
-
         </menu>
     </item>
-
 
     <item android:title="">
         <menu

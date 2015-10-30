@@ -6,14 +6,11 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 import android.view.View;
 import android.view.Window;
 
 import org.benetech.android.R;
-import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
@@ -113,8 +110,8 @@ public class ZLAndroidActivityWithActionBar extends ActionBarActivity {
                 handleDayEvent();
 
 //FIXME find the right action
-//                if (menuItem.getItemId() == R.id.drawer_item_screen_orientation)
-//                    FBReaderApp.Instance().showPopup();
+//          if (menuItem.getItemId() == R.id.drawer_item_screen_orientation)
+//              FBReaderApp.Instance().showPopup();
 
             if (menuItem.getItemId() == R.id.drawer_item_book_info)
                 ZLApplication.Instance().doAction(ActionCode.SHOW_BOOK_INFO);
