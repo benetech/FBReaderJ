@@ -52,12 +52,27 @@
                 android:contentDescription="Day"
                 />
 
-            <!--Disbaled this item since its not handled. Need to fix popup -->
-            <!--<item-->
-                <!--android:id="@+id/drawer_item_screen_orientation"-->
-                <!--android:title="Screen Orientation"-->
-                <!--android:contentDescription="Screen Orientation"-->
-                <!--/>-->
+            <item
+                android:id="@+id/drawer_item_screen_orientation"
+                android:title="Screen Orientation"
+                android:contentDescription="Screen Orientation"
+                />
+
+            <item
+                android:id="@+id/drawer_item_book_info"
+                android:title="Book Info"
+                android:contentDescription="Screen Orientation"
+                />
+
+        </menu>
+    </item>
+
+
+    <item android:title="">
+        <menu
+
+            android:id="@+id/menu_temp_sub_menu"
+            android:checkableBehavior="none">
 
             <item
                 android:id="@+id/drawer_item_toc"

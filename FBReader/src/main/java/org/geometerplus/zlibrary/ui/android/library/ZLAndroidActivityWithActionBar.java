@@ -116,6 +116,9 @@ public class ZLAndroidActivityWithActionBar extends ActionBarActivity {
 //                if (menuItem.getItemId() == R.id.drawer_item_screen_orientation)
 //                    FBReaderApp.Instance().showPopup();
 
+            if (menuItem.getItemId() == R.id.drawer_item_book_info)
+                ZLApplication.Instance().doAction(ActionCode.SHOW_BOOK_INFO);
+
             if (menuItem.getItemId() == R.id.drawer_item_toc)
                 ZLApplication.Instance().doAction(ActionCode.SHOW_TOC);
 
