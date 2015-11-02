@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RadioGroup
+        android:id="@+id/orientationGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkedButton="@+id/systemOrientation"
+        >
+        <RadioButton
+            android:id="@+id/systemOrientation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="System"
+            android:contentDescription="System"
+            android:onClick="onSystemClick"/>
+
+        <RadioButton
+            android:id="@+id/deviceOrientationSensitive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Device orientation sensitive"
+            android:contentDescription="Device orientation sensitive"
+            android:onClick="onDeviceOrientationSensetive"
+            />
+
+        <RadioButton
+            android:id="@+id/portrait"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Portrait"
+            android:contentDescription="Portrait"
+            android:onClick="onPortrait"
+            />
+
+        <RadioButton
+            android:id="@+id/landscape"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Landscape"
+            android:contentDescription="Landscape"
+            android:onClick="onLandscape"
+            />
+
+        <RadioButton
+            android:id="@+id/reversePortrait"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reverse Portrait"
+            android:contentDescription="Reverse Portrait"
+            android:onClick="onReversePortrait"
+            android:enabled="false"
+            />
+
+        <RadioButton
+            android:id="@+id/reverseLandscape"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reverse Landscape"
+            android:contentDescription="Reverse Landscape"
+            android:onClick="onReverseLandscape"
+            android:enabled="false"
+            />
+    </RadioGroup>
+
+</LinearLayout>
