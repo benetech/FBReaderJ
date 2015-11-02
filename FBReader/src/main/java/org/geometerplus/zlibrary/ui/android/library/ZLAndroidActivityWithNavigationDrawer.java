@@ -18,8 +18,11 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.fbreader.library.Book;
+import org.geometerplus.fbreader.library.Library;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
 
@@ -150,6 +153,16 @@ public class ZLAndroidActivityWithNavigationDrawer extends ActionBarActivity {
         ZLApplication.Instance().doAction(actionId);
     }
 
+    private void addCurrentOpenBookToFavorites() {
+        FBReaderApp fbReader =  (FBReaderApp) FBReaderApp.Instance();
+        if (fbReader != null && fbReader.Model != null)
+        {
+            Book currentOpenBook = fbReader.Model.Book;
+            Library libraryInstance = Library.Instance();
+            libraryInstance.addBookToFavorites(currentOpenBook);
+        }
+    }
+
     private class ActionBarDrawerToggleHandler extends ActionBarDrawerToggle{
 
         public ActionBarDrawerToggleHandler(ZLAndroidActivityWithNavigationDrawer zlAndroidActivityWithActionBar, DrawerLayout mDrawerLayout, int drawer_open, int drawer_close) {
@@ -195,6 +208,9 @@ public class ZLAndroidActivityWithNavigationDrawer extends ActionBarActivity {
 
             if (menuItem.getItemId() == R.id.drawer_item_book_info)
                 ZLApplication.Instance().doAction(ActionCode.SHOW_BOOK_INFO);
+
+            if (menuItem.getItemId() == R.id.drawer_item_add_to_favorites)
+                addCurrentOpenBookToFavorites();
 
             if (menuItem.getItemId() == R.id.drawer_item_toc)
                 ZLApplication.Instance().doAction(ActionCode.SHOW_TOC);

@@ -62,6 +62,13 @@
                 android:title="Book Info"
                 android:contentDescription="Screen Orientation"
                 />
+
+            <item
+                android:id="@+id/drawer_item_add_to_favorites"
+                android:title="@string/menu_item_add_to_favorites"
+                android:icon="@drawable/ic_list_library_favorites"
+                android:contentDescription="@string/menu_item_content_description_add_to_favorites"
+                />
         </menu>
     </item>
 

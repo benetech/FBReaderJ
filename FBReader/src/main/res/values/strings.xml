@@ -148,5 +148,7 @@
 
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="menu_item_add_to_favorites">Add to favorites</string>
+    <string name="menu_item_content_description_add_to_favorites">Add current open book to favorites</string>
 
 </resources>
