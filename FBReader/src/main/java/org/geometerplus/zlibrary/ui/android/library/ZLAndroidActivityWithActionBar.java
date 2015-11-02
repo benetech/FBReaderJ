@@ -1,19 +1,27 @@
 package org.geometerplus.zlibrary.ui.android.library;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 
 import org.benetech.android.R;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
+import org.geometerplus.zlibrary.core.library.ZLibrary;
 
 /**
  * Created by animal@martus.org on 10/27/15.
@@ -23,6 +31,7 @@ public class ZLAndroidActivityWithActionBar extends ActionBarActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationMenu;
+    private PopupWindow popup;
 
     @Override
     public void onCreate(Bundle state) {
@@ -69,6 +78,78 @@ public class ZLAndroidActivityWithActionBar extends ActionBarActivity {
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
     }
 
+    private void showOrientationPopup() {
+        LinearLayout viewGroup = (LinearLayout) findViewById(R.id.popup);
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.screen_orientation_layout, viewGroup);
+
+        popup = new PopupWindow(this);
+        popup.setWindowLayoutMode(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        popup.setContentView(layout);
+        popup.setFocusable(true);
+
+        if (ZLibrary.Instance().supportsAllOrientations()) {
+            layout.findViewById(R.id.reverseLandscape).setEnabled(true);
+            layout.findViewById(R.id.reversePortrait).setEnabled(true);
+        }
+
+        RadioGroup radioGroup = (RadioGroup) layout.findViewById(R.id.orientationGroup);
+        radioGroup.check(findCheckRadioButtonId());
+
+        popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+    }
+
+    private int findCheckRadioButtonId() {
+        String value = ZLibrary.Instance().OrientationOption.getValue();
+        if (value.equals(ZLibrary.SCREEN_ORIENTATION_SYSTEM))
+            return R.id.systemOrientation;
+
+        if (value.equals(ZLibrary.SCREEN_ORIENTATION_SENSOR))
+            return R.id.deviceOrientationSensitive;
+
+        if (value.equals(ZLibrary.SCREEN_ORIENTATION_LANDSCAPE))
+            return R.id.landscape;
+
+        if (value.equals(ZLibrary.SCREEN_ORIENTATION_PORTRAIT))
+            return R.id.portrait;
+
+        if (value.equals(ZLibrary.SCREEN_ORIENTATION_REVERSE_PORTRAIT))
+            return R.id.reversePortrait;
+
+        if (value.equals(ZLibrary.SCREEN_ORIENTATION_REVERSE_LANDSCAPE))
+            return R.id.reverseLandscape;
+
+        throw new RuntimeException("Could not find orienation id for name");
+    }
+
+    public void onSystemClick(View view) {
+        handleOnClick(ActionCode.SET_SCREEN_ORIENTATION_SYSTEM);
+    }
+
+    public void onDeviceOrientationSensetive(View view) {
+        handleOnClick(ActionCode.SET_SCREEN_ORIENTATION_SENSOR);
+    }
+
+    public void onPortrait(View view) {
+        handleOnClick(ActionCode.SET_SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    public void onLandscape(View view) {
+        handleOnClick(ActionCode.SET_SCREEN_ORIENTATION_LANDSCAPE);
+    }
+
+    public void onReversePortrait(View view) {
+        handleOnClick(ActionCode.SET_SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+    }
+
+    public void onReverseLandscape(View view) {
+        handleOnClick(ActionCode.SET_SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+    }
+
+    private void handleOnClick(String actionId) {
+        ZLApplication.Instance().doAction(actionId);
+    }
+
     private class ActionBarDrawerToggleHandler extends ActionBarDrawerToggle{
 
         public ActionBarDrawerToggleHandler(ZLAndroidActivityWithActionBar zlAndroidActivityWithActionBar, DrawerLayout mDrawerLayout, int drawer_open, int drawer_close) {
@@ -109,9 +190,8 @@ public class ZLAndroidActivityWithActionBar extends ActionBarActivity {
             if (menuItem.getItemId() == R.id.drawer_item_day)
                 handleDayEvent();
 
-//FIXME find the right action
-//          if (menuItem.getItemId() == R.id.drawer_item_screen_orientation)
-//              FBReaderApp.Instance().showPopup();
+            if (menuItem.getItemId() == R.id.drawer_item_screen_orientation)
+                showOrientationPopup();
 
             if (menuItem.getItemId() == R.id.drawer_item_book_info)
                 ZLApplication.Instance().doAction(ActionCode.SHOW_BOOK_INFO);
