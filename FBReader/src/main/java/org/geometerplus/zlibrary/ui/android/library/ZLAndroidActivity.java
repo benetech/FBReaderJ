@@ -36,7 +36,7 @@ import org.geometerplus.zlibrary.ui.android.application.ZLAndroidApplicationWind
 
 import java.lang.reflect.Field;
 
-public abstract class ZLAndroidActivity extends ZLAndroidActivityWithActionBar {
+public abstract class ZLAndroidActivity extends ZLAndroidActivityWithNavigationDrawer {
 	protected abstract ZLApplication createApplication(ZLFile file);
 
 	private void setScreenBrightnessAuto() {

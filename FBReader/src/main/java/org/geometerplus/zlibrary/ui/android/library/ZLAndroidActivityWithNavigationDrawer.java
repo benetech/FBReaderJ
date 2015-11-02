@@ -26,7 +26,7 @@ import org.geometerplus.zlibrary.core.library.ZLibrary;
 /**
  * Created by animal@martus.org on 10/27/15.
  */
-public class ZLAndroidActivityWithActionBar extends ActionBarActivity {
+public class ZLAndroidActivityWithNavigationDrawer extends ActionBarActivity {
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -152,7 +152,7 @@ public class ZLAndroidActivityWithActionBar extends ActionBarActivity {
 
     private class ActionBarDrawerToggleHandler extends ActionBarDrawerToggle{
 
-        public ActionBarDrawerToggleHandler(ZLAndroidActivityWithActionBar zlAndroidActivityWithActionBar, DrawerLayout mDrawerLayout, int drawer_open, int drawer_close) {
+        public ActionBarDrawerToggleHandler(ZLAndroidActivityWithNavigationDrawer zlAndroidActivityWithActionBar, DrawerLayout mDrawerLayout, int drawer_open, int drawer_close) {
             super(zlAndroidActivityWithActionBar, mDrawerLayout, drawer_open, drawer_close);
         }
 
