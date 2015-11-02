@@ -29,8 +29,8 @@ import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
-class SetScreenOrientationAction extends FBAndroidAction {
-	static void setOrientation(Activity activity, String optionValue) {
+public class SetScreenOrientationAction extends FBAndroidAction {
+	public static void setOrientation(Activity activity, String optionValue) {
 		int orientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
 		if (ZLibrary.SCREEN_ORIENTATION_SENSOR.equals(optionValue)) {
 			orientation = ActivityInfo.SCREEN_ORIENTATION_SENSOR;
@@ -48,7 +48,7 @@ class SetScreenOrientationAction extends FBAndroidAction {
 
 	private final String myOptionValue;
 
-	SetScreenOrientationAction(FBReader baseActivity, FBReaderApp fbreader, String optionValue) {
+	public SetScreenOrientationAction(FBReader baseActivity, FBReaderApp fbreader, String optionValue) {
 		super(baseActivity, fbreader);
 		myOptionValue = optionValue;
 	}
