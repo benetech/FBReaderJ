@@ -674,14 +674,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 goBackward();
                 ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_PREV);
                 break;
-            case SimpleGestureFilter.SWIPE_DOWN :
-                showMainMenu();
-                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_MENU);
-                break;
-            case SimpleGestureFilter.SWIPE_UP :
-                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_TOC);
-                showContents();
-                break;
           }
     }
 
