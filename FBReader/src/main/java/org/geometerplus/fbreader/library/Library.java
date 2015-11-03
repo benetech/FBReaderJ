@@ -23,6 +23,7 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.*;
 
+import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.fbreader.formats.daisy3.Daisy3Plugin;
 import org.geometerplus.zlibrary.core.filesystem.*;
 import org.geometerplus.zlibrary.core.image.ZLImage;
@@ -137,7 +138,7 @@ public final class Library {
 			return file;
 		}
 
-		return ZLResourceFile.createResourceFile("data/help/MiniHelp.en.fb2");
+		return ZLResourceFile.createResourceFile("data/help/" + FBReader.MINI_HELP_FILE_NAME);
 	}
 
 	private void collectBooks(
