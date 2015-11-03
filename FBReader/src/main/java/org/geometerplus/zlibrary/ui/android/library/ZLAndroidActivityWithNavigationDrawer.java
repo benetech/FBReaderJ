@@ -7,8 +7,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,7 +34,7 @@ import org.geometerplus.zlibrary.core.library.ZLibrary;
 /**
  * Created by animal@martus.org on 10/27/15.
  */
-public class ZLAndroidActivityWithNavigationDrawer extends ActionBarActivity implements DialogInterface.OnClickListener{
+public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity implements DialogInterface.OnClickListener{
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
