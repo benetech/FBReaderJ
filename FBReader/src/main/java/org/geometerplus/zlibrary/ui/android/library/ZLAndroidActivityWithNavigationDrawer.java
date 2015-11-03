@@ -11,6 +11,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +58,14 @@ public class ZLAndroidActivityWithNavigationDrawer extends ActionBarActivity imp
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.top_action_bar_menu, menu);
+
+        return true;
+    }
+
+    @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
@@ -73,6 +83,11 @@ public class ZLAndroidActivityWithNavigationDrawer extends ActionBarActivity imp
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
+
+        if (item.getItemId() == R.id.toc) {
+            ZLApplication.Instance().doAction(ActionCode.SHOW_TOC);
+        }
+
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -250,9 +265,6 @@ public class ZLAndroidActivityWithNavigationDrawer extends ActionBarActivity imp
 
             if (menuItemId == R.id.drawer_item_delete_book)
                 deleteCurrentBook();
-
-            if (menuItemId == R.id.drawer_item_toc)
-                ZLApplication.Instance().doAction(ActionCode.SHOW_TOC);
 
             if (menuItemId == R.id.drawer_item_navigate_to_page)
                 ZLApplication.Instance().doAction(ActionCode.ACCESSIBLE_NAVIGATION);

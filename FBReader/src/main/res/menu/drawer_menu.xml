@@ -86,13 +86,6 @@
             android:checkableBehavior="none">
 
             <item
-                android:id="@+id/drawer_item_toc"
-                android:title="@string/menu_toc"
-                android:icon="@drawable/ic_menu_toc"
-                android:contentDescription="@string/menu_toc"
-                />
-
-            <item
                 android:id="@+id/drawer_item_navigate_to_page"
                 android:title="Navigate to Page"
                 android:contentDescription="Navigate to Page"
