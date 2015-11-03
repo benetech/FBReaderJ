@@ -1,6 +1,8 @@
 package org.geometerplus.zlibrary.ui.android.library;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,6 +18,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.FBReader;
@@ -29,7 +32,7 @@ import org.geometerplus.zlibrary.core.library.ZLibrary;
 /**
  * Created by animal@martus.org on 10/27/15.
  */
-public class ZLAndroidActivityWithNavigationDrawer extends ActionBarActivity {
+public class ZLAndroidActivityWithNavigationDrawer extends ActionBarActivity implements DialogInterface.OnClickListener{
 
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -163,6 +166,38 @@ public class ZLAndroidActivityWithNavigationDrawer extends ActionBarActivity {
         }
     }
 
+    private void deleteCurrentBook() {
+        FBReaderApp fbReader =  (FBReaderApp) FBReaderApp.Instance();
+        Book currentOpenBook = fbReader.Model.Book;
+        if (currentOpenBook.File.getShortName().equals(FBReader.MINI_HELP_FILE_NAME)) {
+            Toast.makeText(
+                    getApplicationContext(),
+                    getString(R.string.message_cannot_delete_guide),
+                    Toast.LENGTH_SHORT
+                    ).show();
+            return;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle(currentOpenBook.getTitle())
+                .setMessage(getString(R.string.message_confirm_remove_book))
+                .setIcon(0)
+                .setPositiveButton(getString(R.string.button_label_delete_book), this)
+                .setNegativeButton(getString(R.string.button_label_cancel), null)
+                .create().show();
+    }
+
+    public void onClick(DialogInterface dialog, int which) {
+        FBReaderApp fbReader =  (FBReaderApp) FBReaderApp.Instance();
+        Book currentOpenBook = fbReader.Model.Book;
+        Library.Instance().removeBook(currentOpenBook, Library.REMOVE_FROM_DISK);
+        Book previousBook = Library.getPreviousBook();
+        if (previousBook != null) {
+            fbReader.openBook(previousBook, null);
+        } else {
+            ZLApplication.Instance().doAction(ActionCode.SHOW_HELP);
+        }
+    }
+
     private class ActionBarDrawerToggleHandler extends ActionBarDrawerToggle{
 
         public ActionBarDrawerToggleHandler(ZLAndroidActivityWithNavigationDrawer zlAndroidActivityWithActionBar, DrawerLayout mDrawerLayout, int drawer_open, int drawer_close) {
@@ -185,40 +220,44 @@ public class ZLAndroidActivityWithNavigationDrawer extends ActionBarActivity {
         @Override
         public boolean onNavigationItemSelected(MenuItem menuItem) {
 
-            if (menuItem.getItemId() == R.id.drawer_item_my_books)
+            int menuItemId = menuItem.getItemId();
+            if (menuItemId == R.id.drawer_item_my_books)
                 ZLApplication.Instance().doAction(ActionCode.SHOW_LIBRARY);
 
-            if (menuItem.getItemId() == R.id.drawer_item_search_bookshare)
+            if (menuItemId == R.id.drawer_item_search_bookshare)
                 ZLApplication.Instance().doAction(ActionCode.BOOKSHARE);
 
-            if (menuItem.getItemId() == R.id.drawer_item_other_catalogs)
+            if (menuItemId == R.id.drawer_item_other_catalogs)
                 ZLApplication.Instance().doAction(ActionCode.SHOW_NETWORK_LIBRARY);
 
-            if (menuItem.getItemId() == R.id.drawer_item_search_text)
+            if (menuItemId == R.id.drawer_item_search_text)
                 ZLApplication.Instance().doAction(ActionCode.SEARCH);
 
-            if (menuItem.getItemId() == R.id.drawer_item_night)
+            if (menuItemId == R.id.drawer_item_night)
                 handleNightEvent();
 
-            if (menuItem.getItemId() == R.id.drawer_item_day)
+            if (menuItemId == R.id.drawer_item_day)
                 handleDayEvent();
 
-            if (menuItem.getItemId() == R.id.drawer_item_screen_orientation)
+            if (menuItemId == R.id.drawer_item_screen_orientation)
                 showOrientationPopup();
 
-            if (menuItem.getItemId() == R.id.drawer_item_book_info)
+            if (menuItemId == R.id.drawer_item_book_info)
                 ZLApplication.Instance().doAction(ActionCode.SHOW_BOOK_INFO);
 
-            if (menuItem.getItemId() == R.id.drawer_item_add_to_favorites)
+            if (menuItemId == R.id.drawer_item_add_to_favorites)
                 addCurrentOpenBookToFavorites();
 
-            if (menuItem.getItemId() == R.id.drawer_item_toc)
+            if (menuItemId == R.id.drawer_item_delete_book)
+                deleteCurrentBook();
+
+            if (menuItemId == R.id.drawer_item_toc)
                 ZLApplication.Instance().doAction(ActionCode.SHOW_TOC);
 
-            if (menuItem.getItemId() == R.id.drawer_item_navigate_to_page)
+            if (menuItemId == R.id.drawer_item_navigate_to_page)
                 ZLApplication.Instance().doAction(ActionCode.ACCESSIBLE_NAVIGATION);
 
-            if (menuItem.getItemId() == R.id.drawer_item_bookmarks)
+            if (menuItemId == R.id.drawer_item_bookmarks)
                 ZLApplication.Instance().doAction(ActionCode.SHOW_BOOKMARKS);
 
             mDrawerLayout.closeDrawers();

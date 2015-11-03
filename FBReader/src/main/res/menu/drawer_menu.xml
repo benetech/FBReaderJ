@@ -66,8 +66,15 @@
             <item
                 android:id="@+id/drawer_item_add_to_favorites"
                 android:title="@string/menu_item_add_to_favorites"
-                android:icon="@drawable/ic_list_library_favorites"
+                android:icon="@drawable/ic_favorite_black_24dp"
                 android:contentDescription="@string/menu_item_content_description_add_to_favorites"
+                />
+
+            <item
+                android:id="@+id/drawer_item_delete_book"
+                android:title="@string/menu_item_delete_book"
+                android:icon="@drawable/ic_delete_black_24dp"
+                android:contentDescription="@string/menu_item_content_description_delete_book"
                 />
         </menu>
     </item>
