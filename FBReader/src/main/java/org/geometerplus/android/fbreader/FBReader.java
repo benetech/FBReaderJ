@@ -84,6 +84,7 @@ public class FBReader extends ZLAndroidActivity {
 	public static final String BOOK_PATH_KEY = "BookPath";
     public static final String PREFS_USER_MANUAL_VERSION = "bks_userManualVersion";
     public static final String USER_GUIDE_FILE = "User-Guide.epub";
+	public static final String MINI_HELP_FILE_NAME = "MiniHelp.en.fb2";
     public static final String LOG_LABEL = "GoRead";
 
     //Added for the detecting whether the talkback is on
