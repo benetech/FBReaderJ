@@ -33,6 +33,7 @@ import android.widget.TextView;
 import org.accessibility.ParentCloserDialog;
 import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.LogoutFromBookshareAction;
 import org.geometerplus.android.fbreader.benetech.Analytics;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
@@ -259,42 +260,42 @@ public class Bookshare_Menu extends ListActivity {
                     ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_LOGIN, Analytics.EVENT_ACTION_LOGIN);
                     finish();
 	            } else {
-		            final Dialog confirmDialog = new Dialog(myActivity);
-                    confirmDialog.setTitle(getResources().getString(R.string.accessible_alert_title));
-                    confirmDialog.setContentView(R.layout.accessible_alert_dialog);
-                    TextView confirmation = (TextView)confirmDialog.findViewById(R.id.bookshare_confirmation_message);
-                    confirmation.setText(getResources().getString(R.string.logout_dialog_message));
-                    Button yesButton = (Button)confirmDialog.findViewById(R.id.bookshare_dialog_btn_yes);
-                    Button noButton = (Button) confirmDialog.findViewById(R.id.bookshare_dialog_btn_no);
-
-                    yesButton.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View v){
-                            // Upon logout clear the stored login credentials
-                            SharedPreferences login = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                            SharedPreferences.Editor editor = login.edit();
-                            editor.putString("username", "");
-                            editor.putString("password", "");
-                            editor.putBoolean("isOM", false);
-                            editor.commit();
-                            confirmAndClose(getResources().getString(R.string.bks_menu_log_out_confirmation), 2000);
-                        }
-                    });
-
-                    noButton.setOnClickListener(new OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            confirmDialog.dismiss();
-                        }
-                    });
-                    ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_LOGOUT, Analytics.EVENT_ACTION_LOGOUT);
-                    confirmDialog.show();
+                    logout();
 	            }
             }
         }
 	}
 
-	private AlertDialog createLoginDialogBox(){
+    private void logout() {
+        final Dialog confirmDialog = new Dialog(myActivity);
+        confirmDialog.setTitle(getResources().getString(R.string.accessible_alert_title));
+        confirmDialog.setContentView(R.layout.accessible_alert_dialog);
+        TextView confirmation = (TextView)confirmDialog.findViewById(R.id.bookshare_confirmation_message);
+        confirmation.setText(getResources().getString(R.string.logout_dialog_message));
+        Button yesButton = (Button)confirmDialog.findViewById(R.id.bookshare_dialog_btn_yes);
+        Button noButton = (Button) confirmDialog.findViewById(R.id.bookshare_dialog_btn_no);
+
+        yesButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v){
+                // Upon logout clear the stored login credentials
+                Context applicationContext = getApplicationContext();
+                LogoutFromBookshareAction.clearBookshareLoginData(applicationContext);
+                confirmAndClose(getResources().getString(R.string.bks_menu_log_out_confirmation), 2000);
+            }
+        });
+
+        noButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                confirmDialog.dismiss();
+            }
+        });
+        ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_SEARCH, Analytics.EVENT_ACTION_LOGOUT, Analytics.EVENT_ACTION_LOGOUT);
+        confirmDialog.show();
+    }
+
+    private AlertDialog createLoginDialogBox(){
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(true);
 		//builder.setIcon(android.R.drawable.dialog_question);

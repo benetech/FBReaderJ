@@ -16,7 +16,7 @@ public class ShowAccessiblePageNavigateAction extends FBAndroidAction {
 
     @Override
     protected void run(Object... params) {
-        Intent intent = new Intent(BaseActivity.getApplicationContext(), AccessibleNavigateActivity.class);
-        BaseActivity.startActivity(intent);
+        Intent intent = new Intent(getBaseActivity().getApplicationContext(), AccessibleNavigateActivity.class);
+        getBaseActivity().startActivity(intent);
     }
 }

@@ -28,6 +28,6 @@ class ShowMenuAction extends FBAndroidAction {
 
 	@Override
 	protected void run(Object ... params) {
-		BaseActivity.openOptionsMenu();
+		getBaseActivity().openOptionsMenu();
 	}
 }

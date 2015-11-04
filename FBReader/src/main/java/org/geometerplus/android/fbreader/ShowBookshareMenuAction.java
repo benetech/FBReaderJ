@@ -16,7 +16,7 @@ public class ShowBookshareMenuAction extends FBAndroidAction {
 
     @Override
     protected void run(Object... params) {
-        Intent intent = new Intent(BaseActivity.getApplicationContext(), Bookshare_Webservice_Login.class);
-        BaseActivity.startActivity(intent);
+        Intent intent = new Intent(getBaseActivity().getApplicationContext(), Bookshare_Webservice_Login.class);
+        getBaseActivity().startActivity(intent);
     }
 }

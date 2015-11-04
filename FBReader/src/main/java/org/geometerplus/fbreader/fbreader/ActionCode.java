@@ -79,4 +79,6 @@ public interface ActionCode {
     String SPEAK = "speak";
     String BOOKSHARE = "bookshare";
     String ACCESSIBLE_NAVIGATION = "accessible_navigation";
+	String LOGOUT_BOOKSHARE = "logout_from_bookshare";
+	String ABOUT_GOREAD = "about_goread";
 }

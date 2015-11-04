@@ -31,7 +31,7 @@ public class SelectionTranslateAction extends FBAndroidAction {
     protected void run(Object ... params) {
         final FBView fbview = Reader.getTextView();
         DictionaryUtil.openTextInDictionary(
-			BaseActivity,
+                getBaseActivity(),
         	fbview.getSelectedText(),
 			fbview.getCountOfSelectedWords() == 1,
         	fbview.getSelectionStartY(),

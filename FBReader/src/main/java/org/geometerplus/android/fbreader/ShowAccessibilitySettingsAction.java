@@ -1,8 +1,5 @@
 package org.geometerplus.android.fbreader;
 
-import java.io.File;
-
-import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
 import android.content.Intent;
@@ -20,6 +17,6 @@ public class ShowAccessibilitySettingsAction extends FBAndroidAction {
     protected void run(Object... params) {
         Intent launchSettings = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
         launchSettings.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        BaseActivity.getApplicationContext().startActivity(launchSettings);
+        getBaseActivity().getApplicationContext().startActivity(launchSettings);
     }
 }

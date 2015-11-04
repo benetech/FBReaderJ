@@ -33,6 +33,6 @@ class SelectionShowPanelAction extends FBAndroidAction {
 
 	@Override
     protected void run(Object ... params) {
-		BaseActivity.showSelectionPanel();
+		getBaseActivity().showSelectionPanel();
 	}
 }

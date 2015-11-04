@@ -42,6 +42,6 @@ public class SelectionShareAction extends FBAndroidAction {
 			ZLResource.resource("selection").getResource("quoteFrom").getValue().replace("%s", title)
 		);
 		intent.putExtra(android.content.Intent.EXTRA_TEXT, text);
-		BaseActivity.startActivity(Intent.createChooser(intent, null));
+		getBaseActivity().startActivity(Intent.createChooser(intent, null));
 	}
 }

@@ -19,11 +19,11 @@ public class ShowHelpAction extends FBAndroidAction {
     @Override
     protected void run(Object... params) {
         File helpFile = new File(Paths.BooksDirectoryOption().getValue(), FBReader.USER_GUIDE_FILE);
-        BaseActivity.startActivity(
-            new Intent(BaseActivity.getApplicationContext(), FBReader.class)
-                    .setAction(Intent.ACTION_VIEW)
-                    .putExtra(FBReader.BOOK_PATH_KEY, helpFile.getPath())
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        getBaseActivity().startActivity(
+                new Intent(getBaseActivity().getApplicationContext(), FBReader.class)
+                        .setAction(Intent.ACTION_VIEW)
+                        .putExtra(FBReader.BOOK_PATH_KEY, helpFile.getPath())
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         );
     }
 }

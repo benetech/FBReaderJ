@@ -23,8 +23,6 @@ import android.content.Intent;
 import android.content.ActivityNotFoundException;
 import android.net.Uri;
 
-import org.geometerplus.zlibrary.core.network.ZLNetworkException;
-
 import org.geometerplus.zlibrary.text.view.*;
 
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
@@ -73,20 +71,20 @@ class ProcessHyperlinkAction extends FBAndroidAction {
 			if (uriString != null) {
 				try {
 					final Intent intent = new Intent();
-					intent.setClass(BaseActivity, ImageViewActivity.class);
+					intent.setClass(getBaseActivity(), ImageViewActivity.class);
 					intent.setData(Uri.parse(uriString));
 					intent.putExtra(
 						ImageViewActivity.BACKGROUND_COLOR_KEY,
 						Reader.ImageViewBackgroundOption.getValue().getIntValue()
 					);
-					BaseActivity.startActivity(intent);
+					getBaseActivity().startActivity(intent);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		} else if (soul instanceof ZLTextWordRegionSoul) {
 			DictionaryUtil.openWordInDictionary(
-				BaseActivity, ((ZLTextWordRegionSoul)soul).Word, region
+					getBaseActivity(), ((ZLTextWordRegionSoul)soul).Word, region
 			);
 		}
 	}
@@ -95,7 +93,7 @@ class ProcessHyperlinkAction extends FBAndroidAction {
 		final Intent intent = new Intent(Intent.ACTION_VIEW);
 		final boolean externalUrl;
 		if (BookDownloader.acceptsUri(Uri.parse(urlString))) {
-			intent.setClass(BaseActivity, BookDownloader.class);
+			intent.setClass(getBaseActivity(), BookDownloader.class);
 			intent.putExtra(BookDownloaderService.SHOW_NOTIFICATIONS_KEY, BookDownloaderService.Notifications.ALL);
 			externalUrl = false;
 		} else {
@@ -106,10 +104,10 @@ class ProcessHyperlinkAction extends FBAndroidAction {
 			public void run() {
 				nLibrary.initialize();
 				intent.setData(Uri.parse(nLibrary.rewriteUrl(urlString, externalUrl)));
-				BaseActivity.runOnUiThread(new Runnable() {
+				getBaseActivity().runOnUiThread(new Runnable() {
 					public void run() {
 						try {
-							BaseActivity.startActivity(intent);
+							getBaseActivity().startActivity(intent);
 						} catch (ActivityNotFoundException e) {
 							e.printStackTrace();
 						}

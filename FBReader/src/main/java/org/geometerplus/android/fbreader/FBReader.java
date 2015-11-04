@@ -210,7 +210,9 @@ public class FBReader extends ZLAndroidActivity {
 			fbReader.addAction(ActionCode.SET_SCREEN_ORIENTATION_REVERSE_LANDSCAPE, new SetScreenOrientationAction(this, fbReader, ZLibrary.SCREEN_ORIENTATION_REVERSE_LANDSCAPE));
 		}
 
-        
+		fbReader.addAction(ActionCode.ABOUT_GOREAD, new ShowAboutGoReadAction(this, fbReader));
+		fbReader.addAction(ActionCode.LOGOUT_BOOKSHARE, new LogoutFromBookshareAction(this, fbReader));
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int currentVersion = zlibrary.getVersionCode();
         int userManualVersion = prefs.getInt(PREFS_USER_MANUAL_VERSION, 0);
@@ -544,29 +546,8 @@ public class FBReader extends ZLAndroidActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
-        addMenuItem(menu, ActionCode.BOOKSHARE, getResources().getString(R.string.menu_bookshare), R.drawable.bookshare);
-		addMenuItem(menu, ActionCode.SHOW_LIBRARY, R.drawable.ic_menu_library);
-		addMenuItem(menu, ActionCode.SHOW_NETWORK_LIBRARY, R.drawable.ic_menu_networklibrary);
-		addMenuItem(menu, ActionCode.SHOW_TOC, R.drawable.ic_menu_toc);
-		addMenuItem(menu, ActionCode.SHOW_BOOKMARKS, R.drawable.ic_menu_bookmarks);
-		addMenuItem(menu, ActionCode.SWITCH_TO_NIGHT_PROFILE, R.drawable.ic_menu_night);
-		addMenuItem(menu, ActionCode.SWITCH_TO_DAY_PROFILE, R.drawable.ic_menu_day);
-		addMenuItem(menu, ActionCode.SEARCH, R.drawable.ic_menu_search);
+
 		addMenuItem(menu, ActionCode.SHOW_PREFERENCES);
-		addMenuItem(menu, ActionCode.SHOW_ACCESSIBILITY_SETTINGS);
-		addMenuItem(menu, ActionCode.SHOW_BOOK_INFO);
-		final Menu subMenu = addSubMenu(menu, "screenOrientation");
-		addMenuItem(subMenu, ActionCode.SET_SCREEN_ORIENTATION_SYSTEM);
-		addMenuItem(subMenu, ActionCode.SET_SCREEN_ORIENTATION_SENSOR);
-		addMenuItem(subMenu, ActionCode.SET_SCREEN_ORIENTATION_PORTRAIT);
-		addMenuItem(subMenu, ActionCode.SET_SCREEN_ORIENTATION_LANDSCAPE);
-		if (ZLibrary.Instance().supportsAllOrientations()) {
-			addMenuItem(subMenu, ActionCode.SET_SCREEN_ORIENTATION_REVERSE_PORTRAIT);
-			addMenuItem(subMenu, ActionCode.SET_SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-		}
-		addMenuItem(menu, ActionCode.INCREASE_FONT);
-		addMenuItem(menu, ActionCode.DECREASE_FONT);
-		addMenuItem(menu, ActionCode.ACCESSIBLE_NAVIGATION);
         addMenuItem(menu, ActionCode.SHOW_HELP);
 		synchronized (myPluginActions) {
 			int index = 0;
@@ -580,6 +561,9 @@ public class FBReader extends ZLAndroidActivity {
 				}
 			}
 		}
+
+		addMenuItem(menu, ActionCode.ABOUT_GOREAD);
+		addMenuItem(menu, ActionCode.LOGOUT_BOOKSHARE);
 
 		final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
 		application.myMainWindow.refreshMenu();

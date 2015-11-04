@@ -41,7 +41,7 @@ class ShowCancelMenuAction extends FBAndroidAction {
 				Reader.closeWindow();
 			} else {
 				final Intent intent = new Intent();
-				intent.setClass(BaseActivity, CancelActivity.class);
+				intent.setClass(getBaseActivity(), CancelActivity.class);
 				intent.putExtra(CancelActivity.LIST_SIZE, descriptionList.size());
 				int index = 0;
 				for (FBReaderApp.CancelActionDescription description : descriptionList) {
@@ -49,7 +49,7 @@ class ShowCancelMenuAction extends FBAndroidAction {
 					intent.putExtra(CancelActivity.ITEM_SUMMARY + index, description.Summary);
 					++index;
 				}
-				BaseActivity.startActivityForResult(intent, FBReader.CANCEL_CODE);
+				getBaseActivity().startActivityForResult(intent, FBReader.CANCEL_CODE);
 			}
 		}
 	}

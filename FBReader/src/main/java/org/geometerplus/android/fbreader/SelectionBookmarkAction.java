@@ -47,7 +47,7 @@ public class SelectionBookmarkAction extends FBAndroidAction {
         fbview.clearSelection();
 
 		UIUtil.showMessageText(
-			BaseActivity,
+				getBaseActivity(),
 			ZLResource.resource("selection").getResource("bookmarkCreated").getValue().replace("%s", text)
 		);
 	}

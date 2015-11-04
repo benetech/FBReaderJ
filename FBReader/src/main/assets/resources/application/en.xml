@@ -235,7 +235,10 @@
 		<node name="clearSelection" value="Clear"/>
 	</node>
 	<node name="menu">
+
 		<node name="preferences" value="Settings"/>
+		<node name="about_goread" value="About GoRead"/>
+		<node name="logout_from_bookshare" value="Logout of Bookshare"/>
 		<node name="bookInfo" value="Book info"/>
 		<node name="library" value="Downloaded Books"/>
 		<node name="toc" value="TOC"/>

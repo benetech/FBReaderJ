@@ -38,6 +38,6 @@ class ShowNavigationAction extends FBAndroidAction {
 
 	@Override
 	protected void run(Object ... params) {
-		BaseActivity.navigate();
+		getBaseActivity().navigate();
 	}
 }
