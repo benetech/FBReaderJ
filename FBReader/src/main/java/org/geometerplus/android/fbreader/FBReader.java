@@ -559,7 +559,6 @@ public class FBReader extends ZLAndroidActivity {
 
 		addMenuItem(menu, ActionCode.ABOUT_GOREAD);
 		addMenuItem(menu, ActionCode.LOGOUT_BOOKSHARE);
-		addMenuItem(menu, ActionCode.SHOW_TOC);
 
 		final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
 		application.myMainWindow.refreshMenu();
