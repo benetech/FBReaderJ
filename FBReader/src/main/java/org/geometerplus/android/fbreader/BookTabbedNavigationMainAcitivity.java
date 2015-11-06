@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import org.benetech.android.R;
 
@@ -29,7 +30,17 @@ public class BookTabbedNavigationMainAcitivity extends FragmentActivity implemen
 
         mTabHost.addTab(mTabHost.newTabSpec(TAB_SECTION_CODE).setIndicator(getString(R.string.tab_label_section)), BookNavigationTabSection.class, null);
         mTabHost.addTab(mTabHost.newTabSpec(TAB_PAGE_CODE).setIndicator(getString(R.string.tab_label_page)), BookNavigationTabPage.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec(TAB_BOOKMARK_CODE).setIndicator(getString(R.string.tab_label_bookmark)), BookNavigationTabBookmark.class, null);
+//FIXME undo and fix bookmark init, list gets reset
+//        mTabHost.addTab(mTabHost.newTabSpec(TAB_BOOKMARK_CODE).setIndicator(getString(R.string.tab_label_bookmark)), BookNavigationTabBookmark.class, null);
+
+        turnOffDefaultAllCapsTabLabels();
+    }
+
+    private void turnOffDefaultAllCapsTabLabels() {
+        for (int index = 0; index < mTabHost.getTabWidget().getTabCount(); ++index) {
+            TextView tv = (TextView) mTabHost.getTabWidget().getChildAt(index).findViewById(android.R.id.title);
+            tv.setAllCaps(false);
+        }
     }
 
     @Override
