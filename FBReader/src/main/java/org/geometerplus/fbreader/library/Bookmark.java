@@ -19,14 +19,22 @@
 
 package org.geometerplus.fbreader.library;
 
-import java.util.*;
-
-import org.benetech.android.R;
 import org.geometerplus.android.fbreader.benetech.DaisyPageHandler;
 import org.geometerplus.android.fbreader.benetech.DefaultPageHandler;
 import org.geometerplus.android.fbreader.benetech.PageHandler;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
-import org.geometerplus.zlibrary.text.view.*;
+import org.geometerplus.zlibrary.text.view.ZLTextElement;
+import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
+import org.geometerplus.zlibrary.text.view.ZLTextPosition;
+import org.geometerplus.zlibrary.text.view.ZLTextView;
+import org.geometerplus.zlibrary.text.view.ZLTextWord;
+import org.geometerplus.zlibrary.text.view.ZLTextWordCursor;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public final class Bookmark extends ZLTextFixedPosition {
 	public final static int CREATION = 0;
