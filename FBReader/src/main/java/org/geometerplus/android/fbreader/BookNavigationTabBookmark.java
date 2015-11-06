@@ -2,7 +2,6 @@ package org.geometerplus.android.fbreader;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
@@ -91,6 +90,7 @@ public class BookNavigationTabBookmark extends Fragment implements MenuItem.OnMe
         final Bookmark bookmark = fbreader.addBookmark(20, true);
         if (bookmark != null) {
             myThisBookBookmarks.add(0, bookmark);
+            allBooksBookmarks.add(0, bookmark);
             invalidateAllViews();
 
             final VoiceableDialog finishedDialog = new VoiceableDialog(getActivity());
@@ -157,6 +157,7 @@ public class BookNavigationTabBookmark extends Fragment implements MenuItem.OnMe
             case DELETE_ITEM_ID:
                 bookmark.delete();
                 myThisBookBookmarks.remove(bookmark);
+                allBooksBookmarks.remove(bookmark);
                 invalidateAllViews();
                 adapter.notifyDataSetChanged();
                 return true;
