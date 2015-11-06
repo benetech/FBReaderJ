@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * Created by animal@martus.org on 11/5/15.
  */
-public class BookNavigationTabBookmark extends Fragment implements MenuItem.OnMenuItemClickListener {
+public class BookNavigationBookmarkTab extends Fragment implements MenuItem.OnMenuItemClickListener {
 
     private static final int OPEN_ITEM_ID = 0;
     private static final int DELETE_ITEM_ID = 2;
