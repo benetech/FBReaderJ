@@ -321,10 +321,6 @@
 					<node name="summaryOn" value="打開選單時顯示狀態列"/>
 					<node name="summaryOff" value="打開選單時不要顯示狀態列"/>
 				</node>
-				<node name="disableButtonLights" value="Disable hardware buttons light during reading" toBeTranslated="true">
-					<node name="summaryOn" value="Disable button lights (that does not for some devices)" toBeTranslated="true"/>
-					<node name="summaryOff" value="Don't try to disable button lights" toBeTranslated="true"/>
-				</node>
 				<node name="allowScreenBrightnessAdjustment" value="調整屏幕亮度">
 					<node name="summaryOn" value="通過於屏幕左方上下拉動調整"/>
 					<node name="summaryOff" value="關閉"/>

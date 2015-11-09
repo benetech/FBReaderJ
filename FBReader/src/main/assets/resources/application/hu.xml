@@ -321,10 +321,6 @@
 					<node name="summaryOn" value="Az állapotsor látszik a menübe belépéskor"/>
 					<node name="summaryOff" value="Az állapotsor nem látszik a menübe belépéskor"/>
 				</node>
-				<node name="disableButtonLights" value="Gombok megvilágításának kikapcsolása">
-					<node name="summaryOn" value="Megvilágítás kikapcsolása olvasás közben (nem minden eszköznél működik)"/>
-					<node name="summaryOff" value="Ne próbálja kikapcsolni a gombok háttérvilágítását"/>
-				</node>
 				<node name="allowScreenBrightnessAdjustment" value="Fényerő beállítása">
 					<node name="summaryOn" value="Felfelé/lefelé csúsztatás a képernyő bal oldalán"/>
 					<node name="summaryOff" value="Kikapcsolva"/>
