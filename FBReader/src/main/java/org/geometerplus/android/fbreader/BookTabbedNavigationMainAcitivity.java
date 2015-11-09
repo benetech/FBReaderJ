@@ -30,8 +30,7 @@ public class BookTabbedNavigationMainAcitivity extends FragmentActivity implemen
 
         mTabHost.addTab(mTabHost.newTabSpec(TAB_SECTION_CODE).setIndicator(getString(R.string.tab_label_section)), BookNavigationTabSection.class, null);
         mTabHost.addTab(mTabHost.newTabSpec(TAB_PAGE_CODE).setIndicator(getString(R.string.tab_label_page)), BookNavigationTabPage.class, null);
-//FIXME undo and fix bookmark init, list gets reset
-//        mTabHost.addTab(mTabHost.newTabSpec(TAB_BOOKMARK_CODE).setIndicator(getString(R.string.tab_label_bookmark)), BookNavigationTabBookmark.class, null);
+        mTabHost.addTab(mTabHost.newTabSpec(TAB_BOOKMARK_CODE).setIndicator(getString(R.string.tab_label_bookmark)), BookNavigationBookmarkTab.class, null);
 
         turnOffDefaultAllCapsTabLabels();
     }

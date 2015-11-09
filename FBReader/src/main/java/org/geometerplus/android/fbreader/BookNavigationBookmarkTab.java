@@ -24,6 +24,7 @@ import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.Bookmark;
+import org.geometerplus.fbreader.library.BooksDatabase;
 import org.geometerplus.fbreader.library.Library;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.options.ZLStringOption;
@@ -60,6 +61,7 @@ public class BookNavigationBookmarkTab extends Fragment implements MenuItem.OnMe
 
         View view = inflater.inflate(R.layout.book_navigation_tab_bookmarks_layout, container, false);
         allBooksBookmarks = Bookmark.bookmarks();
+
         Collections.sort(allBooksBookmarks, new Bookmark.ByTimeComparator());
         final FBReaderApp fbreader = (FBReaderApp)FBReaderApp.Instance();
 
@@ -89,6 +91,7 @@ public class BookNavigationBookmarkTab extends Fragment implements MenuItem.OnMe
         final FBReaderApp fbreader = (FBReaderApp)FBReaderApp.Instance();
         final Bookmark bookmark = fbreader.addBookmark(20, true);
         if (bookmark != null) {
+            bookmark.save();
             myThisBookBookmarks.add(0, bookmark);
             allBooksBookmarks.add(0, bookmark);
             invalidateAllViews();
