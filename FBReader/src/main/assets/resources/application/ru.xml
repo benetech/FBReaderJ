@@ -452,19 +452,13 @@
 					<node name="byFlick" value="Листать протягиванием страницы"/>
 					<node name="byTapAndFlick" value="Листать нажатием на экран либо протягиванием страницы"/>
 				</node>
+				<node name="enableDoubleTapDetection" value="Обработка двойного нажатия">
+					<node name="summaryOn" value="По двойному нажатию открывать диалог перемещения/меню"/>
+					<node name="summaryOff" value="Игнорировать двойные нажатия"/>
+				</node>
 				<node name="volumeKeys" value="Использовать кнопки регулировки звука">
 					<node name="summaryOn" value="Кнопки увеличения/уменьшения звука перелистывают страницы"/>
 					<node name="summaryOff" value="Кнопки увеличения/уменьшения звука работают как обычно"/>
-				</node>
-				<node name="animation" value="Анимация">
-					<node name="none" value="Выключить анимацию"/>
-					<node name="curl" value="Трехмерная анимация"/>
-					<node name="slide" value="Сдвиг с перекрытием"/>
-					<node name="shift" value="Сдвиг"/>
-				</node>
-				<node name="animationSpeed" value="Скорость анимации">
-					<node name="fast" value="быстро"/>
-					<node name="slow" value="медленно"/>
 				</node>
 				<node name="horizontal" value="Горизонтальное перелистывание">
 					<node name="summaryOn" value="При листании страница движется по горизонтали"/>

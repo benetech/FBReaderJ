@@ -440,19 +440,13 @@
 					<node name="byFlick" value="Desplazar páginas deslizando en la pantalla"/>
 					<node name="byTapAndFlick" value="Desplazar páginas mediante pulsación o desplazamiento en la pantalla"/>
 				</node>
+				<node name="enableDoubleTapDetection" value="Detección de doble pulsación">
+					<node name="summaryOn" value="Doble pulsación para navegar por los diálogos o menú"/>
+					<node name="summaryOff" value="Ignorar la doble pulsación"/>
+				</node>
 				<node name="volumeKeys" value="Pasar de página con botones de volumen">
 					<node name="summaryOn" value="Usar los botones de volumen para pasar de página"/>
 					<node name="summaryOff" value="Mantener los botones de volumen para el audio"/>
-				</node>
-				<node name="animation" value="Animación">
-					<node name="none" value="Desplazamento sin animación"/>
-					<node name="curl" value="Animación de giro"/>
-					<node name="slide" value="Deslizar"/>
-					<node name="shift" value="Pasar"/>
-				</node>
-				<node name="animationSpeed" value="Velocidad de animación">
-					<node name="fast" value="rápida"/>
-					<node name="slow" value="lenta"/>
 				</node>
 				<node name="horizontal" value="Desplazamiento horizontal">
 					<node name="summaryOn" value="Desplazar las páginas en horizontal"/>

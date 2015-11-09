@@ -435,19 +435,13 @@
 					<node name="byFlick" value="เลื่อนหน้าโดยการเลื่อนที่หน้าจอ"/>
 					<node name="byTapAndFlick" value="เลื่อนหน้าโดยการแตะหรือเลื่อนที่หน้าจอ"/>
 				</node>
+				<node name="enableDoubleTapDetection" value="การทำงานเมื่อแตะหน้าจอสองครั้งติดกัน">
+					<node name="summaryOn" value="แตะหน้าจอติดกันเพื่อเปิดเมนูตัวนำทาง"/>
+					<node name="summaryOff" value="ปิดการใช้งาน"/>
+				</node>
 				<node name="volumeKeys" value="เปลี่ยนหน้าโดยการใช้ปุ่มปรับระดับเสียง">
 					<node name="summaryOn" value="ใช้ปุ่มปรับระดับเสียงในการเปลี่ยนหน้า"/>
 					<node name="summaryOff" value="ไม่ใช้ปุ่มปรับระดับเสียงในการเปลี่ยนหน้า"/>
-				</node>
-				<node name="animation" value="แอนิเมชั่น">
-					<node name="none" value="ไม่มีแอนิเมชั่นในการเลื่อนหน้า"/>
-					<node name="curl" value="Curl animation" toBeTranslated="true"/>
-					<node name="slide" value="เลื่อนหน้าแบบสไลด์"/>
-					<node name="shift" value="เลื่อนหน้าแบบสลับ"/>
-				</node>
-				<node name="animationSpeed" value="Animation speed" toBeTranslated="true">
-					<node name="fast" value="fast" toBeTranslated="true"/>
-					<node name="slow" value="slow" toBeTranslated="true"/>
 				</node>
 				<node name="horizontal" value="เลื่อนหน้าในแนวนอน">
 					<node name="summaryOn" value="เลื่อนหน้าตามแนวนอน"/>

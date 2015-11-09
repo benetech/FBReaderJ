@@ -438,19 +438,13 @@
 					<node name="byFlick" value="Umblättern durch Schnipsen"/>
 					<node name="byTapAndFlick" value="Umblättern durch Antippen oder Schnipsen"/>
 				</node>
+				<node name="enableDoubleTapDetection" value="Doppeltes Antippen">
+					<node name="summaryOn" value="Doppeltes Antippen öffnet Navigationsmenü."/>
+					<node name="summaryOff" value="Ignoriere doppeltes Antippen."/>
+				</node>
 				<node name="volumeKeys" value="Umblättern mit den Lautstärketasten">
 					<node name="summaryOn" value="Lautstärketasten zum Umblättern verwenden."/>
 					<node name="summaryOff" value="Lautstärketasten nicht verwenden."/>
-				</node>
-				<node name="animation" value="Animation">
-					<node name="none" value="Ohne Animation umblättern"/>
-					<node name="curl" value="Blättern"/>
-					<node name="slide" value="Gleiten"/>
-					<node name="shift" value="Schieben"/>
-				</node>
-				<node name="animationSpeed" value="Animationsgeschwindigkeit">
-					<node name="fast" value="schnell"/>
-					<node name="slow" value="langsam"/>
 				</node>
 				<node name="horizontal" value="Horizontales umblättern">
 					<node name="summaryOn" value="Seiten horizontal umblättern"/>

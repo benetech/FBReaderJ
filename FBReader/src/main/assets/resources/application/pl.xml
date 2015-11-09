@@ -435,19 +435,13 @@
 					<node name="byFlick" value="Zmiana strony za pomocą przeciągania"/>
 					<node name="byTapAndFlick" value="Zmiana strony za pomocą dotknięcia lub przeciągnięcia"/>
 				</node>
+				<node name="enableDoubleTapDetection" value="Wykrywanie podwójnego dotknięcia">
+					<node name="summaryOn" value="Podwójne dotknięcie otwiera menu nawigacji"/>
+					<node name="summaryOff" value="Ignoruj podwójne kliknięcia"/>
+				</node>
 				<node name="volumeKeys" value="Zmiana strony za pomocą klawiszy głośności">
 					<node name="summaryOn" value="Użyj klawiszy regulacji głośności do zmiany strony"/>
 					<node name="summaryOff" value="Klawisze głośności tylko do obsługi dźwięku"/>
-				</node>
-				<node name="animation" value="Animacja">
-					<node name="none" value="Zmiana strony bez animacji"/>
-					<node name="curl" value="Wywijanie strony"/>
-					<node name="slide" value="Przesuwanie strony"/>
-					<node name="shift" value="Przekładanie strony"/>
-				</node>
-				<node name="animationSpeed" value="Szybkość animacji">
-					<node name="fast" value="szybciej"/>
-					<node name="slow" value="wolniej"/>
 				</node>
 				<node name="horizontal" value="Przewijanie poziome">
 					<node name="summaryOn" value="Zmieniaj strony poziomo"/>
