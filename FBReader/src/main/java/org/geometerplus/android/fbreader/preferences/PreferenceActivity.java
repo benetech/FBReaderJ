@@ -177,7 +177,6 @@ public class PreferenceActivity extends ZLPreferenceActivity {
                 this, statusLineScreen.Resource.getResource("footerHeight"),
                 fbReader.FooterHeightOption
             )));
-            footerPreferences.add(statusLineScreen.addOption(profile.FooterFillOption, "footerColor"));
             footerPreferences.add(statusLineScreen.addOption(fbReader.FooterShowTOCMarksOption, "tocMarks"));
 
             footerPreferences.add(statusLineScreen.addOption(fbReader.FooterShowClockOption, "showClock"));

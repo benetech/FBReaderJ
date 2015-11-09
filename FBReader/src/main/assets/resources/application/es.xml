@@ -415,7 +415,6 @@
 					<node name="showAsFooter" value="Barra de progreso horizontal"/>
 				</node>
 				<node name="footerHeight" value="Altura de barra de progreso horizontal" />
-				<node name="footerColor" value="Color de la barra de progreso horizontal" />
 				<node name="tocMarks" value="Mostrar marcas de índice">
 					<node name="summaryOn" value="Mostrar las marcas del índice en la barra de progreso"/>
 					<node name="summaryOff" value="No mostrar las marcas del índice en la barra de progreso"/>

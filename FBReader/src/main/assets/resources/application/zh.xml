@@ -410,7 +410,6 @@
 					<node name="showAsFooter" value="水平页脚方式"/>
 				</node>
 				<node name="footerHeight" value="页脚高度"/>
-				<node name="footerColor" value="页脚颜色"/>
 				<node name="tocMarks" value="显示内容目录标志">
 					<node name="summaryOn" value="在页脚栏显示内容目录标志"/>
 					<node name="summaryOff" value="不在页脚栏显示内容目录标志"/>

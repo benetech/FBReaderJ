@@ -425,7 +425,6 @@
 					<node name="showAsFooter" value="Horizontal footer"/>
 				</node>
 				<node name="footerHeight" value="Footer height"/>
-				<node name="footerColor" value="Footer color"/>
 				<node name="tocMarks" value="Show TOC marks">
 					<node name="summaryOn" value="Show TOC marks in the footer bar"/>
 					<node name="summaryOff" value="Don't show TOC marks in the footer bar"/>

@@ -411,7 +411,6 @@
 					<node name="showAsFooter" value="Piè di pagina orizzontale" />
 				</node>
 				<node name="footerHeight" value="Altezza piè di pagina"/>
-				<node name="footerColor" value="Colore piè di pagina"/>
 				<node name="tocMarks" value="Mostra Segnalibri">
 					<node name="summaryOn" value="Mostra segnalibri in basso"/>
 					<node name="summaryOff" value="Non mostrare segnalibri in basso"/>

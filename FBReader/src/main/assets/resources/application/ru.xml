@@ -427,7 +427,6 @@
 					<node name="showAsFooter" value="Подвал"/>
 				</node>
 				<node name="footerHeight" value="Высота подвала"/>
-				<node name="footerColor" value="Цвет подвала"/>
 				<node name="tocMarks" value="Показывать метки по главам">
 					<node name="summaryOn" value="Рисовать пометку на подвале в начале главы"/>
 					<node name="summaryOff" value="Подвал без пометок"/>

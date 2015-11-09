@@ -410,7 +410,6 @@
 					<node name="showAsFooter" value="Dòng cuois trang ngang"/>
 				</node>
 				<node name="footerHeight" value="Chiều cao của cuối trang"/>
-				<node name="footerColor" value="Màu sắc cuối trang"/>
 				<node name="tocMarks" value="Hiện đánh dấu mục lục">
 					<node name="summaryOn" value="Hiện đánh dấu mục lục ở thanh cuối trang"/>
 					<node name="summaryOff" value="Không Hiện đánh dấu mục lục ở thanh cuối trang"/>

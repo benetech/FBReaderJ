@@ -410,7 +410,6 @@
 					<node name="showAsFooter" value="Horizontal footer" toBeTranslated="true"/>
 				</node>
 				<node name="footerHeight" value="Footer height" toBeTranslated="true" />
-				<node name="footerColor" value="Footer color" toBeTranslated="true" />
 				<node name="tocMarks" value="Toon inhoudsmarkeringen">
 					<node name="summaryOn" value="Show TOC marks in the footer bar" toBeTranslated="true"/>
 					<node name="summaryOff" value="Don't show TOC marks in the footer bar" toBeTranslated="true"/>

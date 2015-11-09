@@ -410,7 +410,6 @@
 					<node name="showAsFooter" value="แถบแสดงแนวนอนท้ายหน้า"/>
 				</node>
 				<node name="footerHeight" value="ความสูงแถบแสดงท้ายหน้า"/>
-				<node name="footerColor" value="สีแถบแสดงท้ายหน้า"/>
 				<node name="tocMarks" value="แสดงสารบัญ">
 					<node name="summaryOn" value="แสดงสารบัญท้ายหน้า"/>
 					<node name="summaryOff" value="ไม่แสดงสัญลักษณ์สารบัญท้ายหน้า"/>

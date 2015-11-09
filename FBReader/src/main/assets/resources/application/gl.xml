@@ -410,7 +410,6 @@
 					<node name="showAsFooter" value="Rodapé horizontal"/>
 				</node>
 				<node name="footerHeight" value="Altura do rodapé" />
-				<node name="footerColor" value="Cor do rodapé" />
 				<node name="tocMarks" value="Mostrar as marcas do índice">
 					<node name="summaryOn" value="Mostrar as marcas do índice na barra do rodapé"/>
 					<node name="summaryOff" value="Non mostrar as marcas do índice na barra do rodapé"/>

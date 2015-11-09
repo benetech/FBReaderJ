@@ -410,7 +410,6 @@
 					<node name="showAsFooter" value="Poziomy pasek w stopce"/>
 				</node>
 				<node name="footerHeight" value="Wysokość stopki"/>
-				<node name="footerColor" value="Kolor stopki"/>
 				<node name="tocMarks" value="Pokazywanie znaczników spisu treści">
 					<node name="summaryOn" value="Pokazuj znaczniki w stopce"/>
 					<node name="summaryOff" value="Nie pokazuj znaczników w stopce"/>

@@ -410,7 +410,6 @@
 					<node name="showAsFooter" value="Vodorovná patička"/>
 				</node>
 				<node name="footerHeight" value="Výška patičky"/>
-				<node name="footerColor" value="Barva patičky"/>
 				<node name="tocMarks" value="Zobrazit značky obsahu">
 					<node name="summaryOn" value="Zobrazit značky obsahu v patičce"/>
 					<node name="summaryOff" value="Nezobrazovat značky obsahu v patičce"/>

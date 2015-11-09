@@ -410,7 +410,6 @@
 					<node name="showAsFooter" value="Vízszintes lábléc"/>
 				</node>
 				<node name="footerHeight" value="Lábléc magassága"/>
-				<node name="footerColor" value="Lábléc színe"/>
 				<node name="tocMarks" value="Tartalomjegyzék jelzése">
 					<node name="summaryOn" value="Mutassa a tartalomjegyzék elemeit a láblécen"/>
 					<node name="summaryOff" value="Ne mutassa a tartalomjegyzék elemeit a láblécen"/>

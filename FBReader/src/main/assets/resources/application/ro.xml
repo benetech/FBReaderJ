@@ -410,7 +410,6 @@
 					<node name="showAsFooter" value="Subsol orizontal"/>
 				</node>
 				<node name="footerHeight" value="înaltime subsol"/>
-				<node name="footerColor" value="Culoarea subsolului"/>
 				<node name="tocMarks" value="Arata favoritele curpinsului">
 					<node name="summaryOn" value="Arata favoritele curpinsului în bara de subsol"/>
 					<node name="summaryOff" value="Nu arata semne de cuprins în bara de subsol"/>

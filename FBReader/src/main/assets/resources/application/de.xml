@@ -413,7 +413,6 @@
 					<node name="showAsFooter" value="Horizontal"/>
 				</node>
 				<node name="footerHeight" value="Höhe der Fußleiste"/>
-				<node name="footerColor" value="Farbe der Fußleiste"/>
 				<node name="tocMarks" value="Kapitelmarken anzeigen">
 					<node name="summaryOn" value="Kapitelmarken in der Fußzeile anzeigen."/>
 					<node name="summaryOff" value="Keine Kapitelmarken in der Fußzeile anzeigen."/>

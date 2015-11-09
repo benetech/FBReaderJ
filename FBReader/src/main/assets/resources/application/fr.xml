@@ -413,7 +413,6 @@
 					<node name="showAsFooter" value="Pied de page horizontal"/>
 				</node>
 				<node name="footerHeight" value="Hauteur du pied de page"/>
-				<node name="footerColor" value="Couleur pied de page"/>
 				<node name="tocMarks" value="Afficher les repères de la table des matières">
 					<node name="summaryOn" value="Afficher les repères dans la barre du pied de page"/>
 					<node name="summaryOff" value="Ne pas afficher les repères dans la barre du pied de page"/>

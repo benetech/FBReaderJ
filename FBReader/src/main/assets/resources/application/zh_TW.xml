@@ -415,7 +415,6 @@
 					<node name="showAsFooter" value="水平頁尾"/>
 				</node>
 				<node name="footerHeight" value="頁尾高度" />
-				<node name="footerColor" value="頁尾顏色" />
 				<node name="tocMarks" value="顯示目錄標示">
 					<node name="summaryOn" value="在頁尾顯示目錄標示"/>
 					<node name="summaryOff" value="不要在頁尾顯示目錄標示"/>
