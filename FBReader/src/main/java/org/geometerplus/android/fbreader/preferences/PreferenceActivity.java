@@ -207,10 +207,11 @@ public class PreferenceActivity extends ZLPreferenceActivity {
 
             final Screen scrollingScreen = createPreferenceScreen("scrolling");
             scrollingScreen.addOption(scrollingPreferences.FingerScrollingOption, "fingerScrolling");
+            scrollingScreen.addOption(fbReader.EnableDoubleTapOption, "enableDoubleTapDetection");
 
             final ZLPreferenceSet volumeKeysPreferences = new ZLPreferenceSet();
             scrollingScreen.addPreference(new ZLCheckBoxPreference(
-                this, scrollingScreen.Resource, "volumeKeys"
+                    this, scrollingScreen.Resource, "volumeKeys"
             ) {
                 {
                     setChecked(fbReader.hasActionForKey(KeyEvent.KEYCODE_VOLUME_UP, false));

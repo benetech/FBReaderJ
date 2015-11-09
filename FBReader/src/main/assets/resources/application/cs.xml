@@ -435,6 +435,10 @@
 					<node name="byFlick" value="Posouvat stránky rychlým pohybem prstem"/>
 					<node name="byTapAndFlick" value="Posouvat stránky klepnutím nebo rychlým pohybem prstem"/>
 				</node>
+				<node name="enableDoubleTapDetection" value="Rozpoznání poklepání">
+					<node name="summaryOn" value="Poklepání spustí navigaci nebo menu"/>
+					<node name="summaryOff" value="Ignorovat poklepání"/>
+				</node>
 				<node name="volumeKeys" value="Posouvání tlačítky ovládání hlasitosti">
 					<node name="summaryOn" value="Použít tlačítka ovládání hlasitosti pro posun"/>
 					<node name="summaryOff" value="Ponechat tlačítka ovládání hlasitosti pro zvuk"/>

@@ -435,6 +435,10 @@
 					<node name="byFlick" value="เลื่อนหน้าโดยการเลื่อนที่หน้าจอ"/>
 					<node name="byTapAndFlick" value="เลื่อนหน้าโดยการแตะหรือเลื่อนที่หน้าจอ"/>
 				</node>
+				<node name="enableDoubleTapDetection" value="การทำงานเมื่อแตะหน้าจอสองครั้งติดกัน">
+					<node name="summaryOn" value="แตะหน้าจอติดกันเพื่อเปิดเมนูตัวนำทาง"/>
+					<node name="summaryOff" value="ปิดการใช้งาน"/>
+				</node>
 				<node name="volumeKeys" value="เปลี่ยนหน้าโดยการใช้ปุ่มปรับระดับเสียง">
 					<node name="summaryOn" value="ใช้ปุ่มปรับระดับเสียงในการเปลี่ยนหน้า"/>
 					<node name="summaryOff" value="ไม่ใช้ปุ่มปรับระดับเสียงในการเปลี่ยนหน้า"/>

@@ -438,6 +438,10 @@
 					<node name="byFlick" value="Changer de page par petit coup du doigt"/>
 					<node name="byTapAndFlick" value="Changer de page lors d'un appui ou petit coup"/>
 				</node>
+				<node name="enableDoubleTapDetection" value="Détection appui double">
+					<node name="summaryOn" value="Appui double pour afficher le menu de navigation"/>
+					<node name="summaryOff" value="Ignorer les appuis doubles"/>
+				</node>
 				<node name="volumeKeys" value="Touches du volume">
 					<node name="summaryOn" value="Les touches du volume permettent de changer de page"/>
 					<node name="summaryOff" value="Les touches du volume n'ont pas d'effet sur la navigation"/>
