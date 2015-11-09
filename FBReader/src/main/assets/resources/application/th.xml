@@ -439,10 +439,6 @@
 					<node name="summaryOn" value="ใช้ปุ่มปรับระดับเสียงในการเปลี่ยนหน้า"/>
 					<node name="summaryOff" value="ไม่ใช้ปุ่มปรับระดับเสียงในการเปลี่ยนหน้า"/>
 				</node>
-				<node name="invertVolumeKeys" value="ปรับเปลี่ยนทิศทางปุ่มปรับระดับเสียงในการเปลี่ยนหน้า">
-					<node name="summaryOn" value="ปุ่มเพิ่มเสียง (ปุ่มลดเสียง) ใช้เปลี่ยนไปหน้าก่อนหน้า(หน้าถัดไป)"/>
-					<node name="summaryOff" value="ปุ่มลดเสียง (ปุ่มเพิ่มเสียง) ใช้เปลี่ยนไปหน้าถัดไป(หน้าก่อนหน้า)"/>
-				</node>
 				<node name="animation" value="แอนิเมชั่น">
 					<node name="none" value="ไม่มีแอนิเมชั่นในการเลื่อนหน้า"/>
 					<node name="curl" value="Curl animation" toBeTranslated="true"/>

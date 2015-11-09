@@ -439,10 +439,6 @@
 					<node name="summaryOn" value="Utilizati tastele de volum pentru a întoarce paginile"/>
 					<node name="summaryOff" value="Pastrati tastele de volum pentru sunet"/>
 				</node>
-				<node name="invertVolumeKeys" value="Inversati directia tastelor de volum">
-					<node name="summaryOn" value="Mai tare (mai incet), tasta pentru pagina anterioara (urmatoare)"/>
-					<node name="summaryOff" value="Mai incet (mai tare), tasta pentru pagina urmatoare (anterioara) "/>
-				</node>
 				<node name="animation" value="Animatie">
 					<node name="none" value="Derulati fara animatie"/>
 					<node name="curl" value="Animatie la rotund"/>

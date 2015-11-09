@@ -442,10 +442,6 @@
 					<node name="summaryOn" value="Les touches du volume permettent de changer de page"/>
 					<node name="summaryOff" value="Les touches du volume n'ont pas d'effet sur la navigation"/>
 				</node>
-				<node name="invertVolumeKeys" value="Inversion touches du volume">
-					<node name="summaryOn" value="Volume + affiche la page suivante"/>
-					<node name="summaryOff" value="Volume + affiche la page précédente"/>
-				</node>
 				<node name="animation" value="Animation">
 					<node name="none" value="Pas d'animation"/>
 					<node name="curl" value="Effet curl"/>

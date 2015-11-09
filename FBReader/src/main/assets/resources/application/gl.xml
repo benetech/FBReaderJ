@@ -439,10 +439,6 @@
 					<node name="summaryOn" value="Usar as teclas de volume para rotar as páxinas"/>
 					<node name="summaryOff" value="Manter as teclas de volume para o son"/>
 				</node>
-				<node name="invertVolumeKeys" value="Inverter a dirección das teclas volume">
-					<node name="summaryOn" value="Máis alto (baixo) volve á anterior (seguinte) páxina"/>
-					<node name="summaryOff" value="Máis baixo (alto) volve á seguinte (anterior) páxina"/>
-				</node>
 				<node name="animation" value="Animación">
 					<node name="none" value="Desprazamento sen animación"/>
 					<node name="curl" value="Curl animation" toBeTranslated="true"/>

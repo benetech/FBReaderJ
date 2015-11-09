@@ -442,10 +442,6 @@
 					<node name="summaryOn" value="Lautstärketasten zum Umblättern verwenden."/>
 					<node name="summaryOff" value="Lautstärketasten nicht verwenden."/>
 				</node>
-				<node name="invertVolumeKeys" value="Lautstärketasten invertieren">
-					<node name="summaryOn" value="Lauter (leiser) Taste blättert eine Seite zurück (vor)."/>
-					<node name="summaryOff" value="Lauter (leiser) Taste blättert eine Seite vor (zurück)."/>
-				</node>
 				<node name="animation" value="Animation">
 					<node name="none" value="Ohne Animation umblättern"/>
 					<node name="curl" value="Blättern"/>

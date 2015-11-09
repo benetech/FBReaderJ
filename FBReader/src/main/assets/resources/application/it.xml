@@ -440,10 +440,6 @@
 					<node name="summaryOn" value="Usa i tasti del volume per scorrere"/>
 					<node name="summaryOff" value="Lascia i tasti del volume per la regolazione del suono"/>
 				</node>
-				<node name="invertVolumeKeys" value="Invertire i tasti del volume a scorrimento">
-					<node name="summaryOn" value="Il pulsante su torna alla pagina precedente"/>
-					<node name="summaryOff" value="Il pulsante giù passa alla pagina successiva"/>
-				</node>
 				<node name="animation" value="Animazione">
 					<node name="none" value="Scorri senza animazione"/>
 					<node name="curl" value="Sfoglia angoli"/>

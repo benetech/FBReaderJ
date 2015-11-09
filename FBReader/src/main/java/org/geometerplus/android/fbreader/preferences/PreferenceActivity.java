@@ -229,27 +229,6 @@ public class PreferenceActivity extends ZLPreferenceActivity {
                     volumeKeysPreferences.setEnabled(isChecked());
                 }
             });
-            volumeKeysPreferences.add(scrollingScreen.addPreference(new ZLCheckBoxPreference(
-                this, scrollingScreen.Resource, "invertVolumeKeys"
-            ) {
-                {
-                    setChecked(ActionCode.VOLUME_KEY_SCROLL_FORWARD.equals(
-                        keyBindings.getBinding(KeyEvent.KEYCODE_VOLUME_UP, false)
-                    ));
-                }
-
-                @Override
-                protected void onClick() {
-                    super.onClick();
-                    if (isChecked()) {
-                        keyBindings.bindKey(KeyEvent.KEYCODE_VOLUME_DOWN, false, ActionCode.VOLUME_KEY_SCROLL_BACK);
-                        keyBindings.bindKey(KeyEvent.KEYCODE_VOLUME_UP, false, ActionCode.VOLUME_KEY_SCROLL_FORWARD);
-                    } else {
-                        keyBindings.bindKey(KeyEvent.KEYCODE_VOLUME_DOWN, false, ActionCode.VOLUME_KEY_SCROLL_FORWARD);
-                        keyBindings.bindKey(KeyEvent.KEYCODE_VOLUME_UP, false, ActionCode.VOLUME_KEY_SCROLL_BACK);
-                    }
-                }
-            }));
             volumeKeysPreferences.setEnabled(fbReader.hasActionForKey(KeyEvent.KEYCODE_VOLUME_UP, false));
 
             if (!accessibilityManager.isEnabled()) {

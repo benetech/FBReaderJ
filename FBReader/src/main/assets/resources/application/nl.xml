@@ -439,10 +439,6 @@
 					<node name="summaryOn" value="Gebruik volumeknoppen om om te slaan"/>
 					<node name="summaryOff" value="Gebruik volumeknoppen voor geluid"/>
 				</node>
-				<node name="invertVolumeKeys" value="Richting volumeknoppen">
-					<node name="summaryOn" value="Harder (zachter) toets naar volgende (vorige) pagina"/>
-					<node name="summaryOff" value="Harder (zachter) toets naar vorige (volgende) pagina"/>
-				</node>
 				<node name="animation" value="Animatie">
 					<node name="none" value="Omslaan zonder animatie"/>
 					<node name="curl" value="Krul-animatie" />
