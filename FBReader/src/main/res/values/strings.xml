@@ -159,4 +159,8 @@
     <string name="button_label_delete_book">Delete</string>
     <string name="button_label_cancel">Cancel</string>
 
+    <string name="tab_label_section">Section</string>
+    <string name="tab_label_page">Page</string>
+    <string name="tab_label_bookmark">Bookmark</string>
+
 </resources>

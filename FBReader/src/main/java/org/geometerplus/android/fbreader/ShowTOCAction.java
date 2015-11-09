@@ -23,7 +23,7 @@ import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
 class ShowTOCAction extends RunActivityAction {
 	ShowTOCAction(FBReader baseActivity, FBReaderApp fbreader) {
-		super(baseActivity, fbreader, TOCActivity.class);
+		super(baseActivity, fbreader, BookTabbedNavigationMainAcitivity.class);
 	}
 
 	public boolean isVisible() {

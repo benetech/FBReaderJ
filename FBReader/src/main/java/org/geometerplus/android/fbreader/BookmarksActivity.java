@@ -111,10 +111,10 @@ public class BookmarksActivity extends TabActivity implements MenuItem.OnMenuIte
 
             final Book currentBook = Library.getRecentBook();
             final String label = currentBook.getTitle();
-			myThisBookView = createTab("thisBook", R.id.this_book, label);
+			myThisBookView = createTab("thisBook", R.id.current_book_bookmarks_list, label);
 			new BookmarksAdapter(myThisBookView, myThisBookBookmarks, true);
 		} else {
-			findViewById(R.id.this_book).setVisibility(View.GONE);
+			findViewById(R.id.current_book_bookmarks_list).setVisibility(View.GONE);
 		}
 
         final String label = myResource.getResource("allBooks").getValue();
