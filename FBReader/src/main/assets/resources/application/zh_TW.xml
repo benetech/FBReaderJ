@@ -444,10 +444,6 @@
 					<node name="summaryOn" value="使用音量鍵翻頁"/>
 					<node name="summaryOff" value="不使用音量鍵翻頁"/>
 				</node>
-				<node name="invertVolumeKeys" value="改變音量鍵翻頁方向">
-					<node name="summaryOn" value="增大音量鍵(上鍵)翻到下一頁"/>
-					<node name="summaryOff" value="降低音量(下鍵)翻到下一頁"/>
-				</node>
 				<node name="animation" value="動畫效果">
 					<node name="none" value="無翻頁動畫"/>
 					<node name="curl" value="捲頁效果"/>

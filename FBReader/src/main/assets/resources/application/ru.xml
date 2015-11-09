@@ -456,10 +456,6 @@
 					<node name="summaryOn" value="Кнопки увеличения/уменьшения звука перелистывают страницы"/>
 					<node name="summaryOff" value="Кнопки увеличения/уменьшения звука работают как обычно"/>
 				</node>
-				<node name="invertVolumeKeys" value="Перелистывать кнопками в обратную сторону">
-					<node name="summaryOn" value="Верхняя кнопка листает страницу вперед"/>
-					<node name="summaryOff" value="Нижняя кнопка листает страницу вперед"/>
-				</node>
 				<node name="animation" value="Анимация">
 					<node name="none" value="Выключить анимацию"/>
 					<node name="curl" value="Трехмерная анимация"/>

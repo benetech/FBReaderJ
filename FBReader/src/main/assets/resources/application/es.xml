@@ -444,10 +444,6 @@
 					<node name="summaryOn" value="Usar los botones de volumen para pasar de página"/>
 					<node name="summaryOff" value="Mantener los botones de volumen para el audio"/>
 				</node>
-				<node name="invertVolumeKeys" value="Invertir la dirección de las teclas de volumen">
-					<node name="summaryOn" value="Más alto (bajo) pasa a la página anterior (siguiente)"/>
-					<node name="summaryOff" value="Más bajo (alto) pasa a la página siguiente (anterior)"/>
-				</node>
 				<node name="animation" value="Animación">
 					<node name="none" value="Desplazamento sin animación"/>
 					<node name="curl" value="Animación de giro"/>

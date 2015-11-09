@@ -439,10 +439,6 @@
 					<node name="summaryOn" value="使用音量键翻页" />
 					<node name="summaryOff" value="音量键仅用于声音" />
 				</node>
-				<node name="invertVolumeKeys" value="用音量键来翻动">
-					<node name="summaryOn" value="允许上 (下) 键上(下)翻动页面"/>
-					<node name="summaryOff" value="禁止上 (下) 键上(下)翻动页面"/>
-				</node>
 				<node name="animation" value="动画效果" >
 					<node name="none" value="无动画效果的滚屏" />
 					<node name="curl" value="翻卷动画" />

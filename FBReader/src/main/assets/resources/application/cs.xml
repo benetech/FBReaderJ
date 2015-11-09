@@ -439,10 +439,6 @@
 					<node name="summaryOn" value="Použít tlačítka ovládání hlasitosti pro posun"/>
 					<node name="summaryOff" value="Ponechat tlačítka ovládání hlasitosti pro zvuk"/>
 				</node>
-				<node name="invertVolumeKeys" value="Převrátit posouvání tlačítky ovládání hlasitosti">
-					<node name="summaryOn" value="Tlačítko nahoru (dolů) posouvá stránku dolů (nahoru)"/>
-					<node name="summaryOff" value="Tlačítko nahoru (dolů) posouvá stránku nahoru (dolů)"/>
-				</node>
 				<node name="animation" value="Animace">
 					<node name="none" value="Posouvat bez animace"/>
 					<node name="curl" value="Animace otočení"/>
