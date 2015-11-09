@@ -392,7 +392,6 @@
 				<node name="text" value="Szöveg"/>
 				<node name="hyperlink" value="Link"/>
 				<node name="hyperlinkVisited" value="Meglátogatott link"/>
-				<node name="highlighting" value="Találatok kiemelése"/>
 				<node name="footer" value="Lábléc"/>
 			</node>
 			<node name="margins" value="Margók">

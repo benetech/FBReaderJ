@@ -392,7 +392,6 @@
 				<node name="text" value="Zwykły tekst"/>
 				<node name="hyperlink" value="Odsyłacz"/>
 				<node name="hyperlinkVisited" value="Odwiedzony odsyłacz"/>
-				<node name="highlighting" value="Tło wyszukanych elementów"/>
 				<node name="footer" value="Stopka"/>
 			</node>
 			<node name="margins" value="Marginesy">

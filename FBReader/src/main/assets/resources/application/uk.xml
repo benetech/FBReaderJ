@@ -392,7 +392,6 @@
 				<node name="text" value="Звичайний текст"/>
 				<node name="hyperlink" value="Посилання"/>
 				<node name="hyperlinkVisited" value="Visited hyperlink text" toBeTranslated="true"/>
-				<node name="highlighting" value="Фон результатів пошуку"/>
 				<node name="footer" value="Footer" toBeTranslated="true"/>
 			</node>
 			<node name="margins" value="Відступи">

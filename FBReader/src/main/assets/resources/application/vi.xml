@@ -392,7 +392,6 @@
 				<node name="text" value="Văn bản Thường"/>
 				<node name="hyperlink" value="Siêu liên kết"/>
 				<node name="hyperlinkVisited" value="Visited hyperlink text" toBeTranslated="true"/>
-				<node name="highlighting" value="Kết quả Tìm kiếm"/>
 				<node name="footer" value="Footer"/>
 			</node>
 			<node name="margins" value="Canh lề">

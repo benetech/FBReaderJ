@@ -133,7 +133,6 @@ public class PreferenceActivity extends ZLPreferenceActivity {
             /*
             colorsScreen.addOption(profile.SelectionBackgroundOption, "selectionBackground");
             */
-            colorsScreen.addOption(profile.HighlightingOption, "highlighting");
             colorsScreen.addOption(profile.RegularTextOption, "text");
             colorsScreen.addOption(profile.HyperlinkTextOption, "hyperlink");
             colorsScreen.addOption(profile.VisitedHyperlinkTextOption, "hyperlinkVisited");

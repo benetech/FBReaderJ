@@ -392,7 +392,6 @@
 				<node name="text" value="ข้อความ"/>
 				<node name="hyperlink" value="ลิ้งค์ข้อความ"/>
 				<node name="hyperlinkVisited" value="Visited hyperlink text" toBeTranslated="true"/>
-				<node name="highlighting" value="สีไฮไลท์ผลการค้นหาคำ"/>
 				<node name="footer" value="ข้อความท้ายหน้า"/>
 			</node>
 			<node name="margins" value="ตั้งค่าขอบ">

@@ -397,7 +397,6 @@
 				<node name="text" value="Texto normal"/>
 				<node name="hyperlink" value="Texto de enlace"/>
 				<node name="hyperlinkVisited" value="Texto de enlace visitado"/>
-				<node name="highlighting" value="Fondo de resultados de búsqueda"/>
 				<node name="footer" value="Pie de página" />
 			</node>
 			<node name="margins" value="Márgenes">
