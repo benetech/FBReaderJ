@@ -324,10 +324,6 @@
 					<node name="summaryOn" value="Statuszeile anzeigen wenn das Menü aktiviert wird."/>
 					<node name="summaryOff" value="Statuszeile nicht anzeigen wenn das Menü aktiviert wird."/>
 				</node>
-				<node name="disableButtonLights" value="Beleuchtung der Hardware-Tasten während des lesens abschalten">
-					<node name="summaryOn" value="Tastenbeleuchtung abschalten (Funktioniert auf einigen Geräten nicht)"/>
-					<node name="summaryOff" value="Tastenbeleuchtung nicht abschalten"/>
-				</node>
 				<node name="allowScreenBrightnessAdjustment" value="Helligkeitsanpassung">
 					<node name="summaryOn" value="Mit den Finger durch hoch/runter-schieben am linken Bildschirmrand."/>
 					<node name="summaryOff" value="Abgeschaltet."/>

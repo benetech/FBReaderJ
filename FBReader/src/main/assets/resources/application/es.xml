@@ -326,10 +326,6 @@
 					<node name="summaryOn" value="Mostrar la barra de estado cuando se activa el menú"/>
 					<node name="summaryOff" value="No mostrar la barra de estado cuando se activa el menú"/>
 				</node>
-				<node name="disableButtonLights" value="Deshabilitar luz de botones físicos durante la lectura">
-					<node name="summaryOn" value="Deshabilitar luz de botones físicos (no funciona para algunos dispositivos)"/>
-					<node name="summaryOff" value="No deshabilitar luz de botones físicos"/>
-				</node>
 				<node name="allowScreenBrightnessAdjustment" value="Ajuste de brillo de la pantalla">
 					<node name="summaryOn" value="Al arrastrar el dedo arriba/abajo en el borde izquierdo de la pantalla"/>
 					<node name="summaryOff" value="Desactivado"/>

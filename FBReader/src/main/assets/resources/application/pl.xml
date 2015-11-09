@@ -321,10 +321,6 @@
 					<node name="summaryOn" value="Pokazuj pasek statusu gdy menu jest włączane"/>
 					<node name="summaryOff" value="Nie pokazuj paska statusu gdy menu jest włączane"/>
 				</node>
-				<node name="disableButtonLights" value="Wyłącz podświetlenie przycisków podczas czytania">
-					<node name="summaryOn" value="Wyłącz podświetlenie przycisków (nie wszystkie urządzenia respektują to ustawienie)"/>
-					<node name="summaryOff" value="Nie próbuj wyłączyć podświetlenia przycisków"/>
-				</node>
 				<node name="allowScreenBrightnessAdjustment" value="Dostosowywanie jasności">
 					<node name="summaryOn" value="Przesuwając palcem w górę/dół wzdłuż lewej krawędzi ekranu"/>
 					<node name="summaryOff" value="Wyłączone"/>

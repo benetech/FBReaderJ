@@ -321,10 +321,6 @@
 					<node name="summaryOn" value="Zobrazit stavový řádek, když se menu aktivuje"/>
 					<node name="summaryOff" value="Nezobrazovat stavový řádek, když se menu aktivuje"/>
 				</node>
-				<node name="disableButtonLights" value="Zakázat hardwarová tlačítka osvětlení během čtení">
-					<node name="summaryOn" value="Zakázat tlačítka osvětlení (nefunguje pro některá zařízení)"/>
-					<node name="summaryOff" value="Nezakazovat tlačítka osvětlení"/>
-				</node>
 				<node name="allowScreenBrightnessAdjustment" value="Nastavení jasu obrazovky">
 					<node name="summaryOn" value="Tahem prstu nahoru nebo dolů podél levého okraje obrazovky"/>
 					<node name="summaryOff" value="Zakázáno"/>

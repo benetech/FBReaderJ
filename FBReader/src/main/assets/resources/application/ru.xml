@@ -338,10 +338,6 @@
 					<node name="summaryOn" value="Показывать строку состояния, когда меню появляется на экране"/>
 					<node name="summaryOff" value="Не показывать строку состояния, когда меню появляется на экране"/>
 				</node>
-				<node name="disableButtonLights" value="Выключать подсветку кнопок во время чтения">
-					<node name="summaryOn" value="Выключать подсветку (работает не на всех устройствах)"/>
-					<node name="summaryOff" value="Не пытаться выключать подсветку"/>
-				</node>
 				<node name="allowScreenBrightnessAdjustment" value="Регулировка яркости экрана">
 					<node name="summaryOn" value="Движением пальца вверх/вниз по левому краю экрана"/>
 					<node name="summaryOff" value="Выключена"/>
