@@ -450,10 +450,6 @@
 					<node name="byFlick" value="Turn pages by finger flick"/>
 					<node name="byTapAndFlick" value="Turn pages by finger tap or flick"/>
 				</node>
-				<node name="enableDoubleTapDetection" value="Double tap detection">
-					<node name="summaryOn" value="Double tap to run navigation dialog/menu"/>
-					<node name="summaryOff" value="Ignore double taps"/>
-				</node>
 				<node name="volumeKeys" value="Turn page with volume keys">
 					<node name="summaryOn" value="Use volume keys to turn the pages"/>
 					<node name="summaryOff" value="Keep volume keys for sound"/>

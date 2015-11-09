@@ -440,10 +440,6 @@
 					<node name="byFlick" value="以手指滑動翻頁"/>
 					<node name="byTapAndFlick" value="滑動或輕觸翻頁"/>
 				</node>
-				<node name="enableDoubleTapDetection" value="雙按偵測">
-					<node name="summaryOn" value="輕觸屏幕兩次啟動導航/選單"/>
-					<node name="summaryOff" value="無視雙按"/>
-				</node>
 				<node name="volumeKeys" value="以音量鍵翻頁">
 					<node name="summaryOn" value="使用音量鍵翻頁"/>
 					<node name="summaryOff" value="不使用音量鍵翻頁"/>
