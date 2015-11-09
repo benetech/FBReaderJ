@@ -26,8 +26,6 @@ import android.view.accessibility.AccessibilityManager;
 import android.widget.SeekBar;
 
 import org.geometerplus.android.fbreader.DictionaryUtil;
-import org.geometerplus.fbreader.Paths;
-import org.geometerplus.fbreader.bookmodel.FBTextKind;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.ColorProfile;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
@@ -35,15 +33,11 @@ import org.geometerplus.fbreader.fbreader.FBView;
 import org.geometerplus.fbreader.fbreader.ScrollingPreferences;
 import org.geometerplus.fbreader.tips.TipsManager;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
-import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
 import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
 import org.geometerplus.zlibrary.text.view.style.ZLTextBaseStyle;
-import org.geometerplus.zlibrary.text.view.style.ZLTextFullStyleDecoration;
 import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
-import org.geometerplus.zlibrary.text.view.style.ZLTextStyleDecoration;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
-import org.geometerplus.zlibrary.ui.android.view.AndroidFontUtil;
 
 public class PreferenceActivity extends ZLPreferenceActivity {
     
@@ -62,13 +56,6 @@ public class PreferenceActivity extends ZLPreferenceActivity {
 		final FBReaderApp fbReader = (FBReaderApp)FBReaderApp.Instance();
 		final ZLAndroidLibrary androidLibrary = (ZLAndroidLibrary)ZLAndroidLibrary.Instance();
 		final ColorProfile profile = fbReader.getColorProfile();
-
-		final Screen directoriesScreen = createPreferenceScreen("directories");
-		directoriesScreen.addOption(Paths.BooksDirectoryOption(), "books");
-		if (AndroidFontUtil.areExternalFontsSupported()) {
-			directoriesScreen.addOption(Paths.FontsDirectoryOption(), "fonts");
-		}
-		directoriesScreen.addOption(Paths.WallpapersDirectoryOption(), "wallpapers");
 
         if (!accessibilityManager.isEnabled()) {
 		    final Screen appearanceScreen = createPreferenceScreen("appearance");
@@ -137,140 +124,18 @@ public class PreferenceActivity extends ZLPreferenceActivity {
                 this, textScreen.Resource, "alignment",
                 baseStyle.AlignmentOption, alignments
             ));
-            textScreen.addOption(baseStyle.AutoHyphenationOption, "autoHyphenations");
-
-            final Screen moreStylesScreen = textScreen.createPreferenceScreen("more");
-
-            byte styles[] = {
-                FBTextKind.REGULAR,
-                FBTextKind.TITLE,
-                FBTextKind.SECTION_TITLE,
-                FBTextKind.SUBTITLE,
-                FBTextKind.H1,
-                FBTextKind.H2,
-                FBTextKind.H3,
-                FBTextKind.H4,
-                FBTextKind.H5,
-                FBTextKind.H6,
-                FBTextKind.ANNOTATION,
-                FBTextKind.EPIGRAPH,
-                FBTextKind.AUTHOR,
-                FBTextKind.POEM_TITLE,
-                FBTextKind.STANZA,
-                FBTextKind.VERSE,
-                FBTextKind.CITE,
-                FBTextKind.INTERNAL_HYPERLINK,
-                FBTextKind.EXTERNAL_HYPERLINK,
-                FBTextKind.FOOTNOTE,
-                FBTextKind.ITALIC,
-                FBTextKind.EMPHASIS,
-                FBTextKind.BOLD,
-                FBTextKind.STRONG,
-                FBTextKind.DEFINITION,
-                FBTextKind.DEFINITION_DESCRIPTION,
-                FBTextKind.PREFORMATTED,
-                FBTextKind.CODE
-            };
-            for (int i = 0; i < styles.length; ++i) {
-                final ZLTextStyleDecoration decoration = collection.getDecoration(styles[i]);
-                if (decoration == null) {
-                    continue;
-                }
-                ZLTextFullStyleDecoration fullDecoration =
-                    decoration instanceof ZLTextFullStyleDecoration ?
-                        (ZLTextFullStyleDecoration)decoration : null;
-
-                final Screen formatScreen = moreStylesScreen.createPreferenceScreen(decoration.getName());
-                formatScreen.addPreference(new FontOption(
-                    this, textScreen.Resource, "font",
-                    decoration.FontFamilyOption, true
-                ));
-                formatScreen.addPreference(new ZLIntegerRangePreference(
-                    this, textScreen.Resource.getResource("fontSizeDifference"),
-                    decoration.FontSizeDeltaOption
-                ));
-                formatScreen.addPreference(new ZLBoolean3Preference(
-                    this, textScreen.Resource, "bold",
-                    decoration.BoldOption
-                ));
-                formatScreen.addPreference(new ZLBoolean3Preference(
-                    this, textScreen.Resource, "italic",
-                    decoration.ItalicOption
-                ));
-                if (fullDecoration != null) {
-                    final String[] allAlignments = { "unchanged", "left", "right", "center", "justify" };
-                    formatScreen.addPreference(new ZLChoicePreference(
-                        this, textScreen.Resource, "alignment",
-                        fullDecoration.AlignmentOption, allAlignments
-                    ));
-                }
-                formatScreen.addPreference(new ZLBoolean3Preference(
-                    this, textScreen.Resource, "allowHyphenations",
-                    decoration.AllowHyphenationsOption
-                ));
-                if (fullDecoration != null) {
-                    formatScreen.addPreference(new ZLIntegerRangePreference(
-                        this, textScreen.Resource.getResource("spaceBefore"),
-                        fullDecoration.SpaceBeforeOption
-                    ));
-                    formatScreen.addPreference(new ZLIntegerRangePreference(
-                        this, textScreen.Resource.getResource("spaceAfter"),
-                        fullDecoration.SpaceAfterOption
-                    ));
-                    formatScreen.addPreference(new ZLIntegerRangePreference(
-                        this, textScreen.Resource.getResource("leftIndent"),
-                        fullDecoration.LeftIndentOption
-                    ));
-                    formatScreen.addPreference(new ZLIntegerRangePreference(
-                        this, textScreen.Resource.getResource("rightIndent"),
-                        fullDecoration.RightIndentOption
-                    ));
-                    formatScreen.addPreference(new ZLIntegerRangePreference(
-                        this, textScreen.Resource.getResource("firstLineIndent"),
-                        fullDecoration.FirstLineIndentDeltaOption
-                    ));
-                    final ZLIntegerOption spacePercentOption = fullDecoration.LineSpacePercentOption;
-                    final int[] spacingValues = new int[17];
-                    final String[] spacingKeys = new String[17];
-                    spacingValues[0] = -1;
-                    spacingKeys[0] = "unchanged";
-                    for (int j = 1; j < spacingValues.length; ++j) {
-                        final int val = 4 + j;
-                        spacingValues[j] = 10 * val;
-                        spacingKeys[j] = (char)(val / 10 + '0') + "." + (char)(val % 10 + '0');
-                    }
-                    formatScreen.addPreference(new ZLIntegerChoicePreference(
-                        this, textScreen.Resource, "lineSpacing",
-                        spacePercentOption, spacingValues, spacingKeys
-                    ));
-                }
-		    }
 
             final ZLPreferenceSet footerPreferences = new ZLPreferenceSet();
             final ZLPreferenceSet bgPreferences = new ZLPreferenceSet();
 
             final Screen colorsScreen = createPreferenceScreen("colors");
-            colorsScreen.addPreference(new WallpaperPreference(
-                this, profile, colorsScreen.Resource, "background"
-            ) {
-                @Override
-                protected void onDialogClosed(boolean result) {
-                    super.onDialogClosed(result);
-                    bgPreferences.setEnabled("".equals(getValue()));
-                }
-            });
-            bgPreferences.add(
-                colorsScreen.addOption(profile.BackgroundOption, "backgroundColor")
-            );
-            bgPreferences.setEnabled("".equals(profile.WallpaperOption.getValue()));
+            bgPreferences.add(colorsScreen.addOption(profile.BackgroundOption, "backgroundColor"));
             /*
             colorsScreen.addOption(profile.SelectionBackgroundOption, "selectionBackground");
             */
-            colorsScreen.addOption(profile.HighlightingOption, "highlighting");
             colorsScreen.addOption(profile.RegularTextOption, "text");
             colorsScreen.addOption(profile.HyperlinkTextOption, "hyperlink");
             colorsScreen.addOption(profile.VisitedHyperlinkTextOption, "hyperlinkVisited");
-            colorsScreen.addOption(profile.FooterFillOption, "footer");
             colorsScreen.addOption(profile.SelectionBackgroundOption, "selectionBackground");
             colorsScreen.addOption(profile.SelectionForegroundOption, "selectionForeground");
 
@@ -312,7 +177,6 @@ public class PreferenceActivity extends ZLPreferenceActivity {
                 this, statusLineScreen.Resource.getResource("footerHeight"),
                 fbReader.FooterHeightOption
             )));
-            footerPreferences.add(statusLineScreen.addOption(profile.FooterFillOption, "footerColor"));
             footerPreferences.add(statusLineScreen.addOption(fbReader.FooterShowTOCMarksOption, "tocMarks"));
 
             footerPreferences.add(statusLineScreen.addOption(fbReader.FooterShowClockOption, "showClock"));

@@ -295,12 +295,6 @@
 			<node name="encoding" value="Codificación"/>
 		</node>
 		<node name="Preferences">
-			<node name="directories" value="Cartafoles">
-				<node name="summary" value="Cartafoles para buscar ficheiros"/>
-				<node name="books" value="Cartafol de libros"/>
-				<node name="fonts" value="Cartafol de tipos de letra"/>
-				<node name="wallpapers" value="Cartafol de fondos de pantalla"/>
-			</node>
 			<node name="appearance" value="Aparencia">
 				<node name="summary" value="Rotación, barra de estado"/>
 				<node name="screenOrientation" value="Screen orientation" toBeTranslated="true">
@@ -379,10 +373,6 @@
 					<node name="justify" value="Xustificado"/>
 					<node name="unchanged" value="&lt;sen cambios&gt;"/>
 				</node>
-				<node name="autoHyphenations" value="Guionizado automático">
-					<node name="summaryOn" value="Guionizar automaticamente as palabras "/>
-					<node name="summaryOff" value="Non guionizar as palabras automaticamente"/>
-				</node>
 				<node name="allowHyphenations" value="Permitir guionizados">
 					<node name="on" value="guionizar palabras"/>
 					<node name="off" value="non guionizar palabras"/>
@@ -393,124 +383,15 @@
 				<node name="spaceAfter" value="Espazo despois"/>
 				<node name="leftIndent" value="Sangrar á esquerda"/>
 				<node name="rightIndent" value="Sangrar á dereita"/>
-				<node name="more" value="Máis estilos">
-					<node name="summary" value="Separar as preferencias por títulos, epígrafes, etc."/>
-					<node name="Regular Paragraph" value="Parágrafo normal">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Title" value="Título">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Section Title" value="Título do capítulo">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Poem Title" value="Título do poema">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Subtitle" value="Subtítulo">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Annotation" value="Anotación">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Epigraph" value="Epígrafe">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Stanza" value="Estrofa">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Verse" value="Verso">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Preformatted text" value="Texto preformatado">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Image" value="Imaxe">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Cite" value="Cita">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Author" value="Autor">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Date" value="Data">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Internal Hyperlink" value="Ligazón interna">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Footnote" value="Nota no rodapé">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Emphasis" value="Énfase">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Strong" value="Gran énfase">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Subscript" value="Subíndice">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Superscript" value="Superíndice">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Code" value="Código">
-						<node name="summary" value=""/>
-					</node>
-					<node name="StrikeThrough" value="Tachado">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Italic" value="Cursiva">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Bold" value="Negriña">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Definition" value="Definición">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Definition Description" value="Descrición da definición">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 1" value="Cabeceira 1">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 2" value="Cabeceira 2">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 3" value="Cabeceira 3">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 4" value="Cabeceira 4">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 5" value="Cabeceira 5">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 6" value="Cabeceira 6">
-						<node name="summary" value=""/>
-					</node>
-					<node name="External Hyperlink" value="Ligazón externa">
-						<node name="summary" value=""/>
-					</node>
-				</node>
 			</node>
 			<node name="colors" value="Cores e fondos de pantalla">
 				<node name="summary" value="Preferencias de cor"/>
-				<node name="background" value="Fondo">
-					<node name="solidColor" value="Cor sólido"/>
-					<node name="leather" value="Pel"/>
-					<node name="sepia" value="Sepia"/>
-					<node name="wood" value="Madeira"/>
-				</node>
 				<node name="backgroundColor" value="Cor de fondo"/>
 				<node name="selectionBackground" value="Selección de fondo"/>
 				<node name="selectionForeground" value="Selected text" toBeTranslated="true"/>
 				<node name="text" value="Texto normal"/>
 				<node name="hyperlink" value="Texto de ligazón"/>
 				<node name="hyperlinkVisited" value="Visited hyperlink text" toBeTranslated="true"/>
-				<node name="highlighting" value="Resultado da busca de fondos"/>
 				<node name="footer" value="Rodapé" />
 			</node>
 			<node name="margins" value="Marxes">
@@ -529,7 +410,6 @@
 					<node name="showAsFooter" value="Rodapé horizontal"/>
 				</node>
 				<node name="footerHeight" value="Altura do rodapé" />
-				<node name="footerColor" value="Cor do rodapé" />
 				<node name="tocMarks" value="Mostrar as marcas do índice">
 					<node name="summaryOn" value="Mostrar as marcas do índice na barra do rodapé"/>
 					<node name="summaryOff" value="Non mostrar as marcas do índice na barra do rodapé"/>

@@ -296,12 +296,6 @@
 			<node name="encoding" value="Codifica"/>
 		</node>
 		<node name="Preferences">
-			<node name="directories" value="Cartelle">
-				<node name="summary" value="Cartella in cui cercare i File"/>
-				<node name="books" value="Cartella dei Libri"/>
-				<node name="fonts" value="Cartella dei Fonts"/>
-				<node name="wallpapers" value="Cartella degli Sfondi"/>
-			</node>
 			<node name="appearance" value="Aspetto">
 				<node name="summary" value="Rotazione, barra di stato"/>
 				<node name="screenOrientation" value="Screen orientation" toBeTranslated="true">
@@ -380,10 +374,6 @@
 					<node name="justify" value="Giustificato"/>
 					<node name="unchanged" value="&lt;non cambiare&gt;"/>
 				</node>
-				<node name="autoHyphenations" value="Divisione in sillabe automatica">
-					<node name="summaryOn" value="Sillabare le parole automaticamente"/>
-					<node name="summaryOff" value="Non sillabare le parole automaticamente"/>
-				</node>
 				<node name="allowHyphenations" value="Permetti divisione in sillabe">
 					<node name="on" value="sillabare le parole"/>
 					<node name="off" value="Non sillabare le parole"/>
@@ -394,124 +384,15 @@
 				<node name="spaceAfter" value="Spazio dopo"/>
 				<node name="leftIndent" value="Rientro sinistro"/>
 				<node name="rightIndent" value="Rientro destro"/>
-				<node name="more" value="Più stili">
-					<node name="summary" value="Impostazioni separate per titoli, epigrafi, etc."/>
-					<node name="Regular Paragraph" value="Paragrafo Regolare">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Title" value="Titolo">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Section Title" value=" Titolo Sezione">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Poem Title" value="Titolo Poesia">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Subtitle" value="Sottotitolo">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Annotation" value="Annotazione">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Epigraph" value="Epigrafe">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Stanza" value="Stanza">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Verse" value="Verso">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Preformatted text" value="Testo preformattato">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Image" value="Immagine">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Cite" value="Quota">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Author" value="Autore">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Date" value="Data">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Internal Hyperlink" value="Hyperlink interno">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Footnote" value="Nota a piè di pagina">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Emphasis" value="Rilievo">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Strong" value="Strong">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Subscript" value="Indice inferiore">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Superscript" value="Indice superiore">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Code" value="Codice">
-						<node name="summary" value=""/>
-					</node>
-					<node name="StrikeThrough" value="Barrato">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Italic" value="Corsivo">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Bold" value="Grassetto">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Definition" value="Definizione">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Definition Description" value="Definizione Descrizione">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 1" value="Header 1">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 2" value="Header 2">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 3" value="Header 3">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 4" value="Header 4">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 5" value="Header 5">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 6" value="Header 6">
-						<node name="summary" value=""/>
-					</node>
-					<node name="External Hyperlink" value="Hyperlink esterno">
-						<node name="summary" value=""/>
-					</node>
-				</node>
 			</node>
 			<node name="colors" value="Colori &amp; sfondi">
 				<node name="summary" value="Impostazioni dei colori"/>
-				<node name="background" value="Sfondo">
-					<node name="solidColor" value="Tinta unita"/>
-					<node name="leather" value="Pelle"/>
-					<node name="sepia" value="Seppia"/>
-					<node name="wood" value="Legno"/>
-				</node>
 				<node name="backgroundColor" value="Colore di sfondo"/>
 				<node name="selectionBackground" value="Seleziona Sfondo"/>
 				<node name="selectionForeground" value="Testo selezionato"/>
 				<node name="text" value="Testo Regolare"/>
 				<node name="hyperlink" value="Testo Hyperlink"/>
 				<node name="hyperlinkVisited" value="Testo collegamento visitato"/>
-				<node name="highlighting" value="Risultati Ricerca Sfondo"/>
 				<node name="footer" value="Piè di pagina"/>
 			</node>
 			<node name="margins" value="Margini">
@@ -530,7 +411,6 @@
 					<node name="showAsFooter" value="Piè di pagina orizzontale" />
 				</node>
 				<node name="footerHeight" value="Altezza piè di pagina"/>
-				<node name="footerColor" value="Colore piè di pagina"/>
 				<node name="tocMarks" value="Mostra Segnalibri">
 					<node name="summaryOn" value="Mostra segnalibri in basso"/>
 					<node name="summaryOff" value="Non mostrare segnalibri in basso"/>

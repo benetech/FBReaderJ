@@ -68,7 +68,7 @@ public class ColorProfile {
 		BackgroundOption.setValue(base.BackgroundOption.getValue());
 		SelectionBackgroundOption.setValue(base.SelectionBackgroundOption.getValue());
 		SelectionForegroundOption.setValue(base.SelectionForegroundOption.getValue());
-		HighlightingOption.setValue(base.HighlightingOption.getValue());
+		HighlightingOption.setValue(base.BackgroundOption.getValue());
 		RegularTextOption.setValue(base.RegularTextOption.getValue());
 		HyperlinkTextOption.setValue(base.HyperlinkTextOption.getValue());
 		VisitedHyperlinkTextOption.setValue(base.VisitedHyperlinkTextOption.getValue());
