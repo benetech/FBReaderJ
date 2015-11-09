@@ -298,12 +298,6 @@
 			<node name="encoding" value="Codierung"/>
 		</node>
 		<node name="Preferences">
-			<node name="directories" value="Verzeichnisse">
-				<node name="summary" value="Verzeichnisse in den Dateien gesucht werden."/>
-				<node name="books" value="Verzeichnis der Bücher"/>
-				<node name="fonts" value="Verzeichnis für Schriftarten (Fonts)"/>
-				<node name="wallpapers" value="Verzeichnis für Hintergründe"/>
-			</node>
 			<node name="appearance" value="Aussehen">
 				<node name="summary" value="Ausrichtung, Statuszeile"/>
 				<node name="screenOrientation" value="Screen orientation" toBeTranslated="true">

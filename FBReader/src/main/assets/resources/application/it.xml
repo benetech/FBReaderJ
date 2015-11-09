@@ -296,12 +296,6 @@
 			<node name="encoding" value="Codifica"/>
 		</node>
 		<node name="Preferences">
-			<node name="directories" value="Cartelle">
-				<node name="summary" value="Cartella in cui cercare i File"/>
-				<node name="books" value="Cartella dei Libri"/>
-				<node name="fonts" value="Cartella dei Fonts"/>
-				<node name="wallpapers" value="Cartella degli Sfondi"/>
-			</node>
 			<node name="appearance" value="Aspetto">
 				<node name="summary" value="Rotazione, barra di stato"/>
 				<node name="screenOrientation" value="Screen orientation" toBeTranslated="true">

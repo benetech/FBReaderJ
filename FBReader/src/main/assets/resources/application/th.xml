@@ -295,12 +295,6 @@
 			<node name="encoding" value="การเข้ารหัสภาษา"/>
 		</node>
 		<node name="Preferences">
-			<node name="directories" value="ไดเรคทอรี">
-				<node name="summary" value="ไดเรคทอรีในการค้นหาไฟล์"/>
-				<node name="books" value="ไดเรคทอรีของหนังสือ"/>
-				<node name="fonts" value="ไดเรคทอรีของแบบตัวอักษร"/>
-				<node name="wallpapers" value="ไดเรคทอรีของวอลล์เปเปอร์"/>
-			</node>
 			<node name="appearance" value="ลักษณะการแสดงผล">
 				<node name="summary" value="การหมุนหน้าจอ, แถบสถานะ"/>
 				<node name="screenOrientation" value="Screen orientation" toBeTranslated="true">

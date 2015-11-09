@@ -295,12 +295,6 @@
 			<node name="encoding" value="Encodare"/>
 		</node>
 		<node name="Preferences">
-			<node name="directories" value="Directoare">
-				<node name="summary" value="Directoare sa caute fisiere"/>
-				<node name="books" value="Directorul cu carti"/>
-				<node name="fonts" value="Directorul cu fonturi"/>
-				<node name="wallpapers" value="Imagini de Fundal director"/>
-			</node>
 			<node name="appearance" value="Aspect">
 				<node name="summary" value="Rotire, bara de stare"/>
 				<node name="screenOrientation" value="Orientarea ecranului">

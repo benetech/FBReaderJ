@@ -295,12 +295,6 @@
 			<node name="encoding" value="編碼"/>
 		</node>
 		<node name="Preferences">
-			<node name="directories" value="目錄">
-				<node name="summary" value="文件目錄"/>
-				<node name="books" value="藏書目錄"/>
-				<node name="fonts" value="字型目錄"/>
-				<node name="wallpapers" value="壁紙目錄"/>
-			</node>
 			<node name="appearance" value="外觀">
 				<node name="summary" value="旋轉， 狀態列"/>
 				<node name="screenOrientation" value="Screen orientation" toBeTranslated="true">

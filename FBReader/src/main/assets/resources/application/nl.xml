@@ -295,12 +295,6 @@
 			<node name="encoding" value="Codering"/>
 		</node>
 		<node name="Preferences">
-			<node name="directories" value="Mappen">
-				<node name="summary" value="Waar zijn de bestanden opgeslagen"/>
-				<node name="books" value="Map met boeken"/>
-				<node name="fonts" value="Map met lettertypes"/>
-				<node name="wallpapers" value="Map met achtergronden"/>
-			</node>
 			<node name="appearance" value="Weergave">
 				<node name="summary" value="Draaien, statusbalk"/>
 				<node name="screenOrientation" value="Screen orientation" toBeTranslated="true">

@@ -295,12 +295,6 @@
 			<node name="encoding" value="Mã hóa"/>
 		</node>
 		<node name="Preferences">
-			<node name="directories" value="Thư mục">
-				<node name="summary" value="Các thư mục để tìm kiếm tập tin"/>
-				<node name="books" value="Thư mục sách"/>
-				<node name="fonts" value="Thư mục phông"/>
-				<node name="wallpapers" value="Wallpapers directory" toBeTranslated="true"/>
-			</node>
 			<node name="appearance" value="Giao diện">
 				<node name="summary" value="Xoay, thanh trạng thái"/>
 				<node name="screenOrientation" value="Screen orientation" toBeTranslated="true">
