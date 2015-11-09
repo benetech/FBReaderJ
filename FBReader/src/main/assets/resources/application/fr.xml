@@ -376,10 +376,6 @@
 					<node name="justify" value="Justifié"/>
 					<node name="unchanged" value="&lt;inchangé&gt;"/>
 				</node>
-				<node name="autoHyphenations" value="Césures automatiques">
-					<node name="summaryOn" value="Mettre automatiquement les traits d'union entre les mots"/>
-					<node name="summaryOff" value="Ne pas appliquer les césures automatiquement"/>
-				</node>
 				<node name="allowHyphenations" value="Autoriser les césures">
 					<node name="on" value="couper les mots"/>
 					<node name="off" value="ne pas couper les mots"/>
@@ -390,108 +386,6 @@
 				<node name="spaceAfter" value="Espace après"/>
 				<node name="leftIndent" value="Indentation à gauche"/>
 				<node name="rightIndent" value="Indentation à droite"/>
-				<node name="more" value="Plus de styles">
-					<node name="summary" value="Paramètres de configuration des titres, épigraphes etc."/>
-					<node name="Regular Paragraph" value="Paragraphe normal">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Title" value="Titre">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Section Title" value="Titre de section">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Poem Title" value="Titre de poême">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Subtitle" value="Sous-titre">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Annotation" value="Annotation">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Epigraph" value="Epigraphe">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Stanza" value="Strophe">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Verse" value="Vers">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Preformatted text" value="Texte préformatté">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Image" value="Image">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Cite" value="Citation">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Author" value="Auteur">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Date" value="Date">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Internal Hyperlink" value="Lien interne">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Footnote" value="Bas de page">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Emphasis" value="Emphase">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Strong" value="Fort">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Subscript" value="Indice">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Superscript" value="Exposant">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Code" value="Code">
-						<node name="summary" value=""/>
-					</node>
-					<node name="StrikeThrough" value="Texte barré">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Italic" value="Italique">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Bold" value="Gras">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Definition" value="Définition">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Definition Description" value="Définition Description">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 1" value="Entête 1">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 2" value="Entête 2">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 3" value="Entête 3">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 4" value="Entête 4">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 5" value="Entête 5">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 6" value="Entête 6">
-						<node name="summary" value=""/>
-					</node>
-					<node name="External Hyperlink" value="Lien externe">
-						<node name="summary" value=""/>
-					</node>
-				</node>
 			</node>
 			<node name="colors" value="Couleurs &amp; fonds d'écran">
 				<node name="summary" value="Paramètres des couleurs"/>

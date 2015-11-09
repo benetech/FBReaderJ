@@ -373,10 +373,6 @@
 					<node name="justify" value="Uitvullen"/>
 					<node name="unchanged" value="&lt;ongewijzigd&gt;"/>
 				</node>
-				<node name="autoHyphenations" value="Automatisch afbreken">
-					<node name="summaryOn" value="Woorden automatisch afbreken"/>
-					<node name="summaryOff" value="Woorden niet automatisch afbreken"/>
-				</node>
 				<node name="allowHyphenations" value="Afbreken">
 					<node name="on" value="woorden afbreken"/>
 					<node name="off" value="woorden niet afbreken"/>
@@ -387,108 +383,6 @@
 				<node name="spaceAfter" value="Ruimte achter"/>
 				<node name="leftIndent" value="Links inspringen"/>
 				<node name="rightIndent" value="Rechts inspringen"/>
-				<node name="more" value="Meer stijlen">
-					<node name="summary" value="Aangepaste instellingen voor titels, paragrafen, etc."/>
-					<node name="Regular Paragraph" value="Normale paragraaf">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Title" value="Titel">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Section Title" value="Section Title" toBeTranslated="true">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Poem Title" value="Poem Title" toBeTranslated="true">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Subtitle" value="Subtitel">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Annotation" value="Annotatie">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Epigraph" value="Epigraph" toBeTranslated="true">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Stanza" value="Stanza" toBeTranslated="true">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Verse" value="Verse" toBeTranslated="true">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Preformatted text" value="Preformatted text" toBeTranslated="true">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Image" value="Afbeelding">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Cite" value="Cite" toBeTranslated="true">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Author" value="Auteur">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Date" value="Datum">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Internal Hyperlink" value="Interne hyperlink">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Footnote" value="Voetnote">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Emphasis" value="Emphasis" toBeTranslated="true">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Strong" value="Strong" toBeTranslated="true">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Subscript" value="Subscript">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Superscript" value="Superscript">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Code" value="Code">
-						<node name="summary" value=""/>
-					</node>
-					<node name="StrikeThrough" value="Doorhalen">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Italic" value="Cursief">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Bold" value="Vet">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Definition" value="Definitie">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Definition Description" value="Definition Description" toBeTranslated="true">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 1" value="Koptekst 1">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 2" value="Koptekst 2">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 3" value="Koptekst 3">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 4" value="Koptekst 4">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 5" value="Koptekst 5">
-						<node name="summary" value=""/>
-					</node>
-					<node name="Header 6" value="Koptekst 6">
-						<node name="summary" value=""/>
-					</node>
-					<node name="External Hyperlink" value="Externe hyperlink">
-						<node name="summary" value=""/>
-					</node>
-				</node>
 			</node>
 			<node name="colors" value="Kleuren">
 				<node name="summary" value="Kleurinstellingen"/>
