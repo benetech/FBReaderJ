@@ -439,16 +439,6 @@
 					<node name="summaryOn" value="Gebruik volumeknoppen om om te slaan"/>
 					<node name="summaryOff" value="Gebruik volumeknoppen voor geluid"/>
 				</node>
-				<node name="animation" value="Animatie">
-					<node name="none" value="Omslaan zonder animatie"/>
-					<node name="curl" value="Krul-animatie" />
-					<node name="slide" value="Slide-animatie"/>
-					<node name="shift" value="Shift-animatie"/>
-				</node>
-				<node name="animationSpeed" value="Animatiesnelheid">
-					<node name="fast" value="snel"/>
-					<node name="slow" value="langzaam"/>
-				</node>
 				<node name="horizontal" value="Horizontaal omslaan">
 					<node name="summaryOn" value="Pagina's horizontaal omslaan"/>
 					<node name="summaryOff" value="Pagina's verticaal omslaan"/>

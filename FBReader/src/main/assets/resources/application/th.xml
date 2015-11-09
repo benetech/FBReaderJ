@@ -439,16 +439,6 @@
 					<node name="summaryOn" value="ใช้ปุ่มปรับระดับเสียงในการเปลี่ยนหน้า"/>
 					<node name="summaryOff" value="ไม่ใช้ปุ่มปรับระดับเสียงในการเปลี่ยนหน้า"/>
 				</node>
-				<node name="animation" value="แอนิเมชั่น">
-					<node name="none" value="ไม่มีแอนิเมชั่นในการเลื่อนหน้า"/>
-					<node name="curl" value="Curl animation" toBeTranslated="true"/>
-					<node name="slide" value="เลื่อนหน้าแบบสไลด์"/>
-					<node name="shift" value="เลื่อนหน้าแบบสลับ"/>
-				</node>
-				<node name="animationSpeed" value="Animation speed" toBeTranslated="true">
-					<node name="fast" value="fast" toBeTranslated="true"/>
-					<node name="slow" value="slow" toBeTranslated="true"/>
-				</node>
 				<node name="horizontal" value="เลื่อนหน้าในแนวนอน">
 					<node name="summaryOn" value="เลื่อนหน้าตามแนวนอน"/>
 					<node name="summaryOff" value="เลื่อนหน้าตามแนวตั้ง"/>

@@ -439,16 +439,6 @@
 					<node name="summaryOn" value="使用音量键翻页" />
 					<node name="summaryOff" value="音量键仅用于声音" />
 				</node>
-				<node name="animation" value="动画效果" >
-					<node name="none" value="无动画效果的滚屏" />
-					<node name="curl" value="翻卷动画" />
-					<node name="slide" value="滑动动画" />
-					<node name="shift" value="移动动画" />
-				</node>
-				<node name="animationSpeed" value="动画速度" >
-					<node name="fast" value="快" />
-					<node name="slow" value="慢" />
-				</node>
 				<node name="horizontal" value="横屏翻阅">
 					<node name="summaryOn" value="横屏翻阅" />
 					<node name="summaryOff" value="纵屏翻阅" />

@@ -440,16 +440,6 @@
 					<node name="summaryOn" value="Usa i tasti del volume per scorrere"/>
 					<node name="summaryOff" value="Lascia i tasti del volume per la regolazione del suono"/>
 				</node>
-				<node name="animation" value="Animazione">
-					<node name="none" value="Scorri senza animazione"/>
-					<node name="curl" value="Sfoglia angoli"/>
-					<node name="slide" value="Scorrimento verticale"/>
-					<node name="shift" value="Scorrimento continuo"/>
-				</node>
-				<node name="animationSpeed" value="Velocità animazione">
-					<node name="fast" value="veloce"/>
-					<node name="slow" value="lento"/>
-				</node>
 				<node name="horizontal" value="Scorrimento orizzontale">
 					<node name="summaryOn" value="Scorri le pagine orizzontalmente"/>
 					<node name="summaryOff" value="Scorri le pagine in verticale"/>

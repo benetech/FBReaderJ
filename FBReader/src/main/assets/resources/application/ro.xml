@@ -439,16 +439,6 @@
 					<node name="summaryOn" value="Utilizati tastele de volum pentru a întoarce paginile"/>
 					<node name="summaryOff" value="Pastrati tastele de volum pentru sunet"/>
 				</node>
-				<node name="animation" value="Animatie">
-					<node name="none" value="Derulati fara animatie"/>
-					<node name="curl" value="Animatie la rotund"/>
-					<node name="slide" value="Animatie glisare"/>
-					<node name="shift" value="Animatie mutare"/>
-				</node>
-				<node name="animationSpeed" value="Viteza de animatie">
-					<node name="fast" value="rapid"/>
-					<node name="slow" value="lent"/>
-				</node>
 				<node name="horizontal" value="Defilare orizontala">
 					<node name="summaryOn" value="Defilare orizontala de pagini"/>
 					<node name="summaryOff" value="Defilare verticala de pagini"/>

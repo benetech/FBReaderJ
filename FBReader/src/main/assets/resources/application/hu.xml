@@ -439,16 +439,6 @@
 					<node name="summaryOn" value="Hangerő gombok használata lapozáshoz"/>
 					<node name="summaryOff" value="A hangerő gombok a hangerőt állítják"/>
 				</node>
-				<node name="animation" value="Animáció">
-					<node name="none" value="Görgetés animáció nélkül"/>
-					<node name="curl" value="Hajlítás" />
-					<node name="slide" value="Csúsztatás" />
-					<node name="shift" value="Eltolás"/>
-				</node>
-				<node name="animationSpeed" value="Animáció sebessége">
-					<node name="fast" value="gyors" />
-					<node name="slow" value="lassú" />
-				</node>
 				<node name="horizontal" value="Vízszintes lapozás">
 					<node name="summaryOn" value="Oldalak görgetése vízszintesen"/>
 					<node name="summaryOff" value="Oldalak görgetése függőlegesen"/>

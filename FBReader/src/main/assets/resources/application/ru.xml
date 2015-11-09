@@ -456,16 +456,6 @@
 					<node name="summaryOn" value="Кнопки увеличения/уменьшения звука перелистывают страницы"/>
 					<node name="summaryOff" value="Кнопки увеличения/уменьшения звука работают как обычно"/>
 				</node>
-				<node name="animation" value="Анимация">
-					<node name="none" value="Выключить анимацию"/>
-					<node name="curl" value="Трехмерная анимация"/>
-					<node name="slide" value="Сдвиг с перекрытием"/>
-					<node name="shift" value="Сдвиг"/>
-				</node>
-				<node name="animationSpeed" value="Скорость анимации">
-					<node name="fast" value="быстро"/>
-					<node name="slow" value="медленно"/>
-				</node>
 				<node name="horizontal" value="Горизонтальное перелистывание">
 					<node name="summaryOn" value="При листании страница движется по горизонтали"/>
 					<node name="summaryOff" value="При листании страница движется по вертикали"/>

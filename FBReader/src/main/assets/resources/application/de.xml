@@ -442,16 +442,6 @@
 					<node name="summaryOn" value="Lautstärketasten zum Umblättern verwenden."/>
 					<node name="summaryOff" value="Lautstärketasten nicht verwenden."/>
 				</node>
-				<node name="animation" value="Animation">
-					<node name="none" value="Ohne Animation umblättern"/>
-					<node name="curl" value="Blättern"/>
-					<node name="slide" value="Gleiten"/>
-					<node name="shift" value="Schieben"/>
-				</node>
-				<node name="animationSpeed" value="Animationsgeschwindigkeit">
-					<node name="fast" value="schnell"/>
-					<node name="slow" value="langsam"/>
-				</node>
 				<node name="horizontal" value="Horizontales umblättern">
 					<node name="summaryOn" value="Seiten horizontal umblättern"/>
 					<node name="summaryOff" value="Seiten vertikal umblättern"/>

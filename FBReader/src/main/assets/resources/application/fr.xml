@@ -442,16 +442,6 @@
 					<node name="summaryOn" value="Les touches du volume permettent de changer de page"/>
 					<node name="summaryOff" value="Les touches du volume n'ont pas d'effet sur la navigation"/>
 				</node>
-				<node name="animation" value="Animation">
-					<node name="none" value="Pas d'animation"/>
-					<node name="curl" value="Effet curl"/>
-					<node name="slide" value="Effet slide"/>
-					<node name="shift" value="Effet shift"/>
-				</node>
-				<node name="animationSpeed" value="Vitesse d'animation">
-					<node name="fast" value="rapide"/>
-					<node name="slow" value="lente"/>
-				</node>
 				<node name="horizontal" value="Défilement horizontal">
 					<node name="summaryOn" value="Défilement des pages horizontalement"/>
 					<node name="summaryOff" value="Défilement des pages verticalement"/>

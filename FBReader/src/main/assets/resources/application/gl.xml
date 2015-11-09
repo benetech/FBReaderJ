@@ -439,16 +439,6 @@
 					<node name="summaryOn" value="Usar as teclas de volume para rotar as páxinas"/>
 					<node name="summaryOff" value="Manter as teclas de volume para o son"/>
 				</node>
-				<node name="animation" value="Animación">
-					<node name="none" value="Desprazamento sen animación"/>
-					<node name="curl" value="Curl animation" toBeTranslated="true"/>
-					<node name="slide" value="Deslizar"/>
-					<node name="shift" value="Pasar"/>
-				</node>
-				<node name="animationSpeed" value="Animation speed" toBeTranslated="true">
-					<node name="fast" value="fast" toBeTranslated="true"/>
-					<node name="slow" value="slow" toBeTranslated="true"/>
-				</node>
 				<node name="horizontal" value="Desprazamento horizontal">
 					<node name="summaryOn" value="Desprazar as páxinas en horizontal"/>
 					<node name="summaryOff" value="Desprazar as páxinas en vertical"/>
