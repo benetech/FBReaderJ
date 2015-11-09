@@ -435,10 +435,6 @@
 					<node name="byFlick" value="Dati pagina trecand cu degetul"/>
 					<node name="byTapAndFlick" value="Dati pagina apasand sau trecand cu degetul"/>
 				</node>
-				<node name="enableDoubleTapDetection" value="Detectare atingere de doua ori ">
-					<node name="summaryOn" value="Atingeti de doua ori pentru a afisa dialogul de navigare / meniul"/>
-					<node name="summaryOff" value="Ignorati dubla atingere"/>
-				</node>
 				<node name="volumeKeys" value="Întoarceti pagina cu tastele de volum">
 					<node name="summaryOn" value="Utilizati tastele de volum pentru a întoarce paginile"/>
 					<node name="summaryOff" value="Pastrati tastele de volum pentru sunet"/>

@@ -435,10 +435,6 @@
 					<node name="byFlick" value="Omslaan door te schuiven over het scherm"/>
 					<node name="byTapAndFlick" value="Omslaan door te schuiven of te tikken op het scherm"/>
 				</node>
-				<node name="enableDoubleTapDetection" value="Dubbel-tik detectie">
-					<node name="summaryOn" value="Dubbel-tik om navigatiescherm te openen"/>
-					<node name="summaryOff" value="Dubbel-tikken negeren"/>
-				</node>
 				<node name="volumeKeys" value="Omslaan met volumeknoppen">
 					<node name="summaryOn" value="Gebruik volumeknoppen om om te slaan"/>
 					<node name="summaryOff" value="Gebruik volumeknoppen voor geluid"/>

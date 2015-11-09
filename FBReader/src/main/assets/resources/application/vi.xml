@@ -435,10 +435,6 @@
 					<node name="byFlick" value="Cuộn trang bằng cách búng nhẹ"/>
 					<node name="byTapAndFlick" value="Cuộn trang bằng cả búng và chạm nhẹ"/>
 				</node>
-				<node name="enableDoubleTapDetection" value="Double tap detection" toBeTranslated="true">
-					<node name="summaryOn" value="Double tap to run navigation dialog/menu" toBeTranslated="true"/>
-					<node name="summaryOff" value="Ignore double taps" toBeTranslated="true"/>
-				</node>
 				<node name="volumeKeys" value="Cuộn bằng phím âm lượng">
 					<node name="summaryOn" value="Dùng phím âm lượng để cuộn"/>
 					<node name="summaryOff" value="Giữ phím âm lượng cho âm thanh"/>

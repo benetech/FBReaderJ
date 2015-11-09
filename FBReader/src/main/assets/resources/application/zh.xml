@@ -435,10 +435,6 @@
 					<node name="byFlick" value="手指触滑翻页"/>
 					<node name="byTapAndFlick" value="触滑或者拍触以翻页"/>
 				</node>
-				<node name="enableDoubleTapDetection" value="连续拍触动作设定" >
-					<node name="summaryOn" value="连续拍触屏幕两次显示对话框/菜单" />
-					<node name="summaryOff" value="忽略连续拍触动作" />
-				</node>
 				<node name="volumeKeys" value="音量键滚动">
 					<node name="summaryOn" value="使用音量键翻页" />
 					<node name="summaryOff" value="音量键仅用于声音" />

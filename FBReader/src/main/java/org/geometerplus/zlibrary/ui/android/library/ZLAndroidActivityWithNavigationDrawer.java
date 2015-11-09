@@ -140,7 +140,7 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
         if (value.equals(ZLibrary.SCREEN_ORIENTATION_REVERSE_LANDSCAPE))
             return R.id.reverseLandscape;
 
-        throw new RuntimeException("Could not find orienation id for name");
+        return R.id.systemOrientation;
     }
 
     public void onSystemClick(View view) {

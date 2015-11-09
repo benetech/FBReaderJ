@@ -438,10 +438,6 @@
 					<node name="byFlick" value="Umblättern durch Schnipsen"/>
 					<node name="byTapAndFlick" value="Umblättern durch Antippen oder Schnipsen"/>
 				</node>
-				<node name="enableDoubleTapDetection" value="Doppeltes Antippen">
-					<node name="summaryOn" value="Doppeltes Antippen öffnet Navigationsmenü."/>
-					<node name="summaryOff" value="Ignoriere doppeltes Antippen."/>
-				</node>
 				<node name="volumeKeys" value="Umblättern mit den Lautstärketasten">
 					<node name="summaryOn" value="Lautstärketasten zum Umblättern verwenden."/>
 					<node name="summaryOff" value="Lautstärketasten nicht verwenden."/>
