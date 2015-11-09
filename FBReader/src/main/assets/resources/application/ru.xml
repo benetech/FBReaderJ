@@ -403,12 +403,6 @@
 			</node>
 			<node name="colors" value="Цвета и обои">
 				<node name="summary" value="Настройки цвета"/>
-				<node name="background" value="Фон">
-					<node name="solidColor" value="Сплошной цвет"/>
-					<node name="leather" value="Кожа"/>
-					<node name="sepia" value="Сепия"/>
-					<node name="wood" value="Дерево"/>
-				</node>
 				<node name="backgroundColor" value="Цвет фона"/>
 				<node name="selectionBackground" value="Фон пометки"/>
 				<node name="selectionForeground" value="Текст пометки"/>

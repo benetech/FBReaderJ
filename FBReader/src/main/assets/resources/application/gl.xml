@@ -386,12 +386,6 @@
 			</node>
 			<node name="colors" value="Cores e fondos de pantalla">
 				<node name="summary" value="Preferencias de cor"/>
-				<node name="background" value="Fondo">
-					<node name="solidColor" value="Cor sólido"/>
-					<node name="leather" value="Pel"/>
-					<node name="sepia" value="Sepia"/>
-					<node name="wood" value="Madeira"/>
-				</node>
 				<node name="backgroundColor" value="Cor de fondo"/>
 				<node name="selectionBackground" value="Selección de fondo"/>
 				<node name="selectionForeground" value="Selected text" toBeTranslated="true"/>

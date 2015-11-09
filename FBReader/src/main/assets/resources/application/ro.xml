@@ -386,12 +386,6 @@
 			</node>
 			<node name="colors" value="Culori si imagini de fundal">
 				<node name="summary" value="Setarile de culoare"/>
-				<node name="background" value="Fundal">
-					<node name="solidColor" value="Culoare uniforma"/>
-					<node name="leather" value="Piele"/>
-					<node name="sepia" value="Sepia"/>
-					<node name="wood" value="Lemn"/>
-				</node>
 				<node name="backgroundColor" value="Culoare de fundal"/>
 				<node name="selectionBackground" value="Selectie de fundal"/>
 				<node name="selectionForeground" value="Text selectat"/>

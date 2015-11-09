@@ -386,12 +386,6 @@
 			</node>
 			<node name="colors" value="Barvy a pozadí">
 				<node name="summary" value="Nastavení barev"/>
-				<node name="background" value="Pozadí">
-					<node name="solidColor" value="Plná barva"/>
-					<node name="leather" value="Kůže"/>
-					<node name="sepia" value="Sépie"/>
-					<node name="wood" value="Dřevo"/>
-				</node>
 				<node name="backgroundColor" value="Barva pozadí"/>
 				<node name="selectionBackground" value="Pozadí výběru"/>
 				<node name="selectionForeground" value="Vybraný text"/>

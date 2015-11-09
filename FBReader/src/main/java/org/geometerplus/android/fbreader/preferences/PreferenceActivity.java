@@ -26,8 +26,6 @@ import android.view.accessibility.AccessibilityManager;
 import android.widget.SeekBar;
 
 import org.geometerplus.android.fbreader.DictionaryUtil;
-import org.geometerplus.fbreader.Paths;
-import org.geometerplus.fbreader.bookmodel.FBTextKind;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.ColorProfile;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
@@ -35,15 +33,11 @@ import org.geometerplus.fbreader.fbreader.FBView;
 import org.geometerplus.fbreader.fbreader.ScrollingPreferences;
 import org.geometerplus.fbreader.tips.TipsManager;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
-import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
 import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
 import org.geometerplus.zlibrary.text.view.style.ZLTextBaseStyle;
-import org.geometerplus.zlibrary.text.view.style.ZLTextFullStyleDecoration;
 import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
-import org.geometerplus.zlibrary.text.view.style.ZLTextStyleDecoration;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
-import org.geometerplus.zlibrary.ui.android.view.AndroidFontUtil;
 
 public class PreferenceActivity extends ZLPreferenceActivity {
     
@@ -135,19 +129,7 @@ public class PreferenceActivity extends ZLPreferenceActivity {
             final ZLPreferenceSet bgPreferences = new ZLPreferenceSet();
 
             final Screen colorsScreen = createPreferenceScreen("colors");
-            colorsScreen.addPreference(new WallpaperPreference(
-                this, profile, colorsScreen.Resource, "background"
-            ) {
-                @Override
-                protected void onDialogClosed(boolean result) {
-                    super.onDialogClosed(result);
-                    bgPreferences.setEnabled("".equals(getValue()));
-                }
-            });
-            bgPreferences.add(
-                colorsScreen.addOption(profile.BackgroundOption, "backgroundColor")
-            );
-            bgPreferences.setEnabled("".equals(profile.WallpaperOption.getValue()));
+            bgPreferences.add(colorsScreen.addOption(profile.BackgroundOption, "backgroundColor"));
             /*
             colorsScreen.addOption(profile.SelectionBackgroundOption, "selectionBackground");
             */

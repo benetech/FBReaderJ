@@ -391,12 +391,6 @@
 			</node>
 			<node name="colors" value="Colores y fondos de pantalla">
 				<node name="summary" value="Preferencias de color"/>
-				<node name="background" value="Fondo">
-					<node name="solidColor" value="Color sólido"/>
-					<node name="leather" value="Piel"/>
-					<node name="sepia" value="Sepia"/>
-					<node name="wood" value="Madera"/>
-				</node>
 				<node name="backgroundColor" value="Color de fondo"/>
 				<node name="selectionBackground" value="Fondo de selección"/>
 				<node name="selectionForeground" value="Texto de selección"/>

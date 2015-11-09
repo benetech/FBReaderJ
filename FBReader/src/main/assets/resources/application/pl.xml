@@ -386,12 +386,6 @@
 			</node>
 			<node name="colors" value="Kolory i tapety">
 				<node name="summary" value="Ustawienia kolorów" />
-				<node name="background" value="Tło">
-					<node name="solidColor" value="Jednolity kolor"/>
-					<node name="leather" value="Skóra"/>
-					<node name="sepia" value="Sepia"/>
-					<node name="wood" value="Drewno"/>
-				</node>
 				<node name="backgroundColor" value="Kolor tła"/>
 				<node name="selectionBackground" value="Tło zaznaczenia"/>
 				<node name="selectionForeground" value="Zaznaczony tekst"/>

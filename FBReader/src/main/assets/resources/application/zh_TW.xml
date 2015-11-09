@@ -391,12 +391,6 @@
 			</node>
 			<node name="colors" value="顏色及壁紙">
 				<node name="summary" value="顏色設定"/>
-				<node name="background" value="背景">
-					<node name="solidColor" value="淨色"/>
-					<node name="leather" value="皮革"/>
-					<node name="sepia" value="褐色"/>
-					<node name="wood" value="木材"/>
-				</node>
 				<node name="backgroundColor" value="背景顏色"/>
 				<node name="selectionBackground" value="選字背景色"/>
 				<node name="selectionForeground" value="Selected text" toBeTranslated="true"/>
