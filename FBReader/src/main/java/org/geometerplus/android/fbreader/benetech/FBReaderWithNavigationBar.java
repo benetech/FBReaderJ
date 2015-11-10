@@ -44,7 +44,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private TextToSpeech myTTS;
     private int myParagraphIndex = -1;
     private int myParagraphsNumber;
-    private boolean myIsActive = false;
+    private boolean isActive = false;
     private static final int PLAY_AFTER_TOC = 1;
     private static final int CHECK_TTS_INSTALLED = 0;
     public static final int SPEAK_BACK_PRESSED = 77;
@@ -360,7 +360,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     @Override
     public void onUtteranceCompleted(String uttId) {
         String lastSentenceID = Integer.toString(lastSentence);
-        if (myIsActive && uttId.equals(lastSentenceID)) {
+        if (isActive() && uttId.equals(lastSentenceID)) {
             ++myParagraphIndex;
             speakParagraph(getNextParagraph());
             if (myParagraphIndex >= myParagraphsNumber) {
@@ -368,7 +368,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             }
         } else {
             myCurrentSentence = Integer.parseInt(uttId);
-            if (myIsActive) {
+            if (isActive()) {
                 int listSize = mySentences.length;
                 if (listSize > 1 && myCurrentSentence < listSize) {
                     highlightSentence(myCurrentSentence);
@@ -405,20 +405,19 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private volatile PowerManager.WakeLock myWakeLock;
 
-    private synchronized void setActive(final boolean active) {
+    private synchronized void setActive(final boolean isActiveToUse) {
         runOnUiThread(new Runnable() {
             public void run() {
                 if (!accessibilityManager.isEnabled()) {
-                    if (myIsActive != active) {
-                        enablePlayButton(!active);
+                    if (isActive() != isActiveToUse) {
+                        enablePlayButton(!isActiveToUse);
                     }
                 }
             }
         });
 
-        myIsActive = active;
-
-        if (active) {
+        isActive = isActiveToUse;
+        if (isActiveToUse) {
             if (myWakeLock == null) {
                 myWakeLock = ((PowerManager)getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FBReader TTS plugin");
                 myWakeLock.acquire();
@@ -557,7 +556,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private void playOrPause() {
-        if (!myIsActive) {
+        if (!isActive()) {
             final String nextParagraph = getNextParagraph();
             if (null == nextParagraph || nextParagraph.length() < 1) {
                 restorePosition();
@@ -619,6 +618,10 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private boolean isPaused() {
         return isPaused;
+    }
+
+    private boolean isActive() {
+        return isActive;
     }
 
     @Override
