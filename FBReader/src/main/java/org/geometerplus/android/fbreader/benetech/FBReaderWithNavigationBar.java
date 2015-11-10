@@ -56,13 +56,9 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private boolean screenLockEventOccurred = false;
     private BroadcastReceiver mReceiver;
     private PowerManager pm;
-
-    //Added for the detecting whether the talkback is on
     private AccessibilityManager accessibilityManager;
 
-    private static final long[] VIBE_PATTERN = {
-            0, 10, 70, 80
-    };
+    private static final long[] VIBE_PATTERN = {0, 10, 70, 80,};
 
     public static final String CONTENTS_EARCON = "[CONTENTS]";
     public static final String MENU_EARCON = "[MENU]";
@@ -125,10 +121,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             time.setToNow();
             String lang = "";
             //lang = " l:" + selectedLanguage;
-            myEditor.putString(bookHash, lang +
-                            "p:" + myParagraphIndex + " s:" + myCurrentSentence + " e:" + mySentences[myCurrentSentence].i +
-                            " d:" + time.format2445()
-            );
+            myEditor.putString(bookHash, lang + "p:" + myParagraphIndex + " s:" + myCurrentSentence + " e:" + mySentences[myCurrentSentence].i + " d:" + time.format2445());
 
             myEditor.commit();
         }
@@ -453,9 +446,9 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
 
     private void gotoPreviousParagraph() {
-        for (int i = myParagraphIndex - 1; i >= 0; --i) {
-            if (myApi.getParagraphText(i).length() > 0) {
-                myParagraphIndex = i;
+        for (int index = myParagraphIndex - 1; index >= 0; --index) {
+            if (myApi.getParagraphText(index).length() > 0) {
+                myParagraphIndex = index;
                 break;
             }
         }
