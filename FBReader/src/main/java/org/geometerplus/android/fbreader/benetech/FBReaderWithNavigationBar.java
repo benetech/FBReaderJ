@@ -417,7 +417,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         });
 
         isActive = isActiveToUse;
-        if (isActiveToUse) {
+        if (isActive()) {
             if (myWakeLock == null) {
                 myWakeLock = ((PowerManager)getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FBReader TTS plugin");
                 myWakeLock.acquire();
