@@ -54,7 +54,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private SimpleGestureFilter detector;
     private Vibrator myVib;
     private int lastSentence = 0;
-    private boolean justPaused = false;
+    private boolean isPaused = false;
     private boolean resumePlaying = false;
     private boolean returnFromOtherScreen = false;
     private boolean screenLockEventOccurred = false;
@@ -127,7 +127,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         @Override
         public boolean onHover(View view, MotionEvent motionEvent) {
             stopTalking();
-            justPaused = true;
+            isPaused = true;
             return false;
         }
     }
@@ -218,7 +218,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         			public void onFocusChange(android.view.View view, boolean b) {
         				if (b) {
         					stopTalking();
-        					justPaused = true;
+        					isPaused = true;
         				}
         			}
         });
@@ -235,7 +235,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         			public void onFocusChange(android.view.View view, boolean b) {
         				if (b) {
         					stopTalking();
-        					justPaused = true;
+        					isPaused = true;
         				}
         			}
         });
@@ -280,7 +280,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             if (resultCode == TOCActivity.BACK_PRESSED) {
                 returnFromOtherScreen = true;
             } else {
-                justPaused = false;
+                isPaused = false;
                 resumePlaying = true;
             }
         }
@@ -299,7 +299,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             }
             returnFromOtherScreen = false;
 
-            if ((resumePlaying || justPaused) && !screenLockEventOccurred) {
+            if ((resumePlaying || isPaused) && !screenLockEventOccurred) {
                 resumePlaying = false;
                 myTTS.playEarcon(START_READING_EARCON, TextToSpeech.QUEUE_ADD, null);
                 speakParagraph(getNextParagraph());
@@ -564,8 +564,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         int sentenceNumber = 0;
         int numWordIndices = sentenceList.size();
 
-        if (justPaused) {                    // on returning from pause, iterate to the last sentence spoken
-            justPaused = false;
+        if (isPaused) {                    // on returning from pause, iterate to the last sentence spoken
+            isPaused = false;
             for (int i=1; i< myCurrentSentence; i++) {
                 if (sentenceIterator.hasNext()) {
                     sentenceIterator.next();
@@ -597,13 +597,13 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 if (null == nextParagraph || nextParagraph.length() < 1) {
                     //setCurrentLocation();
                     restorePosition();
-                    justPaused = false;
+                    isPaused = false;
                 }
                 enablePlayButton(false);
                 speakParagraph(nextParagraph);
             } else {
                 stopTalking();
-                justPaused = true;
+                isPaused = true;
                 enablePlayButton(true);
             }
         }
@@ -638,7 +638,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private void showContents() {
-        justPaused = true;
+        isPaused = true;
         stopTalking();
         myTTS.playEarcon(CONTENTS_EARCON, TextToSpeech.QUEUE_FLUSH, null);
         Intent tocIntent = new Intent(this, TOCActivity.class);
@@ -647,7 +647,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private void showMainMenu() {
         stopTalking();
-        justPaused = true;
+        isPaused = true;
         myTTS.playEarcon(MENU_EARCON, TextToSpeech.QUEUE_ADD, null);
         Intent intent = new Intent(this, AccessibleMainMenuActivity.class);
         startActivityForResult(intent, PLAY_AFTER_TOC);
