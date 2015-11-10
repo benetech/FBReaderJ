@@ -41,12 +41,9 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private ApiServerImplementation myApi;
 
     private TextToSpeech myTTS;
-
     private int myParagraphIndex = -1;
     private int myParagraphsNumber;
-
     private boolean myIsActive = false;
-
     private static final int PLAY_AFTER_TOC = 1;
     private static final int CHECK_TTS_INSTALLED = 0;
     public static final int SPEAK_BACK_PRESSED = 77;
@@ -66,6 +63,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private static final long[] VIBE_PATTERN = {
         0, 10, 70, 80
     };
+
     public static final String CONTENTS_EARCON = "[CONTENTS]";
     public static final String MENU_EARCON = "[MENU]";
     public static final String FORWARD_EARCON = "[FORWARD]";
@@ -75,13 +73,13 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private static Method MotionEvent_getX;
     private static Method MotionEvent_getY;
     private static Method AccessibilityManager_isTouchExplorationEnabled;
-    static SharedPreferences myPreferences;
-    final FBReaderApp fbReader = (FBReaderApp) FBReaderApp.Instance();
+    private static SharedPreferences myPreferences;
+    private final FBReaderApp fbReader = (FBReaderApp) FBReaderApp.Instance();
 
     private TtsSentenceExtractor.SentenceIndex mySentences[] = new TtsSentenceExtractor.SentenceIndex[0];
-    static private int myCurrentSentence = 0;
-    static private final String UTTERANCE_ID = "GoReadTTS";
-    static private HashMap<String, String> myCallbackMap;
+    private static int myCurrentSentence = 0;
+    private static final String UTTERANCE_ID = "GoReadTTS";
+    private static HashMap<String, String> myCallbackMap;
 
     static {
         initCompatibility();
@@ -126,7 +124,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         @Override
         public boolean onHover(View view, MotionEvent motionEvent) {
             stopTalking();
-            isPaused = true;
+            setPause();
             return false;
         }
     }
@@ -217,8 +215,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         			public void onFocusChange(android.view.View view, boolean b) {
         				if (b) {
         					stopTalking();
-        					isPaused = true;
-        				}
+                            setPause();
+                        }
         			}
         });
 
@@ -234,8 +232,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         			public void onFocusChange(android.view.View view, boolean b) {
         				if (b) {
         					stopTalking();
-        					isPaused = true;
-        				}
+                            setPause();
+                        }
         			}
         });
 
@@ -279,7 +277,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             if (resultCode == TOCActivity.BACK_PRESSED) {
                 returnFromOtherScreen = true;
             } else {
-                isPaused = false;
+                setPlay();
             }
         }
     }
@@ -297,7 +295,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             }
             returnFromOtherScreen = false;
 
-            if (isPaused && !screenLockEventOccurred) {
+            if (isPaused() && !screenLockEventOccurred) {
                 myTTS.playEarcon(START_READING_EARCON, TextToSpeech.QUEUE_ADD, null);
                 speakParagraph(getNextParagraph());
             } else {
@@ -561,8 +559,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         int sentenceNumber = 0;
         int numWordIndices = sentenceList.size();
 
-        if (isPaused) {                    // on returning from pause, iterate to the last sentence spoken
-            isPaused = false;
+        if (isPaused()) {                    // on returning from setPause, iterate to the last sentence spoken
+            setPlay();
             for (int i=1; i< myCurrentSentence; i++) {
                 if (sentenceIterator.hasNext()) {
                     sentenceIterator.next();
@@ -594,13 +592,13 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 if (null == nextParagraph || nextParagraph.length() < 1) {
                     //setCurrentLocation();
                     restorePosition();
-                    isPaused = false;
+                    setPlay();
                 }
                 enablePlayButton(false);
                 speakParagraph(nextParagraph);
             } else {
                 stopTalking();
-                isPaused = true;
+                setPause();
                 enablePlayButton(true);
             }
         }
@@ -635,7 +633,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private void showContents() {
-        isPaused = true;
+        setPause();
         stopTalking();
         myTTS.playEarcon(CONTENTS_EARCON, TextToSpeech.QUEUE_FLUSH, null);
         Intent tocIntent = new Intent(this, TOCActivity.class);
@@ -644,10 +642,22 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private void showMainMenu() {
         stopTalking();
-        isPaused = true;
+        setPause();
         myTTS.playEarcon(MENU_EARCON, TextToSpeech.QUEUE_ADD, null);
         Intent intent = new Intent(this, AccessibleMainMenuActivity.class);
         startActivityForResult(intent, PLAY_AFTER_TOC);
+    }
+
+    private void setPause() {
+        isPaused = true;
+    }
+
+    private void setPlay() {
+        isPaused = false;
+    }
+
+    private boolean isPaused() {
+        return isPaused;
     }
 
     @Override
