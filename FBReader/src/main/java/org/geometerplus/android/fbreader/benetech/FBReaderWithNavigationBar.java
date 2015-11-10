@@ -70,8 +70,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     public static final String BACK_EARCON = "[BACK]";
     public static final String START_READING_EARCON = "[START]";
 
-    private static Method MotionEvent_getX;
-    private static Method MotionEvent_getY;
     private static Method AccessibilityManager_isTouchExplorationEnabled;
     private static SharedPreferences myPreferences;
     private final FBReaderApp fbReader = (FBReaderApp) FBReaderApp.Instance();
@@ -87,10 +85,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private static void initCompatibility() {
         try {
-            MotionEvent_getX = MotionEvent.class.getMethod("getX", new Class[] { Integer.TYPE });
-            MotionEvent_getY = MotionEvent.class.getMethod("getY", new Class[] { Integer.TYPE });
-            AccessibilityManager_isTouchExplorationEnabled = AccessibilityManager.class.getMethod(
-                    "isTouchExplorationEnabled");
+            AccessibilityManager_isTouchExplorationEnabled = AccessibilityManager.class.getMethod("isTouchExplorationEnabled");
             /* success, this is a newer device */
         } catch (NoSuchMethodException nsme) {
             /* failure, must be older device */
