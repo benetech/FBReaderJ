@@ -617,14 +617,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         speakParagraph(getNextParagraph());
     }
 
-    private void showContents() {
-        setPause();
-        stopTalking();
-        myTTS.playEarcon(CONTENTS_EARCON, TextToSpeech.QUEUE_FLUSH, null);
-        Intent tocIntent = new Intent(this, TOCActivity.class);
-        startActivityForResult(tocIntent, PLAY_AFTER_TOC);
-    }
-
     private void showMainMenu() {
         stopTalking();
         setPause();
