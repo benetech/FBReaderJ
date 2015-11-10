@@ -129,7 +129,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                     public void onFocusChange(android.view.View view, boolean b) {
                         if (b) {
                             stopTalking();
-                            setPause();
                         }
                     }
                 });
@@ -146,7 +145,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                     public void onFocusChange(android.view.View view, boolean b) {
                         if (b) {
                             stopTalking();
-                            setPause();
                         }
                     }
                 });
@@ -389,6 +387,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private void stopTalking() {
+        setPause();
         setActive(false);
         if (myTTS != null) {
             myTTS.stop();
@@ -558,7 +557,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private void playOrPause() {
         if (isActive()) {
             stopTalking();
-            setPause();
             enablePlayButton(true);
 
         } else {
@@ -603,7 +601,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private void showMainMenu() {
         stopTalking();
-        setPause();
         myTTS.playEarcon(MENU_EARCON, TextToSpeech.QUEUE_ADD, null);
         Intent intent = new Intent(this, AccessibleMainMenuActivity.class);
         startActivityForResult(intent, PLAY_AFTER_TOC);
@@ -690,7 +687,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         @Override
         public boolean onHover(View view, MotionEvent motionEvent) {
             stopTalking();
-            setPause();
             return false;
         }
     }
