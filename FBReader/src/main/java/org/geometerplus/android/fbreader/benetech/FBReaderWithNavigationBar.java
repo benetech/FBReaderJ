@@ -302,7 +302,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         if (pm.isScreenOn()) {
             stopTalking();
             myApi.clearHighlighting();
-            //LastReadPageOfCurrentBook.saveLocationOfLastReadPage(this);
             savePosition();
 
             try {
@@ -347,7 +346,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         myTTS.addEarcon(BACK_EARCON, "org.benetech.android", R.raw.sound_back);
         myTTS.addEarcon(START_READING_EARCON, "org.benetech.android", R.raw.sound_start_reading);
 
-        //setCurrentLocation();
         restorePosition();
 
         myTTS.playEarcon(START_READING_EARCON, TextToSpeech.QUEUE_ADD, null);
