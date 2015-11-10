@@ -74,6 +74,9 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private static int myCurrentSentence = 0;
     private static final String UTTERANCE_ID = "GoReadTTS";
     private static HashMap<String, String> myCallbackMap;
+    private volatile int myInitializationStatus;
+    private final static int TTS_INITIALIZED = 2;
+    private final static int FULLY_INITIALIZED =  TTS_INITIALIZED;
 
     static {
         initCompatibility();
@@ -321,11 +324,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         super.onDestroy();
     }
 
-    private volatile int myInitializationStatus;
-    private final static int TTS_INITIALIZED = 2;
-    private final static int FULLY_INITIALIZED =  TTS_INITIALIZED;
-
-    // implements TextToSpeech.OnInitListener
     public void onInit(int status) {
         if (myInitializationStatus != FULLY_INITIALIZED) {
             myInitializationStatus |= TTS_INITIALIZED;
