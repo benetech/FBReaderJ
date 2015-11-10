@@ -92,72 +92,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
     }
 
-    private static boolean isTouchExplorationEnabled(AccessibilityManager am) {
-        try {
-            if (AccessibilityManager_isTouchExplorationEnabled != null) {
-                Object retobj = AccessibilityManager_isTouchExplorationEnabled.invoke(am);
-                return (Boolean) retobj;
-            }
-        } catch (IllegalAccessException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
-        } catch (IllegalArgumentException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
-        } catch (InvocationTargetException e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
-        }
-        return false;
-    }
-
-    private void setListener(int id, View.OnClickListener listener) {
-        findViewById(id).setOnClickListener(listener);
-    }
-
-    private void savePosition() {
-        if (myCurrentSentence < mySentences.length) {
-            String bookHash = "";
-            if (fbReader != null && fbReader.Model != null)
-                bookHash = "BP:" + fbReader.Model.Book.getId();
-
-            SharedPreferences.Editor myEditor = myPreferences.edit();
-            Time time = new Time();
-            time.setToNow();
-            String lang = "";
-            //lang = " l:" + selectedLanguage;
-            myEditor.putString(bookHash, lang + "p:" + myParagraphIndex + " s:" + myCurrentSentence + " e:" + mySentences[myCurrentSentence].i + " d:" + time.format2445());
-
-            myEditor.commit();
-        }
-    }
-
-    void restorePosition() {
-        String bookHash = "";
-        if (fbReader != null && fbReader.Model != null)
-            bookHash = "BP:" + fbReader.Model.Book.getId();
-
-        String s = myPreferences.getString(bookHash, "");
-        //int il = s.indexOf("l:");
-        int para = s.indexOf("p:");
-        int sent = s.indexOf("s:");
-        int idx = s.indexOf("e:");
-        int dt = s.indexOf("d:");
-        if (para > -1 && sent > -1 && idx > -1 && dt > -1) {
-/*                if (il > -1) {
-                selectedLanguage = s.substring(il + 2, para);
-            }*/
-            para = Integer.parseInt(s.substring(para + 2, sent-1));
-            sent = Integer.parseInt(s.substring(sent + 2, idx - 1));
-            idx = Integer.parseInt(s.substring(idx + 2, dt - 1));
-            TextPosition tp = new TextPosition(para, idx, 0);
-            if (tp.compareTo(myApi.getPageStart()) >= 0 && tp.compareTo(myApi.getPageEnd()) < 0) {
-                myParagraphIndex = para;
-                myCurrentSentence = sent;
-            }
-        } else {
-            myParagraphIndex = myApi.getPageStart().ParagraphIndex;
-            myParagraphsNumber = myApi.getParagraphsNumber();
-        }
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         accessibilityManager = (AccessibilityManager) getApplicationContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
@@ -320,6 +254,72 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             myTTS.shutdown();
         }
         super.onDestroy();
+    }
+
+    private static boolean isTouchExplorationEnabled(AccessibilityManager am) {
+        try {
+            if (AccessibilityManager_isTouchExplorationEnabled != null) {
+                Object retobj = AccessibilityManager_isTouchExplorationEnabled.invoke(am);
+                return (Boolean) retobj;
+            }
+        } catch (IllegalAccessException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+        } catch (IllegalArgumentException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+        } catch (InvocationTargetException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+        }
+        return false;
+    }
+
+    private void setListener(int id, View.OnClickListener listener) {
+        findViewById(id).setOnClickListener(listener);
+    }
+
+    private void savePosition() {
+        if (myCurrentSentence < mySentences.length) {
+            String bookHash = "";
+            if (fbReader != null && fbReader.Model != null)
+                bookHash = "BP:" + fbReader.Model.Book.getId();
+
+            SharedPreferences.Editor myEditor = myPreferences.edit();
+            Time time = new Time();
+            time.setToNow();
+            String lang = "";
+            //lang = " l:" + selectedLanguage;
+            myEditor.putString(bookHash, lang + "p:" + myParagraphIndex + " s:" + myCurrentSentence + " e:" + mySentences[myCurrentSentence].i + " d:" + time.format2445());
+
+            myEditor.commit();
+        }
+    }
+
+    private void restorePosition() {
+        String bookHash = "";
+        if (fbReader != null && fbReader.Model != null)
+            bookHash = "BP:" + fbReader.Model.Book.getId();
+
+        String s = myPreferences.getString(bookHash, "");
+        //int il = s.indexOf("l:");
+        int para = s.indexOf("p:");
+        int sent = s.indexOf("s:");
+        int idx = s.indexOf("e:");
+        int dt = s.indexOf("d:");
+        if (para > -1 && sent > -1 && idx > -1 && dt > -1) {
+/*                if (il > -1) {
+                selectedLanguage = s.substring(il + 2, para);
+            }*/
+            para = Integer.parseInt(s.substring(para + 2, sent-1));
+            sent = Integer.parseInt(s.substring(sent + 2, idx - 1));
+            idx = Integer.parseInt(s.substring(idx + 2, dt - 1));
+            TextPosition tp = new TextPosition(para, idx, 0);
+            if (tp.compareTo(myApi.getPageStart()) >= 0 && tp.compareTo(myApi.getPageEnd()) < 0) {
+                myParagraphIndex = para;
+                myCurrentSentence = sent;
+            }
+        } else {
+            myParagraphIndex = myApi.getPageStart().ParagraphIndex;
+            myParagraphsNumber = myApi.getParagraphsNumber();
+        }
     }
 
     public void onInit(int status) {
