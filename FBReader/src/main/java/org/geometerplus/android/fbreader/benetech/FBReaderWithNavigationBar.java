@@ -55,7 +55,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private Vibrator myVib;
     private int lastSentence = 0;
     private boolean isPaused = false;
-    private boolean resumePlaying = false;
     private boolean returnFromOtherScreen = false;
     private boolean screenLockEventOccurred = false;
     private BroadcastReceiver mReceiver;
@@ -281,7 +280,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 returnFromOtherScreen = true;
             } else {
                 isPaused = false;
-                resumePlaying = true;
             }
         }
     }
@@ -299,8 +297,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             }
             returnFromOtherScreen = false;
 
-            if ((resumePlaying || isPaused) && !screenLockEventOccurred) {
-                resumePlaying = false;
+            if (isPaused && !screenLockEventOccurred) {
                 myTTS.playEarcon(START_READING_EARCON, TextToSpeech.QUEUE_ADD, null);
                 speakParagraph(getNextParagraph());
             } else {
