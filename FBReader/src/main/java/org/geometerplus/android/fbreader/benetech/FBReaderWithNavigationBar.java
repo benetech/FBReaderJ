@@ -505,8 +505,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         return text;
     }
 
-    // Bookshare custom methods
-
     private void highlightSentence(int myCurrentSentence) {
         if (myCurrentSentence >= mySentences.length) {
             return;
