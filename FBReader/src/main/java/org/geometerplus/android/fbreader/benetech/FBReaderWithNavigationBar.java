@@ -61,7 +61,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private AccessibilityManager accessibilityManager;
 
     private static final long[] VIBE_PATTERN = {
-        0, 10, 70, 80
+            0, 10, 70, 80
     };
 
     public static final String CONTENTS_EARCON = "[CONTENTS]";
@@ -118,7 +118,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         if (myCurrentSentence < mySentences.length) {
             String bookHash = "";
             if (fbReader != null && fbReader.Model != null)
-             bookHash = "BP:" + fbReader.Model.Book.getId();
+                bookHash = "BP:" + fbReader.Model.Book.getId();
 
             SharedPreferences.Editor myEditor = myPreferences.edit();
             Time time = new Time();
@@ -126,8 +126,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             String lang = "";
             //lang = " l:" + selectedLanguage;
             myEditor.putString(bookHash, lang +
-                    "p:" + myParagraphIndex + " s:" + myCurrentSentence + " e:" + mySentences[myCurrentSentence].i +
-                    " d:" + time.format2445()
+                            "p:" + myParagraphIndex + " s:" + myCurrentSentence + " e:" + mySentences[myCurrentSentence].i +
+                            " d:" + time.format2445()
             );
 
             myEditor.commit();
@@ -137,8 +137,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     void restorePosition() {
         String bookHash = "";
         if (fbReader != null && fbReader.Model != null)
-        	bookHash = "BP:" + fbReader.Model.Book.getId();
-        
+            bookHash = "BP:" + fbReader.Model.Book.getId();
+
         String s = myPreferences.getString(bookHash, "");
         //int il = s.indexOf("l:");
         int para = s.indexOf("p:");
@@ -182,45 +182,45 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
 
         setListener(R.id.navigation_bar_play, new View.OnClickListener() {
-        	public void onClick(View v) {
+            public void onClick(View v) {
                 ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_PLAY_PAUSE);
-        		playOrPause();
-        	}
+                playOrPause();
+            }
         });
 
         setListener(R.id.navigation_bar_skip_previous, new View.OnClickListener() {
-        	public void onClick(View v) {
+            public void onClick(View v) {
                 ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_PREV);
-        		goBackward();
-        	}
+                goBackward();
+            }
         });
 
         findViewById(R.id.navigation_bar_skip_previous).setOnFocusChangeListener(
-        		new View.OnFocusChangeListener() {
-        			public void onFocusChange(android.view.View view, boolean b) {
-        				if (b) {
-        					stopTalking();
+                new View.OnFocusChangeListener() {
+                    public void onFocusChange(android.view.View view, boolean b) {
+                        if (b) {
+                            stopTalking();
                             setPause();
                         }
-        			}
-        });
+                    }
+                });
 
         setListener(R.id.navigation_bar_skip_next, new View.OnClickListener() {
-        	public void onClick(View v) {
+            public void onClick(View v) {
                 ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_NEXT);
-        		goForward();
-        	}
+                goForward();
+            }
         });
 
         findViewById(R.id.navigation_bar_skip_next).setOnFocusChangeListener(
-        		new View.OnFocusChangeListener() {
-        			public void onFocusChange(android.view.View view, boolean b) {
-        				if (b) {
-        					stopTalking();
+                new View.OnFocusChangeListener() {
+                    public void onFocusChange(android.view.View view, boolean b) {
+                        if (b) {
+                            stopTalking();
                             setPause();
                         }
-        			}
-        });
+                    }
+                });
 
         setActive(false);
 
@@ -231,7 +231,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         myApi = new ApiServerImplementation();
         try {
             startActivityForResult(
-                new Intent(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA), CHECK_TTS_INSTALLED
+                    new Intent(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA), CHECK_TTS_INSTALLED
             );
         } catch (ActivityNotFoundException e) {
             showErrorMessage(getText(R.string.no_tts_installed), true);
@@ -433,8 +433,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         if (active) {
             if (myWakeLock == null) {
                 myWakeLock =
-                    ((PowerManager)getSystemService(POWER_SERVICE))
-                        .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FBReader TTS plugin");
+                        ((PowerManager)getSystemService(POWER_SERVICE))
+                                .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FBReader TTS plugin");
                 myWakeLock.acquire();
             }
         } else {
@@ -572,35 +572,35 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private void playOrPause() {
-            if (!myIsActive) {
-                final String nextParagraph = getNextParagraph();
-                if (null == nextParagraph || nextParagraph.length() < 1) {
-                    //setCurrentLocation();
-                    restorePosition();
-                    setPlay();
-                }
-                enablePlayButton(false);
-                speakParagraph(nextParagraph);
-            } else {
-                stopTalking();
-                setPause();
-                enablePlayButton(true);
+        if (!myIsActive) {
+            final String nextParagraph = getNextParagraph();
+            if (null == nextParagraph || nextParagraph.length() < 1) {
+                //setCurrentLocation();
+                restorePosition();
+                setPlay();
             }
+            enablePlayButton(false);
+            speakParagraph(nextParagraph);
+        } else {
+            stopTalking();
+            setPause();
+            enablePlayButton(true);
         }
-    
-    private void enablePlayButton(boolean isPlayButtonEnabled) {
-    	ImageButton playButton = (ImageButton) findViewById(R.id.navigation_bar_play);
-    	final int resourceIdForButton = getPlayButtonImageResource(isPlayButtonEnabled);
-		playButton.setImageResource(resourceIdForButton);
     }
-    
-    private int getPlayButtonImageResource(boolean isPlayButtonEnabled) {
-    	if (isPlayButtonEnabled)
-    		return R.drawable.ic_play_arrow_white_24dp;
 
-    	return R.drawable.ic_pause_white_24dp;
+    private void enablePlayButton(boolean isPlayButtonEnabled) {
+        ImageButton playButton = (ImageButton) findViewById(R.id.navigation_bar_play);
+        final int resourceIdForButton = getPlayButtonImageResource(isPlayButtonEnabled);
+        playButton.setImageResource(resourceIdForButton);
     }
-    
+
+    private int getPlayButtonImageResource(boolean isPlayButtonEnabled) {
+        if (isPlayButtonEnabled)
+            return R.drawable.ic_play_arrow_white_24dp;
+
+        return R.drawable.ic_pause_white_24dp;
+    }
+
     private void goForward() {
         stopTalking();
         myTTS.playEarcon(FORWARD_EARCON, TextToSpeech.QUEUE_ADD, null);
@@ -658,7 +658,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 goBackward();
                 ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_PREV);
                 break;
-          }
+        }
     }
 
     @Override
@@ -687,14 +687,14 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private class ScreenUnlockReceiver extends BroadcastReceiver{
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-                    screenLockEventOccurred = true;
-                } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
-                    screenLockEventOccurred = true;
-                }
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+                screenLockEventOccurred = true;
+            } else if (intent.getAction().equals(Intent.ACTION_USER_PRESENT)) {
+                screenLockEventOccurred = true;
             }
+        }
     }
 
     private class MyHoverListener implements View.OnHoverListener {
