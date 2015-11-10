@@ -556,7 +556,12 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private void playOrPause() {
-        if (!isActive()) {
+        if (isActive()) {
+            stopTalking();
+            setPause();
+            enablePlayButton(true);
+
+        } else {
             final String nextParagraph = getNextParagraph();
             if (null == nextParagraph || nextParagraph.length() < 1) {
                 restorePosition();
@@ -564,10 +569,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             }
             enablePlayButton(false);
             speakParagraph(nextParagraph);
-        } else {
-            stopTalking();
-            setPause();
-            enablePlayButton(true);
         }
     }
 
