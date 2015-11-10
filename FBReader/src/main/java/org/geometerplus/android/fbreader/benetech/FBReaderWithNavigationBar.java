@@ -38,8 +38,9 @@ import java.util.Iterator;
 import java.util.List;
 
 public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener, SimpleGestureFilter.SimpleGestureListener  {
-    private ApiServerImplementation myApi;
 
+    private static final String LOG_TAG ="FBRsWithNavigationBar";
+    private ApiServerImplementation myApi;
     private TextToSpeech myTTS;
     private int myParagraphIndex = -1;
     private int myParagraphsNumber;
@@ -97,14 +98,12 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 Object retobj = AccessibilityManager_isTouchExplorationEnabled.invoke(am);
                 return (Boolean) retobj;
             }
-        } catch (IllegalAccessException ie) {
-            System.err.println("unexpected " + ie);
+        } catch (IllegalAccessException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
         } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Log.e(LOG_TAG, e.getMessage(), e);
         } catch (InvocationTargetException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            Log.e(LOG_TAG, e.getMessage(), e);
         }
         return false;
     }
