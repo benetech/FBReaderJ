@@ -208,7 +208,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             returnFromOtherScreen = false;
 
             if (isPaused() && !screenLockEventOccurred) {
-                myTTS.playEarcon(START_READING_EARCON, TextToSpeech.QUEUE_ADD, null);
+                playEarcon(START_READING_EARCON);
                 speakParagraph(getNextParagraph());
             } else {
                 screenLockEventOccurred = false;
@@ -346,7 +346,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
         restorePosition();
 
-        myTTS.playEarcon(START_READING_EARCON, TextToSpeech.QUEUE_ADD, null);
+        playEarcon(START_READING_EARCON);
 
         if (accessibilityManager.isEnabled()) {
             speakString(myApi.getBookTitle(), 0);
@@ -585,7 +585,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private void goForward() {
         stopTalking();
-        myTTS.playEarcon(FORWARD_EARCON, TextToSpeech.QUEUE_ADD, null);
+        playEarcon(FORWARD_EARCON);
         if (myParagraphIndex < myParagraphsNumber) {
             ++myParagraphIndex;
             speakParagraph(getNextParagraph());
@@ -594,16 +594,20 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private void goBackward() {
         stopTalking();
-        myTTS.playEarcon(BACK_EARCON, TextToSpeech.QUEUE_ADD, null);
+        playEarcon(BACK_EARCON);
         gotoPreviousParagraph();
         speakParagraph(getNextParagraph());
     }
 
     private void showMainMenu() {
         stopTalking();
-        myTTS.playEarcon(MENU_EARCON, TextToSpeech.QUEUE_ADD, null);
+        playEarcon(MENU_EARCON);
         Intent intent = new Intent(this, AccessibleMainMenuActivity.class);
         startActivityForResult(intent, PLAY_AFTER_TOC);
+    }
+
+    private void playEarcon(String backEarcon) {
+        myTTS.playEarcon(backEarcon, TextToSpeech.QUEUE_ADD, null);
     }
 
     private void setPause() {
@@ -616,6 +620,10 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private boolean isPaused() {
         return isPaused;
+    }
+
+    private boolean isPlaying() {
+        return !isPaused();
     }
 
     private boolean isActive() {
