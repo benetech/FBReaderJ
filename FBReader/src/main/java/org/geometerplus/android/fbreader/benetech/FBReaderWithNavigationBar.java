@@ -423,9 +423,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
         if (active) {
             if (myWakeLock == null) {
-                myWakeLock =
-                        ((PowerManager)getSystemService(POWER_SERVICE))
-                                .newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FBReader TTS plugin");
+                myWakeLock = ((PowerManager)getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "FBReader TTS plugin");
                 myWakeLock.acquire();
             }
         } else {
@@ -441,7 +439,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         callbackMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, Integer.toString(sentenceNumber));
         myTTS.speak(text, TextToSpeech.QUEUE_ADD, callbackMap);
     }
-
 
     private void gotoPreviousParagraph() {
         for (int index = myParagraphIndex - 1; index >= 0; --index) {
@@ -486,14 +483,18 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
         //Disable next section button if this is the last paragraph
         if (myParagraphIndex >= (myParagraphsNumber - 1)) {
-            runOnUiThread(new Runnable() {
-                public void run() {
-                    findViewById(R.id.navigation_bar_skip_next).setEnabled(false);
-                }
-            });
+            disableNextButton();
         }
 
         return text;
+    }
+
+    private void disableNextButton() {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                findViewById(R.id.navigation_bar_skip_next).setEnabled(false);
+            }
+        });
     }
 
     private void highlightSentence(int myCurrentSentence) {
@@ -521,13 +522,11 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
 
         setActive(true);
-        //createSentenceIterator();
-        ArrayList<String> sentenceList = new ArrayList<String>();
+        ArrayList<String> sentenceList = new ArrayList<>();
         for (TtsSentenceExtractor.SentenceIndex mySentence : mySentences) {
             sentenceList.add(mySentence.s);
         }
         final Iterator<String> sentenceIterator = sentenceList.iterator();
-        //sentenceListIterator = sentences.iterator();
 
         String currentSentence;
         int sentenceNumber = 0;
@@ -564,7 +563,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         if (!myIsActive) {
             final String nextParagraph = getNextParagraph();
             if (null == nextParagraph || nextParagraph.length() < 1) {
-                //setCurrentLocation();
                 restorePosition();
                 setPlay();
             }
