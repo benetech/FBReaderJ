@@ -114,16 +114,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         findViewById(id).setOnClickListener(listener);
     }
 
-    private class MyHoverListener implements View.OnHoverListener {
-
-        @Override
-        public boolean onHover(View view, MotionEvent motionEvent) {
-            stopTalking();
-            setPause();
-            return false;
-        }
-    }
-
     private void savePosition() {
         if (myCurrentSentence < mySentences.length) {
             String bookHash = "";
@@ -713,5 +703,15 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                     screenLockEventOccurred = true;
                 }
             }
+    }
+
+    private class MyHoverListener implements View.OnHoverListener {
+
+        @Override
+        public boolean onHover(View view, MotionEvent motionEvent) {
+            stopTalking();
+            setPause();
+            return false;
+        }
     }
 }
