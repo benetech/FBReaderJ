@@ -50,6 +50,7 @@ import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.android.fbreader.library.KillerCallback;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
+import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
 import org.geometerplus.android.fbreader.network.bookshare.subscription.BooksharePeriodicalDataSource;
 import org.geometerplus.android.fbreader.network.bookshare.subscription.MainPeriodicalDownloadService;
 import org.geometerplus.android.fbreader.network.bookshare.subscription.PeriodicalEntity;
@@ -286,7 +287,28 @@ public class FBReader extends ZLAndroidActivity {
 		if (!zlibrary.isKindleFire() && !zlibrary.ShowStatusBarOption.getValue()) {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		}
+
+		enableBookshareLogoutMenuItem(menu);
+
 		return super.onPrepareOptionsMenu(menu);
+	}
+
+	private void enableBookshareLogoutMenuItem(Menu menu) {
+		MenuItem logoutMenuItem = menu.findItem(R.id.network_register_login);
+		logoutMenuItem.setEnabled(isLoggedintoBookshare());
+	}
+
+	private boolean isLoggedintoBookshare() {
+		SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(this);
+		String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
+		String password = login_preference.getString(Bookshare_Webservice_Login.PASSWORD, "");
+		if (username == null || username.isEmpty())
+			return false;
+
+		if (password == null || password.isEmpty())
+			return false;
+
+		return true;
 	}
 
 	@Override
@@ -532,8 +554,13 @@ public class FBReader extends ZLAndroidActivity {
 		final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
 		application.myMainWindow.addMenuItem(menu, actionId, null, null);
 	}
-    
-    private void addMenuItem(Menu menu, String actionId, String name, int iconId) {
+
+	private void addMenuItem(Menu menu, int itemId, String actionId) {
+		final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
+		application.myMainWindow.addMenuItem(menu, itemId, actionId, null, null);
+	}
+
+	private void addMenuItem(Menu menu, String actionId, String name, int iconId) {
     		final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
     		application.myMainWindow.addMenuItem(menu, actionId, iconId, name);
     	}
@@ -558,7 +585,7 @@ public class FBReader extends ZLAndroidActivity {
 		}
 
 		addMenuItem(menu, ActionCode.ABOUT_GOREAD);
-		addMenuItem(menu, ActionCode.LOGOUT_BOOKSHARE);
+		addMenuItem(menu, R.id.network_register_login, ActionCode.LOGOUT_BOOKSHARE);
 
 		final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
 		application.myMainWindow.refreshMenu();
@@ -566,7 +593,7 @@ public class FBReader extends ZLAndroidActivity {
 		return true;
 	}
 
-    /*
+	/*
      * show accessible full screen menu when accessibility is turned on
      *
     */

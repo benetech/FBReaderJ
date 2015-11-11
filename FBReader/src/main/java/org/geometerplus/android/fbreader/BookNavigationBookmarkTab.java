@@ -90,6 +90,14 @@ public class BookNavigationBookmarkTab extends Fragment implements MenuItem.OnMe
     private void addBookmark() {
         final FBReaderApp fbreader = (FBReaderApp)FBReaderApp.Instance();
         final Bookmark bookmark = fbreader.addBookmark(20, true);
+        if (myThisBookBookmarks.contains(bookmark)) {
+            final VoiceableDialog finishedDialog = new VoiceableDialog(getActivity());
+            String message = getResources().getString(R.string.message_bookmark_already_exists);
+            finishedDialog.popup(message, 2000);
+
+            return;
+        }
+
         if (bookmark != null) {
             bookmark.save();
             myThisBookBookmarks.add(0, bookmark);

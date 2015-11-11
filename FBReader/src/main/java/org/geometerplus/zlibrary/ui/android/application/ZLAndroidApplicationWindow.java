@@ -55,16 +55,27 @@ public final class ZLAndroidApplicationWindow extends ZLApplicationWindow {
 	}
 
 	public void addMenuItem(Menu menu, String actionId, Integer iconId, String name) {
+		addMenuItem(menu, null, actionId, iconId, name);
+	}
+
+	public void addMenuItem(Menu menu, Integer itemId, String actionId, Integer iconId, String name) {
 		if (name == null) {
 			name = ZLResource.resource("menu").getResource(actionId).getValue();
 		}
-		final MenuItem menuItem = menu.add(name);
+
+		MenuItem menuItem;
+		if (itemId != null)
+			menuItem = menu.add(Menu.NONE, itemId.intValue(), Menu.NONE, name);
+		else
+			menuItem = menu.add(name);
+
 		if (iconId != null) {
 			menuItem.setIcon(iconId);
 		}
 		menuItem.setOnMenuItemClickListener(myMenuListener);
 		myMenuItemMap.put(menuItem, actionId);
 	}
+
 
 	@Override
 	public void refreshMenu() {

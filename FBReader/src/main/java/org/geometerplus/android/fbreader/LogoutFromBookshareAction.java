@@ -9,11 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.accessibility.ParentCloserDialog;
 import org.benetech.android.R;
-import org.geometerplus.android.fbreader.benetech.Analytics;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
-import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
 /**
  * Created by animal@martus.org on 11/3/15.
