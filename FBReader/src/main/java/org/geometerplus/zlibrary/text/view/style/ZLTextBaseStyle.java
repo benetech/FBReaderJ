@@ -19,6 +19,10 @@
 
 package org.geometerplus.zlibrary.text.view.style;
 
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+
 import org.geometerplus.android.fbreader.preferences.ZLFontSizeListPreference;
 import org.geometerplus.zlibrary.core.options.*;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
@@ -63,7 +67,7 @@ public class ZLTextBaseStyle extends ZLTextStyle {
 
 	@Override
 	public int getFontSize() {
-		return FontSizeOption.getValue();
+		return ZLFontSizeListPreference.getConvertedDpFontSize(FontSizeOption.getValue());
 	}
 
 	@Override

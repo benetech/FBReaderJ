@@ -1,6 +1,9 @@
 package org.geometerplus.android.fbreader.preferences;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 
 import com.google.common.primitives.Ints;
 
@@ -30,12 +33,13 @@ public class ZLFontSizeListPreference extends ZLStringListPreference {
     }
 
     private static void fillFontSizeToLabelMap() {
-        fontSizeToLabelMap = new LinkedHashMap<Integer, String>();
-        fontSizeToLabelMap.put(10, "Tiny");
-        fontSizeToLabelMap.put(20, "Small");
-        fontSizeToLabelMap.put(30, "Medium");
-        fontSizeToLabelMap.put(50, "Large");
-        fontSizeToLabelMap.put(80, "Huge");
+        fontSizeToLabelMap = new LinkedHashMap<>();
+        fontSizeToLabelMap.put(12, "X Small");
+        fontSizeToLabelMap.put(18, "Small");
+        fontSizeToLabelMap.put(24, "Regular");
+        fontSizeToLabelMap.put(30, "Large");
+        fontSizeToLabelMap.put(45, "X Large");
+        fontSizeToLabelMap.put(70, "Huge");
     }
 
     private static LinkedHashMap<Integer, String> getFontSizeToLabelMap() {
@@ -75,5 +79,10 @@ public class ZLFontSizeListPreference extends ZLStringListPreference {
         Set<Integer> fontSizesSet = getFontSizeToLabelMap().keySet();
 
         return Ints.toArray(fontSizesSet);
+    }
+
+    public static int getConvertedDpFontSize(float staticFontSize) {
+        final DisplayMetrics displayMetrics = Resources.getSystem().getDisplayMetrics();
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, staticFontSize, displayMetrics);
     }
 }
