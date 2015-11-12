@@ -578,14 +578,18 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private void changePlayPauseButtonState(final boolean isPlayButton) {
         runOnUiThread(new Runnable() {
             public void run() {
-                if (accessibilityManager.isEnabled())
-                    return;
-
                 ImageButton playButton = (ImageButton) findViewById(R.id.navigation_bar_play);
-                final int resourceIdForButton = getPlayButtonImageResource(isPlayButton);
-                playButton.setImageResource(resourceIdForButton);
+                playButton.setImageResource(getPlayButtonImageResource(isPlayButton));
+                playButton.setContentDescription(getString(getPlayButtonContentDescription(isPlayButton)));
             }
         });
+    }
+
+    private int getPlayButtonContentDescription(boolean isPlayButton) {
+        if (isPlayButton)
+            return R.string.content_description_play;
+
+        return R.string.content_description_pause;
     }
 
     private int getPlayButtonImageResource(boolean isPlayButton) {

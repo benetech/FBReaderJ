@@ -164,4 +164,7 @@
     <string name="tab_label_page">Page</string>
     <string name="tab_label_bookmark">Bookmark</string>
 
+    <string name="content_description_play">play</string>
+    <string name="content_description_pause">pause</string>
+
 </resources>
