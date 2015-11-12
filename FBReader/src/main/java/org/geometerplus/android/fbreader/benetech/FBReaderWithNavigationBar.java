@@ -699,6 +699,13 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void preDeleteBookWork() {
+        super.preDeleteBookWork();
+        stopTalking();
+        myApi.clearHighlighting();
+    }
+
     private class ScreenUnlockReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {

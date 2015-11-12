@@ -183,6 +183,8 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
 
     private void deleteCurrentBook() {
         FBReaderApp fbReader =  (FBReaderApp) FBReaderApp.Instance();
+        FBReaderApp.Instance().onWindowClosing();
+        preDeleteBookWork();
         Book currentOpenBook = fbReader.Model.Book;
         if (currentOpenBook.File.getShortName().equals(FBReader.MINI_HELP_FILE_NAME)) {
             Toast.makeText(
@@ -211,6 +213,9 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
         } else {
             ZLApplication.Instance().doAction(ActionCode.SHOW_HELP);
         }
+    }
+
+    protected void preDeleteBookWork() {
     }
 
     private class ActionBarDrawerToggleHandler extends ActionBarDrawerToggle{
