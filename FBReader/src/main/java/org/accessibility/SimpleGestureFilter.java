@@ -159,7 +159,7 @@ public class SimpleGestureFilter extends GestureDetector.SimpleOnGestureListener
     }
 
 
-    public static interface SimpleGestureListener {
+    public interface SimpleGestureListener {
         void onSwipe(int direction);
 
         void onDoubleTap();
