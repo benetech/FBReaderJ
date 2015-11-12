@@ -8,13 +8,14 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/bookshare"
+        android:src="@drawable/ic_bookshare_logo"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="navigation header"
-        android:text="Navigation"/>
+        android:layout_gravity="center"
+        android:contentDescription="@string/content_description_navigation_drawer_title"
+        android:text="@string/navigation_drawer_title"/>
 
 </LinearLayout>

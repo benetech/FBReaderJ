@@ -6,7 +6,7 @@
         <item
             android:id="@+id/drawer_item_my_books"
             android:title="@string/menu_library"
-            android:icon="@drawable/ic_menu_networklibrary"
+            android:icon="@drawable/ic_my_books"
             android:contentDescription="@string/menu_library"
             />
 
@@ -60,6 +60,7 @@
             <item
                 android:id="@+id/drawer_item_book_info"
                 android:title="Book Info"
+                android:icon="@drawable/ic_book_info"
                 android:contentDescription="Screen Orientation"
                 />
 
