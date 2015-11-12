@@ -166,5 +166,7 @@
 
     <string name="content_description_play">play</string>
     <string name="content_description_pause">pause</string>
+    <string name="navigation_drawer_title">Bookshare</string>
+    <string name="content_description_navigation_drawer_title">Navigation Drawer</string>
 
 </resources>
