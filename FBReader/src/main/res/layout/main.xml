@@ -20,6 +20,7 @@
             android:focusable="true"
             android:scrollbarAlwaysDrawVerticalTrack="true"
             android:layout_weight="1"
+            android:contentDescription="Reading Pane"
             android:scrollbars="vertical" />
 
         <LinearLayout
