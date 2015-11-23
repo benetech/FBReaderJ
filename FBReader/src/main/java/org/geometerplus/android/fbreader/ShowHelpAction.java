@@ -2,6 +2,7 @@ package org.geometerplus.android.fbreader;
 
 import java.io.File;
 
+import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
@@ -20,7 +21,7 @@ public class ShowHelpAction extends FBAndroidAction {
     protected void run(Object... params) {
         File helpFile = new File(Paths.BooksDirectoryOption().getValue(), FBReader.USER_GUIDE_FILE);
         getBaseActivity().startActivity(
-                new Intent(getBaseActivity().getApplicationContext(), FBReader.class)
+                new Intent(getBaseActivity().getApplicationContext(), FBReaderWithNavigationBar.class)
                         .setAction(Intent.ACTION_VIEW)
                         .putExtra(FBReader.BOOK_PATH_KEY, helpFile.getPath())
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
