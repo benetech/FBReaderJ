@@ -19,13 +19,13 @@
 
 package org.geometerplus.android.fbreader;
 
-import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import org.benetech.android.R;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
-import org.benetech.android.R;
 
 class SelectionPopup extends ButtonsPopupPanel {
 	final static String ID = "SelectionPopup";
@@ -59,25 +59,11 @@ class SelectionPopup extends ButtonsPopupPanel {
 			return;
 		}
 
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+		LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
 			RelativeLayout.LayoutParams.WRAP_CONTENT,
             RelativeLayout.LayoutParams.WRAP_CONTENT
 		);
-        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
-        final int verticalPosition; 
-        final int screenHeight = ((View)myWindow.getParent()).getHeight();
-		final int diffTop = screenHeight - selectionEndY;
-		final int diffBottom = selectionStartY;
-		if (diffTop > diffBottom) {
-			verticalPosition = diffTop > myWindow.getHeight() + 20
-				? RelativeLayout.ALIGN_PARENT_BOTTOM : RelativeLayout.CENTER_VERTICAL;
-		} else {
-			verticalPosition = diffBottom > myWindow.getHeight() + 20
-				? RelativeLayout.ALIGN_PARENT_TOP : RelativeLayout.CENTER_VERTICAL;
-		}
-
-        layoutParams.addRule(verticalPosition);
         myWindow.setLayoutParams(layoutParams);
     }
 }
