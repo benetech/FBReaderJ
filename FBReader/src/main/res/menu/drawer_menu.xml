@@ -61,7 +61,7 @@
                 android:id="@+id/drawer_item_book_info"
                 android:title="Book Info"
                 android:icon="@drawable/ic_book_info"
-                android:contentDescription="Screen Orientation"
+                android:contentDescription="Book Information"
                 />
 
             <item
