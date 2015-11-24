@@ -54,6 +54,7 @@
             <item
                 android:id="@+id/drawer_item_screen_orientation"
                 android:title="Screen Orientation"
+                android:icon="@drawable/ic_screen_rotation_black"
                 android:contentDescription="Screen Orientation"
                 />
 
