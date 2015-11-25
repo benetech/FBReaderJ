@@ -80,25 +80,4 @@
                 />
         </menu>
     </item>
-
-    <item android:title="">
-        <menu
-
-            android:id="@+id/menu_temp_sub_menu"
-            android:checkableBehavior="none">
-
-            <item
-                android:id="@+id/drawer_item_navigate_to_page"
-                android:title="Navigate to Page"
-                android:contentDescription="Navigate to Page"
-                />
-
-            <item
-                android:id="@+id/drawer_item_bookmarks"
-                android:title="Bookmarks"
-                android:icon="@drawable/ic_menu_bookmarks"
-                android:contentDescription="Bookmarks"
-                />
-        </menu>
-    </item>
 </menu>
