@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <style name="MyAppTheme" parent="@style/Theme.AppCompat.Light"/>
-        <!-- Any customizations for your app running on pre-3.0 devices here -->
+        <style name="MyAppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+                <item name="colorPrimaryDark">@color/navigation_bar_color</item>
+                <item name="colorPrimary">@color/navigation_bar_color</item>
+        </style>
 </resources>

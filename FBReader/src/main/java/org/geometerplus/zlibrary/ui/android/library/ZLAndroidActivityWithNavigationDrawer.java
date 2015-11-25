@@ -9,16 +9,13 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -39,7 +36,7 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationMenu;
-    private PopupWindow popup;
+    private AlertDialog orientationDialog;
 
     @Override
     public void onCreate(Bundle state) {
@@ -104,11 +101,6 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
         LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.screen_orientation_layout, viewGroup);
 
-        popup = new PopupWindow(this);
-        popup.setWindowLayoutMode(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        popup.setContentView(layout);
-        popup.setFocusable(true);
-
         if (ZLibrary.Instance().supportsAllOrientations()) {
             layout.findViewById(R.id.reverseLandscape).setEnabled(true);
             layout.findViewById(R.id.reversePortrait).setEnabled(true);
@@ -117,7 +109,10 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
         RadioGroup radioGroup = (RadioGroup) layout.findViewById(R.id.orientationGroup);
         radioGroup.check(findCheckRadioButtonId());
 
-        popup.showAtLocation(layout, Gravity.CENTER, 0, 0);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(layout);
+        builder.setTitle("First dialog");
+        orientationDialog = builder.show();
     }
 
     private int findCheckRadioButtonId() {
@@ -144,31 +139,32 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
     }
 
     public void onSystemClick(View view) {
-        handleOnClick(ActionCode.SET_SCREEN_ORIENTATION_SYSTEM);
+        handleOrientationChange(ActionCode.SET_SCREEN_ORIENTATION_SYSTEM);
     }
 
     public void onDeviceOrientationSensetive(View view) {
-        handleOnClick(ActionCode.SET_SCREEN_ORIENTATION_SENSOR);
+        handleOrientationChange(ActionCode.SET_SCREEN_ORIENTATION_SENSOR);
     }
 
     public void onPortrait(View view) {
-        handleOnClick(ActionCode.SET_SCREEN_ORIENTATION_PORTRAIT);
+        handleOrientationChange(ActionCode.SET_SCREEN_ORIENTATION_PORTRAIT);
     }
 
     public void onLandscape(View view) {
-        handleOnClick(ActionCode.SET_SCREEN_ORIENTATION_LANDSCAPE);
+        handleOrientationChange(ActionCode.SET_SCREEN_ORIENTATION_LANDSCAPE);
     }
 
     public void onReversePortrait(View view) {
-        handleOnClick(ActionCode.SET_SCREEN_ORIENTATION_REVERSE_PORTRAIT);
+        handleOrientationChange(ActionCode.SET_SCREEN_ORIENTATION_REVERSE_PORTRAIT);
     }
 
     public void onReverseLandscape(View view) {
-        handleOnClick(ActionCode.SET_SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+        handleOrientationChange(ActionCode.SET_SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
     }
 
-    private void handleOnClick(String actionId) {
+    private void handleOrientationChange(String actionId) {
         ZLApplication.Instance().doAction(actionId);
+        orientationDialog.dismiss();
     }
 
     private void addCurrentOpenBookToFavorites() {
@@ -270,12 +266,6 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
 
             if (menuItemId == R.id.drawer_item_delete_book)
                 deleteCurrentBook();
-
-            if (menuItemId == R.id.drawer_item_navigate_to_page)
-                ZLApplication.Instance().doAction(ActionCode.ACCESSIBLE_NAVIGATION);
-
-            if (menuItemId == R.id.drawer_item_bookmarks)
-                ZLApplication.Instance().doAction(ActionCode.SHOW_BOOKMARKS);
 
             mDrawerLayout.closeDrawers();
 
