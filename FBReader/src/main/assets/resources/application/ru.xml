@@ -525,7 +525,7 @@
 				</node>
 			</node>
 			<node name="about" value="О программе FBReader">
-				<node name="summary" value="Версия, контакты"/>
+				<node name="summary" value=""/>
 				<node name="version" value="Версия"/>
 				<node name="site" value="Наш веб-сайт">
 					<node name="url" value="http://www.fbreader.ru/"/>

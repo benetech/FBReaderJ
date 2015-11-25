@@ -1,9 +1,9 @@
 package org.geometerplus.android.fbreader;
 
-import android.content.pm.PackageManager;
-import android.util.Log;
-import android.widget.Toast;
+import android.content.Intent;
 
+import org.geometerplus.android.fbreader.preferences.AboutGoReadPreference;
+import org.geometerplus.android.fbreader.preferences.PreferenceActivity;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
 /**
@@ -16,16 +16,11 @@ public class ShowAboutGoReadAction extends FBAndroidAction {
     }
 
     @Override
-    protected void run(Object... params) {
-        final PackageManager packageManager = getBaseActivity().getPackageManager();
-        if (packageManager != null) {
-            try {
-                android.content.pm.PackageInfo packageInfo = packageManager.getPackageInfo(getBaseActivity().getPackageName(), 0);
-                Toast toast = Toast.makeText(getBaseActivity(), "Version " + packageInfo.versionName, Toast.LENGTH_LONG);
-                toast.show();
-            } catch (Exception e) {
-                Log.e("ShowAboutGoReadAction", e.getMessage(), e);
-            }
+    protected void run(Object ... params) {
+        final Intent intent = new Intent(getBaseActivity().getApplicationContext(), AboutGoReadPreference.class);
+        if (params.length == 1 && params[0] instanceof String) {
+            intent.putExtra(PreferenceActivity.SCREEN_KEY, (String)params[0]);
         }
+        getBaseActivity().startActivityForResult(intent, FBReader.REPAINT_CODE);
     }
 }

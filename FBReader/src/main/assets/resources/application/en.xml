@@ -523,7 +523,7 @@
 				</node>
 			</node>
 			<node name="about" value="About Go Read">
-				<node name="summary" value="Version info, contacts"/>
+				<node name="summary" value=""/>
 				<node name="version" value="Version"/>
 				<node name="site" value="Visit our website">
 					<node name="url" value="http://www.bookshare.org/"/>

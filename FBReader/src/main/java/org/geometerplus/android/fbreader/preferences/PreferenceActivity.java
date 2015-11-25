@@ -282,16 +282,6 @@ public class PreferenceActivity extends ZLPreferenceActivity {
             final Screen tipsScreen = createPreferenceScreen("tips");
             tipsScreen.addOption(TipsManager.Instance().ShowTipsOption, "showTips");
         }
-		final Screen aboutScreen = createPreferenceScreen("about");
-		aboutScreen.addPreference(new InfoPreference(
-			this,
-			aboutScreen.Resource.getResource("version").getValue(),
-			androidLibrary.getFullVersionName()
-		));
-		aboutScreen.addPreference(new UrlPreference(this, aboutScreen.Resource, "site"));
-		aboutScreen.addPreference(new UrlPreference(this, aboutScreen.Resource, "email"));
-		aboutScreen.addPreference(new UrlPreference(this, aboutScreen.Resource, "twitter"));
-		aboutScreen.addPreference(new UrlPreference(this, aboutScreen.Resource, "forum"));
 	}
 
     @Override
