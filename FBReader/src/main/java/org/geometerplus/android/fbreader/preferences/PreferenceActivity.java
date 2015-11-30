@@ -41,23 +41,16 @@ import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
 public class PreferenceActivity extends ZLPreferenceActivity {
     
-    private AccessibilityManager accessibilityManager;
-    
 	public PreferenceActivity() {
 		super("Preferences");
 	}
 
 	@Override
 	protected void init(Intent intent) {
-
-        accessibilityManager =
-            (AccessibilityManager) getApplicationContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
-        
 		final FBReaderApp fbReader = (FBReaderApp)FBReaderApp.Instance();
 		final ZLAndroidLibrary androidLibrary = (ZLAndroidLibrary)ZLAndroidLibrary.Instance();
 		final ColorProfile profile = fbReader.getColorProfile();
 
-        if (!accessibilityManager.isEnabled()) {
 		    final Screen appearanceScreen = createPreferenceScreen("appearance");
 
             appearanceScreen.addPreference(new ZLStringChoicePreference(
@@ -281,7 +274,6 @@ public class PreferenceActivity extends ZLPreferenceActivity {
 
             final Screen tipsScreen = createPreferenceScreen("tips");
             tipsScreen.addOption(TipsManager.Instance().ShowTipsOption, "showTips");
-        }
 	}
 
     @Override
