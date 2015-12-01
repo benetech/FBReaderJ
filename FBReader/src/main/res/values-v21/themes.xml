@@ -5,6 +5,5 @@
                 <item name="android:windowActionBar">false</item>
                 <item name="colorPrimary">@color/navigation_bar_color</item>
                 <item name="colorPrimaryDark">@color/navigation_bar_color</item>
-                <item name="android:colorBackground">@color/navigation_bar_color</item>
         </style>
 </resources>
