@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-        <style name="MyAppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <style name="MyAppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
                 <item name="colorPrimaryDark">@color/navigation_bar_color</item>
                 <item name="colorPrimary">@color/navigation_bar_color</item>
         </style>

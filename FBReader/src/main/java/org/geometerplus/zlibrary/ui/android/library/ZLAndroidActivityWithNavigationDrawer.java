@@ -9,6 +9,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,6 +38,7 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationMenu;
     private AlertDialog orientationDialog;
+    private Toolbar toolbar;
 
     @Override
     public void onCreate(Bundle state) {
@@ -47,11 +49,11 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationMenu = (NavigationView) findViewById(R.id.navigation_view);
         mNavigationMenu.setNavigationItemSelectedListener(new OnNavigationItemSelectedHandler());
-        mDrawerToggle = new ActionBarDrawerToggleHandler(this, mDrawerLayout, R.string.drawer_open, R.string.drawer_close);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        mDrawerToggle = new ActionBarDrawerToggleHandler(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
 		mDrawerToggle.syncState();
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -216,8 +218,8 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
 
     private class ActionBarDrawerToggleHandler extends ActionBarDrawerToggle{
 
-        public ActionBarDrawerToggleHandler(ZLAndroidActivityWithNavigationDrawer zlAndroidActivityWithActionBar, DrawerLayout mDrawerLayout, int drawer_open, int drawer_close) {
-            super(zlAndroidActivityWithActionBar, mDrawerLayout, drawer_open, drawer_close);
+        public ActionBarDrawerToggleHandler(ZLAndroidActivityWithNavigationDrawer zlAndroidActivityWithActionBar, DrawerLayout mDrawerLayout, Toolbar toolbar, int drawer_open, int drawer_close) {
+            super(zlAndroidActivityWithActionBar, mDrawerLayout, toolbar, drawer_open, drawer_close);
         }
 
         public void onDrawerClosed(View view) {
