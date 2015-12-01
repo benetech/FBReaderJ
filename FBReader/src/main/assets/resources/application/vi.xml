@@ -380,7 +380,7 @@
 				<node name="leftIndent" value="Lùi Trái"/>
 				<node name="rightIndent" value="Lùi Phải"/>
 			</node>
-			<node name="colors" value="Colors &amp; wallpapers" toBeTranslated="true">
+			<node name="colors" value="Colors" toBeTranslated="true">
 				<node name="summary" value="Color settings"/>
 				<node name="backgroundColor" value="Background color" toBeTranslated="true"/>
 				<node name="selectionBackground" value="Nền Phần chọn"/>

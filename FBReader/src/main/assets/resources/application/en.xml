@@ -395,7 +395,7 @@
 				<node name="leftIndent" value="Left Indent"/>
 				<node name="rightIndent" value="Right Indent"/>
 			</node>
-			<node name="colors" value="Colors &amp; wallpapers">
+			<node name="colors" value="Colors">
 				<node name="summary" value="Color settings"/>
 				<node name="backgroundColor" value="Background color"/>
 				<node name="selectionBackground" value="Selection background"/>
