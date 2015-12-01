@@ -111,7 +111,7 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(layout);
-        builder.setTitle("First dialog");
+        builder.setTitle("Screen Orientation");
         orientationDialog = builder.show();
     }
 
