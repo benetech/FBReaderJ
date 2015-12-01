@@ -531,7 +531,7 @@ public class FBReader extends ZLAndroidActivity {
         final Book currentBook = Library.getRecentBook();
         
         if (currentBook != null) {
-            setTitle(getResources().getString(R.string.app_name) + " - " + currentBook.getTitle());
+            setTitle(currentBook.getTitle());
         }
     }
 
