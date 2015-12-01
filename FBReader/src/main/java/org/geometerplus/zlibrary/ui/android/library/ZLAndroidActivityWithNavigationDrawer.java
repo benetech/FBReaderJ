@@ -205,12 +205,12 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
         FBReaderApp fbReader =  (FBReaderApp) FBReaderApp.Instance();
         Book currentOpenBook = fbReader.Model.Book;
         Library.Instance().removeBook(currentOpenBook, Library.REMOVE_FROM_DISK);
-        Book previousBook = Library.getPreviousBook();
-        if (previousBook != null) {
-            fbReader.openBook(previousBook, null);
-        } else {
-            ZLApplication.Instance().doAction(ActionCode.SHOW_HELP);
-        }
+        postDeleteBook();
+    }
+
+    private void postDeleteBook() {
+        ZLApplication.Instance().doAction(ActionCode.SHOW_HELP);
+        ZLApplication.Instance().doAction(ActionCode.SHOW_LIBRARY);
     }
 
     protected void preDeleteBookWork() {
