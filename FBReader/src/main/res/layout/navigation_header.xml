@@ -16,6 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:contentDescription="@string/content_description_navigation_drawer_title"
-        android:text="@string/navigation_drawer_title"/>
+        android:text="@string/navigation_drawer_title"
+        android:textColor="@color/tool_bar_text_color"
+        />
 
 </LinearLayout>
