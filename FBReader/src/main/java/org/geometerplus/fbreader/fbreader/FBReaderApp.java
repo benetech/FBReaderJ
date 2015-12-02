@@ -19,25 +19,32 @@
 
 package org.geometerplus.fbreader.fbreader;
 
-import java.util.*;
+import android.app.Activity;
 
 import org.geometerplus.android.util.UIUtil;
+import org.geometerplus.fbreader.bookmodel.BookModel;
+import org.geometerplus.fbreader.bookmodel.TOCTree;
+import org.geometerplus.fbreader.library.Author;
+import org.geometerplus.fbreader.library.Book;
+import org.geometerplus.fbreader.library.Bookmark;
+import org.geometerplus.fbreader.library.Library;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
+import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
+import org.geometerplus.zlibrary.core.options.ZLBooleanOption;
+import org.geometerplus.zlibrary.core.options.ZLColorOption;
+import org.geometerplus.zlibrary.core.options.ZLEnumOption;
+import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
+import org.geometerplus.zlibrary.core.options.ZLStringOption;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
-import org.geometerplus.zlibrary.core.filesystem.*;
-import org.geometerplus.zlibrary.core.application.*;
-import org.geometerplus.zlibrary.core.options.*;
 import org.geometerplus.zlibrary.core.util.ZLColor;
-
 import org.geometerplus.zlibrary.text.hyphenation.ZLTextHyphenator;
 import org.geometerplus.zlibrary.text.view.ZLTextWordCursor;
 
-import org.geometerplus.fbreader.bookmodel.BookModel;
-import org.geometerplus.fbreader.bookmodel.TOCTree;
-import org.geometerplus.fbreader.library.*;
-import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
-
-import android.app.Activity;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 public final class FBReaderApp extends ZLApplication {
 	public final ZLBooleanOption AllowScreenBrightnessAdjustmentOption =
