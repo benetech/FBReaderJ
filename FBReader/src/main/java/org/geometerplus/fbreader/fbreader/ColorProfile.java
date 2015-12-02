@@ -101,7 +101,7 @@ public class ColorProfile {
 				createOption(name, "FooterFillOption", 85, 85, 85);
 		} else {
 			WallpaperOption =
-				new ZLStringOption("Colors", name + ":Wallpaper", "wallpapers/sepia.jpg");
+				new ZLStringOption("Colors", name + ":Wallpaper", "");
 			BackgroundOption =
 				createOption(name, "Background", 255, 255, 255);
 			SelectionBackgroundOption =
