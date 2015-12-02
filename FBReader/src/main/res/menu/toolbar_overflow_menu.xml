@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_item_settings"
+        android:title="@string/menu_item_settings" />
+
+    <item android:id="@+id/menu_item_help"
+        android:title="@string/menu_item_help" />
+
+    <item android:id="@+id/menu_item_about_goread"
+        android:title="@string/menu_item_about_goread" />
+
+    <item android:id="@+id/menu_item_login_bookshare"
+        android:title="@string/menu_item_login_bookshare"/>
+
+    <item android:id="@+id/menu_item_logout_bookshare"
+        android:title="@string/menu_item_logout_bookshare"/>
+</menu>

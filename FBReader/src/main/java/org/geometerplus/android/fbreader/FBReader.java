@@ -29,6 +29,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -252,7 +253,7 @@ public class FBReader extends ZLAndroidActivity {
     		ArrayList<String> ids = new ArrayList<String>();
     		final ArrayList<PeriodicalEntity> entities = new ArrayList<PeriodicalEntity>();
     		entities.addAll(dataSource.getAllEntities(db,
-    				PeriodicalsSQLiteHelper.TABLE_SUBSCRIBED_PERIODICALS));
+					PeriodicalsSQLiteHelper.TABLE_SUBSCRIBED_PERIODICALS));
     		for (PeriodicalEntity entity : entities) {
     			ids.add(entity.getId());
     		}
@@ -288,14 +289,18 @@ public class FBReader extends ZLAndroidActivity {
 			getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		}
 
-		enableBookshareLogoutMenuItem(menu);
+		changeLoginState(menu);
 
 		return super.onPrepareOptionsMenu(menu);
 	}
 
-	private void enableBookshareLogoutMenuItem(Menu menu) {
-		MenuItem logoutMenuItem = menu.findItem(R.id.network_register_login);
-		logoutMenuItem.setEnabled(isLoggedintoBookshare());
+	private void changeLoginState(Menu menu) {
+		MenuItem loginMenuItem = menu.findItem(R.id.menu_item_login_bookshare);
+		MenuItem logoutMenuItem = menu.findItem(R.id.menu_item_logout_bookshare);
+
+		final boolean isLoggedintoBookshare = isLoggedintoBookshare();
+		loginMenuItem.setVisible(!isLoggedintoBookshare);
+		logoutMenuItem.setVisible(isLoggedintoBookshare);
 	}
 
 	private boolean isLoggedintoBookshare() {
@@ -326,7 +331,31 @@ public class FBReader extends ZLAndroidActivity {
 		if (!zlibrary.isKindleFire() && !zlibrary.ShowStatusBarOption.getValue()) {
 			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 		}
+
+		String action = findActionForMenuItem(item.getItemId());
+		ZLApplication.Instance().doAction(action);
+
 		return super.onOptionsItemSelected(item);
+	}
+
+	@NonNull
+	private String findActionForMenuItem(int itemId) {
+		if (itemId == R.id.menu_item_settings)
+			return ActionCode.SHOW_PREFERENCES;
+
+		if (itemId == R.id.menu_item_help)
+			return ActionCode.SHOW_HELP;
+
+		if (itemId == R.id.menu_item_about_goread)
+			return ActionCode.ABOUT_GOREAD;
+
+		if (itemId == R.id.menu_item_logout_bookshare)
+			return ActionCode.LOGOUT_BOOKSHARE;
+
+		if (itemId == R.id.menu_item_login_bookshare)
+			return ActionCode.BOOKSHARE;
+
+		return "";
 	}
 
 	@Override
@@ -560,6 +589,11 @@ public class FBReader extends ZLAndroidActivity {
 		application.myMainWindow.addMenuItem(menu, itemId, actionId, null, null);
 	}
 
+	private void addMenuItem(Menu menu, int itemId, String actionId, String name) {
+		final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
+		application.myMainWindow.addMenuItem(menu, itemId, actionId, null, name);
+	}
+
 	private void addMenuItem(Menu menu, String actionId, String name, int iconId) {
     		final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
     		application.myMainWindow.addMenuItem(menu, actionId, iconId, name);
@@ -568,24 +602,18 @@ public class FBReader extends ZLAndroidActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.toolbar_overflow_menu, menu);
 
-		addMenuItem(menu, ActionCode.SHOW_PREFERENCES);
-        addMenuItem(menu, ActionCode.SHOW_HELP);
 		synchronized (myPluginActions) {
 			int index = 0;
 			for (PluginApi.ActionInfo info : myPluginActions) {
 				if (info instanceof PluginApi.MenuActionInfo) {
-					addMenuItem(
-						menu,
-						PLUGIN_ACTION_PREFIX + index++,
-						((PluginApi.MenuActionInfo)info).MenuItemName
-					);
+					addMenuItem(menu, PLUGIN_ACTION_PREFIX + index++, ((PluginApi.MenuActionInfo)info).MenuItemName);
 				}
 			}
 		}
 
-		addMenuItem(menu, ActionCode.ABOUT_GOREAD);
-		addMenuItem(menu, R.id.network_register_login, ActionCode.LOGOUT_BOOKSHARE);
+		changeLoginState(menu);
 
 		final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
 		application.myMainWindow.refreshMenu();
