@@ -16,7 +16,7 @@
     <string name="login_dialog_password_label">Password</string>
     <string name="login_dialog_reset_button">Reset</string>
     <string name="login_dialog_skip_login_button">Continue without logging in</string>
-    <string name="login_dialog_username_label">Bookshare Email</string>
+    <string name="login_dialog_username_label">Bookshare Email or Username</string>
 	<string name="login_error_non_blank_password">Password field cannot be blank!</string>
 	<string name="login_error_non_blank_password_and_username">Username/Password field cannot be blank!</string>
 	<string name="login_error_non_blank_username">Username field cannot be blank!</string>
