@@ -2,7 +2,7 @@
 <FictionBook xmlns="http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:l="http://www.w3.org/1999/xlink"><description><title-info><author><last-name>Bookshare</last-name></author> <book-title>Go Read &FBReaderVersion; Quick Start</book-title> <lang>en</lang></title-info></description>
 <body>
 <p>Welcome to Go Read</p>
-<p>Go Read has been updated to make reading easier and more consistent with Android OS 5.0 and later.  If you have used the older version of Go Read, please refer to the <a href=“https://www.bookshare.org/cms/help-center/reading-tools/goread”> What’s New in Go Read</a> for a list of differences.</p>
+<p>Go Read has been updated to make reading easier and more consistent with Android OS 5.0 and later.  If you have used the older version of Go Read, please refer to What’s New on the Go Read page found in the Bookshare Help Center for a list of differences.</p>
 
 <p>These are some quick tips on how to use this reader.  Select the play button in the Play Bar at the bottom of the page to activate the text-to-speech reader.  While listening to a book, you may press the previous button to go back a paragraph, the pause button to pause the TTS reading, or the forward button to go forward a paragraph.  Tap on right edge or swipe from right to left on the text to turn the page.  Tap on left edge or swipe from left to right on the text to go back a page.  These gestures only work in the screen where the book is displayed.</p>
 
