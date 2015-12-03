@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" 
     package="org.benetech.android" 
-    android:versionCode="48"
-    android:versionName="4.1.0_48"
+    android:versionCode="49"
+    android:versionName="4.1.0_49"
     android:installLocation="auto">
 	
 	<uses-sdk 
