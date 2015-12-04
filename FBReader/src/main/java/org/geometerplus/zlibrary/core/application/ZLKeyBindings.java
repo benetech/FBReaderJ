@@ -70,7 +70,7 @@ public final class ZLKeyBindings {
 		}
 
 		final ZLBooleanOption volumeKeysOption =
-			new ZLBooleanOption("Scrolling", "VolumeKeys", true);
+			new ZLBooleanOption("Scrolling", "VolumeKeys", false);
 		final ZLBooleanOption invertVolumeKeysOption =
 			new ZLBooleanOption("Scrolling", "InvertVolumeKeys", false);
 		if (!volumeKeysOption.getValue()) {
