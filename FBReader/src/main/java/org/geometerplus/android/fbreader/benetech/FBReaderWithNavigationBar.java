@@ -514,20 +514,16 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         for (TtsSentenceExtractor.SentenceIndex mySentence : mySentences) {
             sentenceList.add(mySentence.s);
         }
+
         final Iterator<String> sentenceIterator = sentenceList.iterator();
 
         String currentSentence;
         int sentenceNumber = 0;
         int numWordIndices = sentenceList.size();
 
-        if (isPaused()) {                    // on returning from setIsPaused, iterate to the last sentence spoken
+        if (isPaused()) {
             enablePauseButton();
             setIsPlaying();
-            for (int i = 1; i< myCurrentSentence; i++) {
-                if (sentenceIterator.hasNext()) {
-                    sentenceIterator.next();
-                }
-            }
             if (myCurrentSentence > 1 && numWordIndices > myCurrentSentence) {
                 sentenceNumber = myCurrentSentence - 1;
                 highlightSentence(myCurrentSentence + 1);
