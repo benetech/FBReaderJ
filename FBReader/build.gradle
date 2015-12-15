@@ -20,10 +20,10 @@ android {
                 Properties signingProperties = new Properties ()
                 signingProperties.load ( new FileInputStream (rootProject.file ( "sign.properties") ) )
 
-                android.signingConfigs.release.storeFile file( signingProperties.store_file_name )
-                android.signingConfigs.release.storePassword signingProperties.storePassword
+                android.signingConfigs.release.storeFile file( signingProperties.key.store )
+                android.signingConfigs.release.storePassword signingProperties.key.store.password
                 android.signingConfigs.release.keyAlias signingProperties.alias
-                android.signingConfigs.release.keyPassword signingProperties.keyPassword
+                android.signingConfigs.release.keyPassword signingProperties.key.alias.password
 
 
                 System.println("-------------------------------------filee = " + android.signingConfigs.release.storeFile)
