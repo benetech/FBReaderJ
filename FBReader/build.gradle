@@ -14,6 +14,33 @@ android {
         ndk {
             moduleName "DeflatingDecompressor-v2"
         }
+
+        signingConfigs {
+            release {
+                Properties signingProperties = new Properties ()
+                signingProperties.load ( new FileInputStream (rootProject.file ( "sign.properties") ) )
+
+                android.signingConfigs.release.storeFile file( signingProperties.store_file_name )
+                android.signingConfigs.release.storePassword signingProperties.storePassword
+                android.signingConfigs.release.keyAlias signingProperties.alias
+                android.signingConfigs.release.keyPassword signingProperties.keyPassword
+
+
+                System.println("-------------------------------------filee = " + android.signingConfigs.release.storeFile)
+                System.println("-------------------------------------sPass = " + android.signingConfigs.release.storePassword)
+                System.println("-------------------------------------alias = " + android.signingConfigs.release.keyAlias)
+                System.println("-------------------------------------kPass = " + android.signingConfigs.release.keyPassword)
+            }
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles 'proguard.cfg'
+                signingConfig signingConfigs.release
+            }
+        }
+
     }
 
     packagingOptions {
@@ -21,17 +48,9 @@ android {
         exclude 'META-INF/NOTICE.txt'
     }
 
-    buildTypes {
-        release {
-
-            lintOptions {
-                checkReleaseBuilds false
-                abortOnError false
-            }
-
-            minifyEnabled false
-            proguardFiles 'proguard.cfg'
-        }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 
     sourceSets.main {
