@@ -38,6 +38,8 @@ android {
                 System.println("-------------------------------------alias = " + android.signingConfigs.release.keyAlias)
                 System.println("-------------------------------------sPass = " + android.signingConfigs.release.storePassword)
                 System.println("-------------------------------------kPass = " + android.signingConfigs.release.keyPassword)
+                System.println("-------------------------------------buildID = " + System.getProperty("BUILD_NUMBER"))
+                System.println("-------------------------------------buildID = " + System.getenv("BUILD_NUMBER"))
             }
         }
 
