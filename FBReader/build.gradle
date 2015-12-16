@@ -5,10 +5,19 @@ android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
+    project.ext.set("versionMajor", "4")
+    project.ext.set("versionMinor", "1")
+    project.ext.set("versionBuild","51")
+    project.ext.set("appName", "GoRead")
+
+    def version = "${versionMajor}.${versionMinor}.${versionBuild}"
+
     defaultConfig {
         applicationId "org.benetech.android.fbreader"
         minSdkVersion 14
         targetSdkVersion 21
+        versionCode = project.ext.get("versionBuild").toInteger()
+        versionName = project.ext.get("appName") + " " + "${version}"
         multiDexEnabled true
 
         ndk {
@@ -41,6 +50,8 @@ android {
         }
 
     }
+
+    project.archivesBaseName = project.ext.get("appName") + "-" + "${version}"
 
     productFlavors {
         x86 {
