@@ -33,13 +33,6 @@ android {
                 android.signingConfigs.release.keyAlias signingProperties.keyAlias
                 android.signingConfigs.release.storePassword signingProperties.keyStorePassword
                 android.signingConfigs.release.keyPassword signingProperties.keyAliasPassword
-
-                System.println("-------------------------------------filee = " + android.signingConfigs.release.storeFile)
-                System.println("-------------------------------------alias = " + android.signingConfigs.release.keyAlias)
-                System.println("-------------------------------------sPass = " + android.signingConfigs.release.storePassword)
-                System.println("-------------------------------------kPass = " + android.signingConfigs.release.keyPassword)
-                System.println("-------------------------------------buildID = " + System.getProperty("BUILD_NUMBER"))
-                System.println("-------------------------------------buildID = " + System.getenv("BUILD_NUMBER"))
             }
         }
 
