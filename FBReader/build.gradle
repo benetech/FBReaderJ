@@ -7,16 +7,16 @@ android {
 
     project.ext.set("versionMajor", "4")
     project.ext.set("versionMinor", "1")
-    project.ext.set("versionBuild","52")
+    project.ext.set("versionCode","52")
     project.ext.set("appName", "GoRead")
 
-    def version = "${versionMajor}.${versionMinor}.${versionBuild}"
+    def version = "${versionMajor}.${versionMinor}.${versionCode}"
 
     defaultConfig {
         applicationId "org.benetech.android.fbreader"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode = project.ext.get("versionBuild").toInteger()
+        versionCode = project.ext.get("versionCode").toInteger()
         versionName = project.ext.get("appName") + " " + "${version}"
         multiDexEnabled true
 
@@ -53,7 +53,11 @@ android {
 
     }
 
-    project.archivesBaseName = project.ext.get("appName") + "-" + "${version}"
+    def apkFileName = project.ext.get("appName") + "-" + "${version}"
+    if (System.getenv("BUILD_NUMBER"))
+        apkFileName =  project.ext.get("appName") + "-" + "${version}_" + System.getenv("BUILD_NUMBER")
+
+    project.archivesBaseName = apkFileName
 
     productFlavors {
         x86 {
