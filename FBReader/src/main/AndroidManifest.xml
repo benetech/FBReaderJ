@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" 
     package="org.benetech.android" 
     android:versionCode="51"
-    android:versionName="4.1.0_51"
+    android:versionName="5.2.13"
     android:installLocation="auto">
 	
 	<uses-sdk 
