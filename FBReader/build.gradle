@@ -17,7 +17,7 @@ android {
     def version = "${versionMajor}.${versionMinor}.${versionRevision}"
 
     defaultConfig {
-        applicationId "org.benetech.android.fbreader"
+        applicationId "org.benetech.android"
         minSdkVersion 14
         targetSdkVersion 21
         versionCode = project.ext.get("versionCode").toInteger()
