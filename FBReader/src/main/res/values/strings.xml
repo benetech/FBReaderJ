@@ -164,6 +164,14 @@
     <string name="tab_label_page">Page</string>
     <string name="tab_label_bookmark">Bookmark</string>
 
+    <string name="content_description_copy">Copy selected text</string>
+    <string name="content_description_share">Share selected text</string>
+    <string name="content_description_translate">Translate selected text</string>
+    <string name="content_description_bookmark">Bookmark selected text</string>
+    <string name="content_description_clear">Clear selection</string>
+    <string name="content_description_find_previous">Find previous</string>
+    <string name="content_description_clear_search_results">clear_search_results</string>
+    <string name="content_description_find_next">Find Next</string>
     <string name="content_description_play">play</string>
     <string name="content_description_pause">pause</string>
     <string name="navigation_drawer_title">Bookshare</string>

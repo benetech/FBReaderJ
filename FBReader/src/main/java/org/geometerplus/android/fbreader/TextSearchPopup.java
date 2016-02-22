@@ -52,8 +52,8 @@ final class TextSearchPopup extends ButtonsPopupPanel {
 
 		myWindow = new PopupWindow(activity, root, location, false);
 
-		addButton(ActionCode.FIND_PREVIOUS, false, R.drawable.text_search_previous);
-		addButton(ActionCode.CLEAR_FIND_RESULTS, true, R.drawable.text_search_close);
-		addButton(ActionCode.FIND_NEXT, false, R.drawable.text_search_next);
+		addButton(ActionCode.FIND_PREVIOUS, false, R.drawable.text_search_previous, R.string.content_description_find_previous);
+		addButton(ActionCode.CLEAR_FIND_RESULTS, true, R.drawable.text_search_close, R.string.content_description_clear_search_results);
+		addButton(ActionCode.FIND_NEXT, false, R.drawable.text_search_next, R.string.content_description_find_next);
 	}
 }

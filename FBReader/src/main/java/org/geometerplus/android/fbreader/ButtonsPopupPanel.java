@@ -45,11 +45,12 @@ abstract class ButtonsPopupPanel extends PopupPanel implements View.OnClickListe
 		super(fbReader);
 	}
 
-	protected void addButton(String actionId, boolean isCloseButton, int imageId) {
+	protected void addButton(String actionId, boolean isCloseButton, int imageId, int contentDescriptionId) {
 		final ActionButton button = new ActionButton(myWindow.getContext(), actionId, isCloseButton);
 		button.setImageResource(imageId);
 		myWindow.addView(button);
 		button.setOnClickListener(this);
+		button.setContentDescription(myWindow.getContext().getString(contentDescriptionId));
 		myButtons.add(button);
 	}
 

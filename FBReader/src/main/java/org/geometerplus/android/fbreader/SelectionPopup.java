@@ -47,11 +47,11 @@ class SelectionPopup extends ButtonsPopupPanel {
 
 		myWindow = new PopupWindow(activity, root, location, false);
 
-        addButton(ActionCode.SELECTION_COPY_TO_CLIPBOARD, true, R.drawable.selection_copy);
-        addButton(ActionCode.SELECTION_SHARE, true, R.drawable.selection_share);
-        addButton(ActionCode.SELECTION_TRANSLATE, true, R.drawable.selection_translate);
-        addButton(ActionCode.SELECTION_BOOKMARK, true, R.drawable.selection_bookmark);
-        addButton(ActionCode.SELECTION_CLEAR, true, R.drawable.selection_close);
+        addButton(ActionCode.SELECTION_COPY_TO_CLIPBOARD, true, R.drawable.selection_copy, R.string.content_description_copy);
+        addButton(ActionCode.SELECTION_SHARE, true, R.drawable.selection_share, R.string.content_description_share);
+        addButton(ActionCode.SELECTION_TRANSLATE, true, R.drawable.selection_translate, R.string.content_description_translate);
+        addButton(ActionCode.SELECTION_BOOKMARK, true, R.drawable.selection_bookmark, R.string.content_description_bookmark);
+        addButton(ActionCode.SELECTION_CLEAR, true, R.drawable.selection_close, R.string.content_description_clear);
     }
     
     public void move(int selectionStartY, int selectionEndY) {
