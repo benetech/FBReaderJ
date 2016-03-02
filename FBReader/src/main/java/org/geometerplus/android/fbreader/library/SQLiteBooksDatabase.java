@@ -42,6 +42,7 @@ import org.geometerplus.android.util.SQLiteUtil;
 public final class SQLiteBooksDatabase extends BooksDatabase {
 	private final String myInstanceId;
 	private final SQLiteDatabase myDatabase;
+	public static final int currentVersion = 19;
 
 	public SQLiteBooksDatabase(Context context, String instanceId) {
 		myInstanceId = instanceId;
@@ -69,8 +70,7 @@ public final class SQLiteBooksDatabase extends BooksDatabase {
 	}
 
 	private void migrate(Context context) {
-		final int version = myDatabase.getVersion();
-		final int currentVersion = 18;
+		final int version = getDatabaseVersion();
 		if (version >= currentVersion) {
 			return;
 		}
@@ -115,6 +115,8 @@ public final class SQLiteBooksDatabase extends BooksDatabase {
 						updateTables16();
 					case 17:
 						updateTables17();
+					case 18:
+						updateTables18();
 				}
 				myDatabase.setTransactionSuccessful();
 				myDatabase.endTransaction();
@@ -123,6 +125,10 @@ public final class SQLiteBooksDatabase extends BooksDatabase {
 				myDatabase.setVersion(currentVersion);
 			}
 		}, context);
+	}
+
+	public int getDatabaseVersion() {
+		return myDatabase.getVersion();
 	}
 
 	@Override
@@ -925,7 +931,6 @@ public final class SQLiteBooksDatabase extends BooksDatabase {
 		return links;
 	}
 
-
 	private void createTables() {
 		myDatabase.execSQL(
 			"CREATE TABLE Books(" +
@@ -1235,5 +1240,17 @@ public final class SQLiteBooksDatabase extends BooksDatabase {
 				"access_time INTEGER NOT NULL," +
 				"pages_full INTEGER NOT NULL," +
 				"page_current INTEGER NOT NULL)");
+	}
+
+	private void updateTables18() {
+		myDatabase.execSQL(
+				"CREATE TABLE ReadingLists(" +
+						"reading_list_id INTEGER PRIMARY KEY," +
+						"name TEXT UNIQUE NOT NULL)");
+
+		myDatabase.execSQL(
+				"CREATE TABLE ReadingList(" +
+						"reading_list_id INTEGER NOT NULL REFERENCES ReadingLists(reading_list_id)," +
+						"book_id INTEGER NOT NULL UNIQUE REFERENCES Books(book_id))");
 	}
 }
