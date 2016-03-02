@@ -47,7 +47,7 @@ public class TestSQLiteBooksDatabase  {
 
     private void sleepToAllowDatabaseToFinishMigration() {
         try {
-            Thread.sleep(5000);
+            Thread.sleep(1000);
         } catch (Exception e) {
             fail(e.getMessage());
         }
