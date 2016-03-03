@@ -79,6 +79,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private final static int TTS_INITIALIZED = 2;
     private final static int FULLY_INITIALIZED =  TTS_INITIALIZED;
     private volatile PowerManager.WakeLock myWakeLock;
+    private static final String IS_FIRST_TIME_RUNNING_PREFERENCE_TAG = "first_time_running";
+
 
     static {
         initCompatibility();
@@ -169,6 +171,12 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
         myPreferences = getSharedPreferences("GoReadTTS", MODE_PRIVATE);
 
+        boolean isFirstTimeRunningApp = myPreferences.getBoolean(IS_FIRST_TIME_RUNNING_PREFERENCE_TAG, true);
+        if (isFirstTimeRunningApp) {
+            Log.i(LOG_TAG, "First time GoRead is running after it has been installed");
+            myPreferences.edit().putBoolean(IS_FIRST_TIME_RUNNING_PREFERENCE_TAG, false).commit();
+        }
+
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_USER_PRESENT);
@@ -220,6 +228,10 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private void setCurrentLocation() {
         myParagraphIndex = myApi.getPageStart().ParagraphIndex;
         myParagraphsNumber = myApi.getParagraphsNumber();
+    }
+
+    public static boolean isFirstTimeAppRunning() {
+        return myPreferences.getBoolean(IS_FIRST_TIME_RUNNING_PREFERENCE_TAG, true);
     }
 
     @Override

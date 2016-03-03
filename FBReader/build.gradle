@@ -83,6 +83,10 @@ android {
         jniLibs.srcDir 'src/main/libs'
         jni.srcDirs = [] //disable automatic ndk-build call
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -99,4 +103,8 @@ dependencies {
     compile files('libs/commons-io-2.4.jar')
     compile files('libs/jmdns.jar')
     compile files('libs/zip4j_1.1.7.jar')
+
+    testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.0"
+    testCompile "org.robolectric:shadows-multidex:3.0"
 }
