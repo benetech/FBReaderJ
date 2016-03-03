@@ -2,7 +2,6 @@ package org.geometerplus.android.fbreader.library;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.AsyncTask;
 
 import org.benetech.android.BuildConfig;
 import org.junit.Before;
@@ -14,7 +13,6 @@ import org.robolectric.annotation.Config;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 /**
  * Created by animal@martus.org on 2/29/16.
@@ -25,7 +23,7 @@ import static org.junit.Assert.fail;
 public class TestSQLiteBooksDatabase  {
 
     private Context context;
-    private SQLiteBooksDatabase database;
+    private SQLLiteBooksDatabaseForTesting database;
 
     public TestSQLiteBooksDatabase() {
         super();
@@ -36,20 +34,16 @@ public class TestSQLiteBooksDatabase  {
         Application application = RuntimeEnvironment.application;
         context = application.getApplicationContext();
         assertNotNull("context should not be null?", context);
-        database = new SQLiteBooksDatabase(context, "");
-        sleepToAllowDatabaseToFinishMigration();
+        database = new SQLLiteBooksDatabaseForTesting(context, "");
     }
 
     @Test
-    public void testDatabaseVersionAfterMigration() throws InterruptedException {
+        public void testDatabaseVersionAfterMigration() throws InterruptedException {
         assertEquals("incorrect database version?", SQLiteBooksDatabase.currentVersion, database.getDatabaseVersion());
     }
 
-    private void sleepToAllowDatabaseToFinishMigration() {
-        try {
-            Thread.sleep(1000);
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+    @Test
+    public void testDatabaseMigrationToVersion19() {
+        assertEquals("incorrect database version after migration?", 19, database.getDatabaseVersion());
     }
 }
