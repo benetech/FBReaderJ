@@ -74,6 +74,11 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		if (version >= currentVersion) {
 			return;
 		}
+
+		migrateDatabase(context, version);
+	}
+
+	private void migrateDatabase(Context context, final int version) {
 		UIUtil.wait((version == 0) ? "creatingBooksDatabase" : "updatingBooksDatabase", new Runnable() {
 			public void run() {
 				migrateDatabase(version);
