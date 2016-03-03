@@ -78,15 +78,9 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		migrateDatabase(context, version);
 	}
 
-	private void migrateDatabase(Context context, final int version) {
-		UIUtil.wait((version == 0) ? "creatingBooksDatabase" : "updatingBooksDatabase", new Runnable() {
-			public void run() {
-				migrateDatabase(version);
-			}
-		}, context);
-	}
+	abstract protected void migrateDatabase(Context context, final int version);
 
-	private void migrateDatabase(int version) {
+	protected final void migrateDatabase(int version) {
 		myDatabase.beginTransaction();
 
 		switch (version) {

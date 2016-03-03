@@ -9,4 +9,9 @@ public class SQLLiteBooksDatabaseForTesting extends AbstractSQLiteBooksDatabase 
     public SQLLiteBooksDatabaseForTesting(Context context, String instanceId) {
         super(context, instanceId);
     }
+
+    @Override
+    protected void migrateDatabase(Context context, final int version) {
+        migrateDatabase(version);
+    }
 }
