@@ -19,21 +19,18 @@
 
 package org.geometerplus.android.fbreader.preferences;
 
-import java.util.TreeSet;
-
 import android.content.Context;
 import android.content.Intent;
 
-import org.geometerplus.zlibrary.core.resources.ZLResource;
-import org.geometerplus.zlibrary.core.language.ZLLanguageUtil;
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-
-import org.geometerplus.zlibrary.text.hyphenation.ZLTextHyphenator;
-
-import org.geometerplus.fbreader.library.Book;
-
 import org.geometerplus.android.fbreader.library.BookInfoActivity;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
+import org.geometerplus.fbreader.library.Book;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.core.language.ZLLanguageUtil;
+import org.geometerplus.zlibrary.core.resources.ZLResource;
+import org.geometerplus.zlibrary.text.hyphenation.ZLTextHyphenator;
+
+import java.util.TreeSet;
 
 class BookTitlePreference extends ZLStringPreference {
 	private final Book myBook;
