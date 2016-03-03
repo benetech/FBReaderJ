@@ -76,55 +76,59 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		}
 		UIUtil.wait((version == 0) ? "creatingBooksDatabase" : "updatingBooksDatabase", new Runnable() {
 			public void run() {
-				myDatabase.beginTransaction();
-
-				switch (version) {
-					case 0:
-						createTables();
-					case 1:
-						updateTables1();
-					case 2:
-						updateTables2();
-					case 3:
-						updateTables3();
-					case 4:
-						updateTables4();
-					case 5:
-						updateTables5();
-					case 6:
-						updateTables6();
-					case 7:
-						updateTables7();
-					case 8:
-						updateTables8();
-					case 9:
-						updateTables9();
-					case 10:
-						updateTables10();
-					case 11:
-						updateTables11();
-					case 12:
-						updateTables12();
-					case 13:
-						updateTables13();
-					case 14:
-						updateTables14();
-					case 15:
-						updateTables15();
-					case 16:
-						updateTables16();
-					case 17:
-						updateTables17();
-					case 18:
-						updateTables18();
-				}
-				myDatabase.setTransactionSuccessful();
-				myDatabase.endTransaction();
-
-				myDatabase.execSQL("VACUUM");
-				myDatabase.setVersion(currentVersion);
+				migrateDatabase(version);
 			}
 		}, context);
+	}
+
+	private void migrateDatabase(int version) {
+		myDatabase.beginTransaction();
+
+		switch (version) {
+            case 0:
+                createTables();
+            case 1:
+                updateTables1();
+            case 2:
+                updateTables2();
+            case 3:
+                updateTables3();
+            case 4:
+                updateTables4();
+            case 5:
+                updateTables5();
+            case 6:
+                updateTables6();
+            case 7:
+                updateTables7();
+            case 8:
+                updateTables8();
+            case 9:
+                updateTables9();
+            case 10:
+                updateTables10();
+            case 11:
+                updateTables11();
+            case 12:
+                updateTables12();
+            case 13:
+                updateTables13();
+            case 14:
+                updateTables14();
+            case 15:
+                updateTables15();
+            case 16:
+                updateTables16();
+            case 17:
+                updateTables17();
+            case 18:
+                updateTables18();
+        }
+		myDatabase.setTransactionSuccessful();
+		myDatabase.endTransaction();
+
+		myDatabase.execSQL("VACUUM");
+		myDatabase.setVersion(currentVersion);
 	}
 
 	public int getDatabaseVersion() {
