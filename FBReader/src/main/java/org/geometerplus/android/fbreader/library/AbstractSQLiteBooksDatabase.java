@@ -81,7 +81,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 
 	private void migrate(Context context) {
 		final int version = getDatabaseVersion();
-		if (version >= CURRENT_VERSION) {
+		if (version >= CURRENT_DB_VERSION) {
 			return;
 		}
 
@@ -137,7 +137,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		myDatabase.endTransaction();
 
 		myDatabase.execSQL("VACUUM");
-		myDatabase.setVersion(CURRENT_VERSION);
+		myDatabase.setVersion(CURRENT_DB_VERSION);
 	}
 
 	public int getDatabaseVersion() {
