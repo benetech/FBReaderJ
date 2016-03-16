@@ -50,12 +50,10 @@ import java.util.Map;
 import java.util.TreeSet;
 
 abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
-	private final String myInstanceId;
 	private final SQLiteDatabase myDatabase;
 	public static final int CURRENT_DB_VERSION = 19;
 
 	public AbstractSQLiteBooksDatabase(Context context, String instanceId) {
-		myInstanceId = instanceId;
 		myDatabase = context.openOrCreateDatabase("books.db", Context.MODE_PRIVATE, null);
 		migrate(context);
 	}
