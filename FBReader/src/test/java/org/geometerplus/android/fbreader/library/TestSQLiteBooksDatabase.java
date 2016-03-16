@@ -34,7 +34,7 @@ public class TestSQLiteBooksDatabase  {
         Application application = RuntimeEnvironment.application;
         context = application.getApplicationContext();
         assertNotNull("context should not be null?", context);
-        database = new SQLLiteBooksDatabaseForTesting(context, "");
+        database = new SQLLiteBooksDatabaseForTesting(context);
     }
 
     @Test
