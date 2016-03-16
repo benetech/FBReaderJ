@@ -52,7 +52,7 @@ import java.util.TreeSet;
 abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	private final String myInstanceId;
 	private final SQLiteDatabase myDatabase;
-	public static final int currentVersion = 19;
+	public static final int CURRENT_DB_VERSION = 19;
 
 	public AbstractSQLiteBooksDatabase(Context context, String instanceId) {
 		myInstanceId = instanceId;
@@ -81,7 +81,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 
 	private void migrate(Context context) {
 		final int version = getDatabaseVersion();
-		if (version >= currentVersion) {
+		if (version >= CURRENT_VERSION) {
 			return;
 		}
 
@@ -137,7 +137,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		myDatabase.endTransaction();
 
 		myDatabase.execSQL("VACUUM");
-		myDatabase.setVersion(currentVersion);
+		myDatabase.setVersion(CURRENT_VERSION);
 	}
 
 	public int getDatabaseVersion() {

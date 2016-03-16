@@ -39,7 +39,7 @@ public class TestSQLiteBooksDatabase  {
 
     @Test
         public void testDatabaseVersionAfterMigration() throws InterruptedException {
-        assertEquals("incorrect database version?", SQLiteBooksDatabase.currentVersion, database.getDatabaseVersion());
+        assertEquals("incorrect database version?", SQLiteBooksDatabase.CURRENT_VERSION, database.getDatabaseVersion());
     }
 
     @Test
