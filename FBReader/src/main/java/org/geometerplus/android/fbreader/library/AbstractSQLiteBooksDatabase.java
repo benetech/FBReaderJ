@@ -53,7 +53,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	private final SQLiteDatabase myDatabase;
 	public static final int CURRENT_DB_VERSION = 19;
 
-	public AbstractSQLiteBooksDatabase(Context context, String instanceId) {
+	public AbstractSQLiteBooksDatabase(Context context) {
 		myDatabase = context.openOrCreateDatabase("books.db", Context.MODE_PRIVATE, null);
 		migrate(context);
 	}

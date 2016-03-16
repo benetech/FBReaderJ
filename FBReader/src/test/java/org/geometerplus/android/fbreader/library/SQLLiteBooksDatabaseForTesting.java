@@ -7,7 +7,7 @@ import android.content.Context;
  */
 public class SQLLiteBooksDatabaseForTesting extends AbstractSQLiteBooksDatabase {
     public SQLLiteBooksDatabaseForTesting(Context context, String instanceId) {
-        super(context, instanceId);
+        super(context);
     }
 
     @Override

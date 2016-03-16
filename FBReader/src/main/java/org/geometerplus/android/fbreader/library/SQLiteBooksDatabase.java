@@ -10,7 +10,7 @@ import org.geometerplus.android.util.UIUtil;
 public final class SQLiteBooksDatabase extends AbstractSQLiteBooksDatabase {
 
     public SQLiteBooksDatabase(Context context, String instanceId) {
-        super(context, instanceId);
+        super(context);
     }
 
     @Override
