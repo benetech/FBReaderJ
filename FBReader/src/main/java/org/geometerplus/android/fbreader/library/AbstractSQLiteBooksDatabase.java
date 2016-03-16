@@ -19,25 +19,35 @@
 
 package org.geometerplus.android.fbreader.library;
 
-import java.util.*;
-
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.database.SQLException;
-import android.database.Cursor;
 
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-import org.geometerplus.zlibrary.core.options.ZLStringOption;
-import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
-import org.geometerplus.zlibrary.core.config.ZLConfig;
-import org.geometerplus.zlibrary.text.view.ZLTextPosition;
-import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
-
-import org.geometerplus.fbreader.library.*;
-
-import org.geometerplus.android.util.UIUtil;
 import org.geometerplus.android.util.SQLiteUtil;
+import org.geometerplus.fbreader.library.Author;
+import org.geometerplus.fbreader.library.Book;
+import org.geometerplus.fbreader.library.Bookmark;
+import org.geometerplus.fbreader.library.BooksDatabase;
+import org.geometerplus.fbreader.library.FileInfo;
+import org.geometerplus.fbreader.library.FileInfoSet;
+import org.geometerplus.fbreader.library.SeriesInfo;
+import org.geometerplus.fbreader.library.Tag;
+import org.geometerplus.zlibrary.core.config.ZLConfig;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
+import org.geometerplus.zlibrary.core.options.ZLStringOption;
+import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
+import org.geometerplus.zlibrary.text.view.ZLTextPosition;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
 abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	private final String myInstanceId;
