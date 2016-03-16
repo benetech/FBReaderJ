@@ -48,7 +48,6 @@ import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.PluginApi;
 import org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity;
 import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
-import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.KillerCallback;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
@@ -482,7 +481,7 @@ public class FBReader extends ZLAndroidActivity {
 	@Override
 	protected FBReaderApp createApplication(ZLFile file) {
 		if (SQLiteBooksDatabase.Instance() == null) {
-			new SQLiteBooksDatabase(this, "READER");
+			new SQLiteBooksDatabase(this);
 		}
 		return new FBReaderApp(file != null ? file.getPath() : null);
 	}

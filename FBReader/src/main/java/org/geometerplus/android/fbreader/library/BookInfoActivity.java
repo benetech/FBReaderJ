@@ -81,7 +81,7 @@ public class BookInfoActivity extends Activity {
 		myImage = Library.getCover(myFile);
 
 		if (SQLiteBooksDatabase.Instance() == null) {
-			new SQLiteBooksDatabase(this, "LIBRARY");
+			new SQLiteBooksDatabase(this);
 		}
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
