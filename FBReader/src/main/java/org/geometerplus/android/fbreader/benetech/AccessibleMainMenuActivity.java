@@ -167,6 +167,12 @@ public class AccessibleMainMenuActivity extends Activity {
                 activity.finish();
             }
         }),
+        myBooks(resources.getString(R.string.menu_my_books), new MenuOperation() {
+            public void click(final Activity activity) {
+                ZLApplication.Instance().doAction(ActionCode.SHOW_MY_BOOKS);
+                activity.finish();
+            }
+        }),
         bookshare(resources.getString(R.string.menu_bookshare), new MenuOperation() {
             public void click(Activity activity) {
                 ZLApplication.Instance().doAction(ActionCode.BOOKSHARE);

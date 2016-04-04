@@ -242,6 +242,9 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
             if (menuItemId == R.id.drawer_item_my_books)
                 ZLApplication.Instance().doAction(ActionCode.SHOW_LIBRARY);
 
+            if (menuItemId == R.id.drawer_item_my_books_new)
+                ZLApplication.Instance().doAction(ActionCode.SHOW_MY_BOOKS);
+
             if (menuItemId == R.id.drawer_item_search_bookshare)
                 ZLApplication.Instance().doAction(ActionCode.BOOKSHARE);
 

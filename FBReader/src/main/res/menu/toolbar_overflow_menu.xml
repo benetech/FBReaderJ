@@ -3,6 +3,9 @@
     <item android:id="@+id/menu_item_settings"
         android:title="@string/menu_item_settings" />
 
+    <item android:id="@+id/menu_item_sync_with_bookshare"
+        android:title="@string/menu_item_sync_with_bookshare" />
+
     <item android:id="@+id/menu_item_help"
         android:title="@string/menu_item_help" />
 

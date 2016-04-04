@@ -27,7 +27,9 @@ import org.benetech.android.R;
 import org.geometerplus.android.fbreader.TOCActivity;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.TextPosition;
+import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
 import java.lang.reflect.InvocationTargetException;
@@ -177,6 +179,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             myPreferences.edit().putBoolean(IS_FIRST_TIME_RUNNING_PREFERENCE_TAG, false).commit();
         }
 
+        autoSyncBookshareReadingList();
+
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_USER_PRESENT);
@@ -184,6 +188,10 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         registerReceiver(mReceiver, filter);
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         setIsPaused();
+    }
+
+    private void autoSyncBookshareReadingList() {
+        ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE);
     }
 
     @Override
