@@ -19,33 +19,48 @@
 
 package org.geometerplus.android.fbreader.library;
 
-import java.util.*;
-
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.database.SQLException;
-import android.database.Cursor;
+import android.support.annotation.NonNull;
 
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-import org.geometerplus.zlibrary.core.options.ZLStringOption;
-import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
-import org.geometerplus.zlibrary.core.config.ZLConfig;
-import org.geometerplus.zlibrary.text.view.ZLTextPosition;
-import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
-
-import org.geometerplus.fbreader.library.*;
-
-import org.geometerplus.android.util.UIUtil;
+import org.apache.commons.io.FileUtils;
 import org.geometerplus.android.util.SQLiteUtil;
+import org.geometerplus.fbreader.library.Author;
+import org.geometerplus.fbreader.library.Book;
+import org.geometerplus.fbreader.library.Bookmark;
+import org.geometerplus.fbreader.library.BooksDatabase;
+import org.geometerplus.fbreader.library.FileInfo;
+import org.geometerplus.fbreader.library.FileInfoSet;
+import org.geometerplus.fbreader.library.ReadingList;
+import org.geometerplus.fbreader.library.SeriesInfo;
+import org.geometerplus.fbreader.library.Tag;
+import org.geometerplus.zlibrary.core.config.ZLConfig;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
+import org.geometerplus.zlibrary.core.options.ZLStringOption;
+import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
+import org.geometerplus.zlibrary.text.view.ZLTextPosition;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeSet;
 
 abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
-	private final String myInstanceId;
 	private final SQLiteDatabase myDatabase;
-	public static final int currentVersion = 19;
+	public static final int CURRENT_DB_VERSION = 19;
 
-	public AbstractSQLiteBooksDatabase(Context context, String instanceId) {
-		myInstanceId = instanceId;
+	public AbstractSQLiteBooksDatabase(Context context) {
 		myDatabase = context.openOrCreateDatabase("books.db", Context.MODE_PRIVATE, null);
 		migrate(context);
 	}
@@ -71,7 +86,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 
 	private void migrate(Context context) {
 		final int version = getDatabaseVersion();
-		if (version >= currentVersion) {
+		if (version >= CURRENT_DB_VERSION) {
 			return;
 		}
 
@@ -127,7 +142,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		myDatabase.endTransaction();
 
 		myDatabase.execSQL("VACUUM");
-		myDatabase.setVersion(currentVersion);
+		myDatabase.setVersion(CURRENT_DB_VERSION);
 	}
 
 	public int getDatabaseVersion() {
@@ -1247,13 +1262,104 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 
 	private void updateTables18() {
 		myDatabase.execSQL(
-				"CREATE TABLE ReadingLists(" +
-						"reading_list_id INTEGER PRIMARY KEY," +
-						"name TEXT UNIQUE NOT NULL)");
+				"CREATE TABLE " + getReadingListTableName() +
+						"(" + getReadingListIdColumnName() + " INTEGER PRIMARY KEY, " +
+						getNameColumnName() + " TEXT," +
+						getBookIdsColumnName() + " STRING)");
+	}
 
-		myDatabase.execSQL(
-				"CREATE TABLE ReadingList(" +
-						"reading_list_id INTEGER NOT NULL REFERENCES ReadingLists(reading_list_id)," +
-						"book_id INTEGER NOT NULL UNIQUE REFERENCES Books(book_id))");
+	public ArrayList<ReadingList> getAllReadingLists() throws Exception {
+		ArrayList<ReadingList> readingLists = new ArrayList();
+		Cursor cursor = myDatabase.rawQuery("SELECT "+ getReadingListIdColumnName() + "," + getBookIdsColumnName() + "," + getNameColumnName() + " FROM " + getReadingListTableName(), null);
+		while (cursor.moveToNext()) {
+			ReadingList readingList = new ReadingList();
+			readingList.setId(cursor.getLong(0));
+			readingList.setReadingListName(cursor.getString(2));
+			final ArrayList<Long> bookIds = getBookIds(cursor.getString(1));
+			readingList.addBooks(bookIds);
+
+			readingLists.add(readingList);
+		}
+
+		cursor.close();
+
+		return readingLists;
+	}
+
+	@NonNull
+	private ArrayList<Long> getBookIds(String bookIdsAsRawJson) throws Exception {
+		if (bookIdsAsRawJson == null)
+			return new ArrayList<>();
+
+		JSONObject json = new JSONObject(bookIdsAsRawJson);
+		JSONArray bookIdsJsonArray = json.optJSONArray(getBookIdsJsonKey());
+
+		return convertToArrayList(bookIdsJsonArray);
+	}
+
+	private SQLiteStatement insertReadingListRowSqlStatement;
+	public ReadingList insertEmptyReadingList(String readingListName) {
+		if (insertReadingListRowSqlStatement == null) {
+			insertReadingListRowSqlStatement = myDatabase.compileStatement("INSERT OR IGNORE INTO " + getReadingListTableName() + " (" + getReadingListIdColumnName() + "," + getNameColumnName() + "," + getBookIdsColumnName() + ") VALUES (?,?,?)");
+		}
+
+		insertReadingListRowSqlStatement.bindString(2, readingListName);
+		Long newReadingListId = insertReadingListRowSqlStatement.executeInsert();
+
+		ReadingList readingList = new ReadingList();
+		readingList.setId(newReadingListId);
+		readingList.setReadingListName(readingListName);
+
+		return readingList;
+	}
+
+	private SQLiteStatement updateReadingListSqlStatement;
+	public void saveReadingList(ReadingList readingListToSave) throws Exception {
+
+		if (updateReadingListSqlStatement == null) {
+			updateReadingListSqlStatement = myDatabase.compileStatement("UPDATE " + getReadingListTableName() + " SET " + getBookIdsColumnName() + " = ? WHERE " + getReadingListIdColumnName() + " = ?");
+		}
+
+		JSONObject json = new JSONObject();
+		json.put(getBookIdsJsonKey(), new JSONArray(readingListToSave.getBooksIds()));
+		updateReadingListSqlStatement.bindString(1, json.toString());
+		updateReadingListSqlStatement.bindLong(2, readingListToSave.getId());
+		updateReadingListSqlStatement.execute();
+	}
+
+	@NonNull
+	private ArrayList<Long> convertToArrayList(JSONArray bookIdsJsonArray) throws Exception {
+		ArrayList<Long> bookIds = new ArrayList<>();
+		for (int index = 0; index < bookIdsJsonArray.length(); index++) {
+			final long bookId = bookIdsJsonArray.getLong(index);
+			bookIds.add(bookId);
+		}
+
+		return bookIds;
+	}
+
+	@NonNull
+	private String getReadingListIdColumnName() {
+		return "reading_list_id";
+	}
+
+	@NonNull
+	private String getBookIdsColumnName() {
+		return "book_ids_json";
+	}
+
+	@NonNull
+	private String getReadingListTableName() {
+		return "ReadingList";
+	}
+
+	@NonNull
+	private String getBookIdsJsonKey() {
+		return "bookIds";
+	}
+
+	@NonNull
+	private String getNameColumnName() {
+		return "name";
 	}
 }

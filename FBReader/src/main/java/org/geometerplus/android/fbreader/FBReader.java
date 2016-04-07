@@ -48,7 +48,6 @@ import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.PluginApi;
 import org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity;
 import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
-import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.KillerCallback;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
@@ -63,6 +62,7 @@ import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.bookmodel.BookModel;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.fbreader.fbreader.SyncWithBookshareAction;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.Library;
 import org.geometerplus.fbreader.tips.TipsManager;
@@ -178,7 +178,9 @@ public class FBReader extends ZLAndroidActivity {
         fbReader.addAction(ActionCode.SHOW_HELP, new ShowHelpAction(this, fbReader));
         fbReader.addAction(ActionCode.SHOW_ACCESSIBILITY_SETTINGS, new ShowAccessibilitySettingsAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_LIBRARY, new ShowLibraryAction(this, fbReader));
+		fbReader.addAction(ActionCode.SHOW_MY_BOOKS, new ShowMyBooksAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_PREFERENCES, new ShowPreferencesAction(this, fbReader));
+		fbReader.addAction(ActionCode.SYNC_WITH_BOOKSHARE, new SyncWithBookshareAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_BOOK_INFO, new ShowBookInfoAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_TOC, new ShowTOCAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_BOOKMARKS, new ShowBookmarksAction(this, fbReader));
@@ -344,6 +346,9 @@ public class FBReader extends ZLAndroidActivity {
 		if (itemId == R.id.menu_item_settings)
 			return ActionCode.SHOW_PREFERENCES;
 
+		if (itemId == R.id.menu_item_sync_with_bookshare)
+			return ActionCode.SYNC_WITH_BOOKSHARE;
+
 		if (itemId == R.id.menu_item_help)
 			return ActionCode.SHOW_HELP;
 
@@ -355,6 +360,8 @@ public class FBReader extends ZLAndroidActivity {
 
 		if (itemId == R.id.menu_item_login_bookshare)
 			return ActionCode.BOOKSHARE;
+
+
 
 		return "";
 	}
@@ -482,7 +489,7 @@ public class FBReader extends ZLAndroidActivity {
 	@Override
 	protected FBReaderApp createApplication(ZLFile file) {
 		if (SQLiteBooksDatabase.Instance() == null) {
-			new SQLiteBooksDatabase(this, "READER");
+			new SQLiteBooksDatabase(this);
 		}
 		return new FBReaderApp(file != null ? file.getPath() : null);
 	}

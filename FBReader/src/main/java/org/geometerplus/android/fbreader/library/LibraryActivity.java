@@ -74,7 +74,7 @@ public class LibraryActivity extends TreeActivity implements MenuItem.OnMenuItem
 
 		myDatabase = SQLiteBooksDatabase.Instance();
 		if (myDatabase == null) {
-			myDatabase = new SQLiteBooksDatabase(this, "LIBRARY");
+			myDatabase = new SQLiteBooksDatabase(this);
 		}
 		if (myLibrary == null) {
 			myLibrary = Library.Instance();

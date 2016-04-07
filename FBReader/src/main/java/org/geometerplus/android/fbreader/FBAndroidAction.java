@@ -22,10 +22,10 @@ package org.geometerplus.android.fbreader;
 import org.geometerplus.fbreader.fbreader.FBAction;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
-abstract class FBAndroidAction extends FBAction {
+abstract public class FBAndroidAction extends FBAction {
 	private final FBReader baseActivity;
 
-	FBAndroidAction(FBReader baseActivity, FBReaderApp fbreader) {
+	public FBAndroidAction(FBReader baseActivity, FBReaderApp fbreader) {
 		super(fbreader);
 		this.baseActivity = baseActivity;
 	}
