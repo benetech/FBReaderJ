@@ -77,6 +77,9 @@ public class BookshareHttpOauth2Client {
         final String rawResponseWithReadingLists = requestData(urlConnection);
         JSONObject readingListJson = new JSONObject(rawResponseWithReadingLists);
         JSONArray readingListsJsonArray = readingListJson.optJSONArray(JSON_CODE_LISTS);
+        if (readingListsJsonArray == null)
+            return new ArrayList<>();
+
         ArrayList<ReadingList> readingLists = new ArrayList<>();
         for (int index = 0; index < readingListsJsonArray.length(); ++index) {
             final JSONObject jsonElement = readingListsJsonArray.getJSONObject(index);
@@ -116,13 +119,13 @@ public class BookshareHttpOauth2Client {
         return urlConnection;
     }
 
-    private HttpsURLConnection createHttpsUrlConnection(String urlWithReadingListId, String getRequestMethod) throws IOException {
+    private HttpsURLConnection createHttpsUrlConnection(String urlWithReadingListId, String requestMethod) throws IOException {
         final URL url = new URL(urlWithReadingListId);
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         setHostnameVerifierToAvoidSslHandshakeException(urlConnection);
-        urlConnection.setRequestMethod(getRequestMethod);
+        urlConnection.setRequestMethod(requestMethod);
+        urlConnection.setDoOutput(requestMethod.equals(POST_REQUESTE_METHOD));
         urlConnection.setDoInput(true);
-        urlConnection.setDoOutput(true);
 
         return urlConnection;
     }
@@ -133,7 +136,8 @@ public class BookshareHttpOauth2Client {
 
     public String requestData(HttpsURLConnection urlConnection) throws Exception {
         InputStream inputStream;
-        if (urlConnection.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
+        final int responseCode = urlConnection.getResponseCode();
+        if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
             inputStream = urlConnection.getInputStream();
         } else {
             inputStream = urlConnection.getErrorStream();
@@ -204,7 +208,6 @@ public class BookshareHttpOauth2Client {
     }
 
     private String getUrlEncoded(String key) throws UnsupportedEncodingException {
-
         return URLEncoder.encode(key, UTF_8);
     }
 }

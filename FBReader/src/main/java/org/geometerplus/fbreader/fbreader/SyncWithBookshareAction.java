@@ -104,13 +104,12 @@ public class SyncWithBookshareAction extends FBAndroidAction {
 
         @Override
         protected Void doInBackground(Void... params) {
-
             try {
-                BookshareHttpOauth2Client client = new BookshareHttpOauth2Client();
-                ArrayList<ReadingList> readingLists = client.getReadingLists();
+//                BookshareHttpOauth2Client client = new BookshareHttpOauth2Client();
+//                ArrayList<ReadingList> readingLists = client.getReadingLists();
                 //FIXME urgent - under construction.  Need to store the reading lists in DB.
                 //Committing now since its a good stopping point
-                System.out.println("-=---------------------------------------ReadingList count = "  + readingLists.size());
+                System.out.println("-=---------------------------------------ReadingList count s= "  /*+ readingLists.size()*/);
             }  catch (Exception e) {
                 Log.e(LOG_TAG, e.getMessage(), e);
             }

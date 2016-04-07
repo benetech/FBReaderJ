@@ -3,7 +3,6 @@ package org.geometerplus.fbreader.library;
 import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +34,10 @@ public class ReadingList {
         this.readingListName = readingListName;
     }
 
+    public String getReadingListName() {
+        return readingListName;
+    }
+
     public ArrayList<Long> getBooksIds() {
         return new ArrayList<>(bookIds);
     }
@@ -58,5 +61,13 @@ public class ReadingList {
 
     public void setBookshareReadingListId(int bookshareReadingListIdToUse) {
         this.bookshareReadingListId = bookshareReadingListIdToUse;
+    }
+
+    public int getBookCount() {
+        return readingListBooks.size();
+    }
+
+    public ArrayList<ReadingListBook> getReadingListBooks() {
+        return new ArrayList<>(readingListBooks);
     }
 }

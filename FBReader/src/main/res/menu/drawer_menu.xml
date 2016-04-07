@@ -11,6 +11,13 @@
             />
 
         <item
+            android:id="@+id/drawer_item_my_books_new"
+            android:title="@string/menu_my_books"
+            android:icon="@drawable/ic_my_books"
+            android:contentDescription="@string/menu_my_books"
+            />
+
+        <item
             android:id="@+id/drawer_item_search_bookshare"
             android:title="@string/menu_bookshare"
             android:icon="@drawable/ic_bookshare_logo"
