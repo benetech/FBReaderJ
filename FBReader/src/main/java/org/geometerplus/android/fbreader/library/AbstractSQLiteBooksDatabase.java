@@ -26,7 +26,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.support.annotation.NonNull;
 
-import org.apache.commons.io.FileUtils;
 import org.geometerplus.android.util.SQLiteUtil;
 import org.geometerplus.fbreader.library.Author;
 import org.geometerplus.fbreader.library.Book;
@@ -46,8 +45,6 @@ import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -1264,13 +1261,13 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		myDatabase.execSQL(
 				"CREATE TABLE " + getReadingListTableName() +
 						"(" + getReadingListIdColumnName() + " INTEGER PRIMARY KEY, " +
-						getNameColumnName() + " TEXT," +
+						getReadingListNameColumnName() + " TEXT," +
 						getBookIdsColumnName() + " STRING)");
 	}
 
 	public ArrayList<ReadingList> getAllReadingLists() throws Exception {
 		ArrayList<ReadingList> readingLists = new ArrayList();
-		Cursor cursor = myDatabase.rawQuery("SELECT "+ getReadingListIdColumnName() + "," + getBookIdsColumnName() + "," + getNameColumnName() + " FROM " + getReadingListTableName(), null);
+		Cursor cursor = myDatabase.rawQuery("SELECT "+ getReadingListIdColumnName() + "," + getBookIdsColumnName() + "," + getReadingListNameColumnName() + " FROM " + getReadingListTableName(), null);
 		while (cursor.moveToNext()) {
 			ReadingList readingList = new ReadingList();
 			readingList.setId(cursor.getLong(0));
@@ -1300,7 +1297,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	private SQLiteStatement insertReadingListRowSqlStatement;
 	public ReadingList insertEmptyReadingList(String readingListName) {
 		if (insertReadingListRowSqlStatement == null) {
-			insertReadingListRowSqlStatement = myDatabase.compileStatement("INSERT OR IGNORE INTO " + getReadingListTableName() + " (" + getReadingListIdColumnName() + "," + getNameColumnName() + "," + getBookIdsColumnName() + ") VALUES (?,?,?)");
+			insertReadingListRowSqlStatement = myDatabase.compileStatement("INSERT OR IGNORE INTO " + getReadingListTableName() + " (" + getReadingListIdColumnName() + "," + getReadingListNameColumnName() + "," + getBookIdsColumnName() + ") VALUES (?,?,?)");
 		}
 
 		insertReadingListRowSqlStatement.bindString(2, readingListName);
@@ -1359,7 +1356,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	}
 
 	@NonNull
-	private String getNameColumnName() {
+	private String getReadingListNameColumnName() {
 		return "name";
 	}
 }
