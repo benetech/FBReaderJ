@@ -16,7 +16,7 @@ import org.benetech.android.R;
 import org.geometerplus.android.fbreader.FBAndroidAction;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.benetech.DownLoadReadingListsTask;
-import org.geometerplus.android.fbreader.benetech.PostExecuteHandler;
+import org.geometerplus.android.fbreader.benetech.AsyncResponse;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,7 +24,7 @@ import org.json.JSONObject;
 /**
  * Created by animal@martus.org on 3/22/16.
  */
-public class SyncReadingListsWithBookshareAction extends FBAndroidAction implements PostExecuteHandler<JSONArray> {
+public class SyncReadingListsWithBookshareAction extends FBAndroidAction implements AsyncResponse<JSONArray> {
 
     private static final String LOG_TAG = "SyncWithBookshareAction";
     private static final int SECONDS_TO_PAUSE = 15;
@@ -48,7 +48,7 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
     }
 
     @Override
-    public void postExecute(JSONArray readingLists) {
+    public void processFinish(JSONArray readingLists) {
         try {
             insertReadingListsIntoDatabase(readingLists);
         } catch (Exception e) {

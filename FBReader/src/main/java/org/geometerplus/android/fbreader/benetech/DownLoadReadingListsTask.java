@@ -14,10 +14,10 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class DownLoadReadingListsTask extends AsyncTask<Void, Void, JSONArray> {
 
-    private PostExecuteHandler postExecuteHandler;
+    private AsyncResponse asyncResponse;
 
-    public DownLoadReadingListsTask(PostExecuteHandler postExecuteHandlerToUse) {
-        postExecuteHandler = postExecuteHandlerToUse;
+    public DownLoadReadingListsTask(AsyncResponse asyncResponseToUse) {
+        asyncResponse = asyncResponseToUse;
     }
 
     @Override
@@ -41,6 +41,6 @@ public class DownLoadReadingListsTask extends AsyncTask<Void, Void, JSONArray> {
     protected void onPostExecute(JSONArray readingListJsonArray) {
         super.onPostExecute(readingListJsonArray);
 
-        postExecuteHandler.postExecute(readingListJsonArray);
+        asyncResponse.processFinish(readingListJsonArray);
     }
 }
