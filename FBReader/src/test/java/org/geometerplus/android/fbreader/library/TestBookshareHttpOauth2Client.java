@@ -1,7 +1,7 @@
 package org.geometerplus.android.fbreader.library;
 
 import org.bookshare.net.BookshareHttpOauth2Client;
-import org.geometerplus.fbreader.library.ReadingList;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,7 +9,6 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -35,7 +34,7 @@ public class TestBookshareHttpOauth2Client {
         String response = httpClient.requestData(urlConnection);
         JSONObject jsonResponse = new JSONObject(response);
         String accessToken = jsonResponse.getString(BookshareHttpOauth2Client.ACCESS_TOKEN_CODE);
-        ArrayList<ReadingList> readingLists = httpClient.getReadingLists(accessToken);
-        assertFalse("Should contain atleast one readingList?", readingLists.isEmpty());
+        JSONArray readingLists = httpClient.getReadingLists(accessToken);
+        assertFalse("Should contain atleast one readingList?", readingLists.length() == 0);
     }
 }

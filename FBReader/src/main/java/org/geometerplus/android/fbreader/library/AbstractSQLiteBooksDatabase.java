@@ -26,6 +26,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.support.annotation.NonNull;
 
+import org.bookshare.net.BookshareHttpOauth2Client;
 import org.geometerplus.android.util.SQLiteUtil;
 import org.geometerplus.fbreader.library.Author;
 import org.geometerplus.fbreader.library.Book;
@@ -43,6 +44,7 @@ import org.geometerplus.zlibrary.core.options.ZLStringOption;
 import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -1262,18 +1264,17 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 				"CREATE TABLE " + getReadingListTableName() +
 						"(" + getReadingListIdColumnName() + " INTEGER PRIMARY KEY, " +
 						getReadingListNameColumnName() + " TEXT," +
-						getBookIdsColumnName() + " STRING)");
+						getReadingListJsonColumnName() + " TEXT)");
 	}
 
 	public ArrayList<ReadingList> getAllReadingLists() throws Exception {
 		ArrayList<ReadingList> readingLists = new ArrayList();
-		Cursor cursor = myDatabase.rawQuery("SELECT "+ getReadingListIdColumnName() + "," + getBookIdsColumnName() + "," + getReadingListNameColumnName() + " FROM " + getReadingListTableName(), null);
+		Cursor cursor = myDatabase.rawQuery("SELECT "+ getReadingListIdColumnName() + "," + getReadingListNameColumnName() + "," + getReadingListJsonColumnName() + " FROM " + getReadingListTableName(), null);
 		while (cursor.moveToNext()) {
 			ReadingList readingList = new ReadingList();
 			readingList.setId(cursor.getLong(0));
-			readingList.setReadingListName(cursor.getString(2));
-			final ArrayList<Long> bookIds = getBookIds(cursor.getString(1));
-			readingList.addBooks(bookIds);
+			readingList.setReadingListName(cursor.getString(1));
+			readingList.setReadingListJson(cursor.getString(2));
 
 			readingLists.add(readingList);
 		}
@@ -1283,56 +1284,20 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		return readingLists;
 	}
 
-	@NonNull
-	private ArrayList<Long> getBookIds(String bookIdsAsRawJson) throws Exception {
-		if (bookIdsAsRawJson == null)
-			return new ArrayList<>();
-
-		JSONObject json = new JSONObject(bookIdsAsRawJson);
-		JSONArray bookIdsJsonArray = json.optJSONArray(getBookIdsJsonKey());
-
-		return convertToArrayList(bookIdsJsonArray);
-	}
-
 	private SQLiteStatement insertReadingListRowSqlStatement;
-	public ReadingList insertEmptyReadingList(String readingListName) {
+	public void insertReadingList(JSONObject readingListJson) throws Exception {
 		if (insertReadingListRowSqlStatement == null) {
-			insertReadingListRowSqlStatement = myDatabase.compileStatement("INSERT OR IGNORE INTO " + getReadingListTableName() + " (" + getReadingListIdColumnName() + "," + getReadingListNameColumnName() + "," + getBookIdsColumnName() + ") VALUES (?,?,?)");
+			insertReadingListRowSqlStatement = myDatabase.compileStatement("INSERT OR REPLACE INTO " + getReadingListTableName() + " (" + getReadingListNameColumnName() + "," + getReadingListJsonColumnName() + ") VALUES (?,?)");
 		}
 
-		insertReadingListRowSqlStatement.bindString(2, readingListName);
-		Long newReadingListId = insertReadingListRowSqlStatement.executeInsert();
-
-		ReadingList readingList = new ReadingList();
-		readingList.setId(newReadingListId);
-		readingList.setReadingListName(readingListName);
-
-		return readingList;
+		String readingListName = readingListJson.getString(BookshareHttpOauth2Client.JSON_CODE_READING_LIST_NAME);
+		insertReadingListRowSqlStatement.bindString(1, readingListName);
+		insertReadingListRowSqlStatement.bindString(2, readingListJson.toString());
+		insertReadingListRowSqlStatement.executeInsert();
 	}
 
-	private SQLiteStatement updateReadingListSqlStatement;
-	public void saveReadingList(ReadingList readingListToSave) throws Exception {
-
-		if (updateReadingListSqlStatement == null) {
-			updateReadingListSqlStatement = myDatabase.compileStatement("UPDATE " + getReadingListTableName() + " SET " + getBookIdsColumnName() + " = ? WHERE " + getReadingListIdColumnName() + " = ?");
-		}
-
-		JSONObject json = new JSONObject();
-		json.put(getBookIdsJsonKey(), new JSONArray(readingListToSave.getBooksIds()));
-		updateReadingListSqlStatement.bindString(1, json.toString());
-		updateReadingListSqlStatement.bindLong(2, readingListToSave.getId());
-		updateReadingListSqlStatement.execute();
-	}
-
-	@NonNull
-	private ArrayList<Long> convertToArrayList(JSONArray bookIdsJsonArray) throws Exception {
-		ArrayList<Long> bookIds = new ArrayList<>();
-		for (int index = 0; index < bookIdsJsonArray.length(); index++) {
-			final long bookId = bookIdsJsonArray.getLong(index);
-			bookIds.add(bookId);
-		}
-
-		return bookIds;
+	public void clearReadingLists() {
+		myDatabase.execSQL("DELETE FROM " + getReadingListTableName());
 	}
 
 	@NonNull
@@ -1341,22 +1306,17 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	}
 
 	@NonNull
-	private String getBookIdsColumnName() {
-		return "book_ids_json";
-	}
-
-	@NonNull
 	private String getReadingListTableName() {
 		return "ReadingList";
 	}
 
 	@NonNull
-	private String getBookIdsJsonKey() {
-		return "bookIds";
+	private String getReadingListNameColumnName() {
+		return "name";
 	}
 
 	@NonNull
-	private String getReadingListNameColumnName() {
-		return "name";
+	private String getReadingListJsonColumnName() {
+		return "readingListJson";
 	}
 }

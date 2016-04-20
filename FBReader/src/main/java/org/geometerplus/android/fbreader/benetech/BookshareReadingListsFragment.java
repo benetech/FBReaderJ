@@ -1,7 +1,6 @@
 package org.geometerplus.android.fbreader.benetech;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,14 +15,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.benetech.android.R;
-import org.bookshare.net.BookshareHttpOauth2Client;
+import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.library.ReadingList;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by animal@martus.org on 4/4/16.
@@ -45,8 +42,9 @@ public class BookshareReadingListsFragment extends ListFragment {
     }
 
     private void fillListAdapter() throws Exception {
-        LoadReadingListsTask readingListsLoaderTask = new LoadReadingListsTask();
-        readingListsLoaderTask.execute();
+        SQLiteBooksDatabase database = (SQLiteBooksDatabase) AbstractSQLiteBooksDatabase.Instance();
+        ArrayList<ReadingList> readingLists = database.getAllReadingLists();
+        fillListAdapter(readingLists);
     }
 
     private void fillListAdapter(ArrayList<ReadingList> readingLists) {
@@ -129,32 +127,6 @@ public class BookshareReadingListsFragment extends ListFragment {
 
         public ReadingList getReadingList() {
             return readingList;
-        }
-    }
-
-    private class LoadReadingListsTask extends AsyncTask<Void, Void, ArrayList<ReadingList>> {
-        @Override
-        protected ArrayList<ReadingList> doInBackground(Void... params) {
-            try {
-                BookshareHttpOauth2Client client =  new BookshareHttpOauth2Client();
-                HttpsURLConnection urlConnection = client.createBookshareApiUrlConnection();
-
-                String response = client.requestData(urlConnection);
-                JSONObject jsonResponse = new JSONObject(response);
-                String accessToken = jsonResponse.getString(BookshareHttpOauth2Client.ACCESS_TOKEN_CODE);
-
-                return client.getReadingLists(accessToken);
-            } catch (Exception e) {
-                Log.e(getClass().getSimpleName(), e.getMessage(), e);
-                return new ArrayList<>();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<ReadingList> readingLists) {
-            super.onPostExecute(readingLists);
-
-            fillListAdapter(readingLists);
         }
     }
 }

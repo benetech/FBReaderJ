@@ -3,6 +3,8 @@ package org.bookshare.net;
 import android.support.annotation.NonNull;
 
 import org.apache.commons.codec.binary.Base64;
+import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.library.ReadingList;
 import org.geometerplus.fbreader.library.ReadingListBook;
 import org.json.JSONArray;
@@ -51,6 +53,7 @@ public class BookshareHttpOauth2Client {
 
     private static final String JSON_CODE_LISTS = "lists";
     private static final String JSON_CODE_READING_LIST_ID = "readingListId";
+    public static final String JSON_CODE_READING_LIST_NAME = "name";
     private static final String JSON_CODE_TITLES = "titles";
 
     public HttpsURLConnection createBookshareApiUrlConnection() throws Exception {
@@ -62,54 +65,34 @@ public class BookshareHttpOauth2Client {
         return urlConnection;
     }
 
-    public ArrayList<ReadingList> getReadingLists() throws Exception {
-        HttpsURLConnection urlConnection = createBookshareApiUrlConnection();
-        String response = requestData(urlConnection);
-        JSONObject jsonResponse = new JSONObject(response);
-        String accessToken = jsonResponse.getString(BookshareHttpOauth2Client.ACCESS_TOKEN_CODE);
-
-        return getReadingLists(accessToken);
-    }
-
-    public ArrayList<ReadingList> getReadingLists(String accessToken) throws Exception {
+    public JSONArray getReadingLists(String accessToken) throws Exception {
         HttpsURLConnection urlConnection = createConnection(READING_LISTS_URL, accessToken);
-
         final String rawResponseWithReadingLists = requestData(urlConnection);
+
         JSONObject readingListJson = new JSONObject(rawResponseWithReadingLists);
         JSONArray readingListsJsonArray = readingListJson.optJSONArray(JSON_CODE_LISTS);
         if (readingListsJsonArray == null)
-            return new ArrayList<>();
+            return new JSONArray();
 
-        ArrayList<ReadingList> readingLists = new ArrayList<>();
+        JSONArray readingLists = new JSONArray();
         for (int index = 0; index < readingListsJsonArray.length(); ++index) {
             final JSONObject jsonElement = readingListsJsonArray.getJSONObject(index);
-            final int bookshareReadingListId = jsonElement.getInt(JSON_CODE_READING_LIST_ID);
-
-            ReadingList readingList = new ReadingList();
-            readingList.setBookshareReadingListId(bookshareReadingListId);
-            readingList.setReadingListName(jsonElement.optString("name"));
-            readingList.addReadingListBooks(getBooksForReadingList(accessToken, bookshareReadingListId));
-
-            readingLists.add(readingList);
+            int bookshareReadingListId = jsonElement.getInt(JSON_CODE_READING_LIST_ID);
+            String readingListName = jsonElement.optString(JSON_CODE_READING_LIST_NAME);
+            JSONObject readingListDetailsJson = getBooksForReadingList(accessToken, bookshareReadingListId);
+            readingListDetailsJson.put(JSON_CODE_READING_LIST_NAME, readingListName);
+            readingLists.put(readingListDetailsJson);
         }
 
         return readingLists;
     }
 
-    private ArrayList<ReadingListBook> getBooksForReadingList(String accessToken, int readingListId) throws Exception {
+    private JSONObject getBooksForReadingList(String accessToken, int readingListId) throws Exception {
         String urlWithReadingListId = BOOK_TITLES_FOR_READING_LIST_URL.replace(READINGLIST_ID_REPLACEMENT_TOKEN, Integer.toString(readingListId));
         HttpsURLConnection urlConnection = createConnection(urlWithReadingListId, accessToken);
-
-        ArrayList<ReadingListBook> readingListBooks = new ArrayList<>();
         final String rawResponseWithReadingLists = requestData(urlConnection);
-        JSONObject readingListJson = new JSONObject(rawResponseWithReadingLists);
-        JSONArray readingListsJsonArray = readingListJson.optJSONArray(JSON_CODE_TITLES);
-        for (int index = 0; index < readingListsJsonArray.length(); ++index) {
-            JSONObject json = readingListsJsonArray.getJSONObject(index);
-            readingListBooks.add(new ReadingListBook(json));
-        }
 
-        return readingListBooks;
+        return new JSONObject(rawResponseWithReadingLists);
     }
 
     private HttpsURLConnection createConnection(String url, String accessToken) throws IOException {

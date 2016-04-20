@@ -2,61 +2,83 @@ package org.geometerplus.fbreader.fbreader;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.webkit.HttpAuthHandler;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.benetech.android.R;
-import org.bookshare.net.BookshareHttpOauth2Client;
 import org.geometerplus.android.fbreader.FBAndroidAction;
 import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.android.fbreader.benetech.DownLoadReadingListsTask;
+import org.geometerplus.android.fbreader.benetech.PostExecuteHandler;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
-import org.geometerplus.fbreader.library.ReadingList;
-
-import java.util.ArrayList;
-
-import javax.net.ssl.HttpsURLConnection;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by animal@martus.org on 3/22/16.
  */
-public class SyncWithBookshareAction extends FBAndroidAction {
+public class SyncReadingListsWithBookshareAction extends FBAndroidAction implements PostExecuteHandler<JSONArray> {
 
     private static final String LOG_TAG = "SyncWithBookshareAction";
-    private static final String FIRST_READING_LIST_NAME = "Bookshare Reading List";
+    private static final int SECONDS_TO_PAUSE = 15;
 
     private CustomProgressDialog progressDialog;
 
-    public SyncWithBookshareAction(FBReader baseActivity, FBReaderApp fbreader) {
+    public SyncReadingListsWithBookshareAction(FBReader baseActivity, FBReaderApp fbreader) {
         super(baseActivity, fbreader);
     }
 
     @Override
     protected void run(Object ... params) {
-        SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
-        ReadingList emptyReadingList = database.insertEmptyReadingList(FIRST_READING_LIST_NAME);
-        emptyReadingList.setReadingListName(FIRST_READING_LIST_NAME);
-        try {
-            emptyReadingList.save();
-        } catch (Exception e) {
-            Log.e(LOG_TAG, e.getMessage(), e);
-        }
-
         progressDialog = new CustomProgressDialog(getBaseActivity());
         progressDialog.setTitle(getBaseActivity().getString(R.string.title_sync_bookshare_progress_dialog));
         progressDialog.show();
 
-        SynchReadingLists syncTask = new SynchReadingLists();
-        syncTask.execute();
+        DownLoadReadingListsTask task = new DownLoadReadingListsTask(this);
+        task.execute();
+
+        displayCompleteDialogWithDelay();
     }
 
-    private void onCompleteSyncBookshareReadingLists() {
+    @Override
+    public void postExecute(JSONArray readingLists) {
+        try {
+            insertReadingListsIntoDatabase(readingLists);
+        } catch (Exception e) {
+            Toast.makeText(getBaseActivity().getBaseContext(), "Error trying to sync reading lists", Toast.LENGTH_LONG).show();
+            Log.e(LOG_TAG, e.getMessage(), e);
+        }
+    }
+
+    private void insertReadingListsIntoDatabase(JSONArray readingLists) throws Exception{
+        SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
+        database.clearReadingLists();
+        for (int index = 0; index < readingLists.length(); ++index) {
+            JSONObject readingListJson = readingLists.getJSONObject(index);
+            database.insertReadingList(readingListJson);
+        }
+    }
+
+    private void displayCompleteDialogWithDelay() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showGreenCheckMarkImageView();
+                syncCompleted();
+            }
+        }, SECONDS_TO_PAUSE * 1000);
+    }
+
+    private void syncCompleted() {
+        progressDialog.setTitle(getBaseActivity().getString(R.string.title_sync_bookshare_complete_progress_dialog));
         TextView textView = (TextView) progressDialog.findViewById(R.id.progress_dialog_sync_message);
         textView.setText(getBaseActivity().getString(R.string.message_sync_bookshare_reading_lists_complete_progress_dialog));
 
@@ -97,33 +119,6 @@ public class SyncWithBookshareAction extends FBAndroidAction {
             doneButton.setEnabled(false);
 
             hideGreenCheckMarkImageView();
-        }
-    }
-
-    private class SynchReadingLists extends AsyncTask<Void,Void,Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-//                BookshareHttpOauth2Client client = new BookshareHttpOauth2Client();
-//                ArrayList<ReadingList> readingLists = client.getReadingLists();
-                //FIXME urgent - under construction.  Need to store the reading lists in DB.
-                //Committing now since its a good stopping point
-                System.out.println("-=---------------------------------------ReadingList count s= "  /*+ readingLists.size()*/);
-            }  catch (Exception e) {
-                Log.e(LOG_TAG, e.getMessage(), e);
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-
-            showGreenCheckMarkImageView();
-            onCompleteSyncBookshareReadingLists();
-
         }
     }
 

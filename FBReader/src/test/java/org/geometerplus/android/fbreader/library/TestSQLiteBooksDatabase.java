@@ -4,7 +4,9 @@ import android.app.Application;
 import android.content.Context;
 
 import org.benetech.android.BuildConfig;
+import org.bookshare.net.BookshareHttpOauth2Client;
 import org.geometerplus.fbreader.library.ReadingList;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,26 +59,14 @@ public class TestSQLiteBooksDatabase  {
     }
 
     @Test
-    public void testReadingListWithoutBooks() throws Exception {
-        database.insertEmptyReadingList("Testing Reading List");
-        ArrayList<ReadingList> readingLists = database.getAllReadingLists();
-        assertEquals("Incorrect reading list size?", 1, readingLists.size());
-
-        final ReadingList readingList = readingLists.get(0);
-        assertTrue("Reading list's book list should be empty?", readingList.getBooksIds().isEmpty());
-    }
-
-    @Test
     public void testReadingListWithBooks() throws Exception {
-        ReadingList newReadingList = database.insertEmptyReadingList("Testing Reading List with one book");
-        final long NON_EXISTING_RANDOM_BOOK_ID = 1001;
-        newReadingList.addBook(NON_EXISTING_RANDOM_BOOK_ID);
-        newReadingList.save();
-
+        JSONObject newReadingListJson = new JSONObject();
+        String readingListName = "Testing Reading List with one book";
+        newReadingListJson.put(BookshareHttpOauth2Client.JSON_CODE_READING_LIST_NAME, readingListName);
+        database.insertReadingList(newReadingListJson);
         ArrayList<ReadingList> readingLists = database.getAllReadingLists();
+        assertEquals("DB should only contain one reading list?", 1, readingLists.size());
         ReadingList readingList = readingLists.get(0);
-        final ArrayList<Long> booksIds = readingList.getBooksIds();
-        assertEquals("Incorrect book count?", 1, booksIds.size());
-        assertEquals("Incorrect book id saved?", NON_EXISTING_RANDOM_BOOK_ID, booksIds.get(0).longValue());
+        assertEquals("Incorrect reading list name?", readingListName, readingList.getReadingListName());
     }
 }
