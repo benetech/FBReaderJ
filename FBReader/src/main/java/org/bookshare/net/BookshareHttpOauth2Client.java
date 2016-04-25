@@ -3,10 +3,6 @@ package org.bookshare.net;
 import android.support.annotation.NonNull;
 
 import org.apache.commons.codec.binary.Base64;
-import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
-import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
-import org.geometerplus.fbreader.library.ReadingList;
-import org.geometerplus.fbreader.library.ReadingListBook;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -21,7 +17,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 
