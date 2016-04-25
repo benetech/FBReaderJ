@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.hyperionics.fbreader.plugin.tts_plus.TtsSentenceExtractor;
 
@@ -39,7 +40,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener, SimpleGestureFilter.SimpleGestureListener  {
+public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener, SimpleGestureFilter.SimpleGestureListener, AsyncResponse<Boolean>  {
 
     private static final String LOG_TAG ="FBRsWithNavigationBar";
     private ApiServerImplementation myApi;
@@ -179,7 +180,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             myPreferences.edit().putBoolean(IS_FIRST_TIME_RUNNING_PREFERENCE_TAG, false).commit();
         }
 
-        autoSyncBookshareReadingList();
+
+        syncBookshareReadingLists();
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -190,8 +192,22 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         setIsPaused();
     }
 
-    private void autoSyncBookshareReadingList() {
-        ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE);
+    private void syncBookshareReadingLists() {
+        if (isLoggedintoBookshare()) {
+            CheckInternetConnectionTask task = new CheckInternetConnectionTask(getBaseContext(), this);
+            task.execute();
+        }
+        else {
+            Toast.makeText(this,   "Must log into bookshare to auto sync reading lists", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void processFinish(Boolean hasInternetConnection) {
+        if (hasInternetConnection.booleanValue())
+            ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE);
+        else
+            Toast.makeText(getBaseContext(),   "Could not sync reading lists, no internet connection!", Toast.LENGTH_LONG).show();
     }
 
     @Override

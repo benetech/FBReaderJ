@@ -306,7 +306,7 @@ public class FBReader extends ZLAndroidActivity {
 		logoutMenuItem.setVisible(isLoggedintoBookshare);
 	}
 
-	private boolean isLoggedintoBookshare() {
+	protected boolean isLoggedintoBookshare() {
 		SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(this);
 		String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
 		String password = login_preference.getString(Bookshare_Webservice_Login.PASSWORD, "");
