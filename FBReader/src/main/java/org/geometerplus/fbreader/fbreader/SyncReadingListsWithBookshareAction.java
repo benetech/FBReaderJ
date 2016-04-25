@@ -2,8 +2,10 @@ package org.geometerplus.fbreader.fbreader;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +20,7 @@ import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.benetech.DownLoadReadingListsTask;
 import org.geometerplus.android.fbreader.benetech.AsyncResponse;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
+import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -41,7 +44,10 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
         progressDialog.setTitle(getBaseActivity().getString(R.string.title_sync_bookshare_progress_dialog));
         progressDialog.show();
 
-        DownLoadReadingListsTask task = new DownLoadReadingListsTask(this);
+        SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(getBaseActivity());
+        String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
+        String password = login_preference.getString(Bookshare_Webservice_Login.PASSWORD, "");
+        DownLoadReadingListsTask task = new DownLoadReadingListsTask(this, username, password);
         task.execute();
 
         displayCompleteDialogWithDelay();

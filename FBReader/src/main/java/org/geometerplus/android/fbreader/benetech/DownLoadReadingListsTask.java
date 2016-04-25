@@ -15,16 +15,20 @@ import javax.net.ssl.HttpsURLConnection;
 public class DownLoadReadingListsTask extends AsyncTask<Void, Void, JSONArray> {
 
     private AsyncResponse asyncResponse;
+    private String userName;
+    private String password;
 
-    public DownLoadReadingListsTask(AsyncResponse asyncResponseToUse) {
+    public DownLoadReadingListsTask(AsyncResponse asyncResponseToUse, String userNameToUse, String passwordToUse) {
         asyncResponse = asyncResponseToUse;
+        userName = userNameToUse;
+        password = passwordToUse;
     }
 
     @Override
     protected JSONArray doInBackground(Void... params) {
         try {
             BookshareHttpOauth2Client client =  new BookshareHttpOauth2Client();
-            HttpsURLConnection urlConnection = client.createBookshareApiUrlConnection();
+            HttpsURLConnection urlConnection = client.createBookshareApiUrlConnection(getUserName(), getPassword());
 
             String response = client.requestData(urlConnection);
             JSONObject jsonResponse = new JSONObject(response);
@@ -42,5 +46,13 @@ public class DownLoadReadingListsTask extends AsyncTask<Void, Void, JSONArray> {
         super.onPostExecute(readingListJsonArray);
 
         asyncResponse.processFinish(readingListJsonArray);
+    }
+
+    private String getUserName() {
+        return userName;
+    }
+
+    private String getPassword() {
+        return password;
     }
 }

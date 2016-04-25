@@ -27,7 +27,7 @@ public class TestBookshareHttpOauth2Client {
     @Test
     public void testConnection() throws Exception {
         BookshareHttpOauth2Client httpClient =  new BookshareHttpOauth2Client();
-        HttpsURLConnection urlConnection = httpClient.createBookshareApiUrlConnection();
+        HttpsURLConnection urlConnection = httpClient.createBookshareApiUrlConnection("QA.ApiTestIM_1@benetech.org", "gtlbegeu");
 
         assertEquals("Url connection should be ok?", HttpURLConnection.HTTP_OK, urlConnection.getResponseCode());
 

@@ -29,6 +29,9 @@ import javax.net.ssl.SSLSession;
  */
 public class BookshareHttpOauth2Client {
 
+    private String userName;
+    private String password;
+
     private static final String API_KEY = "ytvs9pzsd62bv7rzamwdkthe";
     private static final String MASHERY_API_KEY = API_KEY;
     private static final String COLON = ":";
@@ -51,7 +54,11 @@ public class BookshareHttpOauth2Client {
     public static final String JSON_CODE_READING_LIST_NAME = "name";
     private static final String JSON_CODE_TITLES = "titles";
 
-    public HttpsURLConnection createBookshareApiUrlConnection() throws Exception {
+    public HttpsURLConnection createBookshareApiUrlConnection(String userNameToUse, String passwordToUse) throws Exception {
+
+        userName = userNameToUse;
+        password = passwordToUse;
+
         HttpsURLConnection urlConnection = createHttpsUrlConnection(URL_AS_STRING, POST_REQUESTE_METHOD);
         setMasheryLoginInHeader(urlConnection);
         writeLoginFormParameters(urlConnection);
@@ -169,12 +176,12 @@ public class BookshareHttpOauth2Client {
 
     @NonNull
     private String getUserPassword() {
-        return "gtlbegeu";
+        return password;
     }
 
     @NonNull
     private String getUserName() {
-        return "QA.ApiTestIM_1@benetech.org";
+        return userName;
     }
 
     private String createQuery(LinkedHashMap<String, String> params) throws UnsupportedEncodingException {
