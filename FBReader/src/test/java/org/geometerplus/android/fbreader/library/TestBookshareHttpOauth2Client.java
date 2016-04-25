@@ -24,10 +24,13 @@ import static junit.framework.Assert.assertFalse;
 @Config(constants = org.geometerplus.android.fbreader.library.BuildConfig.class, sdk = 21)
 public class TestBookshareHttpOauth2Client {
 
+    private static final String BOOKSHARE_QA_AP_V2_USER_NAME = "QA.ApiTestIM_1@benetech.org";
+    private static final String BOOKSHARE_QA_API_V2_PASSWORD = "gtlbegeu";
+
     @Test
     public void testConnection() throws Exception {
         BookshareHttpOauth2Client httpClient =  new BookshareHttpOauth2Client();
-        HttpsURLConnection urlConnection = httpClient.createBookshareApiUrlConnection("QA.ApiTestIM_1@benetech.org", "gtlbegeu");
+        HttpsURLConnection urlConnection = httpClient.createBookshareApiUrlConnection(BOOKSHARE_QA_AP_V2_USER_NAME, BOOKSHARE_QA_API_V2_PASSWORD);
 
         assertEquals("Url connection should be ok?", HttpURLConnection.HTTP_OK, urlConnection.getResponseCode());
 
