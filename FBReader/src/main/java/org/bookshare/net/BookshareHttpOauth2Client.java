@@ -166,10 +166,20 @@ public class BookshareHttpOauth2Client {
     private LinkedHashMap<String, String> createFormParameterList() {
         LinkedHashMap<String, String> formParameterList = new LinkedHashMap<>();
         formParameterList.put("grant_type", "password");
-        formParameterList.put("username", "QA.ApiTestIM_1@benetech.org");
-        formParameterList.put("password", "gtlbegeu");
+        formParameterList.put("username", getUserName());
+        formParameterList.put("password", getUserPassword());
 
         return formParameterList;
+    }
+
+    @NonNull
+    private String getUserPassword() {
+        return "gtlbegeu";
+    }
+
+    @NonNull
+    private String getUserName() {
+        return "QA.ApiTestIM_1@benetech.org";
     }
 
     private String createQuery(LinkedHashMap<String, String> params) throws UnsupportedEncodingException {
