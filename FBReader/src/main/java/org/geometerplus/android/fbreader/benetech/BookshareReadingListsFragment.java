@@ -66,7 +66,7 @@ public class BookshareReadingListsFragment extends ListFragment {
         Toast.makeText(getActivity(), item.readingListName, Toast.LENGTH_SHORT).show();
     }
 
-    public void replaceFragment(Fragment fragment, boolean addToBackStack) {
+    private void replaceFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         if (addToBackStack) {
             transaction.addToBackStack(null);
@@ -77,8 +77,7 @@ public class BookshareReadingListsFragment extends ListFragment {
         getFragmentManager().executePendingTransactions();
     }
 
-    public class ReadingListsAdapter extends ArrayAdapter<ReadingListsItem> {
-
+    private class ReadingListsAdapter extends ArrayAdapter<ReadingListsItem> {
         public ReadingListsAdapter(Context context, List<ReadingListsItem> items) {
             super(context, R.layout.reading_lists_item, items);
         }
