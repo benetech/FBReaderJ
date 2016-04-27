@@ -14,14 +14,14 @@
         >
 
         <TextView
-            android:id="@+id/readingListBook"
+            android:id="@+id/bookTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@android:style/TextAppearance.Large"
             />
 
         <TextView
-            android:id="@+id/readingListBookAuthors"
+            android:id="@+id/bookAuthorsLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="@android:style/TextAppearance.Small"

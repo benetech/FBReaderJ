@@ -6,9 +6,15 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import org.benetech.android.R;
+import org.geometerplus.fbreader.Paths;
 
 /**
  * Created by animal@martus.org on 4/4/16.
@@ -18,7 +24,10 @@ public class MyBooksActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FragmentTabHost mTabHost;
 
-    private static final String TAB_READING_LISTS_TAG = "TabReadingListsTag";
+    private static final String TAG_GO_READ_TAB_TAG = "TabGoRead";
+    private static final String TAG_RECENT_TAG = "TabRecent";
+    private static final String TAG_FAVORITES_TAG = "TabFavorites";
+    private static final String TAG_READING_LISTS_TAG = "TabReadingLists";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +45,39 @@ public class MyBooksActivity extends AppCompatActivity {
         mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
-        TabHost.TabSpec readingListsTabSpec = mTabHost.newTabSpec(TAB_READING_LISTS_TAG);
-        Drawable readingListsDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_reading_lists, null);
-        readingListsTabSpec.setIndicator("", readingListsDrawable);
-        mTabHost.addTab(readingListsTabSpec, ReadingListsTabContainer.class, null);
+        addTab(GoReadTabContainer.class, getString(R.string.my_books_tab_go_read), R.drawable.ic_my_books);
+        addTab(RecentTabContainer.class, getString(R.string.my_books_tab_recent), R.drawable.ic_book_info);
+        addTab(FavoritesTabContainer.class, getString(R.string.my_books_tab_favorites), R.drawable.ic_list_library_favorites);
+        addTab(ReadingListsTabContainer.class, getString(R.string.my_books_tab_reading_lists), R.drawable.ic_reading_lists);
+    }
+
+    private void addTab(Class tabContantainerClass, String tabTitle, final int drawableResourceId) {
+        TabHost.TabSpec tabSpec = mTabHost.newTabSpec(tabTitle);
+
+        View tabIndicatorView = LayoutInflater.from(this).inflate(R.layout.tab_indicator, mTabHost.getTabWidget(), false);
+        ((TextView) tabIndicatorView.findViewById(R.id.tab_title)).setText(tabTitle);
+        ((ImageView) tabIndicatorView.findViewById(R.id.tab_icon)).setImageResource(drawableResourceId);
+        tabSpec.setIndicator(tabIndicatorView);
+
+        mTabHost.addTab(tabSpec, tabContantainerClass, null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        boolean isPopFragment = false;
+        String currentTabTag = mTabHost.getCurrentTabTag();
+        if (currentTabTag.equals(TAG_GO_READ_TAB_TAG)) {
+            isPopFragment = ((AbstractBaseTabContainer)getSupportFragmentManager().findFragmentByTag(TAG_GO_READ_TAB_TAG)).popFragment();
+        } else if (currentTabTag.equals(TAG_RECENT_TAG)) {
+            isPopFragment = ((AbstractBaseTabContainer)getSupportFragmentManager().findFragmentByTag(TAG_RECENT_TAG)).popFragment();
+        } else if (currentTabTag.equals(TAG_FAVORITES_TAG)) {
+            isPopFragment = ((AbstractBaseTabContainer)getSupportFragmentManager().findFragmentByTag(TAG_FAVORITES_TAG)).popFragment();
+        } else if (currentTabTag.equals(TAG_READING_LISTS_TAG)) {
+            isPopFragment = ((AbstractBaseTabContainer)getSupportFragmentManager().findFragmentByTag(TAG_READING_LISTS_TAG)).popFragment();
+        }
+
+        if (!isPopFragment) {
+            finish();
+        }
     }
 }

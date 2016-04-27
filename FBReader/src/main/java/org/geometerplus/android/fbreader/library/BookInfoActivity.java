@@ -201,8 +201,7 @@ public class BookInfoActivity extends Activity {
 				loadableImage.synchronize();
 			}
 		}
-		final ZLAndroidImageData data =
-			((ZLAndroidImageManager)ZLAndroidImageManager.Instance()).getImageData(imageToUse);
+		final ZLAndroidImageData data = ((ZLAndroidImageManager)ZLAndroidImageManager.Instance()).getImageData(imageToUse);
 		if (data == null) {
 			return;
 		}
@@ -216,9 +215,17 @@ public class BookInfoActivity extends Activity {
 			return;
 		}
 
+		final boolean shouldSetWithForViewWithoutWidth = coverView.getLayoutParams().width <= 0;
+		if (shouldSetWithForViewWithoutWidth) {
+			coverView.getLayoutParams().width = maxWidth;
+		}
+
+		final boolean shouldSetHeightForViewWithoutHeight = coverView.getLayoutParams().height <= 0;
+		if (shouldSetHeightForViewWithoutHeight) {
+			coverView.getLayoutParams().height = maxHeight;
+		}
+
 		coverView.setVisibility(View.VISIBLE);
-		coverView.getLayoutParams().width = maxWidth;
-		coverView.getLayoutParams().height = maxHeight;
 		coverView.setImageBitmap(coverBitmap);
 	}
 

@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import org.benetech.android.R;
 
 /**
- * Created by animal@martus.org on 4/6/16.
+ * Created by animal@martus.org on 4/25/16.
  */
-public class ReadingListsTabContainer extends AbstractBaseTabContainer {
+public class FavoritesTabContainer extends AbstractBaseTabContainer {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -19,6 +19,5 @@ public class ReadingListsTabContainer extends AbstractBaseTabContainer {
 
     @Override
     protected void initView() {
-        replaceFragment(new BookshareReadingListsFragment(), false);
     }
 }

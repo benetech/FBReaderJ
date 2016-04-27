@@ -68,8 +68,8 @@ public class ReadingListFragment extends ListFragment {
                 convertView = inflater.inflate(R.layout.reading_list_book_item, parent, false);
 
                 viewHolder = new ViewHolder();
-                viewHolder.readingListBook = (TextView) convertView.findViewById(R.id.readingListBook);
-                viewHolder.readingListBookAuthors = (TextView) convertView.findViewById(R.id.readingListBookAuthors);
+                viewHolder.readingListBook = (TextView) convertView.findViewById(R.id.bookTitle);
+                viewHolder.readingListBookAuthors = (TextView) convertView.findViewById(R.id.bookAuthorsLabel);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
