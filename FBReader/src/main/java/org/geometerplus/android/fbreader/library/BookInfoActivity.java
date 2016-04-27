@@ -191,9 +191,6 @@ public class BookInfoActivity extends Activity {
 		final DisplayMetrics metrics = new DisplayMetrics();
 		windowManager.getDefaultDisplay().getMetrics(metrics);
 
-		final int maxHeight = metrics.heightPixels * 2 / 3;
-		final int maxWidth = maxHeight * 2 / 3;
-
 		coverView.setVisibility(View.GONE);
 		coverView.setImageDrawable(null);
 
@@ -213,6 +210,8 @@ public class BookInfoActivity extends Activity {
 			return;
 		}
 
+		final int maxHeight = metrics.heightPixels * 2 / 3;
+		final int maxWidth = maxHeight * 2 / 3;
 		final Bitmap coverBitmap = data.getBitmap(2 * maxWidth, 2 * maxHeight);
 		if (coverBitmap == null) {
 			return;
