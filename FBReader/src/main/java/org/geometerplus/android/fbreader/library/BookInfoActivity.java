@@ -188,9 +188,6 @@ public class BookInfoActivity extends Activity {
 	}
 
 	public static void setCover(WindowManager windowManager, ImageView coverView, ZLImage imageToUse) {
-		final DisplayMetrics metrics = new DisplayMetrics();
-		windowManager.getDefaultDisplay().getMetrics(metrics);
-
 		coverView.setVisibility(View.GONE);
 		coverView.setImageDrawable(null);
 
@@ -210,6 +207,8 @@ public class BookInfoActivity extends Activity {
 			return;
 		}
 
+		final DisplayMetrics metrics = new DisplayMetrics();
+		windowManager.getDefaultDisplay().getMetrics(metrics);
 		final int maxHeight = metrics.heightPixels * 2 / 3;
 		final int maxWidth = maxHeight * 2 / 3;
 		final Bitmap coverBitmap = data.getBitmap(2 * maxWidth, 2 * maxHeight);
