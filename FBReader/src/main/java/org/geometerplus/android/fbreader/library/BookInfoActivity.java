@@ -33,6 +33,7 @@ import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.*;
 
@@ -183,8 +184,12 @@ public class BookInfoActivity extends Activity {
 	private void setupCover(Book book) {
 		final ImageView coverView = (ImageView)findViewById(R.id.book_cover);
 
+		setCover(getWindowManager(), coverView, myImage);
+	}
+
+	public static void setCover(WindowManager windowManager, ImageView coverView, ZLImage imageToUse) {
 		final DisplayMetrics metrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		windowManager.getDefaultDisplay().getMetrics(metrics);
 
 		final int maxHeight = metrics.heightPixels * 2 / 3;
 		final int maxWidth = maxHeight * 2 / 3;
@@ -192,18 +197,18 @@ public class BookInfoActivity extends Activity {
 		coverView.setVisibility(View.GONE);
 		coverView.setImageDrawable(null);
 
-		if (myImage == null) {
+		if (imageToUse == null) {
 			return;
 		}
 
-		if (myImage instanceof ZLLoadableImage) {
-			final ZLLoadableImage loadableImage = (ZLLoadableImage)myImage;
+		if (imageToUse instanceof ZLLoadableImage) {
+			final ZLLoadableImage loadableImage = (ZLLoadableImage) imageToUse;
 			if (!loadableImage.isSynchronized()) {
 				loadableImage.synchronize();
 			}
 		}
 		final ZLAndroidImageData data =
-			((ZLAndroidImageManager)ZLAndroidImageManager.Instance()).getImageData(myImage);
+			((ZLAndroidImageManager)ZLAndroidImageManager.Instance()).getImageData(imageToUse);
 		if (data == null) {
 			return;
 		}
