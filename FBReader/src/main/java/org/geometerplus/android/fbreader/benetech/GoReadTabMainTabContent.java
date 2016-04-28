@@ -1,31 +1,21 @@
 package org.geometerplus.android.fbreader.benetech;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import org.apache.commons.io.FileUtils;
-import org.benetech.android.R;
 import org.geometerplus.android.fbreader.library.BookInfoActivity;
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.library.Book;
-import org.geometerplus.fbreader.library.Library;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-import org.geometerplus.zlibrary.core.image.ZLImage;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by animal@martus.org on 4/26/16.
@@ -77,45 +67,5 @@ public class GoReadTabMainTabContent extends ListFragment {
         Intent intent = new Intent(getActivity().getApplicationContext(), BookInfoActivity.class);
         intent.putExtra(BookInfoActivity.CURRENT_BOOK_PATH_KEY, clickedRowItem.getBookFilePath());
         startActivity(intent);
-    }
-
-    private class BookListAdapter extends ArrayAdapter<BookListRowItem> {
-
-        public BookListAdapter(Context context, List<BookListRowItem> items) {
-            super(context, R.layout.book_list_item, items);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder;
-
-            if (convertView == null) {
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                convertView = inflater.inflate(R.layout.book_list_item, parent, false);
-
-                viewHolder = new ViewHolder();
-                viewHolder.bookCover = (ImageView) convertView.findViewById(R.id.bookCover);
-                viewHolder.bookTitle = (TextView) convertView.findViewById(R.id.bookTitle);
-                viewHolder.bookAuthors = (TextView) convertView.findViewById(R.id.bookAuthorsLabel);
-                convertView.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
-
-            BookListRowItem item = getItem(position);
-            ZLImage bookCover = Library.getCover(item.getBookZlFile());
-
-            BookInfoActivity.setCover(getActivity().getWindowManager(), viewHolder.bookCover, bookCover);
-            viewHolder.bookTitle.setText(item.getBookTitle());
-            viewHolder.bookAuthors.setText(item.getAuthors());
-
-            return convertView;
-        }
-    }
-
-    private static class ViewHolder {
-        public ImageView bookCover;
-        public TextView bookTitle;
-        public TextView bookAuthors;
     }
 }
