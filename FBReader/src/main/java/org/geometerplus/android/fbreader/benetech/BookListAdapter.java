@@ -24,6 +24,8 @@ public class BookListAdapter  extends ArrayAdapter<BookListRowItem> {
 
     public BookListAdapter(Activity activityToUse, List<BookListRowItem> items) {
         super(activityToUse, R.layout.book_list_item, items);
+
+        activity = activityToUse;
     }
 
     @Override

@@ -56,7 +56,7 @@ public abstract class BooksDatabase {
 	protected abstract void executeAsATransaction(Runnable actions);
 
 	// returns map fileId -> book
-	protected abstract Map<Long,Book> loadBooks(FileInfoSet infos, boolean existing);
+	public abstract Map<Long,Book> loadBooks(FileInfoSet infos, boolean existing);
 	protected abstract void setExistingFlag(Collection<Book> books, boolean flag);
 	protected abstract Book loadBook(long bookId);
 	protected abstract void reloadBook(Book book);
@@ -83,7 +83,7 @@ public abstract class BooksDatabase {
 	protected abstract void removeFileInfo(long fileId);
 	protected abstract void saveFileInfo(FileInfo fileInfo);
 
-	protected abstract List<Long> loadRecentBookIds();
+	public abstract List<Long> loadRecentBookIds();
 	protected abstract void saveRecentBookIds(final List<Long> ids);
 
 	protected abstract List<Long> loadFavoritesIds();

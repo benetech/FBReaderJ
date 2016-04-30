@@ -19,5 +19,6 @@ public class RecentTabContainer extends AbstractBaseTabContainer {
 
     @Override
     protected void initView() {
+        replaceFragment(new MyBooksRecentTitlesListFragment(), false);
     }
 }

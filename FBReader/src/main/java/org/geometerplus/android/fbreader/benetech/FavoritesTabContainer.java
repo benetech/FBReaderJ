@@ -1,23 +1,15 @@
 package org.geometerplus.android.fbreader.benetech;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import org.benetech.android.R;
+import android.support.annotation.NonNull;
 
 /**
  * Created by animal@martus.org on 4/25/16.
  */
-public class FavoritesTabContainer extends AbstractBaseTabContainer {
+public class FavoritesTabContainer extends AbstractReadingListTabContainer {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.reading_list_tab_container, null);
-    }
-
-    @Override
-    protected void initView() {
+    @NonNull
+    protected String getReadingListName() {
+        return "My Favorites";
     }
 }

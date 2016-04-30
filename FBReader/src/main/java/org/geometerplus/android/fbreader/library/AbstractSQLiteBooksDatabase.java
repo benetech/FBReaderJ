@@ -210,7 +210,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	}
 
 	@Override
-	protected Map<Long,Book> loadBooks(FileInfoSet infos, boolean existing) {
+	public Map<Long,Book> loadBooks(FileInfoSet infos, boolean existing) {
 		Cursor cursor = myDatabase.rawQuery(
 			"SELECT book_id,file_id,title,encoding,language FROM Books WHERE `exists` = " + (existing ? 1 : 0), null
 		);
@@ -691,7 +691,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		});
 	}
 
-	protected List<Long> loadRecentBookIds() {
+	public List<Long> loadRecentBookIds() {
 		final Cursor cursor = myDatabase.rawQuery(
 			"SELECT book_id FROM RecentBooks ORDER BY book_index", null
 		);
