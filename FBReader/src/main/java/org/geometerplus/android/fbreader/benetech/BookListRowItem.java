@@ -4,8 +4,6 @@ import org.geometerplus.fbreader.library.Author;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 
-import java.io.File;
-
 /**
  * Created by animal@martus.org on 4/26/16.
  */
