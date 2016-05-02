@@ -27,7 +27,7 @@ import java.util.Map;
 public class ReadingListFragment extends ListFragment {
 
     private ReadingList readingList;
-    private ArrayList<ReadingListBookItem> readingListBookItems;
+    private ArrayList<AbstractTitleListRowItem> readingListBookItems;
 
     public void setReadingList(ReadingList readingListToUse) {
         readingList = readingListToUse;
@@ -90,9 +90,9 @@ public class ReadingListFragment extends ListFragment {
         return favoriteBooksOnDevice;
     }
 
-    public class ReadingListBooksAdapter extends ArrayAdapter<ReadingListBookItem> {
+    public class ReadingListBooksAdapter extends ArrayAdapter<AbstractTitleListRowItem> {
 
-        public ReadingListBooksAdapter(Context context, List<ReadingListBookItem> items) {
+        public ReadingListBooksAdapter(Context context, List<AbstractTitleListRowItem> items) {
             super(context, R.layout.reading_list_book_item, items);
         }
 
@@ -112,7 +112,7 @@ public class ReadingListFragment extends ListFragment {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            ReadingListBookItem item = getItem(position);
+            AbstractTitleListRowItem item = getItem(position);
             viewHolder.readingListBook.setText(item.getBookTitle());
             viewHolder.readingListBookAuthors.setText(item.getAuthors());
 
