@@ -64,7 +64,7 @@ public class ReadingListFragment extends ListFragment {
         ArrayList<Book> favoriteTitelsOnDevice = getFavoritesOnDevice();
         for (Book favoriteBookOnDevice : favoriteTitelsOnDevice) {
             String concatenatedAutherNames = BookListRowItem.concatenateAuthorNames(favoriteBookOnDevice.authors());
-            readingListBookItems.add(new ReadingListBookItem(favoriteBookOnDevice.getTitle(), concatenatedAutherNames, favoriteBookOnDevice));
+            readingListBookItems.add(new ReadingListBookItem(favoriteBookOnDevice.getTitle(), concatenatedAutherNames));
         }
 
         setListAdapter(new ReadingListBooksAdapter(getActivity(), readingListBookItems));
@@ -113,8 +113,8 @@ public class ReadingListFragment extends ListFragment {
             }
 
             ReadingListBookItem item = getItem(position);
-            viewHolder.readingListBook.setText(item.readingListBookName);
-            viewHolder.readingListBookAuthors.setText(item.readingListBookAuthors);
+            viewHolder.readingListBook.setText(item.getBookTitle());
+            viewHolder.readingListBookAuthors.setText(item.getAuthors());
 
             return convertView;
         }
@@ -123,21 +123,5 @@ public class ReadingListFragment extends ListFragment {
     private static class ViewHolder {
         public TextView readingListBook;
         public TextView readingListBookAuthors;
-    }
-
-    private class ReadingListBookItem {
-        private String readingListBookName;
-        private String readingListBookAuthors;
-        private Book book;
-
-        public ReadingListBookItem(String readingListNameToUse, String readingListBookAuthorsToUse) {
-            this(readingListNameToUse, readingListBookAuthorsToUse, null);
-        }
-
-        public ReadingListBookItem(String readingListNameToUse, String readingListBookAuthorsToUse, Book bookToUse) {
-            readingListBookName = readingListNameToUse;
-            readingListBookAuthors = readingListBookAuthorsToUse;
-            book = bookToUse;
-        }
     }
 }
