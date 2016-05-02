@@ -11,11 +11,15 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import org.benetech.android.R;
+import org.geometerplus.fbreader.library.Book;
+import org.geometerplus.fbreader.library.BooksDatabase;
 import org.geometerplus.fbreader.library.ReadingList;
 import org.geometerplus.fbreader.library.ReadingListBook;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by animal@martus.org on 4/6/16.
@@ -41,6 +45,13 @@ public class ReadingListFragment extends ListFragment {
         }
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        getListView().setOnCreateContextMenuListener(this);
+    }
+
     private void fillListAdapter() {
         ArrayList<ReadingListBook> readingListBooks = readingList.getReadingListBooks();
         for (int index = 0; index < readingListBooks.size(); ++index) {
@@ -50,7 +61,33 @@ public class ReadingListFragment extends ListFragment {
             readingListBookItems.add(new ReadingListBookItem(readingListBookTitle, readingListBookAuthors));
         }
 
+        ArrayList<Book> favoriteTitelsOnDevice = getFavoritesOnDevice();
+        for (Book favoriteBookOnDevice : favoriteTitelsOnDevice) {
+            String concatenatedAutherNames = BookListRowItem.concatenateAuthorNames(favoriteBookOnDevice.authors());
+            readingListBookItems.add(new ReadingListBookItem(favoriteBookOnDevice.getTitle(), concatenatedAutherNames, favoriteBookOnDevice));
+        }
+
         setListAdapter(new ReadingListBooksAdapter(getActivity(), readingListBookItems));
+    }
+
+    private ArrayList<Book> getFavoritesOnDevice() {
+        final BooksDatabase db = BooksDatabase.Instance();
+        final Map<Long,Book> savedBooksByBookId = new HashMap<>();
+        ArrayList<Book> favoriteBooksOnDevice = new ArrayList<>();
+        for (long id : db.loadFavoritesIds()) {
+            Book book = savedBooksByBookId.get(id);
+            if (book == null) {
+                book = Book.getById(id);
+                if (book != null && !book.File.exists()) {
+                    book = null;
+                }
+            }
+            if (book != null) {
+                favoriteBooksOnDevice.add(book);
+            }
+        }
+
+        return favoriteBooksOnDevice;
     }
 
     public class ReadingListBooksAdapter extends ArrayAdapter<ReadingListBookItem> {
@@ -91,10 +128,16 @@ public class ReadingListFragment extends ListFragment {
     private class ReadingListBookItem {
         private String readingListBookName;
         private String readingListBookAuthors;
+        private Book book;
 
         public ReadingListBookItem(String readingListNameToUse, String readingListBookAuthorsToUse) {
+            this(readingListNameToUse, readingListBookAuthorsToUse, null);
+        }
+
+        public ReadingListBookItem(String readingListNameToUse, String readingListBookAuthorsToUse, Book bookToUse) {
             readingListBookName = readingListNameToUse;
             readingListBookAuthors = readingListBookAuthorsToUse;
+            book = bookToUse;
         }
     }
 }

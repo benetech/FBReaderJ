@@ -39,6 +39,11 @@ public class ReadingList {
         return readingListBooks.size();
     }
 
+    public void addBook(ReadingListBook readingListBookToAdd) {
+        if (!readingListBooks.contains(readingListBookToAdd))
+            readingListBooks.add(readingListBookToAdd);
+    }
+
     public ArrayList<ReadingListBook> getReadingListBooks() {
         return new ArrayList<>(readingListBooks);
     }
