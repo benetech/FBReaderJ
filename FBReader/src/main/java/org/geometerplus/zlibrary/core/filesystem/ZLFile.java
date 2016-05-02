@@ -19,8 +19,11 @@
 
 package org.geometerplus.zlibrary.core.filesystem;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 public abstract class ZLFile {
 	private final static HashMap<String,ZLFile> ourCachedFiles = new HashMap<String,ZLFile>();
