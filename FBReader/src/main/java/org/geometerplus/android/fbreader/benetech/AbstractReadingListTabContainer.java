@@ -25,7 +25,7 @@ abstract public class AbstractReadingListTabContainer extends AbstractBaseTabCon
     @Override
     protected void initView() {
         ReadingList readingList = findRecentReadingList();
-        if (readingList ==  null)
+        if (readingList == null)
             return;
 
         ReadingListFragment readingListFragment = new ReadingListFragment();
