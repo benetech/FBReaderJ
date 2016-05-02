@@ -1,8 +1,12 @@
 package org.geometerplus.android.fbreader.benetech;
 
+import android.support.annotation.NonNull;
+
 import org.geometerplus.fbreader.library.Author;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+
+import java.util.List;
 
 /**
  * Created by animal@martus.org on 4/26/16.
@@ -35,8 +39,14 @@ public class BookListRowItem {
     }
 
     private String concatinateAuthors() {
+        List<Author> authors = getBook().authors();
+        return concatenateAuthorNames(authors);
+    }
+
+    @NonNull
+    public static String concatenateAuthorNames(List<Author> authors) {
         final StringBuilder buffer = new StringBuilder();
-        for (Author author: getBook().authors()) {
+        for (Author author: authors) {
             if (buffer.length() > 0) {
                 buffer.append(", ");
             }
