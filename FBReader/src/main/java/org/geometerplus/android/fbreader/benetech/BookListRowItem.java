@@ -8,6 +8,7 @@ import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 
 import java.util.List;
 
+
 /**
  * Created by animal@martus.org on 4/26/16.
  */
@@ -54,5 +55,15 @@ public class BookListRowItem extends AbstractTitleListRowItem {
         }
 
         return buffer.toString();
+    }
+
+    @Override
+    public boolean isDownloadedBook() {
+        return true;
+    }
+
+    @Override
+    public int getBookId() {
+        return (int) getBook().getId();
     }
 }

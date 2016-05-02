@@ -17,4 +17,8 @@ abstract public class AbstractTitleListRowItem {
     abstract public String getBookTitle();
 
     abstract public String getAuthors();
+
+    abstract public boolean isDownloadedBook();
+
+    abstract public int getBookId();
 }

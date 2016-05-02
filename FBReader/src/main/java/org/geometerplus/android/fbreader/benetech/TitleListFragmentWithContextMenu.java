@@ -3,7 +3,10 @@ package org.geometerplus.android.fbreader.benetech;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -12,9 +15,13 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.library.BookInfoActivity;
+import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
+import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Book_Details;
+import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.Library;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
@@ -34,6 +41,9 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment {
     private static final int DELETE_BOOK_ITEM_ID = 4;
 
     protected ArrayList<AbstractTitleListRowItem> bookRowItems;
+
+    private static final String URI_BOOKSHARE_ID_SEARCH = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL + Bookshare_Webservice_Login.BOOKSHARE_API_HOST + "/book/id/";
+    private static final int START_BOOKSHARE_BOOK_DETAILS_ACTIVITY = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -177,6 +187,51 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment {
         } else {
             super.onActivityResult(requestCode, returnCode, intent);
         }
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        AbstractTitleListRowItem clickedRowItem = bookRowItems.get(position);
+        if (clickedRowItem.isDownloadedBook()) {
+            Intent intent = new Intent(getActivity().getApplicationContext(), BookInfoActivity.class);
+            intent.putExtra(BookInfoActivity.CURRENT_BOOK_PATH_KEY, clickedRowItem.getBookFilePath());
+            startActivity(intent);
+        }
+        else {
+            showBookDetailsPageWithDownloadButton(clickedRowItem.getBookId());
+        }
+    }
+
+    protected void showBookDetailsPageWithDownloadButton(int bookshareId) {
+        SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String username = defaultSharedPreferences.getString(Bookshare_Webservice_Login.USER, "");
+        String password = defaultSharedPreferences.getString(Bookshare_Webservice_Login.PASSWORD, "");
+        Intent intent = new Intent(getActivity().getApplicationContext(),Bookshare_Book_Details.class);
+        String uri = createUri(bookshareId, username);
+//FIXME urgent alyways setting isDownloadable to true.  This needs to change to mimic current book details behavior.
+//        if((isFree && bean.getAvailableToDownload().equals("1") && bean.getFreelyAvailable().equals("1")) || (!isFree && bean.getAvailableToDownload().equals("1"))){
+            intent.putExtra("isDownloadable", true);
+//        } else{
+//            intent.putExtra("isDownloadable", false);
+//        }
+        intent.putExtra("ID_SEARCH_URI", uri);
+//        if(!isFree){
+            intent.putExtra("username", username);
+            intent.putExtra("password", password);
+//        }
+
+        startActivityForResult(intent, START_BOOKSHARE_BOOK_DETAILS_ACTIVITY);
+    }
+
+    @NonNull
+    private String createUri(int bookshareId, String username) {
+
+//        if(isFree)
+//            return URI_BOOKSHARE_ID_SEARCH + bookshareId + "?api_key="+developerKey;
+
+        return URI_BOOKSHARE_ID_SEARCH + bookshareId +"/for/"+username+"?api_key="+ BookshareDeveloperKey.DEVELOPER_KEY;
     }
 
     abstract protected void fillListAdapter();
