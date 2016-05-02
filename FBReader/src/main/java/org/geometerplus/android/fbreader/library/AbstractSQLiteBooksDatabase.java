@@ -43,8 +43,6 @@ import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
 import org.geometerplus.zlibrary.core.options.ZLStringOption;
 import org.geometerplus.zlibrary.text.view.ZLTextFixedPosition;
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -725,7 +723,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		myRemoveFromFavoritesStatement.execute();
 	}
 
-	protected List<Long> loadFavoritesIds() {
+	public List<Long> loadFavoritesIds() {
 		final Cursor cursor = myDatabase.rawQuery(
 			"SELECT book_id FROM Favorites", null
 		);
