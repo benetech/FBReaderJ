@@ -26,7 +26,7 @@ public class GoReadTabMainTabContent extends ListFragment {
     private static final String EXTENSION_EPUB = "epub";
     private static final String[] BOOK_FILE_EXTENSIONS_TO_FILTER_BY = {EXTENSION_EPUB, EXTENSION_OPF};
 
-    private ArrayList<BookListRowItem> downloadedBooksList;
+    private ArrayList<AbstractTitleListRowItem> downloadedBooksList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class GoReadTabMainTabContent extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        BookListRowItem clickedRowItem = downloadedBooksList.get(position);
+        AbstractTitleListRowItem clickedRowItem = downloadedBooksList.get(position);
         Intent intent = new Intent(getActivity().getApplicationContext(), BookInfoActivity.class);
         intent.putExtra(BookInfoActivity.CURRENT_BOOK_PATH_KEY, clickedRowItem.getBookFilePath());
         startActivity(intent);

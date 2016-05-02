@@ -33,7 +33,7 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment {
     private static final int REMOVE_FROM_FAVORITES_ITEM_ID = 3;
     private static final int DELETE_BOOK_ITEM_ID = 4;
 
-    protected ArrayList<BookListRowItem> bookRowItems;
+    protected ArrayList<AbstractTitleListRowItem> bookRowItems;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,8 +58,9 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment {
     public boolean onContextItemSelected(MenuItem item) {
         final int position = ((AdapterView.AdapterContextMenuInfo) item.getMenuInfo()).position;
         Book bookClicked = bookRowItems.get(position).getBook();
-        if (bookClicked == null)
+        if (bookClicked == null) {
             return super.onContextItemSelected(item);
+        }
 
         return onContextItemSelected(item.getItemId(), bookClicked);
     }
@@ -122,15 +123,15 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment {
 
     private void deleteBook(Book book, int mode) {
         Library.Instance().removeBook(book, mode);
-        BookListRowItem rowItemToRemove = findBookRowItem(book);
+        AbstractTitleListRowItem rowItemToRemove = findBookRowItem(book);
         ((ArrayAdapter) getListView().getAdapter()).remove(rowItemToRemove);
         getListView().invalidateViews();
         ((BaseAdapter) getListView().getAdapter()).notifyDataSetChanged();
 
     }
 
-    private BookListRowItem findBookRowItem(Book bookToMatch) {
-        for (BookListRowItem bookListRowItem : bookRowItems) {
+    private AbstractTitleListRowItem findBookRowItem(Book bookToMatch) {
+        for (AbstractTitleListRowItem bookListRowItem : bookRowItems) {
             if (bookListRowItem.getBook().getId() == bookToMatch.getId())
                 return bookListRowItem;
         }
@@ -147,7 +148,7 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
         final int position = ((AdapterView.AdapterContextMenuInfo) menuInfo).position;
-        BookListRowItem item = (BookListRowItem) getListAdapter().getItem(position);
+        AbstractTitleListRowItem item = (AbstractTitleListRowItem) getListAdapter().getItem(position);
         final Book book = item.getBook();
         if (book != null) {
             createBookContextMenu(menu, book);
@@ -176,7 +177,6 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment {
         } else {
             super.onActivityResult(requestCode, returnCode, intent);
         }
-
     }
 
     abstract protected void fillListAdapter();

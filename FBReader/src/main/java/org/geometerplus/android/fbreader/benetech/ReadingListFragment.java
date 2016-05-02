@@ -1,9 +1,6 @@
 package org.geometerplus.android.fbreader.benetech;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,43 +21,30 @@ import java.util.Map;
 /**
  * Created by animal@martus.org on 4/6/16.
  */
-public class ReadingListFragment extends ListFragment {
+public class ReadingListFragment extends TitleListFragmentWithContextMenu {
 
     private ReadingList readingList;
-    private ArrayList<AbstractTitleListRowItem> readingListBookItems;
 
     public void setReadingList(ReadingList readingListToUse) {
         readingList = readingListToUse;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        readingListBookItems = new ArrayList<>();
-        try {
-            fillListAdapter();
-        } catch (Exception e) {
-            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
-        }
-    }
-
-    private void fillListAdapter() {
+    protected void fillListAdapter() {
         ArrayList<ReadingListBook> readingListBooks = readingList.getReadingListBooks();
         for (int index = 0; index < readingListBooks.size(); ++index) {
             ReadingListBook readingListBook = readingListBooks.get(index);
             final String readingListBookTitle = readingListBook.getTitle();
             final String readingListBookAuthors = readingListBook.getAllAuthorsAsString();
-            readingListBookItems.add(new ReadingListBookItem(readingListBookTitle, readingListBookAuthors));
+            bookRowItems.add(new ReadingListBookItem(readingListBookTitle, readingListBookAuthors));
         }
 
         ArrayList<Book> favoriteTitelsOnDevice = getFavoritesOnDevice();
         for (Book favoriteBookOnDevice : favoriteTitelsOnDevice) {
-            String concatenatedAutherNames = BookListRowItem.concatenateAuthorNames(favoriteBookOnDevice.authors());
-            readingListBookItems.add(new ReadingListBookItem(favoriteBookOnDevice.getTitle(), concatenatedAutherNames));
+            bookRowItems.add(new BookListRowItem(favoriteBookOnDevice));
         }
 
-        setListAdapter(new ReadingListBooksAdapter(getActivity(), readingListBookItems));
+        setListAdapter(new ReadingListBooksAdapter(getActivity(), bookRowItems));
     }
 
     private ArrayList<Book> getFavoritesOnDevice() {

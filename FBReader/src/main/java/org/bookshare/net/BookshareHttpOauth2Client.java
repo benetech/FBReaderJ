@@ -37,7 +37,8 @@ public class BookshareHttpOauth2Client {
     private static final String COLON = ":";
     private static final String MASHERY_PASSWORD = "";
     private static final String MASHERY_REQUEST_HEADER_LOGIN = MASHERY_API_KEY + COLON + MASHERY_PASSWORD;
-    private static final String HOST_NAME = "api.staging.bookshare.org";
+//    private static final String HOST_NAME = "api.stagig.bookshare.org";
+    private static final String HOST_NAME = "api.bookshare.org";
     private static final String POST_REQUESTE_METHOD = "POST";
     private static final String GET_REQUEST_METHOD = "GET";
     private static String URL_AS_STRING = "https://" + HOST_NAME + "/v2/oauth/token?api_key=" + API_KEY;
@@ -122,6 +123,7 @@ public class BookshareHttpOauth2Client {
     public String requestData(HttpsURLConnection urlConnection) throws Exception {
         InputStream inputStream;
         final int responseCode = urlConnection.getResponseCode();
+        System.out.println("----------------------RESPONSE CODE = " + responseCode);
         if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
             inputStream = urlConnection.getInputStream();
         } else {

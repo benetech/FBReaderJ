@@ -18,11 +18,11 @@ import java.util.List;
 /**
  * Created by animal@martus.org on 4/28/16.
  */
-public class BookListAdapter  extends ArrayAdapter<BookListRowItem> {
+public class BookListAdapter  extends ArrayAdapter<AbstractTitleListRowItem> {
 
     private Activity activity;
 
-    public BookListAdapter(Activity activityToUse, List<BookListRowItem> items) {
+    public BookListAdapter(Activity activityToUse, List<AbstractTitleListRowItem> items) {
         super(activityToUse, R.layout.book_list_item, items);
 
         activity = activityToUse;
@@ -45,7 +45,7 @@ public class BookListAdapter  extends ArrayAdapter<BookListRowItem> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        BookListRowItem item = getItem(position);
+        AbstractTitleListRowItem item = getItem(position);
         ZLImage bookCover = Library.getCover(item.getBookZlFile());
 
         BookInfoActivity.setCover(getActivity().getWindowManager(), viewHolder.bookCover, bookCover);
