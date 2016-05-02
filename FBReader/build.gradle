@@ -8,7 +8,7 @@ android {
     project.ext.set("versionMajor", "5")
     project.ext.set("versionMinor", "2")
     project.ext.set("versionRevision", "13")
-    project.ext.set("versionCode","57")
+    project.ext.set("versionCode","58")
     
     //NOTE: Changing the app name here will cause Jenkins to fail copying to anitfactory.
     //See the build Jenkins -> Configure -> Published Artifacts field
