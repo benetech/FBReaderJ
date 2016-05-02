@@ -45,13 +45,6 @@ public class ReadingListFragment extends ListFragment {
         }
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        getListView().setOnCreateContextMenuListener(this);
-    }
-
     private void fillListAdapter() {
         ArrayList<ReadingListBook> readingListBooks = readingList.getReadingListBooks();
         for (int index = 0; index < readingListBooks.size(); ++index) {
