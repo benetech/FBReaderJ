@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by animal@martus.org on 4/26/16.
  */
-public class BookListRowItem {
+public class BookListRowItem extends AbstractTitleListRowItem {
     private Book book;
 
     public BookListRowItem(Book bookToUse) {
