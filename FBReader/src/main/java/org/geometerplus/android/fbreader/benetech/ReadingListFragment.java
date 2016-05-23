@@ -37,7 +37,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             final String readingListBookTitle = readingListBook.getTitle();
             final String readingListBookAuthors = readingListBook.getAllAuthorsAsString();
             final int bookshareId = readingListBook.getBookId();
-            bookRowItems.add(new ReadingListBookItem(bookshareId, readingListBookTitle, readingListBookAuthors));
+            bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle, readingListBookAuthors));
         }
 
         ArrayList<Book> favoriteTitelsOnDevice = getFavoritesOnDevice();
