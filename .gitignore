@@ -1,6 +1,7 @@
 default.properties
 build.properties
 local.properties
+FBReader.iml
 bin/
 gen/
 obj/
