@@ -37,6 +37,7 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
             }
         }
 
+        sortListItems();
         BookListAdapter adapter = new BookListAdapter(getActivity(), bookRowItems);
         adapter.notifyDataSetChanged();
         setListAdapter(adapter);

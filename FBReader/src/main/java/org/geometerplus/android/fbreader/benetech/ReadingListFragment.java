@@ -45,6 +45,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             bookRowItems.add(new DownloadedTitleListRowItem(favoriteBookOnDevice));
         }
 
+        sortListItems();
         setListAdapter(new ReadingListBooksAdapter(getActivity(), bookRowItems));
     }
 

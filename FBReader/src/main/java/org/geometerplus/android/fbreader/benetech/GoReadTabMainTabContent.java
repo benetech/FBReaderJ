@@ -16,6 +16,7 @@ import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by animal@martus.org on 4/26/16.
@@ -56,7 +57,12 @@ public class GoReadTabMainTabContent extends ListFragment {
                 Log.e(this.getClass().getSimpleName(), "Book file exists but could not create Book object from it");
         }
 
+        sortListItems();
         setListAdapter(new BookListAdapter(getActivity(), downloadedBooksList));
+    }
+
+    private void sortListItems() {
+        Collections.sort(downloadedBooksList);
     }
 
     @Override

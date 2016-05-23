@@ -27,6 +27,7 @@ import org.geometerplus.fbreader.library.Library;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by animal@martus.org on 5/2/16.
@@ -55,6 +56,10 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment {
         } catch (Exception e) {
             Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
         }
+    }
+
+    protected void sortListItems() {
+        Collections.sort(bookRowItems);
     }
 
     @Override
