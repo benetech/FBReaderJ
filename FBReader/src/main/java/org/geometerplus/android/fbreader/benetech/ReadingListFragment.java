@@ -42,7 +42,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
 
         ArrayList<Book> favoriteTitelsOnDevice = getFavoritesOnDevice();
         for (Book favoriteBookOnDevice : favoriteTitelsOnDevice) {
-            bookRowItems.add(new BookListRowItem(favoriteBookOnDevice));
+            bookRowItems.add(new DownloadedTitleListRowItem(favoriteBookOnDevice));
         }
 
         setListAdapter(new ReadingListBooksAdapter(getActivity(), bookRowItems));

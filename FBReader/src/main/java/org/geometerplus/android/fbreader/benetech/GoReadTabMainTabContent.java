@@ -51,7 +51,7 @@ public class GoReadTabMainTabContent extends ListFragment {
             ZLFile zlFile = ZLFile.createFileByPath(bookFile.getAbsolutePath());
             final Book book = Book.getByFile(zlFile);
             if (book != null)
-                downloadedBooksList.add(new BookListRowItem(book));
+                downloadedBooksList.add(new DownloadedTitleListRowItem(book));
             else
                 Log.e(this.getClass().getSimpleName(), "Book file exists but could not create Book object from it");
         }

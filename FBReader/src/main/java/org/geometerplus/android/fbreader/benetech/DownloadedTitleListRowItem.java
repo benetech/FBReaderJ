@@ -12,10 +12,10 @@ import java.util.List;
 /**
  * Created by animal@martus.org on 4/26/16.
  */
-public class BookListRowItem extends AbstractTitleListRowItem {
+public class DownloadedTitleListRowItem extends AbstractTitleListRowItem {
     private Book book;
 
-    public BookListRowItem(Book bookToUse) {
+    public DownloadedTitleListRowItem(Book bookToUse) {
         book = bookToUse;
     }
 

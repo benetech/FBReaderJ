@@ -33,7 +33,7 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
                 }
             }
             if (book != null) {
-                bookRowItems.add(new BookListRowItem(book));
+                bookRowItems.add(new DownloadedTitleListRowItem(book));
             }
         }
 
