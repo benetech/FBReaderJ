@@ -663,7 +663,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private void playEarcon(String backEarcon) {
-        myTTS.playEarcon(backEarcon, TextToSpeech.QUEUE_ADD, null);
+        if (accessibilityManager.isEnabled())
+            myTTS.playEarcon(backEarcon, TextToSpeech.QUEUE_ADD, null);
     }
 
     private void setIsPaused() {
