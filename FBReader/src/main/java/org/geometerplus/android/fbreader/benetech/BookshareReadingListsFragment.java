@@ -28,6 +28,7 @@ import java.util.List;
 public class BookshareReadingListsFragment extends ListFragment {
 
     private ArrayList<ReadingListsItem> readingListsItems;
+    private static final String READINGLIST_TAG = "ReadingListFragment";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class BookshareReadingListsFragment extends ListFragment {
     private void replaceFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         if (addToBackStack) {
-            transaction.addToBackStack(null);
+            transaction.addToBackStack(READINGLIST_TAG);
         }
 
         transaction.replace(R.id.container_framelayout, fragment);
