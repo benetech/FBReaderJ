@@ -60,20 +60,25 @@ public class MyBooksActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        boolean isPopFragment = false;
         String currentTabTag = mTabHost.getCurrentTabTag();
-        if (currentTabTag.equals(TAG_GO_READ_TAB_TAG)) {
-            isPopFragment = ((AbstractBaseTabContainer)getSupportFragmentManager().findFragmentByTag(TAG_GO_READ_TAB_TAG)).popFragment();
-        } else if (currentTabTag.equals(TAG_RECENT_TAG)) {
-            isPopFragment = ((AbstractBaseTabContainer)getSupportFragmentManager().findFragmentByTag(TAG_RECENT_TAG)).popFragment();
-        } else if (currentTabTag.equals(TAG_FAVORITES_TAG)) {
-            isPopFragment = ((AbstractBaseTabContainer)getSupportFragmentManager().findFragmentByTag(TAG_FAVORITES_TAG)).popFragment();
-        } else if (currentTabTag.equals(TAG_READING_LISTS_TAG)) {
-            isPopFragment = ((AbstractBaseTabContainer)getSupportFragmentManager().findFragmentByTag(TAG_READING_LISTS_TAG)).popFragment();
-        }
+        boolean isPopFragment = popFragment(currentTabTag);
 
         if (!isPopFragment) {
             finish();
         }
+    }
+
+    private boolean popFragment(String currentTabTag) {
+        if (currentTabTag.equals(TAG_GO_READ_TAB_TAG)) {
+            return ((AbstractBaseTabContainer)getSupportFragmentManager().findFragmentByTag(TAG_GO_READ_TAB_TAG)).popFragment();
+        } else if (currentTabTag.equals(TAG_RECENT_TAG)) {
+            return ((AbstractBaseTabContainer)getSupportFragmentManager().findFragmentByTag(TAG_RECENT_TAG)).popFragment();
+        } else if (currentTabTag.equals(TAG_FAVORITES_TAG)) {
+            return ((AbstractBaseTabContainer)getSupportFragmentManager().findFragmentByTag(TAG_FAVORITES_TAG)).popFragment();
+        } else if (currentTabTag.equals(TAG_READING_LISTS_TAG)) {
+            return ((AbstractBaseTabContainer)getSupportFragmentManager().findFragmentByTag(TAG_READING_LISTS_TAG)).popFragment();
+        }
+
+        return false;
     }
 }
