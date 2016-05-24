@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import org.benetech.android.R;
 
+import java.util.ArrayList;
+
 /**
  * Created by animal@martus.org on 4/4/16.
  */
@@ -20,10 +22,12 @@ public class MyBooksActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FragmentTabHost mTabHost;
 
+
     private static final String TAG_GO_READ_TAB_TAG = "TabGoRead";
     private static final String TAG_RECENT_TAG = "TabRecent";
     private static final String TAG_FAVORITES_TAG = "TabFavorites";
     private static final String TAG_READING_LISTS_TAG = "TabReadingLists";
+    private ArrayList<String> fragmentTags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +38,16 @@ public class MyBooksActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        fillFragmentTagsList();
         initTabs();
+    }
+
+    private void fillFragmentTagsList() {
+        fragmentTags = new ArrayList();
+        fragmentTags.add(TAG_GO_READ_TAB_TAG);
+        fragmentTags.add(TAG_RECENT_TAG);
+        fragmentTags.add(TAG_FAVORITES_TAG);
+        fragmentTags.add(TAG_READING_LISTS_TAG);
     }
 
     private void initTabs() {
@@ -68,19 +81,11 @@ public class MyBooksActivity extends AppCompatActivity {
         }
     }
 
-    private boolean popFragment(String currentTabTag) {
-        AbstractBaseTabContainer foundFragment = null;
-        if (currentTabTag.equals(TAG_GO_READ_TAB_TAG))
-            foundFragment = (AbstractBaseTabContainer) getSupportFragmentManager().findFragmentByTag(TAG_GO_READ_TAB_TAG);
-        else if (currentTabTag.equals(TAG_RECENT_TAG))
-            foundFragment = (AbstractBaseTabContainer) getSupportFragmentManager().findFragmentByTag(TAG_RECENT_TAG);
-        else if (currentTabTag.equals(TAG_FAVORITES_TAG))
-            foundFragment = (AbstractBaseTabContainer) getSupportFragmentManager().findFragmentByTag(TAG_FAVORITES_TAG);
-        else if (currentTabTag.equals(TAG_READING_LISTS_TAG))
-            foundFragment = (AbstractBaseTabContainer) getSupportFragmentManager().findFragmentByTag(TAG_READING_LISTS_TAG);
-
-        if (foundFragment != null)
+    private boolean popFragment(String currentTabTagToPop) {
+        if (fragmentTags.contains(currentTabTagToPop)) {
+            AbstractBaseTabContainer foundFragment = (AbstractBaseTabContainer) getSupportFragmentManager().findFragmentByTag(currentTabTagToPop);
             return foundFragment.popFragment();
+        }
 
         return false;
     }
