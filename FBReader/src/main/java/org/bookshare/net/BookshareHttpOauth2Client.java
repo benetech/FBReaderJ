@@ -123,7 +123,6 @@ public class BookshareHttpOauth2Client {
     public String requestData(HttpsURLConnection urlConnection) throws Exception {
         InputStream inputStream;
         final int responseCode = urlConnection.getResponseCode();
-        System.out.println("----------------------RESPONSE CODE = " + responseCode);
         if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
             inputStream = urlConnection.getInputStream();
         } else {
