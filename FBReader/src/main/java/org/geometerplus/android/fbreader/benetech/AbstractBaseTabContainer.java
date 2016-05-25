@@ -19,6 +19,7 @@ abstract public class AbstractBaseTabContainer extends Fragment {
         if (addToBackStack) {
             transaction.addToBackStack(null);
         }
+
         transaction.replace(R.id.container_framelayout, fragment);
         transaction.commit();
         getChildFragmentManager().executePendingTransactions();
@@ -42,6 +43,10 @@ abstract public class AbstractBaseTabContainer extends Fragment {
             initView();
         }
     }
+
+    abstract protected int getTitleId();
+
+    abstract protected int getTabDrawableId();
 
     abstract protected void initView();
 }

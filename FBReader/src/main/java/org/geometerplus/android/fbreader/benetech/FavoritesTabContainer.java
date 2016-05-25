@@ -2,6 +2,8 @@ package org.geometerplus.android.fbreader.benetech;
 
 import android.support.annotation.NonNull;
 
+import org.benetech.android.R;
+
 /**
  * Created by animal@martus.org on 4/25/16.
  */
@@ -11,5 +13,15 @@ public class FavoritesTabContainer extends AbstractReadingListTabContainer {
     @NonNull
     protected String getReadingListName() {
         return "My Favorites";
+    }
+
+    @Override
+    public int getTitleId() {
+        return R.string.my_books_tab_favorites;
+    }
+
+    @Override
+    public int getTabDrawableId() {
+        return R.drawable.ic_list_library_favorites;
     }
 }

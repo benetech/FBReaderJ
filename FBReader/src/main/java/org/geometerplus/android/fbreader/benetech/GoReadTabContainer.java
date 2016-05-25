@@ -21,4 +21,14 @@ public class GoReadTabContainer extends AbstractBaseTabContainer {
     protected void initView() {
         replaceFragment(new GoReadTabMainTabContent(), false);
     }
+
+    @Override
+    public int getTitleId() {
+        return R.string.my_books_tab_go_read;
+    }
+
+    @Override
+    public int getTabDrawableId() {
+        return R.drawable.ic_my_books;
+    }
 }

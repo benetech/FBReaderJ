@@ -21,4 +21,14 @@ public class RecentTabContainer extends AbstractBaseTabContainer {
     protected void initView() {
         replaceFragment(new MyBooksRecentTitlesListFragment(), false);
     }
+
+    @Override
+    public int getTitleId() {
+        return R.string.my_books_tab_recent;
+    }
+
+    @Override
+    public int getTabDrawableId() {
+        return R.drawable.ic_book_info;
+    }
 }

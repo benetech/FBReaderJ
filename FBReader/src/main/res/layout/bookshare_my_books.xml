@@ -1,8 +1,8 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -18,35 +18,21 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
+            android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabMode="fixed"
-            app:tabGravity="fill"/>
+            app:tabGravity="fill"
+            style="@style/MyCustomTabLayout"
+            />
+
     </android.support.design.widget.AppBarLayout>
 
 
-    <android.support.v4.app.FragmentTabHost
-        android:id="@android:id/tabhost"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <FrameLayout
-            android:id="@android:id/tabcontent"
-            android:layout_width="0dip"
-            android:layout_height="0dip"
-            android:layout_weight="0" />
-
-    </android.support.v4.app.FragmentTabHost>
-
-    <FrameLayout
-        android:id="@+id/realtabcontent"
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1" />
-
-
-
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

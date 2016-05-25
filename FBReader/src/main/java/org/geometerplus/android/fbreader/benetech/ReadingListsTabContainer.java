@@ -21,4 +21,14 @@ public class ReadingListsTabContainer extends AbstractBaseTabContainer {
     protected void initView() {
         replaceFragment(new BookshareReadingListsFragment(), false);
     }
+
+    @Override
+    public int getTitleId() {
+        return R.string.my_books_tab_reading_lists;
+    }
+
+    @Override
+    public int getTabDrawableId() {
+        return R.drawable.ic_reading_lists;
+    }
 }
