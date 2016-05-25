@@ -535,7 +535,7 @@
 					<node name="url" value="http://twitter.com/bookshare"/>
 				</node>
                 <node name="forum" value="Leave feedback on our forum">
-                    <node name="url" value="http://bookshare.uservoice.com/forums/137554-go-read"/>
+                    <node name="url" value="https://www.bookshare.org/cms/help-center/user-feedback"/>
                 </node>
 			</node>
 		</node>
