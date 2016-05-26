@@ -113,6 +113,8 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
     private class CustomProgressDialog extends AlertDialog {
         public CustomProgressDialog(Context context) {
             super(context);
+
+            setCancelable(false);
         }
 
         @Override
