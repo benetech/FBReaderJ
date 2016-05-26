@@ -1,6 +1,8 @@
 package org.geometerplus.android.fbreader.benetech;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +26,8 @@ import java.util.ArrayList;
 public class MyBooksActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    private SharedPreferences sharedPreferences;
+    private static final String SHARE_PREFERENCE_CURRENT_PAGE_INDEX_TAG = "my_books_current_page_index";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class MyBooksActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         initTabs();
     }
 
@@ -51,6 +56,7 @@ public class MyBooksActivity extends AppCompatActivity {
 
     private void initTabs() {
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager.addOnPageChangeListener(new PageChangeHandler(sharedPreferences, SHARE_PREFERENCE_CURRENT_PAGE_INDEX_TAG));
         MyBooksPagerAdapter pagerAdapter = new MyBooksPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
@@ -63,6 +69,13 @@ public class MyBooksActivity extends AppCompatActivity {
             tab.setTag(pagerAdapter.getTabId(index));
             tab.setCustomView(pagerAdapter.getTabView(index));
         }
+
+        setCurrentPageToLastSelectedPage(viewPager);
+    }
+
+    private void setCurrentPageToLastSelectedPage(ViewPager viewPager) {
+        int previousSelectedPageIndex = sharedPreferences.getInt(SHARE_PREFERENCE_CURRENT_PAGE_INDEX_TAG, 0);
+        viewPager.setCurrentItem(previousSelectedPageIndex, true);
     }
 
     @Override
