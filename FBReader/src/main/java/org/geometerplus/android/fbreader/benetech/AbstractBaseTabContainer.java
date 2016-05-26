@@ -1,6 +1,7 @@
 package org.geometerplus.android.fbreader.benetech;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -13,6 +14,13 @@ import org.benetech.android.R;
 abstract public class AbstractBaseTabContainer extends Fragment {
 
     private boolean mIsViewInited;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setRetainInstance(true);
+    }
 
     public void replaceFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();

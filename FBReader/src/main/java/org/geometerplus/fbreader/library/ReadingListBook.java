@@ -1,9 +1,12 @@
 package org.geometerplus.fbreader.library;
 
+import android.support.annotation.NonNull;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by animal@martus.org on 4/4/16.
@@ -49,6 +52,11 @@ public class ReadingListBook {
     }
 
     public String getAllAuthorsAsString() {
+        return getAllAuthorsAsString(this.authors);
+    }
+
+    @NonNull
+    public static String getAllAuthorsAsString(List<String> authors) {
         StringBuffer buffer = new StringBuffer();
         for (int index = 0; index < authors.size(); ++index) {
             if (index > 0)

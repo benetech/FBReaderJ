@@ -24,11 +24,9 @@ import org.benetech.android.R;
 import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
-import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -381,8 +379,12 @@ public class Bookshare_Books_Listing extends ListActivity{
 
             /* Get the XMLReader of the SAXParser we created. */
             XMLReader parser = sp.getXMLReader();
-            parser.setContentHandler(new SAXHandler());
+            BookshareApiResultSaxHandler handler = new BookshareApiResultSaxHandler();
+            parser.setContentHandler(handler);
             parser.parse(is);
+
+            total_pages_result = handler.getTotal_pages_result();
+            vectorResults = handler.getVectorResults();
         }
         catch(SAXException e){
             System.out.println(e);
@@ -392,62 +394,6 @@ public class Bookshare_Books_Listing extends ListActivity{
         }
         catch(IOException ioe){
             System.out.println(ioe);
-        }
-    }
-
-    // Class containing the logic for parsing the response of search results
-    private class SAXHandler extends DefaultHandler {
-
-        boolean result = false;
-
-        StringBuilder stringBuilder = new StringBuilder();
-        Vector<String> vector_author;
-        Vector<String> vector_downloadFormat;
-
-        Bookshare_Result_Bean result_bean;
-
-        public void startElement(String namespaceURI, String localName, String qName, Attributes atts) {
-
-            stringBuilder = new StringBuilder();
-
-            if (qName.equalsIgnoreCase("result")) {
-                result = true;
-                result_bean = new Bookshare_Result_Bean();
-                vector_author = new Vector<String>();
-                vector_downloadFormat = new Vector<String>();
-            }
-        }
-
-        public void endElement(String uri, String localName, String qName) {
-            if (result) {
-                if (qName.equalsIgnoreCase("result")) {
-                    result = false;
-                    result_bean.setAuthor(vector_author.toArray(new String[0]));
-                    result_bean.setDownloadFormats(vector_downloadFormat.toArray(new String[0]));
-                    vectorResults.add(result_bean);
-                    result_bean = null;
-                } else if (qName.equalsIgnoreCase("id")) {
-                    result_bean.setId(stringBuilder.toString());
-                } else if (qName.equalsIgnoreCase("title")) {
-                    result_bean.setTitle(stringBuilder.toString());
-                } else if (qName.equalsIgnoreCase("author")) {
-                    vector_author.add(stringBuilder.toString());
-                } else if (qName.equalsIgnoreCase("download-format")) {
-                    vector_downloadFormat.add(stringBuilder.toString());
-                } else if (qName.equalsIgnoreCase("images")) {
-                    result_bean.setImages(stringBuilder.toString());
-                } else if (qName.equalsIgnoreCase("freely-available")) {
-                    result_bean.setFreelyAvailable(stringBuilder.toString());
-                } else if (qName.equalsIgnoreCase("available-to-download")) {
-                    result_bean.setAvailableToDownload(stringBuilder.toString());
-                } else if (qName.equalsIgnoreCase("num-pages")) {
-                    total_pages_result = Integer.parseInt(stringBuilder.toString());
-                }
-            }
-        }
-
-        public void characters(char[] c, int start, int length) {
-            stringBuilder.append(c, start, length);
         }
     }
 
