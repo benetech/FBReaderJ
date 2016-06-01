@@ -422,7 +422,9 @@ public class Bookshare_Webservice_Login extends Activity{
 				editor.putString(PASSWORD, password);
 				editor.putBoolean("isOM", isOM);
 				editor.commit();
-				startActivity(intent);
+				if (isFree)
+					startActivity(intent);
+
 				finish();
 				break;
 				
