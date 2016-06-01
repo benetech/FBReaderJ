@@ -398,11 +398,21 @@ public class Bookshare_Webservice_Login extends Activity{
 
 			switch(status){
 			
-			//Save settings and finish this activity
+			// Navigate to the next Activity
 			case LOGIN_SUCCESSFUL:
+				intent = new Intent(getApplicationContext(), Bookshare_Menu.class);
+
 				//this is if user log in after prompted by Bookshare_Periodical_Edition_Listing class
 				if(requestType==Bookshare_Periodical_Edition_Listing.EDITION_METADATA_RESPONSE){
+					intent = new Intent(getApplicationContext(), Bookshare_Periodical_Edition_Details.class);
 					uri= Bookshare_Periodical_Edition_Listing.URI_BOOKSHARE_PERIODICAL_EDITION_SEARCH+ periodicalId + "/edition/" + periodicalEdition + "/revision/" + periodicalRevision+"/for/"+username+"?api_key="+BookshareDeveloperKey.DEVELOPER_KEY;
+					intent.putExtra("ID_SEARCH_URI", uri);
+					intent.putExtra("PERIODICAL_TITLE", periodicalTitle);;
+				}
+
+				if(!isFree){
+					intent.putExtra(USER, username);
+					intent.putExtra(PASSWORD, password);
 				}
 
 				// Obtain the application wide SharedPreferences object and store the login information
@@ -412,6 +422,7 @@ public class Bookshare_Webservice_Login extends Activity{
 				editor.putString(PASSWORD, password);
 				editor.putBoolean("isOM", isOM);
 				editor.commit();
+				startActivity(intent);
 				finish();
 				break;
 				
