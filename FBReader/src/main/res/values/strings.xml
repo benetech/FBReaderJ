@@ -155,6 +155,15 @@
     <string name="menu_item_content_description_delete_book">Delete current open book</string>
     <string name="menu_item_sync_with_bookshare">Sync with Bookshare</string>
 
+    <!-- Navigation Drawer Strings -->
+    <string name="nav_draw_search_text">Search Text</string>
+    <string name="nav_draw_night">Night</string>
+    <string name="nav_draw_day">Day</string>
+    <string name="nav_draw_screen_orientation">Screen Orientation</string>
+    <string name="nav_draw_book_info">Book Info</string>
+    <string name="nav_draw_add_to_favs">Add to Favorites</string>
+
+
     <string name="message_cannot_delete_guide">Cannot delete guide!</string>
     <string name="message_confirm_remove_book">Remove book from device?</string>
     <string name="message_bookmark_already_exists">Bookmark already exists!</string>
@@ -193,5 +202,8 @@
     <string name="menu_item_about_goread">About GoRead</string>
     <string name="menu_item_login_bookshare">Login Bookshare</string>
     <string name="menu_item_logout_bookshare">Logout Bookshare</string>
+
+
+
 
 </resources>

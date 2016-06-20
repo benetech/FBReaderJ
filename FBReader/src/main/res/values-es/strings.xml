@@ -155,6 +155,15 @@
     <string name="menu_item_content_description_delete_book">Borrar libro abierto</string>
     <string name="menu_item_sync_with_bookshare">Sincronizar con Bookshare</string>
 
+    <!-- Navigation Drawer Strings -->
+    <string name="nav_draw_search_text">Buscar Texto</string>
+    <string name="nav_draw_night">Noche</string>
+    <string name="nav_draw_day">Día</string>
+    <string name="nav_draw_screen_orientation">Orientación Pantalla</string>
+    <string name="nav_draw_book_info">Información Libro</string>
+    <string name="nav_draw_add_to_favs">Agregar a Favoritos</string>
+
+
     <string name="message_cannot_delete_guide">No se puede borrar la guía!</string>
     <string name="message_confirm_remove_book">Borrar libro de dispositivo?</string>
     <string name="message_bookmark_already_exists">Marcador ya existeç!</string>
