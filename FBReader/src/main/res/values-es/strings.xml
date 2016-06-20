@@ -162,6 +162,7 @@
     <string name="nav_draw_screen_orientation">Orientación Pantalla</string>
     <string name="nav_draw_book_info">Información Libro</string>
     <string name="nav_draw_add_to_favs">Agregar a Favoritos</string>
+    <string name="nav_draw_other_cats">Otros Catálogos</string>
 
 
     <string name="message_cannot_delete_guide">No se puede borrar la guía!</string>

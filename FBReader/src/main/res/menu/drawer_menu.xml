@@ -26,9 +26,9 @@
 
         <item
             android:id="@+id/drawer_item_other_catalogs"
-            android:title="Other Catalogs"
+            android:title="@string/nav_draw_other_cats"
             android:icon="@drawable/ic_menu_library"
-            android:contentDescription="Other Catalogs"
+            android:contentDescription="@string/nav_draw_other_cats"
             />
 
     </group>

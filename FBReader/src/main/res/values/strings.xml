@@ -162,6 +162,7 @@
     <string name="nav_draw_screen_orientation">Screen Orientation</string>
     <string name="nav_draw_book_info">Book Info</string>
     <string name="nav_draw_add_to_favs">Add to Favorites</string>
+    <string name="nav_draw_other_cats">Other Catalogs</string>
 
 
     <string name="message_cannot_delete_guide">Cannot delete guide!</string>
