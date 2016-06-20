@@ -147,6 +147,7 @@
 			<node name="buyAllBooks" value="Buy all books"/>
 		</node>
 	</node>
+
 	<node name="buyBook">
 		<node name="title" value="Purchase book"/>
 		<node name="titleSeveralBooks" value="Purchase books"/>
@@ -235,7 +236,6 @@
 		<node name="clearSelection" value="Clear"/>
 	</node>
 	<node name="menu">
-
 		<node name="preferences" value="Settings"/>
 		<node name="about_goread" value="About GoRead"/>
 		<node name="logout_from_bookshare" value="Logout of Bookshare"/>
