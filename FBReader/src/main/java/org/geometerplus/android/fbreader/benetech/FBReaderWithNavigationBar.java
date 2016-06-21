@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener, SimpleGestureFilter.SimpleGestureListener, AsyncResponse<Boolean>  {
 
@@ -229,6 +230,11 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     public void onResume() {
         super.onResume();
         try {
+            Locale bookLocale = Locale.forLanguageTag(myApi.getBookLanguage());
+            if (myTTS.isLanguageAvailable(bookLocale) == TextToSpeech.LANG_AVAILABLE) {
+                myTTS.setLanguage(bookLocale);
+            }
+
             findViewById(R.id.navigation_bar_play).requestFocus();
             if(accessibilityManager.isEnabled()){
                 enablePlayButton();
