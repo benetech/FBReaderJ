@@ -220,10 +220,8 @@ public class FBReader extends ZLAndroidActivity {
         int userManualVersion = prefs.getInt(PREFS_USER_MANUAL_VERSION, 0);
         if (userManualVersion != currentVersion) {
             copyManual();
-
 			//userManualVersion is ultimately a packageversion check. Should be good placing this here.
 			copyFonts();
-
 			SharedPreferences.Editor prefsEditor = prefs.edit();
             prefsEditor.putInt(PREFS_USER_MANUAL_VERSION, currentVersion);
             prefsEditor.commit();
