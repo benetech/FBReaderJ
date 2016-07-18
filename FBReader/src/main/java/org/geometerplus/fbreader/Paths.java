@@ -38,7 +38,7 @@ public abstract class Paths {
 	}
 
 	public static ZLStringOption FontsDirectoryOption() {
-		return new ZLStringOption("Files", "FontsDirectory", cardDirectory() + "/Fonts");
+		return new ZLStringOption("Files", "FontsDirectory", cardDirectory() + "/fonts");
 	}
 
 	public static ZLStringOption WallpapersDirectoryOption() {

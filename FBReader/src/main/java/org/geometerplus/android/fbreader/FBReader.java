@@ -77,6 +77,7 @@ import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -87,6 +88,7 @@ public class FBReader extends ZLAndroidActivity {
 	public static final String BOOK_PATH_KEY = "BookPath";
     public static final String PREFS_USER_MANUAL_VERSION = "bks_userManualVersion";
     public static final String USER_GUIDE_FILE = "User-Guide.epub";
+	public static final String FONTS_ASSET_FOLDER = "fonts";
 	public static final String MINI_HELP_FILE_NAME = "MiniHelp.en.fb2";
     public static final String LOG_LABEL = "GoRead";
 
@@ -218,7 +220,8 @@ public class FBReader extends ZLAndroidActivity {
         int userManualVersion = prefs.getInt(PREFS_USER_MANUAL_VERSION, 0);
         if (userManualVersion != currentVersion) {
             copyManual();
-            SharedPreferences.Editor prefsEditor = prefs.edit();
+			copyFonts();//userManualVersion is ultimately a packageversion check. Should be good placing this here.
+			SharedPreferences.Editor prefsEditor = prefs.edit();
             prefsEditor.putInt(PREFS_USER_MANUAL_VERSION, currentVersion);
             prefsEditor.commit();
         }
@@ -649,7 +652,57 @@ public class FBReader extends ZLAndroidActivity {
         }
     }
 
-    private void copyManual() {
+
+	/**
+	 * Adds to internal storage all the fonts that come packaged with the app.
+	 * This is so AndroidFontUtil.java can find them in the getFontMap() call
+	 */
+	private void copyFonts() {
+
+		// create Fonts directory if it doesn't already exist
+		final File fontsDir = new File(Paths.FontsDirectoryOption().getValue());
+		if (!fontsDir.exists()) {
+			fontsDir.mkdirs();
+		}
+
+		//Going over every font packaged in assets
+		InputStream from = null;
+		FileOutputStream to = null;
+		try {
+			for(String asset : getAssets().list(FONTS_ASSET_FOLDER)) {
+				from = getAssets().open(String.format("%s/%s",FONTS_ASSET_FOLDER,asset));
+				File outFile = new File(Paths.FontsDirectoryOption().getValue(), asset);
+				if(!outFile.exists()) {
+					//If it's not already there add it
+					to = new FileOutputStream(outFile);
+
+					byte[] buffer = new byte[4096];
+					int bytes_read;
+					while ((bytes_read = from.read(buffer)) > 0)
+						to.write(buffer, 0, bytes_read);
+					to.close();
+				}
+				from.close();
+			}
+		} catch (Exception e) {
+			Log.w("FBR", e.getMessage());
+		} finally {
+			if (from != null)
+				try {
+					from.close();
+				} catch (IOException e) {
+					// do nothing
+				}
+			if (to != null)
+				try {
+					to.close();
+				} catch (IOException e) {
+					// do nothing
+				}
+		}
+	}
+
+	private void copyManual() {
 
         // create books directory if it doesn't already exist
         final File booksDir = new File(Paths.BooksDirectoryOption().getValue());
