@@ -42,6 +42,7 @@ import android.view.accessibility.AccessibilityManager;
 import com.bugsense.trace.BugSenseHandler;
 import com.google.android.gms.analytics.GoogleAnalytics;
 
+import org.apache.commons.io.FileUtils;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.api.ApiListener;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
@@ -77,7 +78,6 @@ import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -221,7 +221,7 @@ public class FBReader extends ZLAndroidActivity {
         if (userManualVersion != currentVersion) {
             copyManual();
 			//userManualVersion is ultimately a packageversion check. Should be good placing this here.
-			copyFonts();
+			copyFontsFromAssetsIntoPhoneStorage();
 			SharedPreferences.Editor prefsEditor = prefs.edit();
             prefsEditor.putInt(PREFS_USER_MANUAL_VERSION, currentVersion);
             prefsEditor.commit();
@@ -658,7 +658,7 @@ public class FBReader extends ZLAndroidActivity {
 	 * Adds to internal storage all the fonts that come packaged with the app.
 	 * This is so AndroidFontUtil.java can find them in the getFontMap() call
 	 */
-	private void copyFonts() {
+	private void copyFontsFromAssetsIntoPhoneStorage() {
 
 		// create Fonts directory if it doesn't already exist
 		final File fontsDir = new File(Paths.FontsDirectoryOption().getValue());
@@ -668,20 +668,13 @@ public class FBReader extends ZLAndroidActivity {
 
 		//Going over every font packaged in assets
 		InputStream from = null;
-		FileOutputStream to = null;
 		try {
 			for(String asset : getAssets().list(FONTS_ASSET_FOLDER)) {
 				from = getAssets().open(String.format("%s/%s",FONTS_ASSET_FOLDER,asset));
 				File outFile = new File(Paths.FontsDirectoryOption().getValue(), asset);
 				if(!outFile.exists()) {
 					//If it's not already there add it
-					to = new FileOutputStream(outFile);
-
-					byte[] buffer = new byte[4096];
-					int bytes_read;
-					while ((bytes_read = from.read(buffer)) > 0)
-						to.write(buffer, 0, bytes_read);
-					to.close();
+					FileUtils.copyInputStreamToFile(from, outFile);
 				}
 				from.close();
 			}
@@ -691,12 +684,6 @@ public class FBReader extends ZLAndroidActivity {
 			if (from != null)
 				try {
 					from.close();
-				} catch (IOException e) {
-					// do nothing
-				}
-			if (to != null)
-				try {
-					to.close();
 				} catch (IOException e) {
 					// do nothing
 				}
