@@ -26,9 +26,9 @@
 
         <item
             android:id="@+id/drawer_item_other_catalogs"
-            android:title="Other Catalogs"
+            android:title="@string/nav_draw_other_cats"
             android:icon="@drawable/ic_menu_library"
-            android:contentDescription="Other Catalogs"
+            android:contentDescription="@string/nav_draw_other_cats"
             />
 
     </group>
@@ -40,37 +40,37 @@
 
             <item
                 android:id="@+id/drawer_item_search_text"
-                android:title="Search Text"
+                android:title="@string/nav_draw_search_text"
                 android:icon="@drawable/ic_menu_search"
-                android:contentDescription="Search Text"
+                android:contentDescription="@string/nav_draw_search_text"
                 />
 
             <item
                 android:id="@+id/drawer_item_night"
-                android:title="Night"
+                android:title="@string/nav_draw_night"
                 android:icon="@drawable/ic_menu_night"
-                android:contentDescription="Night"
+                android:contentDescription="@string/nav_draw_night"
                 />
 
             <item
                 android:id="@+id/drawer_item_day"
-                android:title="Day"
+                android:title="@string/nav_draw_day"
                 android:icon="@drawable/ic_menu_day"
-                android:contentDescription="Day"
+                android:contentDescription="@string/nav_draw_day"
                 />
 
             <item
                 android:id="@+id/drawer_item_screen_orientation"
-                android:title="Screen Orientation"
+                android:title="@string/nav_draw_screen_orientation"
                 android:icon="@drawable/ic_screen_rotation_black"
-                android:contentDescription="Screen Orientation"
+                android:contentDescription="@string/nav_draw_screen_orientation"
                 />
 
             <item
                 android:id="@+id/drawer_item_book_info"
-                android:title="Book Info"
+                android:title="@string/nav_draw_book_info"
                 android:icon="@drawable/ic_book_info"
-                android:contentDescription="Book Information"
+                android:contentDescription="@string/nav_draw_book_info"
                 />
 
             <item

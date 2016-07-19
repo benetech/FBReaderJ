@@ -214,6 +214,7 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 		}
 
 		final ZLAndroidPaintContext context = new ZLAndroidPaintContext(
+			getContext(),
 			new Canvas(bitmap),
 			getWidth(),
 			getMainAreaHeight(),
@@ -240,6 +241,7 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 			myFooterBitmap = Bitmap.createBitmap(getWidth(), footer.getHeight(), Bitmap.Config.RGB_565);
 		}
 		final ZLAndroidPaintContext context = new ZLAndroidPaintContext(
+			getContext(),
 			new Canvas(myFooterBitmap),
 			getWidth(),
 			footer.getHeight(),

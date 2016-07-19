@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Go Read</string>
+    <string name="book_info_activity">Información de libro</string>
+    
+	<string name="empty_string"></string>
+	<string name="search_hint">Ingrese búsqueda</string>
+
+    <!-- BookmarksActivity -->
+    <string name="bookmark_added">Marcador en página  %1$s agregado</string>
+
+	<!--  Bookshare_Webservice_login -->
+	<string name="fetch_book_data">Trayendo información de libros gratuitos.</string>
+	<string name="authenticating">Autenticando</string>
+    <string name="login_dialog_login_button">Ingresar</string>
+    <string name="login_dialog_password_label">Clave</string>
+    <string name="login_dialog_reset_button">Limpiar</string>
+    <string name="login_dialog_skip_login_button">Continuar sin autenticación</string>
+    <string name="login_dialog_username_label">Bookshare Email o nombre de usuario</string>
+	<string name="login_error_non_blank_password">Clave no puede estar vacía!</string>
+	<string name="login_error_non_blank_password_and_username">Usuario/Clave no pueden estar vacíos!</string>
+	<string name="login_error_non_blank_username">Usuario no puede estar vacío!</string>
+	<string name="login_failed">Ingreso falló!</string>
+	<string name="login_network_error">Error de Red</string>
+    <string name="login_forgot_password">Olvidó clave</string>
+    <string name="login_signup">Crear cuenta!</string>
+
+    
+    <!-- Bookshare_Book_Details -->
+    <string name="book_details_download_button">Bajar (solo texto)</string>
+     <string name="book_details_download_images">Bajar libro con imágenes</string>
+    <string name="book_details_download_error">Download falló! Intentar de nuevo</string>
+    <string name="book_details_download_error_other_member">Download falló! Intentar otra cuenta</string>
+    <string name="book_details_download_started">Download iniciado</string>
+    <string name="book_details_download_success">Libro bajado! Leer libro</string>
+    <string name="book_details_not_available">No disponible</string>
+    <string name="book_details_open_error">Error abriendo libro!</string>
+    <string name="bookshare_book_detail_publish_date">Fecha agregada:\u0020</string>
+
+    <!-- Bookshare_Books_Listing -->
+    <string name="fetching_books">Trayendo libros. Por favor espere.</string>
+    <string name="search_complete_with_books">Búsqueda completada. Lista de libros.</string>
+    <string name="search_complete_no_books">Búsqueda completada. No se encontraron libros.</string>
+
+    <!-- Bookshare_Menu -->
+    <string name="logout_dialog_message">Salir del catálogo Bookshare. Desea continuar?</string>
+    <string name="search_dialog_title_title">Buscar libro por título</string>
+    <string name="search_dialog_label_title">Ingrese título del libro que desea buscar</string>
+    <string name="search_dialog_example_title">E.g. Moby Dick o Potter</string>
+    <string name="search_dialog_description_title">Ingrese título</string>
+    <string name="search_dialog_title_author">Búscar por Autor</string>
+    <string name="search_dialog_label_author">Ingrese nombre de autor a buscar</string>
+    <string name="search_dialog_example_author">E.g. Mark Twain o Lewis</string>
+    <string name="search_dialog_description_author">Ingresar nombre de autor</string>
+    <string name="search_dialog_title_isbn">Búsqueda por ISBN</string>
+    <string name="search_dialog_label_isbn">Ingresar ISBN de 10 o 13 dígitos</string>
+    <string name="search_dialog_example_isbn"> </string>
+    <string name="search_dialog_description_isbn">Ingresar ISBN</string>
+    <string name="bks_menu_title_label">Búsqueda por título</string>
+    <string name="bks_menu_title_description">Búsqueda por título</string>
+    <string name="bks_menu_author_label">Búsqueda por autor</string>
+    <string name="bks_menu_author_description">Búsqueda por autor</string>
+    <string name="bks_menu_isbn_label">Búsqueda por ISBN</string>
+    <string name="bks_menu_isbn_description">Búsqueda por ISBN del libro</string>
+    <string name="bks_menu_latest_label">Nuevos libros</string>
+    <string name="bks_menu_latest_description">Mostrar nuevos en el catálogo</string>
+    <string name="bks_menu_popular_label">Libros Populares</string>
+    <string name="bks_menu_popular_description">Mostrar libros populares</string>
+    <string name="bks_menu_log_in">Ingresar a Bookshare</string>
+    <string name="bks_menu_log_out">Salir de Bookshare</string>
+    <string name="bks_menu_log_out_confirmation">Salir!</string>
+    <string name="bks_menu_no_internet">Necesita conexión a internet!</string>
+    <string name="empty_search_term_error">Término de búsqueda no puede estar en blanco!</string>
+    <string name="accessible_alert_title">Está seguro?</string>
+
+    <!-- Bookshare Twitter Handler -->
+    <string name="twitter_successful_post">Publicar en Twitter</string>
+    
+    <!-- Bug Report Activity -->
+    <string name="crash_report_sent">Lo sentimos, hubo un error. Soporte ha sido notificado.</string>
+    
+    <!-- Cancel Activity -->
+    <string name="cancel_menu_title">Nos deja? Escoja una opción ...</string>
+    
+    <!-- FBReader -->
+    <string name="navigate_dialog_title">Ir a página.</string>
+    <string name="navigate_dialog_label">Ingresar número de página.</string>
+    <string name="navigate_dialog_example">Página actual %1$s es %2$s de %3$s. %4$s</string>
+    <string name="navigate_dialog_example_non_numeric">(no tiene número de páginas)</string>
+    <string name="page_navigated">Page %1$s</string>
+
+    <!-- AccessibleMainMenuActivity -->
+    <string name="menu_speak">Léame</string>
+    <string name="menu_bookshare">Buscar Bookshare</string>
+    <string name="menu_toc">Tabla de Contenido</string>
+    <string name="main_menu">Menú Principal</string>
+    <string name="menu_navigate">Ir a página</string>
+    <string name="menu_bookmarks">Marcadores</string>
+    <string name="menu_search">Buscar Libro</string>
+    <string name="menu_book_info">Información de Libro</string>
+    <string name="menu_library">Mis Libros</string>
+    <string name="menu_my_books">Mis Libros (Nuevos)</string>
+    <string name="menu_network_library">Obtener libros de otros catálogos</string>
+    <string name="menu_settings">Configuración</string>
+    <string name="menu_help">Ayuda</string>
+    <string name="menu_accessibility_settings">Opciones de Accessibilidad</string>
+    <string name="menu_tts_settings">Configuración Text To Speech</string>
+
+    <!-- LibraryActivity -->
+    <string name="library_search_books_popup">Buscar libros bajados?</string>
+    <string name="library_added_to_favorites">Agregar a favoritos</string>
+    <string name="library_removed_from_favorites">Remover de favoritos</string>
+
+    <!-- NetworkLibraryActivity -->
+    <string name="network_library_accessibility_warning">Otros catálogos no están disponibles para usuarios con problemas de visión.</string>
+    
+    <!-- SpeakActivity -->
+    <string name="play">Play/Pause</string>
+    <string name="next">Siguiente sección</string>
+    <string name="previous">Sección previa</string>
+    <string name="toc">Tabla de Contenidos</string>
+    <string name="on_press_play">Play/Pause</string>
+    <string name="on_press_pause">Pause/Play</string>
+    <string name="speak_title_postfix">\u0020- presione play o double click en la pantalla</string>
+
+    <string name="initializing">Iniciar&#8230;</string>
+    <string name="failure">Inicio falló</string>
+    <string name="speak_menu_item">Léame</string>
+    <string name="no_tts_installed">No se pudo conectar a TTS en su dispositivo.</string>
+    <string name="no_tts_language">TTS no tiene la voz local.</string>
+    <string name="initialization_error">No se pudo obtener información del libro</string>
+    <string name="language_is_not_set">Lenguaje del libro no está definido. Intentando leer libro en %0.</string>
+    <string name="no_data_for_language" formatted="false">Información Text-to-speech para %0 no está instalada. Tratando de leer libro en %1.</string>
+
+    <!-- TOCActivity -->
+    <string name="subheading">\u0020(has %1$d subtítulos)</string>
+    <string name="toc_view_subheadings">Ver subtítulos</string>
+    <string name="toc_close_subheadings">Cerrar subtítulos</string>
+    <string name="toc_goto_heading">Ir al principio</string>
+    <string name="bks_menu_periodicals_label">Periódicos &amp; Revistas</string>
+    <string name="fetching_periodicals">Obteniendo periódicos. Por favor espere.</string>
+    <string name="search_complete_with_periodicals">Búsqueda completada. Lista de periódicos.</string>
+    <string name="login_to_continue">Por favor ingrese para bajar este periódico.</string>
+    <string name="edition_details_download_success">Periódico bajado! Leer Periódico.</string>
+    <string name="warning_no_general_downloads_for_periodicals">Advertencia! Ud no ha ingresado. Periódicos &amp; Revistas no están disponibles para visitantes. Seguro que desea continuar? </string>
+    <string name="share_with_friends">Compartir com amigos!</string>
+    <string name="subscription_chk_box">Subscribirse a este periódico</string>
+    <string name="subscribe_chkbox_description">(Bajar automáticamente la última edición)</string>
+
+    <string name="drawer_open">Abrir menú</string>
+    <string name="drawer_close">Cerrar menú</string>
+    <string name="menu_item_add_to_favorites">Agregar a favoritos</string>
+    <string name="menu_item_content_description_add_to_favorites">Agregar libro actual a mis favoritos</string>
+    <string name="menu_item_delete_book">Borrar Libro</string>
+    <string name="menu_item_content_description_delete_book">Borrar libro abierto</string>
+    <string name="menu_item_sync_with_bookshare">Sincronizar con Bookshare</string>
+
+    <!-- Navigation Drawer Strings -->
+    <string name="nav_draw_search_text">Buscar Texto</string>
+    <string name="nav_draw_night">Noche</string>
+    <string name="nav_draw_day">Día</string>
+    <string name="nav_draw_screen_orientation">Orientación Pantalla</string>
+    <string name="nav_draw_book_info">Información Libro</string>
+    <string name="nav_draw_add_to_favs">Agregar a Favoritos</string>
+    <string name="nav_draw_other_cats">Otros Catálogos</string>
+
+
+    <string name="message_cannot_delete_guide">No se puede borrar la guía!</string>
+    <string name="message_confirm_remove_book">Borrar libro de dispositivo?</string>
+    <string name="message_bookmark_already_exists">Marcador ya existeç!</string>
+
+    <string name="button_label_delete_book">Borrar</string>
+    <string name="button_label_cancel">Cancelar</string>
+    <string name="button_label_done_sync_bookshare">Listo</string>
+    <string name="title_sync_bookshare_progress_dialog">Sincronizando Bookshare...</string>
+    <string name="title_sync_bookshare_complete_progress_dialog">Sincronización completada</string>
+    <string name="message_sync_bookshare_progress_dialog">Creando listas de lectura.  La lista original se llama "Go Read Books" y contiene libros disponibles en su dispositivo. Para seleccionar una lista diferente, tope el tab Listas de Lecture en Mis Libros.  Para sincronizar con Bookshare, seleccione Sincronizar con Bookshare desde el menú Más Acciones.</string>
+    <string name="message_sync_bookshare_reading_lists_complete_progress_dialog">Lista de lectura creada.  La lista original se llama "Go Read Books" y contiene libros disponibles en su dispositivo. Para seleccionar una lista diferente, tope el tab Listas de Lecture en Mis Libros.  Para sincronizar con Bookshare, seleccione Sincronizar con Bookshare desde el menú Más Acciones.</string>
+    <string name="my_books_tab_go_read">GoRead</string>
+    <string name="my_books_tab_recent">Recientes</string>
+    <string name="my_books_tab_favorites">Favoritos</string>
+    <string name="my_books_tab_reading_lists">Listas de Lectura</string>
+
+    <string name="tab_label_section">Sección</string>
+    <string name="tab_label_page">Página</string>
+    <string name="tab_label_bookmark">Marcador</string>
+
+    <string name="content_description_copy">Copiar texto seleccionado</string>
+    <string name="content_description_share">Compartir texto seleccionado</string>
+    <string name="content_description_translate">Traducir texto seleccionado</string>
+    <string name="content_description_bookmark">Marcar texto seleccionado</string>
+    <string name="content_description_clear">Borrar selección</string>
+    <string name="content_description_find_previous">Buscar anterior</string>
+    <string name="content_description_clear_search_results">clear_search_results</string>
+    <string name="content_description_find_next">Buscar siguiente</string>
+    <string name="content_description_play">play</string>
+    <string name="content_description_pause">pause</string>
+    <string name="navigation_drawer_title">Bookshare</string>
+    <string name="content_description_navigation_drawer_title">Menu</string>
+    <string name="dialog_title_screen_orientation">Orientación de Pantalla</string>
+    <string name="menu_item_settings">Configuración</string>
+    <string name="menu_item_help">Ayuda</string>
+    <string name="menu_item_about_goread">Acerca de GoRead</string>
+    <string name="menu_item_login_bookshare">Ingresar a Bookshare</string>
+    <string name="menu_item_logout_bookshare">Salir de Bookshare</string>
+
+</resources>

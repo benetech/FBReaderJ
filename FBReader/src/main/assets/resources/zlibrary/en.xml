@@ -56,6 +56,7 @@
 		<node name="fi" value="Finnish" />
 		<node name="fr" value="French" />
 		<node name="gl" value="Galician" />
+		<node name="hi" value="Hindi" />
 		<node name="he" value="Hebrew" />
 		<node name="hu" value="Hungarian" />
 		<node name="id" value="Indonesian" />

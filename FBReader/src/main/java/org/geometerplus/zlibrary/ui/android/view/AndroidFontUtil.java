@@ -118,7 +118,42 @@ public final class AndroidFontUtil {
 		if ("monospace".equalsIgnoreCase(fontFamily) || "droid mono".equalsIgnoreCase(fontFamily)) {
 			return "monospace";
 		}
+		if ("Open Dyslexic Mono".equalsIgnoreCase(fontFamily)) {
+			return "Open Dyslexic Mono";
+		}
+		if ("Free Sans".equalsIgnoreCase(fontFamily)) {
+			return "Free Sans";
+		}
+		if ("Times New Roman".equalsIgnoreCase(fontFamily)) {
+			return "Times New Roman";
+		}
+		if ("Verdana".equalsIgnoreCase(fontFamily)) {
+			return "Verdana";
+		}
+
 		return "sans-serif";
+	}
+
+	public static boolean isCustomFont(String fontFamily) {
+		return fontFamily.equalsIgnoreCase("Open Dyslexic Mono")
+				|| fontFamily.equalsIgnoreCase("Free Sans")
+				|| fontFamily.equalsIgnoreCase("Times New Roman")
+				|| fontFamily.equalsIgnoreCase("Verdana");
+	}
+
+	public static String getCustomFontDirectory(String fontFamily) {
+		switch (fontFamily) {
+			case "Open Dyslexic Mono":
+				return "fonts/OpenDyslexicMono-Regular.otf";
+			case "Free Sans":
+				return "fonts/FreeSans.otf";
+			case "Times New Roman":
+				return "fonts/TimesTenLTStd-Roman.otf";
+			case "Verdana":
+				return "fonts/Verdana.ttf";
+			default:
+				return null;
+		}
 	}
 
 	public static void fillFamiliesList(ArrayList<String> families, boolean forceReload) {
@@ -126,6 +161,10 @@ public final class AndroidFontUtil {
 		familySet.add("Droid Sans");
 		familySet.add("Droid Serif");
 		familySet.add("Droid Mono");
+		familySet.add("Open Dyslexic Mono");
+		familySet.add("Free Sans");
+		familySet.add("Times New Roman");
+		familySet.add("Verdana");
 		families.addAll(familySet);
 	}
 }

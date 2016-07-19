@@ -22,6 +22,7 @@ package org.geometerplus.zlibrary.ui.android.view;
 import java.util.*;
 import java.io.File;
 
+import android.content.Context;
 import android.graphics.*;
 
 import org.geometerplus.zlibrary.core.image.ZLImageData;
@@ -43,11 +44,14 @@ public final class ZLAndroidPaintContext extends ZLPaintContext {
 	private final int myHeight;
 	private final int myScrollbarWidth;
 
+	private final Context myContext;
+
 	private ZLColor myBackgroundColor = new ZLColor(0, 0, 0);
 
 	private HashMap<String,Typeface[]> myTypefaces = new HashMap<String,Typeface[]>();
 
-	ZLAndroidPaintContext(Canvas canvas, int width, int height, int scrollbarWidth) {
+	ZLAndroidPaintContext(Context context, Canvas canvas, int width, int height, int scrollbarWidth) {
+		myContext = context;
 		myCanvas = canvas;
 		myWidth = width - scrollbarWidth;
 		myHeight = height;
@@ -207,7 +211,12 @@ public final class ZLAndroidPaintContext extends ZLPaintContext {
 				}
 			}
 			if (tf == null) {
-				tf = Typeface.create(family, style);
+				if (AndroidFontUtil.isCustomFont(family)) {
+					tf = Typeface.createFromAsset(myContext.getAssets(),
+							AndroidFontUtil.getCustomFontDirectory(family));
+				} else {
+					tf = Typeface.create(family, style);
+				}
 			}
 			typefaces[style] = tf;
 		}
