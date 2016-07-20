@@ -231,7 +231,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         super.onResume();
         try {
             Locale bookLocale = Locale.forLanguageTag(myApi.getBookLanguage());
-            if (myTTS.isLanguageAvailable(bookLocale) == TextToSpeech.LANG_AVAILABLE) {
+            if (myTTS != null && myTTS.isLanguageAvailable(bookLocale) == TextToSpeech.LANG_AVAILABLE) {
                 myTTS.setLanguage(bookLocale);
             }
 
