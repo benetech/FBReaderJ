@@ -29,6 +29,6 @@ public class ReadingListsTabContainer extends AbstractBaseTabContainer {
 
     @Override
     public int getTabDrawableId() {
-        return R.drawable.ic_restore_white_24dp;
+        return R.drawable.ic_folder_shared_white_24dp;
     }
 }

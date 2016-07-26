@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.benetech.android.R;
@@ -28,8 +27,6 @@ public class MyBooksActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TabLayout tabLayout;
-    private RelativeLayout secondaryToolbarForReadingList;
-    private TextView secondaryToolbarForReadingListTitle;
     private SharedPreferences sharedPreferences;
     private static final String SHARE_PREFERENCE_CURRENT_PAGE_INDEX_TAG = "my_books_current_page_index";
 
@@ -43,8 +40,6 @@ public class MyBooksActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        secondaryToolbarForReadingList = (RelativeLayout) findViewById(R.id.secondaryToolbar);
-        secondaryToolbarForReadingListTitle = (TextView) findViewById(R.id.secondaryToolbarTitle);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         initTabs();
     }
@@ -101,14 +96,12 @@ public class MyBooksActivity extends AppCompatActivity {
      */
     public void onReadingListSelectedWithTitle(String title) {
         tabLayout.setVisibility(View.GONE);
-        secondaryToolbarForReadingList.setVisibility(View.VISIBLE);
-        secondaryToolbarForReadingListTitle.setText(title);
+        getSupportActionBar().setTitle(title);
     }
 
     public void onBookshareReadingListsFragmentAppeared() {
         tabLayout.setVisibility(View.VISIBLE);
-        secondaryToolbarForReadingList.setVisibility(View.INVISIBLE);
-        secondaryToolbarForReadingListTitle.setText("");
+        getSupportActionBar().setTitle(getTitle());
     }
 
     private class MyBooksPagerAdapter extends FragmentStatePagerAdapter {
