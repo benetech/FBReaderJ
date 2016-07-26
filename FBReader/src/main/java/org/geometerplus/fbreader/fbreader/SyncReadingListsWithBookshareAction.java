@@ -1,5 +1,6 @@
 package org.geometerplus.fbreader.fbreader;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,12 +18,14 @@ import android.widget.Toast;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.FBAndroidAction;
 import org.geometerplus.android.fbreader.FBReader;
-import org.geometerplus.android.fbreader.benetech.DownLoadReadingListsTask;
 import org.geometerplus.android.fbreader.benetech.AsyncResponse;
+import org.geometerplus.android.fbreader.benetech.DownLoadReadingListsTask;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import static org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction.SyncType.FIRST_STARTUP;
 
 /**
  * Created by animal@martus.org on 3/22/16.
@@ -32,6 +35,12 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
     private static final String LOG_TAG = "SyncWithBookshareAction";
     private static final int SECONDS_TO_PAUSE = 15;
 
+    public enum SyncType {
+        FIRST_STARTUP,
+        SILENT_STARTUP,
+        USER_ACTIVATED
+    }
+
     private CustomProgressDialog progressDialog;
 
     public SyncReadingListsWithBookshareAction(FBReader baseActivity, FBReaderApp fbreader) {
@@ -40,9 +49,13 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
 
     @Override
     protected void run(Object ... params) {
-        progressDialog = new CustomProgressDialog(getBaseActivity());
-        progressDialog.setTitle(getBaseActivity().getString(R.string.title_sync_bookshare_progress_dialog));
-        progressDialog.show();
+        SyncType type = FIRST_STARTUP;
+
+        SyncReadingListsWithBookshareActionObserver.getInstance().setRunningAction(this);
+        if(params.length > 0 && params[0] instanceof SyncType){
+            type = (SyncType)params[0];
+        }
+        displayProgressDialog(type, getBaseActivity());
 
         SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(getBaseActivity());
         String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
@@ -77,29 +90,39 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                showGreenCheckMarkImageView();
-                syncCompleted();
+                SyncReadingListsWithBookshareActionObserver.getInstance().setRunningAction(null);
+                if(progressDialog != null) {
+                    showGreenCheckMarkImageView();
+                    syncCompleted();
+                }
             }
         }, SECONDS_TO_PAUSE * 1000);
     }
 
     private void syncCompleted() {
-        progressDialog.setTitle(getBaseActivity().getString(R.string.title_sync_bookshare_complete_progress_dialog));
-        TextView textView = (TextView) progressDialog.findViewById(R.id.progress_dialog_sync_message);
-        textView.setText(getBaseActivity().getString(R.string.message_sync_bookshare_reading_lists_complete_progress_dialog));
+        if(progressDialog != null) {
 
-        Button doneButton = (Button) progressDialog.findViewById(R.id.done_button);
-        doneButton.setEnabled(true);
+            progressDialog.setTitle(getBaseActivity().getString(R.string.title_sync_bookshare_complete_progress_dialog));
+            TextView textView = (TextView) progressDialog.findViewById(R.id.progress_dialog_sync_message);
+            textView.setText(getBaseActivity().getString(R.string.message_sync_bookshare_reading_lists_complete_progress_dialog));
+
+            Button doneButton = (Button) progressDialog.findViewById(R.id.done_button);
+            doneButton.setEnabled(true);
+        }
     }
 
     private void hideGreenCheckMarkImageView() {
-        getGreenCheckMarkImageView().setVisibility(View.GONE);
-        getSyncProgressBar().setVisibility(View.VISIBLE);
+        if(progressDialog != null) {
+            getGreenCheckMarkImageView().setVisibility(View.GONE);
+            getSyncProgressBar().setVisibility(View.VISIBLE);
+        }
     }
 
     private void showGreenCheckMarkImageView() {
-        getGreenCheckMarkImageView().setVisibility(View.VISIBLE);
-        getSyncProgressBar().setVisibility(View.GONE);
+        if(progressDialog != null) {
+            getGreenCheckMarkImageView().setVisibility(View.VISIBLE);
+            getSyncProgressBar().setVisibility(View.GONE);
+        }
     }
 
     private ImageView getGreenCheckMarkImageView() {
@@ -135,6 +158,27 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
         @Override
         public void onClick(View v) {
             progressDialog.dismiss();
+        }
+    }
+
+    public void displayProgressDialog(SyncType type, Activity parent){
+        if(progressDialog == null
+                || !progressDialog.isShowing()) {
+            switch (type) {
+                case FIRST_STARTUP:
+                    progressDialog = new CustomProgressDialog(parent);
+                    progressDialog.setTitle(getBaseActivity().getString(R.string.title_sync_bookshare_progress_dialog));
+                    progressDialog.show();
+                    break;
+                case SILENT_STARTUP:
+                    progressDialog = null;
+                    break;
+                case USER_ACTIVATED:
+                    progressDialog = new CustomProgressDialog(parent);
+                    progressDialog.setTitle("");
+                    progressDialog.show();
+                    break;
+            }
         }
     }
 }

@@ -17,6 +17,8 @@ import android.widget.Toast;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
+import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
+import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareActionObserver;
 import org.geometerplus.fbreader.library.ReadingList;
 
 import java.util.ArrayList;
@@ -39,6 +41,15 @@ public class BookshareReadingListsFragment extends ListFragment {
             fillListAdapter();
         } catch (Exception e) {
             Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(SyncReadingListsWithBookshareActionObserver.getInstance().getRunningAction() != null){
+            SyncReadingListsWithBookshareActionObserver.getInstance().getRunningAction()
+                    .displayProgressDialog(SyncReadingListsWithBookshareAction.SyncType.USER_ACTIVATED, getActivity());
         }
     }
 
@@ -77,6 +88,7 @@ public class BookshareReadingListsFragment extends ListFragment {
         transaction.commit();
         getFragmentManager().executePendingTransactions();
     }
+
 
     private class ReadingListsAdapter extends ArrayAdapter<ReadingListsItem> {
         public ReadingListsAdapter(Context context, List<ReadingListsItem> items) {
