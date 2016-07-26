@@ -2,4 +2,5 @@
 <resources>
     <color name="navigation_bar_color">#3E51B5</color>
     <color name="tool_bar_text_color">#ffffff</color>
+    <color name="tab_indicator_color">#FF8000</color>
 </resources>

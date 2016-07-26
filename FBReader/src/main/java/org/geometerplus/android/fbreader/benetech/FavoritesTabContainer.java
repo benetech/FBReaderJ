@@ -22,6 +22,6 @@ public class FavoritesTabContainer extends AbstractReadingListTabContainer {
 
     @Override
     public int getTabDrawableId() {
-        return R.drawable.ic_list_library_favorites;
+        return R.drawable.ic_favorite_white_24dp;
     }
 }

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class MyBooksActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
+    private TabLayout tabLayout;
     private SharedPreferences sharedPreferences;
     private static final String SHARE_PREFERENCE_CURRENT_PAGE_INDEX_TAG = "my_books_current_page_index";
 
@@ -60,7 +61,7 @@ public class MyBooksActivity extends AppCompatActivity {
         MyBooksPagerAdapter pagerAdapter = new MyBooksPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setTabsFromPagerAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
@@ -88,6 +89,19 @@ public class MyBooksActivity extends AppCompatActivity {
         if (!isPopFragment) {
             finish();
         }
+    }
+
+    /**
+     * Called from child fragment BookshareReadingListsFragment when a reading list is selected
+     */
+    public void onReadingListSelectedWithTitle(String title) {
+        tabLayout.setVisibility(View.GONE);
+        getSupportActionBar().setTitle(title);
+    }
+
+    public void onBookshareReadingListsFragmentAppeared() {
+        tabLayout.setVisibility(View.VISIBLE);
+        getSupportActionBar().setTitle(getTitle());
     }
 
     private class MyBooksPagerAdapter extends FragmentStatePagerAdapter {
