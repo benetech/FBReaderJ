@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.text.format.Time;
 import android.util.Log;
@@ -30,6 +31,7 @@ import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.TextPosition;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
@@ -44,6 +46,7 @@ import java.util.Locale;
 public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener, SimpleGestureFilter.SimpleGestureListener, AsyncResponse<Boolean>  {
 
     private static final String LOG_TAG ="FBRsWithNavigationBar";
+    private static final String ACTIVITY_RESUMING_STATE ="ACTIVITY_RESUMING_STATE";
     private ApiServerImplementation myApi;
     private TextToSpeech myTTS;
     private int myParagraphIndex = -1;
@@ -85,7 +88,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     private volatile PowerManager.WakeLock myWakeLock;
     private static final String IS_FIRST_TIME_RUNNING_PREFERENCE_TAG = "first_time_running";
 
-
+    private boolean activityResuming = false; // this means that the activity is resuming from being in background or orientation change and not created fresh
+    private boolean isFirstTimeRunningApp;
     static {
         initCompatibility();
     }
@@ -107,6 +111,10 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
 
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null){
+            activityResuming = savedInstanceState.getBoolean(ACTIVITY_RESUMING_STATE, false);
+        }
 
         detector = new SimpleGestureFilter(this,this);
         myVib = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
@@ -175,14 +183,16 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
         myPreferences = getSharedPreferences("GoReadTTS", MODE_PRIVATE);
 
-        boolean isFirstTimeRunningApp = myPreferences.getBoolean(IS_FIRST_TIME_RUNNING_PREFERENCE_TAG, true);
+        isFirstTimeRunningApp = myPreferences.getBoolean(IS_FIRST_TIME_RUNNING_PREFERENCE_TAG, true);
         if (isFirstTimeRunningApp) {
             Log.i(LOG_TAG, "First time GoRead is running after it has been installed");
             myPreferences.edit().putBoolean(IS_FIRST_TIME_RUNNING_PREFERENCE_TAG, false).commit();
         }
 
-
-        syncBookshareReadingLists();
+        if(! activityResuming){
+            //only sync for fresh creation
+            syncBookshareReadingLists();
+        }
 
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -191,6 +201,12 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         registerReceiver(mReceiver, filter);
         pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         setIsPaused();
+        activityResuming = true;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        savedInstanceState.putBoolean(ACTIVITY_RESUMING_STATE, activityResuming);
     }
 
     private void syncBookshareReadingLists() {
@@ -206,7 +222,12 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     @Override
     public void processFinish(Boolean hasInternetConnection) {
         if (hasInternetConnection.booleanValue())
-            ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE);
+            if(isFirstTimeRunningThisVersion){//Already calculated during onCreate() on parent class
+                ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.FIRST_STARTUP);
+            }
+            else {
+                ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
+            }
         else
             Toast.makeText(getBaseContext(),   "Could not sync reading lists, no internet connection!", Toast.LENGTH_LONG).show();
     }

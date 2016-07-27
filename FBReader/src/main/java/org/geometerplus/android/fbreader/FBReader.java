@@ -112,6 +112,8 @@ public class FBReader extends ZLAndroidActivity {
     public static final String SUBSCRIBED_PERIODICAL_IDS_KEY = "subscribed_periodical_ids";
     public static final String AUTOMATIC_DOWNLOAD_TYPE_KEY = "download_type";
 
+	protected boolean isFirstTimeRunningThisVersion = false;
+
 	private final BroadcastReceiver myPluginInfoReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -218,7 +220,9 @@ public class FBReader extends ZLAndroidActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int currentVersion = zlibrary.getVersionCode();
         int userManualVersion = prefs.getInt(PREFS_USER_MANUAL_VERSION, 0);
+
         if (userManualVersion != currentVersion) {
+			isFirstTimeRunningThisVersion = true;
             copyManual();
 			//userManualVersion is ultimately a packageversion check. Should be good placing this here.
 			copyFontsFromAssetsIntoPhoneStorage();
@@ -340,7 +344,13 @@ public class FBReader extends ZLAndroidActivity {
 		}
 
 		String action = findActionForMenuItem(item.getItemId());
-		ZLApplication.Instance().doAction(action);
+		Object[] params = findParamsForMenuItemAction(item.getItemId());
+		if(params == null){
+			ZLApplication.Instance().doAction(action);
+		}
+		else {
+			ZLApplication.Instance().doAction(action, params);
+		}
 
 		return super.onOptionsItemSelected(item);
 	}
@@ -364,10 +374,13 @@ public class FBReader extends ZLAndroidActivity {
 
 		if (itemId == R.id.menu_item_login_bookshare)
 			return ActionCode.BOOKSHARE;
-
-
-
 		return "";
+	}
+
+	private Object[] findParamsForMenuItemAction(int itemId){
+		if (itemId == R.id.menu_item_sync_with_bookshare)
+			return new Object[]{SyncReadingListsWithBookshareAction.SyncType.USER_ACTIVATED};
+		return null;
 	}
 
 	@Override
