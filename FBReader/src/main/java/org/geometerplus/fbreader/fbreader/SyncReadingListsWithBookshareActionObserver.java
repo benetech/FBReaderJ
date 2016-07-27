@@ -1,5 +1,7 @@
 package org.geometerplus.fbreader.fbreader;
 
+import android.app.Activity;
+
 /**
  * Created by avanticatechnologies on 7/26/16.
  */
@@ -40,5 +42,11 @@ public class SyncReadingListsWithBookshareActionObserver {
         }
     }
 
+    public void notifyRelevantBooklistOpened(Activity parent){
+        if(getRunningAction() != null){
+            getRunningAction()
+                    .displayProgressDialog(SyncReadingListsWithBookshareAction.SyncType.SILENT_INTERRUPTED, parent);
+        }
+    }
 
 }

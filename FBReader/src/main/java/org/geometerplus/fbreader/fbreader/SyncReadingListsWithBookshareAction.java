@@ -35,9 +35,12 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
     private static final String LOG_TAG = "SyncWithBookshareAction";
     private static final int SECONDS_TO_PAUSE = 15;
 
+    private DownLoadReadingListsTask task;
+
     public enum SyncType {
         FIRST_STARTUP,
         SILENT_STARTUP,
+        SILENT_INTERRUPTED,
         USER_ACTIVATED
     }
 
@@ -60,7 +63,7 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
         SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(getBaseActivity());
         String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
         String password = login_preference.getString(Bookshare_Webservice_Login.PASSWORD, "");
-        DownLoadReadingListsTask task = new DownLoadReadingListsTask(this, username, password);
+        task = new DownLoadReadingListsTask(this, username, password);
         task.execute();
 
         displayCompleteDialogWithDelay();
@@ -92,8 +95,13 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
             public void run() {
                 SyncReadingListsWithBookshareActionObserver.getInstance().setRunningAction(null);
                 if(progressDialog != null) {
-                    showGreenCheckMarkImageView();
-                    syncCompleted();
+                    if(progressDialog.shouldDismissOnFinish){
+                        progressDialog.dismiss();
+                    }
+                    else {
+                        showGreenCheckMarkImageView();
+                        syncCompleted();
+                    }
                 }
             }
         }, SECONDS_TO_PAUSE * 1000);
@@ -134,9 +142,11 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
     }
 
     private class CustomProgressDialog extends AlertDialog {
+        protected boolean shouldDismissOnFinish = false;
+        protected boolean shouldShowCancelButton = false;
+
         public CustomProgressDialog(Context context) {
             super(context);
-
             setCancelable(false);
         }
 
@@ -146,20 +156,47 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
 
             setContentView(R.layout.sync_bookshare_progress_dialog);
             Button doneButton = (Button) findViewById(R.id.done_button);
-            doneButton.setOnClickListener(new DoneHandler());
+            doneButton.setOnClickListener(buttonListener);
             doneButton.setEnabled(false);
-
+            if(shouldDismissOnFinish){
+                doneButton.setVisibility(View.GONE);
+                TextView textView = (TextView) progressDialog.findViewById(R.id.progress_dialog_sync_message);
+                textView.setText(getBaseActivity().getString(R.string.message_sync_bookshare_reading_lists_short_progress_dialog));
+            }
+            if(shouldShowCancelButton){
+                Button cancelButton = (Button) findViewById(R.id.cancel_button);
+                cancelButton.setOnClickListener(buttonListener);
+                cancelButton.setVisibility(View.VISIBLE);
+            }
             hideGreenCheckMarkImageView();
         }
     }
 
-    protected class DoneHandler implements View.OnClickListener {
+    private void cancelAction(){
+        if(task != null&& !task.isCancelled()){
+            task.cancel(true);
+            task = null;
+        }
+        if(progressDialog != null){
+            progressDialog.dismiss();
+        }
+
+    }
+
+    private View.OnClickListener buttonListener = new  View.OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            progressDialog.dismiss();
+            switch (v.getId()){
+                case R.id.done_button:
+                    progressDialog.dismiss();
+                    break;
+                case R.id.cancel_button:
+                    cancelAction();
+                    break;
+            }
         }
-    }
+    };
 
     public void displayProgressDialog(SyncType type, Activity parent){
         if(progressDialog == null
@@ -173,9 +210,17 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
                 case SILENT_STARTUP:
                     progressDialog = null;
                     break;
+                case SILENT_INTERRUPTED:
+                    progressDialog = new CustomProgressDialog(parent);
+                    progressDialog.setTitle(getBaseActivity().getString(R.string.title_sync_bookshare_progress_dialog));
+                    progressDialog.shouldDismissOnFinish = true;
+                    progressDialog.show();
+                    break;
                 case USER_ACTIVATED:
                     progressDialog = new CustomProgressDialog(parent);
-                    progressDialog.setTitle("");
+                    progressDialog.setTitle(getBaseActivity().getString(R.string.title_sync_bookshare_progress_dialog));
+                    progressDialog.shouldDismissOnFinish = true;
+                    progressDialog.shouldShowCancelButton = true;
                     progressDialog.show();
                     break;
             }

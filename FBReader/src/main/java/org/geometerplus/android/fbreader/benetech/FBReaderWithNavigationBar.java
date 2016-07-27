@@ -222,7 +222,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     @Override
     public void processFinish(Boolean hasInternetConnection) {
         if (hasInternetConnection.booleanValue())
-            if(isFirstTimeRunningApp){//Already calculated during onCreate()
+            if(isFirstTimeRunningThisVersion){//Already calculated during onCreate() on parent class
                 ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.FIRST_STARTUP);
             }
             else {

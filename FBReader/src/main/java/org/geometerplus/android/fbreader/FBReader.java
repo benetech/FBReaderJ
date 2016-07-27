@@ -112,6 +112,8 @@ public class FBReader extends ZLAndroidActivity {
     public static final String SUBSCRIBED_PERIODICAL_IDS_KEY = "subscribed_periodical_ids";
     public static final String AUTOMATIC_DOWNLOAD_TYPE_KEY = "download_type";
 
+	protected boolean isFirstTimeRunningThisVersion = false;
+
 	private final BroadcastReceiver myPluginInfoReceiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -218,7 +220,9 @@ public class FBReader extends ZLAndroidActivity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int currentVersion = zlibrary.getVersionCode();
         int userManualVersion = prefs.getInt(PREFS_USER_MANUAL_VERSION, 0);
+
         if (userManualVersion != currentVersion) {
+			isFirstTimeRunningThisVersion = true;
             copyManual();
 			//userManualVersion is ultimately a packageversion check. Should be good placing this here.
 			copyFontsFromAssetsIntoPhoneStorage();

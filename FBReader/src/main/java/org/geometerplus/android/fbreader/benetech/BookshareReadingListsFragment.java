@@ -47,10 +47,7 @@ public class BookshareReadingListsFragment extends ListFragment {
     @Override
     public void onResume(){
         super.onResume();
-        if(SyncReadingListsWithBookshareActionObserver.getInstance().getRunningAction() != null){
-            SyncReadingListsWithBookshareActionObserver.getInstance().getRunningAction()
-                    .displayProgressDialog(SyncReadingListsWithBookshareAction.SyncType.USER_ACTIVATED, getActivity());
-        }
+        SyncReadingListsWithBookshareActionObserver.getInstance().notifyRelevantBooklistOpened(getActivity());
     }
 
     private void fillListAdapter() throws Exception {
