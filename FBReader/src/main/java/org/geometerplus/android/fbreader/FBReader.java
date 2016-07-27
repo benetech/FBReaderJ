@@ -340,7 +340,13 @@ public class FBReader extends ZLAndroidActivity {
 		}
 
 		String action = findActionForMenuItem(item.getItemId());
-		ZLApplication.Instance().doAction(action);
+		Object[] params = findParamsForMenuItemAction(item.getItemId());
+		if(params == null){
+			ZLApplication.Instance().doAction(action);
+		}
+		else {
+			ZLApplication.Instance().doAction(action, params);
+		}
 
 		return super.onOptionsItemSelected(item);
 	}
@@ -364,10 +370,13 @@ public class FBReader extends ZLAndroidActivity {
 
 		if (itemId == R.id.menu_item_login_bookshare)
 			return ActionCode.BOOKSHARE;
-
-
-
 		return "";
+	}
+
+	private Object[] findParamsForMenuItemAction(int itemId){
+		if (itemId == R.id.menu_item_sync_with_bookshare)
+			return new Object[]{SyncReadingListsWithBookshareAction.SyncType.USER_ACTIVATED};
+		return null;
 	}
 
 	@Override
