@@ -40,6 +40,15 @@ public class BookshareReadingListsFragment extends ListFragment {
         } catch (Exception e) {
             Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
         }
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        if(getActivity() instanceof MyBooksActivity){
+            ((MyBooksActivity)getActivity()).onBookshareReadingListsFragmentAppeared();
+        }
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     private void fillListAdapter() throws Exception {
@@ -65,6 +74,9 @@ public class BookshareReadingListsFragment extends ListFragment {
         readingListFragment.setReadingList(item.getReadingList());
         replaceFragment(readingListFragment, true);
         Toast.makeText(getActivity(), item.readingListName, Toast.LENGTH_SHORT).show();
+        if(getActivity() instanceof MyBooksActivity){
+            ((MyBooksActivity)getActivity()).onReadingListSelectedWithTitle(item.readingListName);
+        }
     }
 
     private void replaceFragment(Fragment fragment, boolean addToBackStack) {

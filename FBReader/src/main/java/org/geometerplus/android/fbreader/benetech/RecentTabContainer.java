@@ -29,6 +29,6 @@ public class RecentTabContainer extends AbstractBaseTabContainer {
 
     @Override
     public int getTabDrawableId() {
-        return R.drawable.ic_book_info;
+        return R.drawable.ic_restore_white_24dp;
     }
 }

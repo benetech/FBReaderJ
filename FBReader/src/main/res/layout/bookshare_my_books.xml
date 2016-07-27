@@ -21,6 +21,8 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabIndicatorHeight="5dp"
+            app:tabIndicatorColor="@color/tab_indicator_color"
             app:tabMode="fixed"
             app:tabGravity="fill"
             style="@style/MyCustomTabLayout"
