@@ -30,6 +30,13 @@ abstract public class AbstractReadingListTabContainer extends AbstractBaseTabCon
 
         ReadingListFragment readingListFragment = new ReadingListFragment();
         readingListFragment.setReadingList(readingList);
+        if(readingList.getReadingListName() != null
+                && readingList.getReadingListName().toLowerCase().contains("favorites")){
+            Bundle args = new Bundle();
+            args.putBoolean(ReadingListFragment.ARG_SHOULD_ADD_FAVORITES, true);
+            readingListFragment.setArguments(args);
+        }
+
         replaceFragment(readingListFragment, false);
     }
 
