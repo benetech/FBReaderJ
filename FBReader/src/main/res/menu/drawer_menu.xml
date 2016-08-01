@@ -4,15 +4,8 @@
         android:id="@+id/menu_top"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/drawer_item_my_books"
-            android:title="@string/menu_library"
-            android:icon="@drawable/ic_my_books"
-            android:contentDescription="@string/menu_library"
-            />
-
-        <item
             android:id="@+id/drawer_item_my_books_new"
-            android:title="@string/menu_my_books"
+            android:title="@string/menu_library"
             android:icon="@drawable/ic_my_books"
             android:contentDescription="@string/menu_my_books"
             />

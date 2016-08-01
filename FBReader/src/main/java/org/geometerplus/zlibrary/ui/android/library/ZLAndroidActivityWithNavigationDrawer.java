@@ -239,9 +239,6 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
         public boolean onNavigationItemSelected(MenuItem menuItem) {
 
             int menuItemId = menuItem.getItemId();
-            if (menuItemId == R.id.drawer_item_my_books)
-                ZLApplication.Instance().doAction(ActionCode.SHOW_LIBRARY);
-
             if (menuItemId == R.id.drawer_item_my_books_new)
                 ZLApplication.Instance().doAction(ActionCode.SHOW_MY_BOOKS);
 
