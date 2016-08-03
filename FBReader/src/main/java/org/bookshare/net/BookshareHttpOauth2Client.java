@@ -44,11 +44,12 @@ public class BookshareHttpOauth2Client {
     private static String URL_AS_STRING = "https://" + HOST_NAME + "/v2/oauth/token?api_key=" + API_KEY;
     private static final String UTF_8 = "UTF-8";
 
-    private static final String READING_LISTS_URL = "https://" + HOST_NAME + "/v2/lists?api_key=" + API_KEY;
+    private static final String READING_LISTS_LIMIT_PARAM = "limit=100";
+    private static final String READING_LISTS_URL = "https://" + HOST_NAME + "/v2/lists?"+READING_LISTS_LIMIT_PARAM+"&api_key=" + API_KEY;
     public static final String ACCESS_TOKEN_CODE = "access_token";
 
     private static final String READINGLIST_ID_REPLACEMENT_TOKEN = "%s";
-    private static final String BOOK_TITLES_FOR_READING_LIST_URL = "https://"  + HOST_NAME + "/v2/lists/" + READINGLIST_ID_REPLACEMENT_TOKEN + "/titles?api_key=ytvs9pzsd62bv7rzamwdkthe";
+    private static final String BOOK_TITLES_FOR_READING_LIST_URL = "https://"  + HOST_NAME + "/v2/lists/" + READINGLIST_ID_REPLACEMENT_TOKEN + "/titles?"+READING_LISTS_LIMIT_PARAM+"&api_key=ytvs9pzsd62bv7rzamwdkthe";
 
     private static final String JSON_CODE_LISTS = "lists";
     private static final String JSON_CODE_READING_LIST_ID = "readingListId";
