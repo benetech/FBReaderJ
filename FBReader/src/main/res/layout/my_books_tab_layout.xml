@@ -15,6 +15,8 @@
         android:layout_height="wrap_content"
         android:text="Reading Lists"
         android:textSize="9sp"
+        android:gravity="center"
+        android:textColor="@drawable/tab_textcolor_selector"
         android:id="@+id/tabLabel" />
 
 
