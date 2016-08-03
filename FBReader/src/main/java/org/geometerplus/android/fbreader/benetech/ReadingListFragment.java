@@ -1,6 +1,7 @@
 package org.geometerplus.android.fbreader.benetech;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +24,22 @@ import java.util.Map;
  */
 public class ReadingListFragment extends TitleListFragmentWithContextMenu {
 
+    public static final String ARG_SHOULD_ADD_FAVORITES = "shouldAddFavorites";
+
     private ReadingList readingList;
+
+    private boolean shouldAddFavorites = false;
 
     public void setReadingList(ReadingList readingListToUse) {
         readingList = readingListToUse;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        if(getArguments() != null){
+            shouldAddFavorites = getArguments().getBoolean(ARG_SHOULD_ADD_FAVORITES, false);
+        }
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -40,9 +53,11 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle, readingListBookAuthors));
         }
 
-        ArrayList<Book> favoriteTitelsOnDevice = getFavoritesOnDevice();
-        for (Book favoriteBookOnDevice : favoriteTitelsOnDevice) {
-            bookRowItems.add(new DownloadedTitleListRowItem(favoriteBookOnDevice));
+        if(shouldAddFavorites) {
+            ArrayList<Book> favoriteTitelsOnDevice = getFavoritesOnDevice();
+            for (Book favoriteBookOnDevice : favoriteTitelsOnDevice) {
+                bookRowItems.add(new DownloadedTitleListRowItem(favoriteBookOnDevice));
+            }
         }
 
         sortListItems();

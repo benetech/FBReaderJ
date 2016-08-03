@@ -79,6 +79,12 @@ public class BookshareReadingListsFragment extends ListFragment {
         ReadingListsItem item = readingListsItems.get(position);
 
         ReadingListFragment readingListFragment = new ReadingListFragment();
+        if(item.readingListName != null
+                && item.readingListName.toLowerCase().contains("favorites")){
+            Bundle args = new Bundle();
+            args.putBoolean(ReadingListFragment.ARG_SHOULD_ADD_FAVORITES, true);
+            readingListFragment.setArguments(args);
+        }
         readingListFragment.setReadingList(item.getReadingList());
         replaceFragment(readingListFragment, true);
         Toast.makeText(getActivity(), item.readingListName, Toast.LENGTH_SHORT).show();
