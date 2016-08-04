@@ -214,6 +214,7 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
                     progressDialog = new CustomProgressDialog(parent);
                     progressDialog.setTitle(getBaseActivity().getString(R.string.title_sync_bookshare_progress_dialog));
                     progressDialog.shouldDismissOnFinish = true;
+                    progressDialog.shouldShowCancelButton = true;
                     progressDialog.show();
                     break;
                 case USER_ACTIVATED:
