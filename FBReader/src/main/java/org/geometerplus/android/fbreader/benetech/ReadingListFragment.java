@@ -13,6 +13,7 @@ import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.BooksDatabase;
 import org.geometerplus.fbreader.library.ReadingList;
 import org.geometerplus.fbreader.library.ReadingListBook;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import java.util.Map;
 public class ReadingListFragment extends TitleListFragmentWithContextMenu {
 
     public static final String ARG_SHOULD_ADD_FAVORITES = "shouldAddFavorites";
+    public static final String PARAM_READINGLIST_JSON= "PARAM_READINGLIST_JSON";
 
     private ReadingList readingList;
 
@@ -36,10 +38,27 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        if(getArguments() != null){
+        if(savedInstanceState != null){
+            shouldAddFavorites = savedInstanceState.getBoolean(ARG_SHOULD_ADD_FAVORITES, false);
+            try {
+                String jsonString = savedInstanceState.getString(PARAM_READINGLIST_JSON);
+                JSONObject json = new JSONObject(jsonString);
+                readingList = new ReadingList(json);
+            } catch (Exception e){
+                readingList = new ReadingList();
+            }
+        }
+        else if(getArguments() != null){
             shouldAddFavorites = getArguments().getBoolean(ARG_SHOULD_ADD_FAVORITES, false);
         }
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        String readingListJson = readingList.toJSONObject().toString();
+        savedInstanceState.putString(PARAM_READINGLIST_JSON, readingListJson);
+        savedInstanceState.putBoolean(ARG_SHOULD_ADD_FAVORITES, shouldAddFavorites);
     }
 
     @Override
