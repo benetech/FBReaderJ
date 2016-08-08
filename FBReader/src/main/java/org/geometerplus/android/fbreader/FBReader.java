@@ -95,10 +95,11 @@ public class FBReader extends ZLAndroidActivity {
     //Added for the detecting whether the talkback is on
     private AccessibilityManager accessibilityManager;
     private boolean initialOpen = true;
-    
-	final static int REPAINT_CODE = 1;
-	final static int CANCEL_CODE = 2;
-    final static int AUTO_SPEAK_CODE = 3;
+
+	protected final static int REPAINT_CODE = 1;
+	protected final static int CANCEL_CODE = 2;
+	protected final static int AUTO_SPEAK_CODE = 3;
+	protected final static int LOGIN_CODE = 4;
 
 	private int myFullScreenFlag;
 	//private InputAccess inputAccess = new InputAccess(this, true);

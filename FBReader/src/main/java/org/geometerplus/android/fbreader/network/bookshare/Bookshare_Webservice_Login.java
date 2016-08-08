@@ -424,7 +424,7 @@ public class Bookshare_Webservice_Login extends Activity{
 				editor.commit();
 				if (isFree)
 					startActivity(intent);
-
+				setResult(Activity.RESULT_OK);
 				finish();
 				break;
 				

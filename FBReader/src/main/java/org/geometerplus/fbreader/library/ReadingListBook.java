@@ -1,8 +1,10 @@
 package org.geometerplus.fbreader.library;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -66,5 +68,22 @@ public class ReadingListBook {
         }
 
         return buffer.toString();
+    }
+
+    public JSONObject toJSONObject(){
+        JSONObject ans = new JSONObject();
+        try {
+            ans.put(JSON_CODE_BOOKSHARE_ID, bookId);
+            ans.put(JSON_CODE_TITLE, title);
+            JSONArray authorsArray = new JSONArray();
+            for(String author : authors){
+                authorsArray.put(author);
+            }
+            ans.put(JSON_CODE_AUTHORS, authorsArray);
+
+        } catch (JSONException e){
+            Log.e("JSONEXCEPTION", "error creating json representation of ReadingList", e);
+        }
+        return ans;
     }
 }

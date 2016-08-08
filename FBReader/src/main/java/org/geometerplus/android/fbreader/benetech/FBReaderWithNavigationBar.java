@@ -1,5 +1,6 @@
 package org.geometerplus.android.fbreader.benetech;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,7 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.text.format.Time;
 import android.util.Log;
@@ -26,6 +26,7 @@ import com.hyperionics.fbreader.plugin.tts_plus.TtsSentenceExtractor;
 import org.accessibility.SimpleGestureFilter;
 import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.TOCActivity;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.TextPosition;
@@ -238,7 +239,12 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
         if (requestCode == CHECK_TTS_INSTALLED) {
             myTTS = new TextToSpeech(this, this);
-        } else {
+        } else if (requestCode == FBReader.LOGIN_CODE) {
+            if(resultCode == Activity.RESULT_OK){
+                syncBookshareReadingLists();
+            }
+        }
+        else {
             if (resultCode == TOCActivity.BACK_PRESSED) {
                 returnFromOtherScreen = true;
             } else {

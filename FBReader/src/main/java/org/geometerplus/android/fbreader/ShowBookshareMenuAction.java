@@ -1,9 +1,9 @@
 package org.geometerplus.android.fbreader;
 
+import android.content.Intent;
+
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
-
-import android.content.Intent;
 
 /**
  * @author roms
@@ -17,6 +17,6 @@ public class ShowBookshareMenuAction extends FBAndroidAction {
     @Override
     protected void run(Object... params) {
         Intent intent = new Intent(getBaseActivity().getApplicationContext(), Bookshare_Webservice_Login.class);
-        getBaseActivity().startActivity(intent);
+        getBaseActivity().startActivityForResult(intent, FBReader.LOGIN_CODE);
     }
 }

@@ -29,6 +29,6 @@ public class GoReadTabContainer extends AbstractBaseTabContainer {
 
     @Override
     public int getTabDrawableId() {
-        return R.drawable.ic_my_books;
+        return R.drawable.goread_tab_icon;
     }
 }
