@@ -12,6 +12,7 @@ import org.benetech.android.R;
 import org.geometerplus.android.fbreader.library.BookInfoActivity;
 import org.geometerplus.fbreader.library.Library;
 import org.geometerplus.zlibrary.core.image.ZLImage;
+import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
 
 import java.util.List;
 
@@ -51,6 +52,14 @@ public class BookListAdapter  extends ArrayAdapter<AbstractTitleListRowItem> {
         BookInfoActivity.setCover(getActivity().getWindowManager(), viewHolder.bookCover, bookCover);
         viewHolder.bookTitle.setText(item.getBookTitle());
         viewHolder.bookAuthors.setText(item.getAuthors());
+
+        int userValue = ZLTextStyleCollection.Instance().getBaseStyle().FontSizeOption.getValue();
+        userValue = Math.max(userValue, 18); //these values come from ZLFontSizeListPreference
+        userValue = Math.min(userValue, 30);
+        viewHolder.bookTitle.setTextSize(userValue);
+        double lowerValue = userValue / 1.5;
+        lowerValue = Math.max(lowerValue, 12d);
+        viewHolder.bookAuthors.setTextSize(Math.round(lowerValue));
 
         return convertView;
     }
