@@ -14,12 +14,19 @@ import org.benetech.android.R;
 abstract public class AbstractBaseTabContainer extends Fragment {
 
     private boolean mIsViewInited;
+    private Fragment childFragment;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setRetainInstance(true);
+    }
+
+    public void updateChildFragment(){
+        if(childFragment != null){
+            childFragment.onResume();
+        }
     }
 
     public void replaceFragment(Fragment fragment, boolean addToBackStack) {
@@ -31,6 +38,7 @@ abstract public class AbstractBaseTabContainer extends Fragment {
         transaction.replace(R.id.container_framelayout, fragment);
         transaction.commit();
         getChildFragmentManager().executePendingTransactions();
+        childFragment = fragment;
     }
 
     public boolean popFragment() {

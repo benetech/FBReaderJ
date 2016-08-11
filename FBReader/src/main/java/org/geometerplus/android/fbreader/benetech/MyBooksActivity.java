@@ -3,7 +3,6 @@ package org.geometerplus.android.fbreader.benetech;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,10 +20,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.benetech.android.R;
+import org.geometerplus.zlibrary.ui.android.util.SortUtil;
+import org.geometerplus.zlibrary.ui.android.util.SortUtil.SORT_ORDER;
 
 import java.util.ArrayList;
 
@@ -35,37 +37,10 @@ public class MyBooksActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private PopupWindow sortByPopupWindow;
-    private MenuItem sortByMenuItem;
     private TabLayout tabLayout;
+    private ViewPager viewPager;
     private SharedPreferences sharedPreferences;
     private static final String SHARE_PREFERENCE_CURRENT_PAGE_INDEX_TAG = "my_books_current_page_index";
-
-    public enum SORT_ORDER {
-
-        SORT_BY_TITLE(0),
-        SORT_BY_AUTHOR(1),
-        SORT_BY_DATE(2);
-
-        private int value;
-
-        SORT_ORDER (int val){
-            value = val;
-        }
-
-        public int getValue(){
-            return value;
-        }
-        public SORT_ORDER fromInt(int i){
-            switch (i){
-                case 2:
-                    return SORT_BY_DATE;
-                case 1:
-                    return SORT_BY_AUTHOR;
-                default:
-                    return SORT_BY_TITLE;
-            }
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +61,6 @@ public class MyBooksActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.my_books_menu, menu);
-        sortByMenuItem = menu.findItem(R.id.sorty_by);
         return true;
     }
 
@@ -106,8 +80,10 @@ public class MyBooksActivity extends AppCompatActivity {
     }
 
     private void initSortByPopup(){
+        SORT_ORDER order = SortUtil.getSortOrderPreference(getApplicationContext());
         ContentFrameLayout base = (ContentFrameLayout)findViewById(android.R.id.content);
         View contentView = LayoutInflater.from(this).inflate(R.layout.sort_popup_layout, base, false);
+        ((RadioButton)contentView.findViewById(order.getId())).setChecked(true);
         ((RadioGroup)contentView).setOnCheckedChangeListener(sortByRadioGroupListener);
         sortByPopupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, true);
@@ -129,13 +105,21 @@ public class MyBooksActivity extends AppCompatActivity {
     private RadioGroup.OnCheckedChangeListener sortByRadioGroupListener = new RadioGroup.OnCheckedChangeListener(){
 
         @Override
-        public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        public void onCheckedChanged(RadioGroup radioGroup, int id) {
+            SortUtil.saveSortPreference(getApplicationContext(), SORT_ORDER.fromId(id));
             sortByPopupWindow.dismiss();
+            MyBooksPagerAdapter viewPagerAdapter = (MyBooksPagerAdapter) viewPager.getAdapter();
+            int currentTabContainerIndex = viewPager.getCurrentItem();
+            for(int i = 0; i < viewPagerAdapter.getCount(); i++) {
+                AbstractBaseTabContainer currentContainerFragment = (AbstractBaseTabContainer) viewPagerAdapter.getItem(i);
+                currentContainerFragment.updateChildFragment();
+            }
+
         }
     };
 
     private void initTabs() {
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.addOnPageChangeListener(new PageChangeHandler(sharedPreferences, SHARE_PREFERENCE_CURRENT_PAGE_INDEX_TAG));
         MyBooksPagerAdapter pagerAdapter = new MyBooksPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);

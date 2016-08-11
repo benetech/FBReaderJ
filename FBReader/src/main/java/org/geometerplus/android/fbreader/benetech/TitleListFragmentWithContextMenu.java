@@ -25,6 +25,7 @@ import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.Library;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
+import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,8 +59,18 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment {
         }
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        sortListItems();
+        ((BaseAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
+
     protected void sortListItems() {
-        Collections.sort(bookRowItems);
+        if(getActivity() != null) {
+            Collections.sort(bookRowItems, SortUtil.getComparator(getActivity().getApplicationContext()));
+        }
     }
 
     @Override
