@@ -36,8 +36,6 @@ public class SortUtil {
             switch (value){
                 case 1:
                     return R.id.sort_by_author;
-                case 2:
-                    return R.id.sort_by_date;
                 default:
                     return R.id.sort_by_title;
             }
@@ -56,8 +54,6 @@ public class SortUtil {
             switch (i){
                 case R.id.sort_by_author:
                     return SORT_BY_AUTHOR;
-                case R.id.sort_by_date:
-                    return SORT_BY_DATE;
                 default:
                     return SORT_BY_TITLE;
             }

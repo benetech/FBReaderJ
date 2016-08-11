@@ -17,7 +17,6 @@ import android.widget.Toast;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
-import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareActionObserver;
 import org.geometerplus.fbreader.library.ReadingList;
 
@@ -31,6 +30,7 @@ public class BookshareReadingListsFragment extends ListFragment {
 
     private ArrayList<ReadingListsItem> readingListsItems;
     private static final String READINGLIST_TAG = "ReadingListFragment";
+    private ReadingListFragment myReadingListFragment = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,13 @@ public class BookshareReadingListsFragment extends ListFragment {
     public void onResume(){
         super.onResume();
         SyncReadingListsWithBookshareActionObserver.getInstance().notifyRelevantBooklistOpened(getActivity());
+        if(myReadingListFragment != null){
+            try{
+                myReadingListFragment.onResume();
+            } catch (Exception e){
+                Log.e(getClass().getCanonicalName(), "failed trying to refresh inner fragment", e );
+            }
+        }
     }
 
     private void fillListAdapter() throws Exception {
@@ -78,15 +85,15 @@ public class BookshareReadingListsFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         ReadingListsItem item = readingListsItems.get(position);
 
-        ReadingListFragment readingListFragment = new ReadingListFragment();
+        myReadingListFragment = new ReadingListFragment();
         if(item.readingListName != null
                 && item.readingListName.toLowerCase().contains("favorites")){
             Bundle args = new Bundle();
             args.putBoolean(ReadingListFragment.ARG_SHOULD_ADD_FAVORITES, true);
-            readingListFragment.setArguments(args);
+            myReadingListFragment.setArguments(args);
         }
-        readingListFragment.setReadingList(item.getReadingList());
-        replaceFragment(readingListFragment, true);
+        myReadingListFragment.setReadingList(item.getReadingList());
+        replaceFragment(myReadingListFragment, true);
         Toast.makeText(getActivity(), item.readingListName, Toast.LENGTH_SHORT).show();
         if(getActivity() instanceof MyBooksActivity){
             ((MyBooksActivity)getActivity()).onReadingListSelectedWithTitle(item.readingListName);
