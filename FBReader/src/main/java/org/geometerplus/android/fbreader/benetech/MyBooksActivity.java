@@ -1,6 +1,7 @@
 package org.geometerplus.android.fbreader.benetech;
 
 import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.TabLayout;
@@ -87,6 +88,8 @@ public class MyBooksActivity extends AppCompatActivity {
         ((RadioGroup)contentView).setOnCheckedChangeListener(sortByRadioGroupListener);
         sortByPopupWindow = new PopupWindow(contentView, ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        sortByPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        sortByPopupWindow.setOutsideTouchable(true);
         sortByPopupWindow.setContentView(contentView);
     }
 
