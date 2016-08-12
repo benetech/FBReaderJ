@@ -6,13 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.preferences.ZLFontSizeListPreference;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.BooksDatabase;
 import org.geometerplus.fbreader.library.ReadingList;
 import org.geometerplus.fbreader.library.ReadingListBook;
+import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -128,6 +131,15 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             AbstractTitleListRowItem item = getItem(position);
             viewHolder.readingListBook.setText(item.getBookTitle());
             viewHolder.readingListBookAuthors.setText(item.getAuthors());
+
+            int userValue = ZLTextStyleCollection.Instance().getBaseStyle().FontSizeOption.getValue();
+            userValue = Math.max(userValue, 18); //these values come from ZLFontSizeListPreference
+            userValue = Math.min(userValue, 30);
+            viewHolder.readingListBook.setTextSize(userValue);
+            double lowerValue = userValue / 1.5;
+            lowerValue = Math.max(lowerValue, 12d);
+            viewHolder.readingListBookAuthors.setTextSize(Math.round(lowerValue));
+
 
             return convertView;
         }

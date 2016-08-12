@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import org.apache.commons.io.FileUtils;
@@ -12,6 +13,7 @@ import org.geometerplus.android.fbreader.library.BookInfoActivity;
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,6 +43,13 @@ public class GoReadTabMainTabContent extends ListFragment {
         }
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        sortListItems();
+        ((BaseAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
     private void fillListAdapter() throws Exception {
         String value = Paths.BooksDirectoryOption().getValue();
         File downloadDir = new File(value);
@@ -56,13 +65,13 @@ public class GoReadTabMainTabContent extends ListFragment {
             else
                 Log.e(this.getClass().getSimpleName(), "Book file exists but could not create Book object from it");
         }
-
-        sortListItems();
         setListAdapter(new BookListAdapter(getActivity(), downloadedBooksList));
     }
 
     private void sortListItems() {
-        Collections.sort(downloadedBooksList);
+        if(getActivity() != null){
+            Collections.sort(downloadedBooksList, SortUtil.getComparator(getActivity().getApplicationContext()));
+        }
     }
 
     @Override

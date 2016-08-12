@@ -175,6 +175,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
         username = intent.getStringExtra("username");
         password = intent.getStringExtra("password");
 
+
         if (username == null || password == null) {
             isFree = true;
         }

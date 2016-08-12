@@ -311,6 +311,10 @@ public class FBReader extends ZLAndroidActivity {
 		MenuItem logoutMenuItem = menu.findItem(R.id.menu_item_logout_bookshare);
 
 		final boolean isLoggedintoBookshare = isLoggedintoBookshare();
+		if(isLoggedintoBookshare) {
+			String title = String.format(getString(R.string.signout_button_title_pattern), getCurrentLoggedUsername());
+			logoutMenuItem.setTitle(title);
+		}
 		loginMenuItem.setVisible(!isLoggedintoBookshare);
 		logoutMenuItem.setVisible(isLoggedintoBookshare);
 	}
@@ -326,6 +330,12 @@ public class FBReader extends ZLAndroidActivity {
 			return false;
 
 		return true;
+	}
+
+	protected String getCurrentLoggedUsername() {
+		SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(this);
+		String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
+		return username;
 	}
 
 	@Override

@@ -205,7 +205,12 @@
     <string name="menu_item_login_bookshare">Login Bookshare</string>
     <string name="menu_item_logout_bookshare">Logout Bookshare</string>
 
+    <string name="sort_by_title">Sort by title</string>
+    <string name="sort_by_author">Sort by author</string>
+    <string name="sort_by_date">Sort by date</string>
+    <string name="sort_by">Sort by</string>
 
+    <string name="signout_button_title_pattern">Logout %s</string>
 
 
 </resources>
