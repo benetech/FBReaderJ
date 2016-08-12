@@ -210,5 +210,7 @@
     <string name="sort_by_date">Sort by date</string>
     <string name="sort_by">Sort by</string>
 
+    <string name="signout_button_title_pattern">Logout %s</string>
+
 
 </resources>
