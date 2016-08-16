@@ -68,9 +68,7 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment {
 
 
     protected void sortListItems() {
-        if(getActivity() != null) {
-            Collections.sort(bookRowItems, SortUtil.getComparator(getActivity().getApplicationContext()));
-        }
+        Collections.sort(bookRowItems, SortUtil.getComparator());
     }
 
     @Override

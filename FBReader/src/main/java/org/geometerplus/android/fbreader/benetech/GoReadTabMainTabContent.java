@@ -69,9 +69,7 @@ public class GoReadTabMainTabContent extends ListFragment {
     }
 
     private void sortListItems() {
-        if(getActivity() != null){
-            Collections.sort(downloadedBooksList, SortUtil.getComparator(getActivity().getApplicationContext()));
-        }
+        Collections.sort(downloadedBooksList, SortUtil.getComparator());
     }
 
     @Override

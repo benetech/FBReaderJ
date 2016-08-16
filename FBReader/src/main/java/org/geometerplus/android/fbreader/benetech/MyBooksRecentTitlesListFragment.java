@@ -10,7 +10,10 @@ import org.geometerplus.fbreader.library.BooksDatabase;
 import org.geometerplus.fbreader.library.FileInfoSet;
 import org.geometerplus.fbreader.library.ReadingListBook;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,12 +75,27 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
             String concatinatedAuthors = ReadingListBook.getAllAuthorsAsString(strings);
             String beanId = bean.getId();
             final int bookId = Integer.parseInt(beanId);
-
-            bookRowItems.add(new ReadingListTitleItem(bookId, bean.getTitle(), concatinatedAuthors));
+            Date downloadDate = dateFromString(bean.getDownloadDateString());
+            bookRowItems.add(new ReadingListTitleItem(bookId, bean.getTitle(), concatinatedAuthors, downloadDate));
         }
 
         recreateAdapterWithUpdatedRows();
     }
+
+    private Date dateFromString(String dateString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMddyyyy");
+        Date date = null;
+        if(dateString != null) {
+            try {
+                date = dateFormat.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return date;
+    }
+
+
 
     private void recreateAdapterWithUpdatedRows() {
         sortListItems();

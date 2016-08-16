@@ -19,20 +19,25 @@
 
 package org.geometerplus.fbreader.library;
 
-import java.util.*;
-import java.io.InputStream;
-import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
+import org.geometerplus.fbreader.Paths;
+import org.geometerplus.fbreader.formats.FormatPlugin;
+import org.geometerplus.fbreader.formats.PluginCollection;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.core.filesystem.ZLPhysicalFile;
 import org.geometerplus.zlibrary.core.util.ZLMiscUtil;
-import org.geometerplus.zlibrary.core.filesystem.*;
-
 import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 
-import org.geometerplus.fbreader.formats.*;
-
-import org.geometerplus.fbreader.Paths;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Formatter;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Book {
 	public static Book getById(long bookId) {
@@ -452,6 +457,11 @@ public class Book {
 				}
 			}
 		}
+	}
+
+	//TODO implement
+	public Date getLastAccessedDate(){
+		return null;
 	}
 
 	@Override
