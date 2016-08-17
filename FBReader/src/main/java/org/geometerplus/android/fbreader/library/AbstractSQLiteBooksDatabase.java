@@ -1327,6 +1327,14 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		}
 	}
 
+	public void clearBookStatus(Book book){
+		String bookId = Long.toString(book.getId());
+		myDatabase.execSQL(String.format("DELETE FROM %s where %s = %s",
+				getBookStatusTableName(),
+				BOOKSTATUS_TABLE_BOOKID_COLUMN,
+				bookId));
+	}
+
 	public Date findLastAccessedDateForBook(Book book){
 		Date ans = null;
 		try {
