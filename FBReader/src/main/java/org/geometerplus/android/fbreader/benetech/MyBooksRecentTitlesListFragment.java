@@ -3,6 +3,7 @@ package org.geometerplus.android.fbreader.benetech;
 import android.view.View;
 import android.widget.ListView;
 
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.bookshare.BookshareApiV1UserHistoryRetriever;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Result_Bean;
 import org.geometerplus.fbreader.library.Book;
@@ -30,7 +31,7 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
     protected void fillListAdapter() {
         bookshareHistoryRetriever = new BookshareApiV1UserHistoryRetriever(getActivity(), this);
 
-        final BooksDatabase database = BooksDatabase.Instance();
+        final SQLiteBooksDatabase database = (SQLiteBooksDatabase)SQLiteBooksDatabase.Instance();
         final Map<Long,Book> savedBooksByFileId = database.loadBooks(new FileInfoSet(), true);
         final Map<Long,Book> savedBooksByBookId = new HashMap<>();
         for (Book book : savedBooksByFileId.values()) {
@@ -46,6 +47,9 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
                 }
             }
             if (book != null) {
+                Date date = database.findLastAccessedDateForBook(book);
+                book.setLastAccessedDate(date);
+
                 bookRowItems.add(new DownloadedTitleListRowItem(book));
             }
         }

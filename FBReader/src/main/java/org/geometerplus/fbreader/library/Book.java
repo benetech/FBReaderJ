@@ -107,7 +107,7 @@ public class Book {
 	private List<Author> myAuthors;
 	private List<Tag> myTags;
 	private SeriesInfo mySeriesInfo;
-
+	private Date lastAccessedDate;
 	private boolean myIsSaved;
 
 	Book(long id, ZLFile file, String title, String encoding, String language) {
@@ -459,9 +459,11 @@ public class Book {
 		}
 	}
 
-	//TODO implement
 	public Date getLastAccessedDate(){
-		return null;
+		return lastAccessedDate;
+	}
+	public void setLastAccessedDate(Date date){
+		lastAccessedDate = date;
 	}
 
 	@Override

@@ -25,6 +25,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.bookshare.net.BookshareHttpOauth2Client;
 import org.geometerplus.android.util.SQLiteUtil;
@@ -46,7 +47,9 @@ import org.geometerplus.zlibrary.text.view.ZLTextPosition;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -1294,6 +1297,63 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		insertReadingListRowSqlStatement.executeInsert();
 	}
 
+	private static final String BOOKSTATUS_TABLE_BOOKID_COLUMN = "book_id";
+	private static final String BOOKSTATUS_TABLE_ACCESSTIME_COLUMN = "access_time";
+	private static final String BOOKSTATUS_TABLE_PAGESFULL_COLUMN = "pages_full";
+	private static final String BOOKSTATUS_TABLE_PAGECURRENT_COLUMN = "page_current";
+	private SQLiteStatement insertBookStatusSqlStatement;
+
+	public void updateBookStatus(Book book) throws Exception {
+		if (insertBookStatusSqlStatement == null) {
+			insertBookStatusSqlStatement = myDatabase.compileStatement(
+					String.format("INSERT OR REPLACE INTO %s (%s, %s, %s, %s) VALUES (?,?,?,?)",
+							getBookStatusTableName(),
+							BOOKSTATUS_TABLE_BOOKID_COLUMN,
+							BOOKSTATUS_TABLE_ACCESSTIME_COLUMN,
+							BOOKSTATUS_TABLE_PAGESFULL_COLUMN,
+							BOOKSTATUS_TABLE_PAGECURRENT_COLUMN));
+		}
+
+		try {
+			insertBookStatusSqlStatement.bindString(1, Long.toString(book.getId()));
+			insertBookStatusSqlStatement.bindString(2, Long.toString(Calendar.getInstance().getTimeInMillis()));
+			insertBookStatusSqlStatement.bindString(3, "0");
+			insertBookStatusSqlStatement.bindString(4, "0");
+
+			insertBookStatusSqlStatement.executeInsert();
+		}
+		catch (Exception e){
+			Log.e("DATABASE", "error binding statements in update book status", e);
+		}
+	}
+
+	public Date findLastAccessedDateForBook(Book book){
+		Date ans = null;
+		try {
+			String bookId = Long.toString(book.getId());
+			final Cursor cursor = myDatabase.rawQuery(
+					String.format("SELECT %s FROM %s WHERE %s = %s",
+							BOOKSTATUS_TABLE_ACCESSTIME_COLUMN,
+							getBookStatusTableName(),
+							BOOKSTATUS_TABLE_BOOKID_COLUMN,
+							bookId)
+					, null);
+			if (cursor.moveToNext()) {
+				long time = cursor.getLong(0);
+				Calendar c = Calendar.getInstance();
+				c.setTimeInMillis(time);
+				ans = c.getTime();
+			}
+			cursor.close();
+		}
+		catch (Exception e){
+			Log.e("Database", "findLastAccessedDateForBook failed", e);
+		}
+		return ans;
+
+	}
+
+
 	public void clearReadingLists() {
 		myDatabase.execSQL("DELETE FROM " + getReadingListTableName());
 	}
@@ -1309,6 +1369,11 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	}
 
 	@NonNull
+	private String getBookStatusTableName() {
+		return "BookStatus";
+	}
+
+	@NonNull
 	private String getReadingListNameColumnName() {
 		return "name";
 	}
@@ -1317,4 +1382,5 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	private String getReadingListJsonColumnName() {
 		return "readingListJson";
 	}
+
 }

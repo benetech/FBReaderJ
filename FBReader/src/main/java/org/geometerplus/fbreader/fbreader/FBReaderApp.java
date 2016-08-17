@@ -21,6 +21,7 @@ package org.geometerplus.fbreader.fbreader;
 
 import android.app.Activity;
 
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.util.UIUtil;
 import org.geometerplus.fbreader.bookmodel.BookModel;
 import org.geometerplus.fbreader.bookmodel.TOCTree;
@@ -295,6 +296,12 @@ public final class FBReaderApp extends ZLApplication {
 			}
 		}
 		getViewWidget().repaint();
+		SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
+		try {
+			database.updateBookStatus(book);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void gotoBookmark(Bookmark bookmark) {

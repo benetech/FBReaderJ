@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import org.apache.commons.io.FileUtils;
 import org.geometerplus.android.fbreader.library.BookInfoActivity;
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  * Created by animal@martus.org on 4/26/16.
@@ -57,11 +59,15 @@ public class GoReadTabMainTabContent extends ListFragment {
             throw new Exception("Download directory does not exist");
 
         Collection<File> bookFilesFound = FileUtils.listFiles(downloadDir, BOOK_FILE_EXTENSIONS_TO_FILTER_BY, true);
+        SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
         for (File bookFile : bookFilesFound) {
             ZLFile zlFile = ZLFile.createFileByPath(bookFile.getAbsolutePath());
             final Book book = Book.getByFile(zlFile);
-            if (book != null)
+            if (book != null) {
+                Date date = database.findLastAccessedDateForBook(book);
+                book.setLastAccessedDate(date);
                 downloadedBooksList.add(new DownloadedTitleListRowItem(book));
+            }
             else
                 Log.e(this.getClass().getSimpleName(), "Book file exists but could not create Book object from it");
         }
