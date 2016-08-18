@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * Created by animal@martus.org on 4/26/16.
  */
-public class GoReadTabMainTabContent extends ListFragment {
+public class GoReadTabMainTabContent extends ListFragment implements SortUtil.SortChangesListener{
 
     private static final String EXTENSION_OPF = "opf";
     private static final String EXTENSION_EPUB = "epub";
@@ -48,8 +48,13 @@ public class GoReadTabMainTabContent extends ListFragment {
     @Override
     public void onResume(){
         super.onResume();
-        sortListItems();
-        ((BaseAdapter)getListAdapter()).notifyDataSetChanged();
+        SortUtil.registerForSortChanges(this);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        SortUtil.unregisterForSortChanges(this);
     }
 
     private void fillListAdapter() throws Exception {
@@ -87,4 +92,11 @@ public class GoReadTabMainTabContent extends ListFragment {
         intent.putExtra(BookInfoActivity.CURRENT_BOOK_PATH_KEY, clickedRowItem.getBookFilePath());
         startActivity(intent);
     }
+
+    @Override
+    public void onSortChanged(){
+        sortListItems();
+        ((BaseAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
 }

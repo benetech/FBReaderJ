@@ -3,11 +3,13 @@ package org.geometerplus.zlibrary.ui.android.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.benetech.AbstractTitleListRowItem;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 
@@ -18,7 +20,7 @@ import java.util.Date;
 public class SortUtil {
     public static final String SORT_BY_PREF = "SORT_BY_PREF";
     private static SORT_ORDER currentSortOrder = null;
-
+    private static final ArrayList<SortChangesListener> registeredListeners = new ArrayList<>();
     public static SORT_ORDER getCurrentSortOrder(){
         if(currentSortOrder == null){
             Log.e("SORT ERROR", "Sort Util not initialized");
@@ -86,6 +88,9 @@ public class SortUtil {
         prefs.edit()
                 .putInt(SORT_BY_PREF, sortOrder.getValue())
                 .commit();
+        for(SortChangesListener listener : registeredListeners){
+            listener.onSortChanged();
+        }
     }
 
     static public Comparator<AbstractTitleListRowItem> getComparator(){
@@ -122,5 +127,16 @@ public class SortUtil {
             else return 0;
         }
     };
+
+    public static void registerForSortChanges(SortChangesListener listener){
+        registeredListeners.add(listener);
+    }
+    public static void unregisterForSortChanges(SortChangesListener listener){
+        registeredListeners.remove(listener);
+    }
+
+    public interface SortChangesListener {
+        void onSortChanged();
+    }
 
 }
