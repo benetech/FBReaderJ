@@ -204,5 +204,5 @@
     <string name="menu_item_about_goread">Acerca de Go Read</string>
     <string name="menu_item_login_bookshare">Ingresar a Bookshare</string>
     <string name="menu_item_logout_bookshare">Salir de Bookshare</string>
-
+    <string name="book_unavailable_for_download_warning">Este libro no está disponible para descargar con tu cuenta.  Has iniciado sesión de Bookshare?</string>
 </resources>

@@ -212,5 +212,5 @@
 
     <string name="signout_button_title_pattern">Logout %s</string>
 
-
+    <string name="book_unavailable_for_download_warning">This book is not currently available for download to your account.  Are you signed in to Bookshare?</string>
 </resources>
