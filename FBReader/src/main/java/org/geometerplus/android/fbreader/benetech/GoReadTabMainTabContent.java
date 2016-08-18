@@ -76,6 +76,7 @@ public class GoReadTabMainTabContent extends ListFragment implements SortUtil.So
             else
                 Log.e(this.getClass().getSimpleName(), "Book file exists but could not create Book object from it");
         }
+        sortListItems();
         setListAdapter(new BookListAdapter(getActivity(), downloadedBooksList));
     }
 

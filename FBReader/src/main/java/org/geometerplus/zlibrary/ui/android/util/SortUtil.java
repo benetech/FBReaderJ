@@ -49,6 +49,8 @@ public class SortUtil {
             switch (value){
                 case 1:
                     return R.id.sort_by_author;
+                case 2:
+                    return R.id.sort_by_date;
                 default:
                     return R.id.sort_by_title;
             }
@@ -79,6 +81,7 @@ public class SortUtil {
     static public SORT_ORDER initSortOrderFromPreference(Context context){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         currentSortOrder = SORT_ORDER.fromInt(prefs.getInt(SORT_BY_PREF, 0));
+        notifyListeners();
         return currentSortOrder;
     }
 
@@ -88,6 +91,10 @@ public class SortUtil {
         prefs.edit()
                 .putInt(SORT_BY_PREF, sortOrder.getValue())
                 .commit();
+        notifyListeners();
+    }
+
+    static public void notifyListeners(){
         for(SortChangesListener listener : registeredListeners){
             listener.onSortChanged();
         }

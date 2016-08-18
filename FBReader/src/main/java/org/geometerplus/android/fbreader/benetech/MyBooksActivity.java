@@ -81,7 +81,7 @@ public class MyBooksActivity extends AppCompatActivity {
     }
 
     private void initSortByPopup(){
-        SORT_ORDER order = SortUtil.initSortOrderFromPreference(getApplicationContext());
+        SORT_ORDER order = SortUtil.getCurrentSortOrder();
         ContentFrameLayout base = (ContentFrameLayout)findViewById(android.R.id.content);
         View contentView = LayoutInflater.from(this).inflate(R.layout.sort_popup_layout, base, false);
         ((RadioButton)contentView.findViewById(order.getId())).setChecked(true);
