@@ -180,7 +180,7 @@
     <string name="my_books_tab_go_read">Go Read</string>
     <string name="my_books_tab_recent">Recent</string>
     <string name="my_books_tab_favorites">Favorites</string>
-    <string name="my_books_tab_reading_lists">Reading Lists</string>
+    <string name="my_books_tab_reading_lists">Lists</string>
 
     <string name="tab_label_section">Section</string>
     <string name="tab_label_page">Page</string>
