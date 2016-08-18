@@ -177,7 +177,7 @@
     <string name="message_sync_bookshare_progress_dialog">Creating Reading Lists.  The default reading list is called "Go Read Books" and contains books loaded on your device.  To select a different reading list, click the Reading Lists tab in My Books.  To sync again with Bookshare, select Sync with Bookshare from the More Actions () menu</string>
     <string name="message_sync_bookshare_reading_lists_complete_progress_dialog">Reading Lists created.  The default reading list is called "Go Read Books" and contains books loaded on your device.  To select a different reading list, click the Reading Lists tab in My Books.  To sync again with Bookshare, select Sync with Bookshare from the More Actions (  ) menu.</string>
     <string name="message_sync_bookshare_reading_lists_short_progress_dialog">Updating books and reading lists from your Bookshare account.</string>
-    <string name="my_books_tab_go_read">GoRead</string>
+    <string name="my_books_tab_go_read">Go Read</string>
     <string name="my_books_tab_recent">Recent</string>
     <string name="my_books_tab_favorites">Favorites</string>
     <string name="my_books_tab_reading_lists">Reading Lists</string>
@@ -201,7 +201,7 @@
     <string name="dialog_title_screen_orientation">Screen Orientation</string>
     <string name="menu_item_settings">Settings</string>
     <string name="menu_item_help">Help</string>
-    <string name="menu_item_about_goread">About GoRead</string>
+    <string name="menu_item_about_goread">About Go Read</string>
     <string name="menu_item_login_bookshare">Login Bookshare</string>
     <string name="menu_item_logout_bookshare">Logout Bookshare</string>
 
