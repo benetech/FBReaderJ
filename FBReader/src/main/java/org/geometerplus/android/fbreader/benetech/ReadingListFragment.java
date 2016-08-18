@@ -134,6 +134,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             userValue = Math.max(userValue, 18); //these values come from ZLFontSizeListPreference
             userValue = Math.min(userValue, 30);
             viewHolder.readingListBook.setTextSize(userValue);
+
             double lowerValue = userValue / 1.5;
             lowerValue = Math.max(lowerValue, 12d);
             viewHolder.readingListBookAuthors.setTextSize(Math.round(lowerValue));

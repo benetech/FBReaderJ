@@ -19,6 +19,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -43,6 +44,7 @@ import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
+import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -195,7 +197,12 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 
         final AsyncTask<Object, Void, Integer> bookResultsFetcher = new BookDetailsTask(uri);
         bookResultsFetcher.execute();
+
+        ViewGroup rootLayout = (ViewGroup)findViewById(R.id.book_detail_view);
+        SortUtil.applyCurrentFontToAllInViewGroup(this, rootLayout);
     }
+
+
 
     /**
      * This task gets the book details outside of the main UI thread
@@ -470,6 +477,9 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
             } else if (metadata_bean.getBriefSynopsis() == null && metadata_bean.getCompleteSynopsis() == null) {
                 bookshare_book_detail_synopsis_text.append("No Synopsis available");
             }
+
+            ViewGroup rootLayout = (ViewGroup)findViewById(R.id.book_detail_view);
+            SortUtil.applyCurrentFontToAllInViewGroup(this, rootLayout);
 
             findViewById(R.id.bookshare_book_detail_title).requestFocus();
         }

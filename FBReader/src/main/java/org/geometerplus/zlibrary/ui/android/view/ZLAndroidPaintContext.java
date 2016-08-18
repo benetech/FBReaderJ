@@ -19,19 +19,26 @@
 
 package org.geometerplus.zlibrary.ui.android.view;
 
-import java.util.*;
-import java.io.File;
-
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.CornerPathEffect;
+import android.graphics.EmbossMaskFilter;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.Typeface;
 
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.image.ZLImageData;
 import org.geometerplus.zlibrary.core.util.ZLColor;
 import org.geometerplus.zlibrary.core.view.ZLPaintContext;
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-
 import org.geometerplus.zlibrary.ui.android.image.ZLAndroidImageData;
 import org.geometerplus.zlibrary.ui.android.util.ZLAndroidColorUtil;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class ZLAndroidPaintContext extends ZLPaintContext {
 	private final Canvas myCanvas;
@@ -183,43 +190,8 @@ public final class ZLAndroidPaintContext extends ZLPaintContext {
 	}
 
 	protected void setFontInternal(String family, int size, boolean bold, boolean italic, boolean underline) {
-		family = realFontFamilyName(family);
 		final int style = (bold ? Typeface.BOLD : 0) | (italic ? Typeface.ITALIC : 0);
-		Typeface[] typefaces = myTypefaces.get(family);
-		if (typefaces == null) {
-			typefaces = new Typeface[4];
-			myTypefaces.put(family, typefaces);
-		}
-		Typeface tf = typefaces[style];
-		if (tf == null) {
-			File[] files = AndroidFontUtil.getFontMap(false).get(family);
-			if (files != null) {
-				try {
-					if (files[style] != null) {
-						tf = AndroidFontUtil.createFontFromFile(files[style]);
-					} else {
-						for (int i = 0; i < 4; ++i) {
-							if (files[i] != null) {
-								tf = (typefaces[i] != null) ?
-									typefaces[i] : AndroidFontUtil.createFontFromFile(files[i]);
-								typefaces[i] = tf;
-								break;
-							}
-						}
-					}
-				} catch (Throwable e) {
-				}
-			}
-			if (tf == null) {
-				if (AndroidFontUtil.isCustomFont(family)) {
-					tf = Typeface.createFromAsset(myContext.getAssets(),
-							AndroidFontUtil.getCustomFontDirectory(family));
-				} else {
-					tf = Typeface.create(family, style);
-				}
-			}
-			typefaces[style] = tf;
-		}
+		Typeface tf = AndroidFontUtil.typefaceForFontFamilyWithStyle(myContext, family, style);
 		myTextPaint.setTypeface(tf);
 		myTextPaint.setTextSize(size);
 		myTextPaint.setUnderlineText(underline);
