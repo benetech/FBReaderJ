@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.benetech.android.R.id.bookId;
+
 /**
  * Created by animal@martus.org on 4/6/16.
  */
@@ -70,7 +72,16 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             final String readingListBookTitle = readingListBook.getTitle();
             final String readingListBookAuthors = readingListBook.getAllAuthorsAsString();
             final int bookshareId = readingListBook.getBookId();
-            bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle, readingListBookAuthors, readingListBook.getDateAdded()));
+            Book book = null;
+            if(getActivity() instanceof MyBooksActivity){
+                try {
+                    HashMap<Long, Book> downloadedBooks = ((MyBooksActivity)getActivity()).getDownloadedBooksMap();
+                    book = downloadedBooks.get(bookId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle, readingListBookAuthors, readingListBook.getDateAdded(), book));
         }
 
         if(shouldAddFavorites) {

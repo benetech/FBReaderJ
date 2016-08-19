@@ -7,7 +7,6 @@ import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.bookshare.BookshareApiV1UserHistoryRetriever;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Result_Bean;
 import org.geometerplus.fbreader.library.Book;
-import org.geometerplus.fbreader.library.BooksDatabase;
 import org.geometerplus.fbreader.library.FileInfoSet;
 import org.geometerplus.fbreader.library.ReadingListBook;
 
@@ -80,7 +79,16 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
             String beanId = bean.getId();
             final int bookId = Integer.parseInt(beanId);
             Date downloadDate = dateFromString(bean.getDownloadDateString());
-            bookRowItems.add(new ReadingListTitleItem(bookId, bean.getTitle(), concatinatedAuthors, downloadDate));
+            Book book = null;
+            if(getActivity() instanceof MyBooksActivity){
+                try {
+                    HashMap<Long, Book> downloadedBooks = ((MyBooksActivity)getActivity()).getDownloadedBooksMap();
+                    book = downloadedBooks.get(bookId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            bookRowItems.add(new ReadingListTitleItem(bookId, bean.getTitle(), concatinatedAuthors, downloadDate, book));
         }
 
         recreateAdapterWithUpdatedRows();

@@ -13,11 +13,13 @@ public class ReadingListTitleItem extends AbstractTitleListRowItem {
     private String readingListBookName;
     private String readingListBookAuthors;
     private Date compareDate;
+    private Book downloadedBook = null;
 
-    public ReadingListTitleItem(int bookshareIdToUse, String readingListNameToUse, String readingListBookAuthorsToUse, Date compareDate) {
+    public ReadingListTitleItem(int bookshareIdToUse, String readingListNameToUse, String readingListBookAuthorsToUse, Date compareDate, Book book) {
         bookshareId = bookshareIdToUse;
         readingListBookName = readingListNameToUse;
         readingListBookAuthors = readingListBookAuthorsToUse;
+        downloadedBook = book;
         this.compareDate = compareDate;
     }
 
@@ -38,21 +40,34 @@ public class ReadingListTitleItem extends AbstractTitleListRowItem {
 
     @Override
     public ZLFile getBookZlFile() {
-        return null;
+        if(downloadedBook == null) {
+            return null;
+        }
+        else {
+            return downloadedBook.File;
+        }
     }
 
     @Override
     public Book getBook() {
-        return null;
+        return downloadedBook;
+    }
+    public void setBook(Book book) {
+        downloadedBook = book;
     }
 
     public String getBookFilePath() {
-        return null;
+        if(downloadedBook == null) {
+            return null;
+        }
+        else {
+            return downloadedBook.File.getPath();
+        }
     }
 
     @Override
     public boolean isDownloadedBook() {
-        return false;
+        return downloadedBook != null;
     }
 
     @Override
