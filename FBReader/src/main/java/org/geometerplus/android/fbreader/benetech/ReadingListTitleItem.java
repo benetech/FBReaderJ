@@ -9,13 +9,13 @@ import java.util.Date;
  * Created by animal@martus.org on 5/2/16.
  */
 public class ReadingListTitleItem extends AbstractTitleListRowItem {
-    private int bookshareId;
+    private long bookshareId;
     private String readingListBookName;
     private String readingListBookAuthors;
     private Date compareDate;
     private Book downloadedBook = null;
 
-    public ReadingListTitleItem(int bookshareIdToUse, String readingListNameToUse, String readingListBookAuthorsToUse, Date compareDate, Book book) {
+    public ReadingListTitleItem(long bookshareIdToUse, String readingListNameToUse, String readingListBookAuthorsToUse, Date compareDate, Book book) {
         bookshareId = bookshareIdToUse;
         readingListBookName = readingListNameToUse;
         readingListBookAuthors = readingListBookAuthorsToUse;
@@ -24,7 +24,7 @@ public class ReadingListTitleItem extends AbstractTitleListRowItem {
     }
 
     @Override
-    public int getBookId() {
+    public long getBookId() {
         return bookshareId;
     }
 

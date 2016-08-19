@@ -1,5 +1,7 @@
 package org.geometerplus.android.fbreader.benetech;
 
+import android.util.Log;
+
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 
@@ -40,7 +42,19 @@ abstract public class AbstractTitleListRowItem implements Comparable<AbstractTit
 
     abstract public boolean isDownloadedBook();
 
-    abstract public int getBookId();
+    abstract public long getBookId();
 
     abstract public Date getCompareDate();
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof  AbstractTitleListRowItem){
+            if(((AbstractTitleListRowItem) o).getBookTitle().contains("Hallows")
+                    && this.getBookTitle().contains("Hallows")){
+                Log.d("hallows", "hallows");
+            }
+            return(((AbstractTitleListRowItem) o).getBookId() == this.getBookId());
+        }
+        else return false;
+    }
 }

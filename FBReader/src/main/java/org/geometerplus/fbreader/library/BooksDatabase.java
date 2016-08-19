@@ -36,12 +36,12 @@ public abstract class BooksDatabase {
 		ourInstance = this;
 	}
 
-	protected Book createBook(long id, long fileId, String title, String encoding, String language) {
+	protected Book createBook(long id, long fileId, String title, String encoding, String language, long bookshareId) {
 		final FileInfoSet infos = new FileInfoSet(fileId);
-		return createBook(id, infos.getFile(fileId), title, encoding, language);
+		return createBook(id, infos.getFile(fileId), title, encoding, language, bookshareId);
 	}
-	protected Book createBook(long id, ZLFile file, String title, String encoding, String language) {
-		return (file != null) ? new Book(id, file, title, encoding, language) : null;
+	protected Book createBook(long id, ZLFile file, String title, String encoding, String language, long bookshareId) {
+		return (file != null) ? new Book(id, file, title, encoding, language, bookshareId) : null;
 	}
 	protected void addAuthor(Book book, Author author) {
 		book.addAuthorWithNoCheck(author);

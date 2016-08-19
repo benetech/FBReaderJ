@@ -63,7 +63,7 @@ public class ReadingListBook {
         }
     }
 
-    public int getBookId() {
+    public long getBookId() {
         return bookId;
     }
 

@@ -2,6 +2,7 @@ package org.geometerplus.android.fbreader.benetech;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,12 +72,15 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             ReadingListBook readingListBook = readingListBooks.get(index);
             final String readingListBookTitle = readingListBook.getTitle();
             final String readingListBookAuthors = readingListBook.getAllAuthorsAsString();
-            final int bookshareId = readingListBook.getBookId();
+            final long bookshareId = readingListBook.getBookId();
             Book book = null;
             if(getActivity() instanceof MyBooksActivity){
                 try {
                     HashMap<Long, Book> downloadedBooks = ((MyBooksActivity)getActivity()).getDownloadedBooksMap();
-                    book = downloadedBooks.get(bookId);
+                    book = downloadedBooks.get(bookshareId);
+                    if(book != null){
+                        Log.d("fetch book ", " by bookshare id success");
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
