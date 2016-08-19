@@ -201,7 +201,12 @@ public class MyBooksActivity extends AppCompatActivity {
                 if (book != null) {
                     Date date = database.findLastAccessedDateForBook(book);
                     book.setLastAccessedDate(date);
-                    bookHashMap.put(book.getId(), book);
+                    if(book.getBookshareId() != 0){
+                        bookHashMap.put(book.getBookshareId(), book);
+                    }
+                    else {
+                        bookHashMap.put(book.getId(), book);
+                    }
                 }
                 else
                     Log.e(this.getClass().getSimpleName(), "Book file exists but could not create Book object from it");

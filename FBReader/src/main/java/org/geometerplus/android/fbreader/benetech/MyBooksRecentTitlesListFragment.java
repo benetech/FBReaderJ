@@ -88,7 +88,11 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
                     e.printStackTrace();
                 }
             }
-            bookRowItems.add(new ReadingListTitleItem(bookId, bean.getTitle(), concatinatedAuthors, downloadDate, book));
+
+            ReadingListTitleItem newItem = new ReadingListTitleItem(bookId, bean.getTitle(), concatinatedAuthors, downloadDate, book);
+            if(!bookRowItems.contains(newItem)){ //this will prevent us from adding duplicates unless they are actually different books for bookshare
+                bookRowItems.add(newItem);
+            }
         }
 
         recreateAdapterWithUpdatedRows();

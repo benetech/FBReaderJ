@@ -844,6 +844,8 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                         try {
                             ZLFile zlFile = ZLFile.createFileByPath(file.getAbsolutePath());
                             final Book book = Book.getByFile(zlFile);
+                            book.save();
+                            ((SQLiteBooksDatabase) SQLiteBooksDatabase.Instance()).updateBookBookshareId(book, metadata_bean.getBookshareId());
                             ((SQLiteBooksDatabase) SQLiteBooksDatabase.Instance()).updateBookStatus(book);
                         }
                         catch (Exception e){

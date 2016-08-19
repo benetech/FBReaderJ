@@ -109,14 +109,16 @@ public class Book {
 	private SeriesInfo mySeriesInfo;
 	private Date lastAccessedDate;
 	private boolean myIsSaved;
+	private long bookshareId;
 
-	Book(long id, ZLFile file, String title, String encoding, String language) {
+	Book(long id, ZLFile file, String title, String encoding, String language, long bookshareId) {
 		myId = id;
 		File = file;
 		myTitle = title;
 		myEncoding = encoding;
 		myLanguage = language;
 		myIsSaved = true;
+		this.bookshareId = bookshareId;
 	}
 
 	Book(ZLFile file) {
@@ -480,5 +482,13 @@ public class Book {
 			return false;
 		}
 		return File.equals(((Book)o).File);
+	}
+
+	public void setBookshareId(long bookshareId) {
+		this.bookshareId = bookshareId;
+	}
+
+	public long getBookshareId() {
+		return this.bookshareId;
 	}
 }

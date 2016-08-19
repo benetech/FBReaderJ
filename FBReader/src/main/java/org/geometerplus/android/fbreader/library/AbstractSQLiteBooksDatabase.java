@@ -58,7 +58,7 @@ import java.util.TreeSet;
 
 abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	private final SQLiteDatabase myDatabase;
-	public static final int CURRENT_DB_VERSION = 19;
+	public static final int CURRENT_DB_VERSION = 20;
 
 	public AbstractSQLiteBooksDatabase(Context context) {
 		myDatabase = context.openOrCreateDatabase("books.db", Context.MODE_PRIVATE, null);
@@ -137,6 +137,8 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
                 updateTables17();
             case 18:
                 updateTables18();
+			case 19:
+				updateTables19();
         }
 		myDatabase.setTransactionSuccessful();
 		myDatabase.endTransaction();
@@ -152,10 +154,10 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	@Override
 	protected Book loadBook(long bookId) {
 		Book book = null;
-		final Cursor cursor = myDatabase.rawQuery("SELECT file_id,title,encoding,language FROM Books WHERE book_id = " + bookId, null);
+		final Cursor cursor = myDatabase.rawQuery("SELECT file_id,title,encoding,language,bookshare_id FROM Books WHERE book_id = " + bookId, null);
 		if (cursor.moveToNext()) {
 			book = createBook(
-				bookId, cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3)
+				bookId, cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getLong(4)
 			);
 		}
 		cursor.close();
@@ -164,11 +166,12 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 
 	@Override
 	protected void reloadBook(Book book) {
-		final Cursor cursor = myDatabase.rawQuery("SELECT title,encoding,language FROM Books WHERE book_id = " + book.getId(), null);
+		final Cursor cursor = myDatabase.rawQuery("SELECT title,encoding,language,bookshare_id FROM Books WHERE book_id = " + book.getId(), null);
 		if (cursor.moveToNext()) {
 			book.setTitle(cursor.getString(0));
 			book.setEncoding(cursor.getString(1));
 			book.setLanguage(cursor.getString(2));
+			book.setBookshareId(cursor.getLong(4));
 		}
 		cursor.close();
 	}
@@ -178,10 +181,10 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 			return null;
 		}
 		Book book = null;
-		final Cursor cursor = myDatabase.rawQuery("SELECT book_id,title,encoding,language FROM Books WHERE file_id = " + fileId, null);
+		final Cursor cursor = myDatabase.rawQuery("SELECT book_id,title,encoding,language,bookshare_id FROM Books WHERE file_id = " + fileId, null);
 		if (cursor.moveToNext()) {
 			book = createBook(
-				cursor.getLong(0), file, cursor.getString(1), cursor.getString(2), cursor.getString(3)
+				cursor.getLong(0), file, cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getLong(4)
 			);
 		}
 		cursor.close();
@@ -213,7 +216,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	@Override
 	public Map<Long,Book> loadBooks(FileInfoSet infos, boolean existing) {
 		Cursor cursor = myDatabase.rawQuery(
-			"SELECT book_id,file_id,title,encoding,language FROM Books WHERE `exists` = " + (existing ? 1 : 0), null
+			"SELECT book_id,file_id,title,encoding,language, bookshare_id FROM Books WHERE `exists` = " + (existing ? 1 : 0), null
 		);
 		final HashMap<Long,Book> booksById = new HashMap<Long,Book>();
 		final HashMap<Long,Book> booksByFileId = new HashMap<Long,Book>();
@@ -221,7 +224,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 			final long id = cursor.getLong(0);
 			final long fileId = cursor.getLong(1);
 			final Book book = createBook(
-				id, infos.getFile(fileId), cursor.getString(2), cursor.getString(3), cursor.getString(4)
+				id, infos.getFile(fileId), cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getLong(5)
 			);
 			if (book != null) {
 				booksById.put(id, book);
@@ -949,6 +952,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		return links;
 	}
 
+	private static final String BOOKS_TABLE_BOOKSHAREID_COLUMN = "bookshare_id";
 	private void createTables() {
 		myDatabase.execSQL(
 			"CREATE TABLE Books(" +
@@ -1268,6 +1272,13 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 						getReadingListJsonColumnName() + " TEXT)");
 	}
 
+	private void updateTables19() {
+		myDatabase.execSQL(
+				String.format("ALTER TABLE books ADD COLUMN %s INTEGER", BOOKS_TABLE_BOOKSHAREID_COLUMN)
+		);
+	}
+
+
 	public ArrayList<ReadingList> getAllReadingLists() throws Exception {
 		ArrayList<ReadingList> readingLists = new ArrayList();
 		Cursor cursor = myDatabase.rawQuery("SELECT "+ getReadingListIdColumnName() + "," + getReadingListNameColumnName() + "," + getReadingListJsonColumnName() + " FROM " + getReadingListTableName(), null);
@@ -1359,6 +1370,19 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 		}
 		return ans;
 
+	}
+
+	public void updateBookBookshareId(Book book, String bookshareId) throws Exception {
+		try {
+			myDatabase.execSQL(
+					String.format("UPDATE books SET %s = %s WHERE book_id = %s",
+							BOOKS_TABLE_BOOKSHAREID_COLUMN,
+							bookshareId,
+							Long.toString(book.getId())));
+		}
+		catch (Exception e){
+			Log.e("DATABASE", "error binding statements in update book status", e);
+		}
 	}
 
 

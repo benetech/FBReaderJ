@@ -64,8 +64,11 @@ public class DownloadedTitleListRowItem extends AbstractTitleListRowItem {
     }
 
     @Override
-    public int getBookId() {
-        return (int) getBook().getId();
+    public long getBookId() {
+        if(book.getBookshareId() == 0){
+            return getBook().getId();
+        }
+        else return book.getBookshareId();
     }
 
     @Override

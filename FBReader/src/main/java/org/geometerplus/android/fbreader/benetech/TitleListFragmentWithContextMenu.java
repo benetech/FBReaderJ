@@ -223,7 +223,7 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment impl
         }
     }
 
-    protected void showBookDetailsPageWithDownloadButton(int bookshareId) {
+    protected void showBookDetailsPageWithDownloadButton(long bookshareId) {
         SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String username = defaultSharedPreferences.getString(Bookshare_Webservice_Login.USER, "");
         String password = defaultSharedPreferences.getString(Bookshare_Webservice_Login.PASSWORD, "");
@@ -248,12 +248,12 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment impl
     }
 
     @NonNull
-    private String createUriForKnownUser(int bookshareId, String username) {
+    private String createUriForKnownUser(long bookshareId, String username) {
         return URI_BOOKSHARE_ID_SEARCH + bookshareId +"/for/"+username+"?api_key="+ BookshareDeveloperKey.DEVELOPER_KEY;
     }
 
     @NonNull
-    private String createUriForNoUser(int bookshareId) {
+    private String createUriForNoUser(long bookshareId) {
         return URI_BOOKSHARE_ID_SEARCH + bookshareId + "?api_key="+ BookshareDeveloperKey.DEVELOPER_KEY;
     }
 
