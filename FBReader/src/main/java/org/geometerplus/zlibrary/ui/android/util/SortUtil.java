@@ -2,12 +2,19 @@ package org.geometerplus.zlibrary.ui.android.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.benetech.AbstractTitleListRowItem;
+import org.geometerplus.zlibrary.text.view.style.ZLTextBaseStyle;
+import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
+import org.geometerplus.zlibrary.ui.android.view.AndroidFontUtil;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,6 +34,28 @@ public class SortUtil {
             return SORT_ORDER.SORT_BY_AUTHOR;
         }
         return currentSortOrder;
+    }
+
+    public static void applyCurrentFontToAllInViewGroup(Context context, ViewGroup rootLayout) {
+
+        ZLTextBaseStyle style = ZLTextStyleCollection.Instance().getBaseStyle();
+        String family = style.getFontFamily();
+        int textStyle = (style.isBold() ? Typeface.BOLD : 0) | (style.isItalic() ? Typeface.ITALIC : 0);
+        Typeface typeface = AndroidFontUtil.typefaceForFontFamilyWithStyle(context, family, textStyle);
+
+
+        for(int i = 0; i < rootLayout.getChildCount(); i++){
+            View view = rootLayout.getChildAt(i);
+            if(view instanceof TextView){
+                ((TextView)view).setTypeface(typeface);
+            }
+            else if(view instanceof Button){
+                ((Button)view).setTypeface(typeface);
+            }
+            else if(view instanceof ViewGroup){
+                applyCurrentFontToAllInViewGroup(context, (ViewGroup)view);
+            }
+        }
     }
 
     public enum SORT_ORDER {

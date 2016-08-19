@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.internal.widget.ContentFrameLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,16 +26,29 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import org.apache.commons.io.FileUtils;
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
+import org.geometerplus.fbreader.Paths;
+import org.geometerplus.fbreader.library.Book;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 import org.geometerplus.zlibrary.ui.android.util.SortUtil.SORT_ORDER;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by animal@martus.org on 4/4/16.
  */
 public class MyBooksActivity extends AppCompatActivity {
+
+    private static final String EXTENSION_OPF = "opf";
+    private static final String EXTENSION_EPUB = "epub";
+    private static final String[] BOOK_FILE_EXTENSIONS_TO_FILTER_BY = {EXTENSION_EPUB, EXTENSION_OPF};
 
     private Toolbar toolbar;
     private PopupWindow sortByPopupWindow;
@@ -42,6 +56,7 @@ public class MyBooksActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private SharedPreferences sharedPreferences;
     private static final String SHARE_PREFERENCE_CURRENT_PAGE_INDEX_TAG = "my_books_current_page_index";
+    private HashMap<Long, Book> bookHashMap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,6 +185,33 @@ public class MyBooksActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getTitle());
     }
 
+    public HashMap<Long, Book> getDownloadedBooksMap() throws Exception{
+        if(bookHashMap == null){
+            bookHashMap = new HashMap<>();
+            String value = Paths.BooksDirectoryOption().getValue();
+            File downloadDir = new File(value);
+            if (!downloadDir.exists())
+                throw new Exception("Download directory does not exist");
+
+            Collection<File> bookFilesFound = FileUtils.listFiles(downloadDir, BOOK_FILE_EXTENSIONS_TO_FILTER_BY, true);
+            SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
+            for (File bookFile : bookFilesFound) {
+                ZLFile zlFile = ZLFile.createFileByPath(bookFile.getAbsolutePath());
+                final Book book = Book.getByFile(zlFile);
+                if (book != null) {
+                    Date date = database.findLastAccessedDateForBook(book);
+                    book.setLastAccessedDate(date);
+                    bookHashMap.put(book.getId(), book);
+                }
+                else
+                    Log.e(this.getClass().getSimpleName(), "Book file exists but could not create Book object from it");
+            }
+
+        }
+        return bookHashMap;
+    }
+
+
     private class MyBooksPagerAdapter extends FragmentStatePagerAdapter {
 
         ArrayList<AbstractBaseTabContainer> tabFragmentContainers;
@@ -214,5 +256,6 @@ public class MyBooksActivity extends AppCompatActivity {
 
             return tabView;
         }
+
     }
 }

@@ -8,28 +8,18 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import org.apache.commons.io.FileUtils;
 import org.geometerplus.android.fbreader.library.BookInfoActivity;
-import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
-import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.library.Book;
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by animal@martus.org on 4/26/16.
  */
 public class GoReadTabMainTabContent extends ListFragment implements SortUtil.SortChangesListener{
-
-    private static final String EXTENSION_OPF = "opf";
-    private static final String EXTENSION_EPUB = "epub";
-    private static final String[] BOOK_FILE_EXTENSIONS_TO_FILTER_BY = {EXTENSION_EPUB, EXTENSION_OPF};
 
     private ArrayList<AbstractTitleListRowItem> downloadedBooksList;
 
@@ -58,23 +48,11 @@ public class GoReadTabMainTabContent extends ListFragment implements SortUtil.So
     }
 
     private void fillListAdapter() throws Exception {
-        String value = Paths.BooksDirectoryOption().getValue();
-        File downloadDir = new File(value);
-        if (!downloadDir.exists())
-            throw new Exception("Download directory does not exist");
-
-        Collection<File> bookFilesFound = FileUtils.listFiles(downloadDir, BOOK_FILE_EXTENSIONS_TO_FILTER_BY, true);
-        SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
-        for (File bookFile : bookFilesFound) {
-            ZLFile zlFile = ZLFile.createFileByPath(bookFile.getAbsolutePath());
-            final Book book = Book.getByFile(zlFile);
-            if (book != null) {
-                Date date = database.findLastAccessedDateForBook(book);
-                book.setLastAccessedDate(date);
+        if(getActivity() instanceof MyBooksActivity){
+            HashMap<Long, Book> map = ((MyBooksActivity)getActivity()).getDownloadedBooksMap();
+            for(Book book :map.values()){
                 downloadedBooksList.add(new DownloadedTitleListRowItem(book));
             }
-            else
-                Log.e(this.getClass().getSimpleName(), "Book file exists but could not create Book object from it");
         }
         sortListItems();
         setListAdapter(new BookListAdapter(getActivity(), downloadedBooksList));

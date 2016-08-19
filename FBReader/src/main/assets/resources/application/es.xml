@@ -235,7 +235,7 @@
 	</node>
 	<node name="menu">
 		<node name="preferences" value="Preferencias"/>
-		<node name="about_goread" value="Acerca de GoRead"/>
+		<node name="about_goread" value="Acerca de Go Read"/>
 		<node name="logout_from_bookshare" value="Salir de Bookshare"/>
 		<node name="bookInfo" value="Información del libro"/>
 		<node name="library" value="Biblioteca"/>

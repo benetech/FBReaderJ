@@ -19,17 +19,20 @@
 
 package org.geometerplus.zlibrary.ui.android.view;
 
-import java.util.*;
-import java.io.File;
-import java.io.FilenameFilter;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-
+import android.content.Context;
 import android.graphics.Typeface;
 
+import org.geometerplus.fbreader.Paths;
 import org.geometerplus.zlibrary.core.util.ZLTTFInfoDetector;
 
-import org.geometerplus.fbreader.Paths;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
 
 public final class AndroidFontUtil {
 	private static Method ourFontCreationMethod;
@@ -130,7 +133,6 @@ public final class AndroidFontUtil {
 		if ("Verdana".equalsIgnoreCase(fontFamily)) {
 			return "Verdana";
 		}
-
 		return "sans-serif";
 	}
 
@@ -166,5 +168,48 @@ public final class AndroidFontUtil {
 		familySet.add("Times New Roman");
 		familySet.add("Verdana");
 		families.addAll(familySet);
+	}
+
+	private static HashMap<String,Typeface[]> myTypefaces = new HashMap<String,Typeface[]>();
+
+
+	public static Typeface typefaceForFontFamilyWithStyle(Context context, String fam, int style){
+		String family = realFontFamilyName(fam);
+		Typeface[] typefaces = myTypefaces.get(family);
+		if (typefaces == null) {
+			typefaces = new Typeface[4];
+			myTypefaces.put(family, typefaces);
+		}
+		Typeface tf = typefaces[style];
+		if (tf == null) {
+			File[] files = AndroidFontUtil.getFontMap(false).get(family);
+			if (files != null) {
+				try {
+					if (files[style] != null) {
+						tf = AndroidFontUtil.createFontFromFile(files[style]);
+					} else {
+						for (int i = 0; i < 4; ++i) {
+							if (files[i] != null) {
+								tf = (typefaces[i] != null) ?
+										typefaces[i] : AndroidFontUtil.createFontFromFile(files[i]);
+								typefaces[i] = tf;
+								break;
+							}
+						}
+					}
+				} catch (Throwable e) {
+				}
+			}
+			if (tf == null) {
+				if (AndroidFontUtil.isCustomFont(family)) {
+					tf = Typeface.createFromAsset(context.getAssets(),
+							AndroidFontUtil.getCustomFontDirectory(family));
+				} else {
+					tf = Typeface.create(family, style);
+				}
+			}
+			typefaces[style] = tf;
+		}
+		return tf;
 	}
 }

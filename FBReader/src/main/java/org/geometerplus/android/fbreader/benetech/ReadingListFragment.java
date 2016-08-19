@@ -2,7 +2,6 @@ package org.geometerplus.android.fbreader.benetech;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +16,12 @@ import org.geometerplus.fbreader.library.ReadingListBook;
 import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static org.benetech.android.R.id.bookId;
 
 /**
  * Created by animal@martus.org on 4/6/16.
@@ -72,7 +72,16 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             final String readingListBookTitle = readingListBook.getTitle();
             final String readingListBookAuthors = readingListBook.getAllAuthorsAsString();
             final int bookshareId = readingListBook.getBookId();
-            bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle, readingListBookAuthors, readingListBook.getDateAdded()));
+            Book book = null;
+            if(getActivity() instanceof MyBooksActivity){
+                try {
+                    HashMap<Long, Book> downloadedBooks = ((MyBooksActivity)getActivity()).getDownloadedBooksMap();
+                    book = downloadedBooks.get(bookId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle, readingListBookAuthors, readingListBook.getDateAdded(), book));
         }
 
         if(shouldAddFavorites) {
@@ -136,6 +145,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             userValue = Math.max(userValue, 18); //these values come from ZLFontSizeListPreference
             userValue = Math.min(userValue, 30);
             viewHolder.readingListBook.setTextSize(userValue);
+
             double lowerValue = userValue / 1.5;
             lowerValue = Math.max(lowerValue, 12d);
             viewHolder.readingListBookAuthors.setTextSize(Math.round(lowerValue));

@@ -177,7 +177,7 @@
     <string name="message_sync_bookshare_progress_dialog">Creando listas de lectura.  La lista original se llama "Go Read Books" y contiene libros disponibles en su dispositivo. Para seleccionar una lista diferente, tope el tab Listas de Lecture en Mis Libros.  Para sincronizar con Bookshare, seleccione Sincronizar con Bookshare desde el menú Más Acciones.</string>
     <string name="message_sync_bookshare_reading_lists_complete_progress_dialog">Lista de lectura creada.  La lista original se llama "Go Read Books" y contiene libros disponibles en su dispositivo. Para seleccionar una lista diferente, tope el tab Listas de Lecture en Mis Libros.  Para sincronizar con Bookshare, seleccione Sincronizar con Bookshare desde el menú Más Acciones.</string>
     <string name="message_sync_bookshare_reading_lists_short_progress_dialog">Actualizando libros y listas de lectura desde su cuenta de Bookshare.</string>
-    <string name="my_books_tab_go_read">GoRead</string>
+    <string name="my_books_tab_go_read">Go Read</string>
     <string name="my_books_tab_recent">Recientes</string>
     <string name="my_books_tab_favorites">Favoritos</string>
     <string name="my_books_tab_reading_lists">Listas de Lectura</string>
@@ -201,8 +201,8 @@
     <string name="dialog_title_screen_orientation">Orientación de Pantalla</string>
     <string name="menu_item_settings">Configuración</string>
     <string name="menu_item_help">Ayuda</string>
-    <string name="menu_item_about_goread">Acerca de GoRead</string>
+    <string name="menu_item_about_goread">Acerca de Go Read</string>
     <string name="menu_item_login_bookshare">Ingresar a Bookshare</string>
     <string name="menu_item_logout_bookshare">Salir de Bookshare</string>
-
+    <string name="book_unavailable_for_download_warning">Este libro no está disponible para descargar con tu cuenta.  Has iniciado sesión de Bookshare?</string>
 </resources>

@@ -9,7 +9,7 @@ public class BuildConfig {
     public static final String BUILD_TYPE = "debug";
     public static final String FLAVOR = "arm";
     public static final int VERSION_CODE = 54;
-    public static final String VERSION_NAME = "GoRead 5.2.13";
+    public static final String VERSION_NAME = "Go Read 5.2.13";
     public static final int sdk=18;
 
 }

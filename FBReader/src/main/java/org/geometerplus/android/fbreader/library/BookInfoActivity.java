@@ -19,10 +19,6 @@
 
 package org.geometerplus.android.fbreader.library;
 
-import java.io.File;
-import java.text.DateFormat;
-import java.util.*;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,27 +28,38 @@ import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import org.benetech.android.R;
+import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
+import org.geometerplus.android.fbreader.preferences.EditBookInfoActivity;
+import org.geometerplus.fbreader.library.Author;
+import org.geometerplus.fbreader.library.Book;
+import org.geometerplus.fbreader.library.Library;
+import org.geometerplus.fbreader.library.SeriesInfo;
+import org.geometerplus.fbreader.library.Tag;
+import org.geometerplus.fbreader.network.HtmlUtil;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.image.ZLImage;
 import org.geometerplus.zlibrary.core.image.ZLLoadableImage;
-import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.core.language.ZLLanguageUtil;
-
-import org.benetech.android.R;
+import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.ui.android.image.ZLAndroidImageData;
 import org.geometerplus.zlibrary.ui.android.image.ZLAndroidImageManager;
+import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 
-import org.geometerplus.fbreader.library.*;
-import org.geometerplus.fbreader.network.HtmlUtil;
-
-import org.geometerplus.android.fbreader.FBReader;
-import org.geometerplus.android.fbreader.preferences.EditBookInfoActivity;
+import java.io.File;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.HashSet;
 
 public class BookInfoActivity extends Activity {
 	private static final boolean ENABLE_EXTENDED_FILE_INFO = false;
@@ -92,6 +99,10 @@ public class BookInfoActivity extends Activity {
 
         accessibilityManager =
             (AccessibilityManager) getApplicationContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
+
+		ViewGroup rootLayout = (ViewGroup)findViewById(R.id.book_info_root);
+		SortUtil.applyCurrentFontToAllInViewGroup(this, rootLayout);
+
 	}
 
 	@Override

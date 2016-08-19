@@ -228,30 +228,35 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment impl
         String username = defaultSharedPreferences.getString(Bookshare_Webservice_Login.USER, "");
         String password = defaultSharedPreferences.getString(Bookshare_Webservice_Login.PASSWORD, "");
         Intent intent = new Intent(getActivity().getApplicationContext(),Bookshare_Book_Details.class);
-        String uri = createUri(bookshareId, username);
+        String uri;
 //FIXME urgent alyways setting isDownloadable to true.  This needs to change to mimic current book details behavior.
-//        if((isFree && bean.getAvailableToDownload().equals("1") && bean.getFreelyAvailable().equals("1")) || (!isFree && bean.getAvailableToDownload().equals("1"))){
+        // Update by Miguel Villalobos: Going with the following logic. If user is logged in keep old behavior of always downloadable.
+        // If no user is logged in assume books cant be downloaded (since they are form some user's list)
+        if(username != null && username.length() > 0) {
             intent.putExtra("isDownloadable", true);
-//        } else{
-//            intent.putExtra("isDownloadable", false);
-//        }
-        intent.putExtra("ID_SEARCH_URI", uri);
-//        if(!isFree){
+            uri = createUriForKnownUser(bookshareId, username);
             intent.putExtra("username", username);
             intent.putExtra("password", password);
-//        }
+        }
+        else {
+            intent.putExtra("isDownloadable", false);
+            uri = createUriForNoUser(bookshareId);
+        }
+        intent.putExtra("ID_SEARCH_URI", uri);
 
         startActivityForResult(intent, START_BOOKSHARE_BOOK_DETAILS_ACTIVITY);
     }
 
     @NonNull
-    private String createUri(int bookshareId, String username) {
-
-//        if(isFree)
-//            return URI_BOOKSHARE_ID_SEARCH + bookshareId + "?api_key="+developerKey;
-
+    private String createUriForKnownUser(int bookshareId, String username) {
         return URI_BOOKSHARE_ID_SEARCH + bookshareId +"/for/"+username+"?api_key="+ BookshareDeveloperKey.DEVELOPER_KEY;
     }
+
+    @NonNull
+    private String createUriForNoUser(int bookshareId) {
+        return URI_BOOKSHARE_ID_SEARCH + bookshareId + "?api_key="+ BookshareDeveloperKey.DEVELOPER_KEY;
+    }
+
 
     @Override
     public void onSortChanged(){

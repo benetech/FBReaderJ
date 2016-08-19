@@ -186,7 +186,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
         isFirstTimeRunningApp = myPreferences.getBoolean(IS_FIRST_TIME_RUNNING_PREFERENCE_TAG, true);
         if (isFirstTimeRunningApp) {
-            Log.i(LOG_TAG, "First time GoRead is running after it has been installed");
+            Log.i(LOG_TAG, "First time Go Read is running after it has been installed");
             myPreferences.edit().putBoolean(IS_FIRST_TIME_RUNNING_PREFERENCE_TAG, false).commit();
         }
 

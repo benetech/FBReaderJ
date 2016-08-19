@@ -5,6 +5,12 @@
                 <item name="colorPrimary">@color/navigation_bar_color</item>
         </style>
 
+        <style name="BookDetailTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+                <item name="android:colorBackground">@android:color/white</item>
+                <item name="android:textColor">@android:color/black</item>
+        </style>
+
+
         <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">
                 <item name="tabTextAppearance">@style/MyCustomTextAppearance</item>
         </style>

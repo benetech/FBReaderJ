@@ -330,7 +330,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 	protected long insertBookInfo(ZLFile file, String encoding, String language, String title) {
 		if (myInsertBookInfoStatement == null) {
 			myInsertBookInfoStatement = myDatabase.compileStatement(
-				"INSERT OR IGNORE INTO Books (encoding,language,title,file_id) VALUES (?,?,?,?)"
+					"INSERT OR IGNORE INTO Books (encoding,language,title,file_id) VALUES (?,?,?,?)"
 			);
 		}
 		SQLiteUtil.bindString(myInsertBookInfoStatement, 1, encoding);

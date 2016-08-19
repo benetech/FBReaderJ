@@ -13,8 +13,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="3dp"
         android:text="Reading Lists"
-        android:textSize="9sp"
+        android:textSize="16sp"
         android:gravity="center"
         android:textColor="@drawable/tab_textcolor_selector"
         android:id="@+id/tabLabel" />
