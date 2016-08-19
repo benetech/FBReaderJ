@@ -10,6 +10,7 @@ import android.widget.ListView;
 
 import org.apache.commons.io.FileUtils;
 import org.geometerplus.android.fbreader.library.BookInfoActivity;
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
@@ -19,11 +20,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 /**
  * Created by animal@martus.org on 4/26/16.
  */
-public class GoReadTabMainTabContent extends ListFragment {
+public class GoReadTabMainTabContent extends ListFragment implements SortUtil.SortChangesListener{
 
     private static final String EXTENSION_OPF = "opf";
     private static final String EXTENSION_EPUB = "epub";
@@ -46,8 +48,13 @@ public class GoReadTabMainTabContent extends ListFragment {
     @Override
     public void onResume(){
         super.onResume();
-        sortListItems();
-        ((BaseAdapter)getListAdapter()).notifyDataSetChanged();
+        SortUtil.registerForSortChanges(this);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        SortUtil.unregisterForSortChanges(this);
     }
 
     private void fillListAdapter() throws Exception {
@@ -57,21 +64,24 @@ public class GoReadTabMainTabContent extends ListFragment {
             throw new Exception("Download directory does not exist");
 
         Collection<File> bookFilesFound = FileUtils.listFiles(downloadDir, BOOK_FILE_EXTENSIONS_TO_FILTER_BY, true);
+        SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
         for (File bookFile : bookFilesFound) {
             ZLFile zlFile = ZLFile.createFileByPath(bookFile.getAbsolutePath());
             final Book book = Book.getByFile(zlFile);
-            if (book != null)
+            if (book != null) {
+                Date date = database.findLastAccessedDateForBook(book);
+                book.setLastAccessedDate(date);
                 downloadedBooksList.add(new DownloadedTitleListRowItem(book));
+            }
             else
                 Log.e(this.getClass().getSimpleName(), "Book file exists but could not create Book object from it");
         }
+        sortListItems();
         setListAdapter(new BookListAdapter(getActivity(), downloadedBooksList));
     }
 
     private void sortListItems() {
-        if(getActivity() != null){
-            Collections.sort(downloadedBooksList, SortUtil.getComparator(getActivity().getApplicationContext()));
-        }
+        Collections.sort(downloadedBooksList, SortUtil.getComparator());
     }
 
     @Override
@@ -83,4 +93,11 @@ public class GoReadTabMainTabContent extends ListFragment {
         intent.putExtra(BookInfoActivity.CURRENT_BOOK_PATH_KEY, clickedRowItem.getBookFilePath());
         startActivity(intent);
     }
+
+    @Override
+    public void onSortChanged(){
+        sortListItems();
+        ((BaseAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
 }

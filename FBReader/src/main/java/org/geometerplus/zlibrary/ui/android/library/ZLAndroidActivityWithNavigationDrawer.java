@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.fbreader.library.Book;
@@ -205,12 +206,13 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
         FBReaderApp fbReader =  (FBReaderApp) FBReaderApp.Instance();
         Book currentOpenBook = fbReader.Model.Book;
         Library.Instance().removeBook(currentOpenBook, Library.REMOVE_FROM_DISK);
+        ((SQLiteBooksDatabase)SQLiteBooksDatabase.Instance()).clearBookStatus(currentOpenBook);
         postDeleteBook();
     }
 
     private void postDeleteBook() {
         ZLApplication.Instance().doAction(ActionCode.SHOW_HELP);
-        ZLApplication.Instance().doAction(ActionCode.SHOW_LIBRARY);
+        ZLApplication.Instance().doAction(ActionCode.SHOW_MY_BOOKS);
     }
 
     protected void preDeleteBookWork() {

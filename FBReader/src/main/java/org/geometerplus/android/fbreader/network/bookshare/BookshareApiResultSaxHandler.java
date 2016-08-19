@@ -58,6 +58,8 @@ public class BookshareApiResultSaxHandler extends DefaultHandler {
                 vector_author.add(stringBuilder.toString());
             } else if (qName.equalsIgnoreCase("download-format")) {
                 vector_downloadFormat.add(stringBuilder.toString());
+            }else if (qName.equalsIgnoreCase("download-date")) {
+                result_bean.setDownloadDateString(stringBuilder.toString());
             } else if (qName.equalsIgnoreCase("images")) {
                 result_bean.setImages(stringBuilder.toString());
             } else if (qName.equalsIgnoreCase("freely-available")) {

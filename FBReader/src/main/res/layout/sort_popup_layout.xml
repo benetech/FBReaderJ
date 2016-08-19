@@ -23,4 +23,14 @@
         android:drawableRight="@drawable/sortby_radio_button_drawable"
         android:drawablePadding="30dp"
         android:text="@string/sort_by_author"/>
+    <RadioButton
+        android:id="@+id/sort_by_date"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:button="@null"
+        android:drawableRight="@drawable/sortby_radio_button_drawable"
+        android:drawablePadding="30dp"
+        android:text="@string/sort_by_date"/>
+
 </RadioGroup>

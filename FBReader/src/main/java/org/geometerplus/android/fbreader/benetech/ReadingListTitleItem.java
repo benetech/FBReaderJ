@@ -3,6 +3,8 @@ package org.geometerplus.android.fbreader.benetech;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 
+import java.util.Date;
+
 /**
  * Created by animal@martus.org on 5/2/16.
  */
@@ -10,11 +12,13 @@ public class ReadingListTitleItem extends AbstractTitleListRowItem {
     private int bookshareId;
     private String readingListBookName;
     private String readingListBookAuthors;
+    private Date compareDate;
 
-    public ReadingListTitleItem(int bookshareIdToUse, String readingListNameToUse, String readingListBookAuthorsToUse) {
+    public ReadingListTitleItem(int bookshareIdToUse, String readingListNameToUse, String readingListBookAuthorsToUse, Date compareDate) {
         bookshareId = bookshareIdToUse;
         readingListBookName = readingListNameToUse;
         readingListBookAuthors = readingListBookAuthorsToUse;
+        this.compareDate = compareDate;
     }
 
     @Override
@@ -49,5 +53,10 @@ public class ReadingListTitleItem extends AbstractTitleListRowItem {
     @Override
     public boolean isDownloadedBook() {
         return false;
+    }
+
+    @Override
+    public Date getCompareDate(){
+        return compareDate;
     }
 }

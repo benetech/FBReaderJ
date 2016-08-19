@@ -14,6 +14,7 @@ public class Bookshare_Result_Bean implements Comparable{
 	private String images;
 	private String freelyAvailable;
 	private String availableToDownload;
+	private String downloadDateString;
 
 	public Bookshare_Result_Bean(){
 		this.author = new String[1];
@@ -75,4 +76,15 @@ public class Bookshare_Result_Bean implements Comparable{
 	public int compareTo(Object another) {
 		return 0;
 	}
+
+
+	public String getDownloadDateString() {
+		return downloadDateString;
+	}
+
+	public void setDownloadDateString(String downloadDateString) {
+		this.downloadDateString = downloadDateString;
+	}
+
+
 }

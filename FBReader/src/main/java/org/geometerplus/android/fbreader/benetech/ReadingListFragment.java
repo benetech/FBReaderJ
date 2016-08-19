@@ -2,15 +2,14 @@ package org.geometerplus.android.fbreader.benetech;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.benetech.android.R;
-import org.geometerplus.android.fbreader.preferences.ZLFontSizeListPreference;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.BooksDatabase;
 import org.geometerplus.fbreader.library.ReadingList;
@@ -18,6 +17,7 @@ import org.geometerplus.fbreader.library.ReadingListBook;
 import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,7 +72,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             final String readingListBookTitle = readingListBook.getTitle();
             final String readingListBookAuthors = readingListBook.getAllAuthorsAsString();
             final int bookshareId = readingListBook.getBookId();
-            bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle, readingListBookAuthors));
+            bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle, readingListBookAuthors, readingListBook.getDateAdded()));
         }
 
         if(shouldAddFavorites) {

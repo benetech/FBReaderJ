@@ -33,7 +33,7 @@ import java.util.Collections;
 /**
  * Created by animal@martus.org on 5/2/16.
  */
-abstract public class TitleListFragmentWithContextMenu extends ListFragment {
+abstract public class TitleListFragmentWithContextMenu extends ListFragment implements SortUtil.SortChangesListener{
 
     private static final int BOOK_INFO_REQUEST = 1;
     private static final int OPEN_BOOK_ITEM_ID = 0;
@@ -62,15 +62,18 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment {
     @Override
     public void onResume(){
         super.onResume();
-        sortListItems();
-        ((BaseAdapter)getListAdapter()).notifyDataSetChanged();
+        SortUtil.registerForSortChanges(this);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        SortUtil.unregisterForSortChanges(this);
     }
 
 
     protected void sortListItems() {
-        if(getActivity() != null) {
-            Collections.sort(bookRowItems, SortUtil.getComparator(getActivity().getApplicationContext()));
-        }
+        Collections.sort(bookRowItems, SortUtil.getComparator());
     }
 
     @Override
@@ -248,6 +251,12 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment {
 //            return URI_BOOKSHARE_ID_SEARCH + bookshareId + "?api_key="+developerKey;
 
         return URI_BOOKSHARE_ID_SEARCH + bookshareId +"/for/"+username+"?api_key="+ BookshareDeveloperKey.DEVELOPER_KEY;
+    }
+
+    @Override
+    public void onSortChanged(){
+        sortListItems();
+        ((BaseAdapter)getListAdapter()).notifyDataSetChanged();
     }
 
     abstract protected void fillListAdapter();

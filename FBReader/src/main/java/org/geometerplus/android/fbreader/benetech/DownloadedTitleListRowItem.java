@@ -6,6 +6,7 @@ import org.geometerplus.fbreader.library.Author;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -65,5 +66,10 @@ public class DownloadedTitleListRowItem extends AbstractTitleListRowItem {
     @Override
     public int getBookId() {
         return (int) getBook().getId();
+    }
+
+    @Override
+    public Date getCompareDate(){
+        return getBook().getLastAccessedDate();
     }
 }

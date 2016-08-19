@@ -36,8 +36,10 @@ import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.benetech.Analytics;
 import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.BookDownloaderService;
 import org.geometerplus.fbreader.Paths;
+import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
@@ -828,6 +830,15 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                     File file = null;
                     if (downloadSuccess) {
                         file = new File(getOpfFile().getPath());
+
+                        try {
+                            ZLFile zlFile = ZLFile.createFileByPath(file.getAbsolutePath());
+                            final Book book = Book.getByFile(zlFile);
+                            ((SQLiteBooksDatabase) SQLiteBooksDatabase.Instance()).updateBookStatus(book);
+                        }
+                        catch (Exception e){
+                            Log.e("DATABASE", "error updating book access date after download", e);
+                        }
                     }
                     notificationManager.notify(id,
                             createDownloadFinishNotification(file, metadata_bean.getTitle()[0], message.what != 0));

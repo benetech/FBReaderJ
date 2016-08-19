@@ -3,6 +3,7 @@ package org.geometerplus.android.fbreader.benetech;
 import android.view.View;
 import android.widget.ListView;
 
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.bookshare.BookshareApiV1UserHistoryRetriever;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Result_Bean;
 import org.geometerplus.fbreader.library.Book;
@@ -10,7 +11,10 @@ import org.geometerplus.fbreader.library.BooksDatabase;
 import org.geometerplus.fbreader.library.FileInfoSet;
 import org.geometerplus.fbreader.library.ReadingListBook;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +31,7 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
     protected void fillListAdapter() {
         bookshareHistoryRetriever = new BookshareApiV1UserHistoryRetriever(getActivity(), this);
 
-        final BooksDatabase database = BooksDatabase.Instance();
+        final SQLiteBooksDatabase database = (SQLiteBooksDatabase)SQLiteBooksDatabase.Instance();
         final Map<Long,Book> savedBooksByFileId = database.loadBooks(new FileInfoSet(), true);
         final Map<Long,Book> savedBooksByBookId = new HashMap<>();
         for (Book book : savedBooksByFileId.values()) {
@@ -43,6 +47,9 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
                 }
             }
             if (book != null) {
+                Date date = database.findLastAccessedDateForBook(book);
+                book.setLastAccessedDate(date);
+
                 bookRowItems.add(new DownloadedTitleListRowItem(book));
             }
         }
@@ -72,12 +79,27 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
             String concatinatedAuthors = ReadingListBook.getAllAuthorsAsString(strings);
             String beanId = bean.getId();
             final int bookId = Integer.parseInt(beanId);
-
-            bookRowItems.add(new ReadingListTitleItem(bookId, bean.getTitle(), concatinatedAuthors));
+            Date downloadDate = dateFromString(bean.getDownloadDateString());
+            bookRowItems.add(new ReadingListTitleItem(bookId, bean.getTitle(), concatinatedAuthors, downloadDate));
         }
 
         recreateAdapterWithUpdatedRows();
     }
+
+    private Date dateFromString(String dateString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMddyyyy");
+        Date date = null;
+        if(dateString != null) {
+            try {
+                date = dateFormat.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return date;
+    }
+
+
 
     private void recreateAdapterWithUpdatedRows() {
         sortListItems();

@@ -7,7 +7,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,17 +21,32 @@ public class ReadingListBook {
     private int bookId;
     private String title;
     private ArrayList<String> authors;
+    private Date dateAdded;
     private static final String JSON_CODE_TITLE = "title";
     private static final String JSON_CODE_AUTHORS = "authors";
     private static final String JSON_CODE_BOOKSHARE_ID = "bookshareId";
     private static final String JSON_CODE_LAST_NAME = "lastName";
     private static final String JSON_CODE_FIRST_NAME = "firstName";
+    private static final String JSON_CODE_DATEADDED = "dateAdded";
 
     public ReadingListBook(JSONObject jsonToFillFrom) throws Exception {
         bookId = jsonToFillFrom.getInt(JSON_CODE_BOOKSHARE_ID);
         title = jsonToFillFrom.optString(JSON_CODE_TITLE);
-
+        dateAdded = dateFromJson(jsonToFillFrom.optString(JSON_CODE_DATEADDED));
         fillAuthorsList(jsonToFillFrom.optJSONArray(JSON_CODE_AUTHORS));
+    }
+
+    private Date dateFromJson(String dateString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        if(dateString != null) {
+            try {
+                date = dateFormat.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return date;
     }
 
     private void fillAuthorsList(JSONArray authorsAsJson) throws Exception {
@@ -51,6 +69,10 @@ public class ReadingListBook {
 
     public String getTitle() {
         return title;
+    }
+
+    public Date getDateAdded() {
+        return dateAdded;
     }
 
     public String getAllAuthorsAsString() {

@@ -75,6 +75,7 @@ import org.geometerplus.zlibrary.text.view.ZLTextView;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivity;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
+import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -231,11 +232,9 @@ public class FBReader extends ZLAndroidActivity {
             prefsEditor.putInt(PREFS_USER_MANUAL_VERSION, currentVersion);
             prefsEditor.commit();
         }
-
+		SortUtil.initSortOrderFromPreference(getApplicationContext());
         //Activating subscription download
         //activateSubscriptionDownload(prefs);
-
-
 	}
 
     public void activateSubscriptionDownload(SharedPreferences prefs) {
