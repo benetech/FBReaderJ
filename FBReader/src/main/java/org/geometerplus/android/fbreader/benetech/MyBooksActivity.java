@@ -246,6 +246,9 @@ public class MyBooksActivity extends AppCompatActivity {
 
         public View getTabView(int position) {
             View tabView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.my_books_tab_layout, null);
+            if(position == viewPager.getCurrentItem()){
+                tabView.setSelected(true);
+            }
             TextView textView = (TextView) tabView.findViewById(R.id.tabLabel);
             String tabTitle = getString(tabFragmentContainers.get(position).getTitleId());
             textView.setText(tabTitle);
