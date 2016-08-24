@@ -529,7 +529,7 @@
 					<node name="url" value="http://www.bookshare.org/"/>
 				</node>
 				<node name="email" value="Send us an e-mail">
-					<node name="url" value="mailto:support@bookshare.org"/>
+					<node name="url" value="mailto: support@bookshare.org"/>
 				</node>
 				<node name="twitter" value="Follow us at twitter">
 					<node name="url" value="http://twitter.com/bookshare"/>
