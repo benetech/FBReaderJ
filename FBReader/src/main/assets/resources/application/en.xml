@@ -384,6 +384,10 @@
 					<node name="justify" value="Justify"/>
 					<node name="unchanged" value="&lt;unchanged&gt;"/>
 				</node>
+				<node name="allowPinchZoom" value="Allow pinch zoom">
+					<node name="summaryOn" value="Pinch zoom is enabled"/>
+					<node name="summaryOff" value="Pinch zoom is disabled"/>
+				</node>
 				<node name="allowHyphenations" value="Allow Hyphenations">
 					<node name="on" value="hyphenate words"/>
 					<node name="off" value="don't hyphenate words"/>

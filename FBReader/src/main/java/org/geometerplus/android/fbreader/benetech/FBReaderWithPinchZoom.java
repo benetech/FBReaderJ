@@ -8,6 +8,7 @@ import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.zlibrary.core.options.ZLIntegerArrayOption;
 import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
 /**
  * Created by animal@martus.org on 10/13/15.
@@ -36,27 +37,31 @@ public class FBReaderWithPinchZoom extends FBReader {
 
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
-            return true;
+            return ((ZLAndroidLibrary)ZLAndroidLibrary.Instance()).AllowPinchZoomOption.getValue();
         }
 
         @Override
         public boolean onScaleBegin(ScaleGestureDetector detector) {
-            beginSpan = detector.getCurrentSpan();
-
-            return true;
+            if(((ZLAndroidLibrary)ZLAndroidLibrary.Instance()).AllowPinchZoomOption.getValue()) {
+                beginSpan = detector.getCurrentSpan();
+                return true;
+            }
+            return false;
         }
 
         @Override
         public void onScaleEnd(ScaleGestureDetector detector) {
-            int zoomDelta = -1;
-            if (beginSpan < detector.getCurrentSpan()) {
-                zoomDelta = 1;
-            }
+            if(((ZLAndroidLibrary)ZLAndroidLibrary.Instance()).AllowPinchZoomOption.getValue()) {
+                int zoomDelta = -1;
+                if (beginSpan < detector.getCurrentSpan()) {
+                    zoomDelta = 1;
+                }
 
-            ZLIntegerArrayOption option = ZLTextStyleCollection.Instance().getBaseStyle().FontSizeOption;
-            option.zoom(zoomDelta);
-            ((FBReaderApp) FBReaderApp.Instance()).clearTextCaches();
-            FBReaderApp.Instance().getViewWidget().repaint();
+                ZLIntegerArrayOption option = ZLTextStyleCollection.Instance().getBaseStyle().FontSizeOption;
+                option.zoom(zoomDelta);
+                ((FBReaderApp) FBReaderApp.Instance()).clearTextCaches();
+                FBReaderApp.Instance().getViewWidget().repaint();
+            }
         }
     }
 }
