@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -110,7 +113,7 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
     private void syncCompleted() {
         if(progressDialog != null) {
 
-            progressDialog.setTitle(getBaseActivity().getString(R.string.title_sync_bookshare_complete_progress_dialog));
+            progressDialog.setTitleAppeareanceDone();
             TextView textView = (TextView) progressDialog.findViewById(R.id.progress_dialog_sync_message);
             textView.setText(getBaseActivity().getString(R.string.message_sync_bookshare_reading_lists_complete_progress_dialog));
 
@@ -170,6 +173,15 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
             }
             hideGreenCheckMarkImageView();
         }
+        private void setTitleAppeareanceDone(){
+            TextView titleView = (TextView) findViewById(R.id.progress_dialog_title);
+            titleView.setText(getBaseActivity().getString(
+                    R.string.title_sync_bookshare_complete_progress_dialog));
+            titleView.setTypeface(titleView.getTypeface(), Typeface.BOLD);
+            titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            titleView.setGravity(Gravity.CENTER_HORIZONTAL);
+        }
+
     }
 
     private void cancelAction(){

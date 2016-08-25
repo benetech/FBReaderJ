@@ -17,7 +17,9 @@ public class AboutGoReadPreference extends ZLPreferenceActivity {
     protected void init(Intent intent) {
         final ZLAndroidLibrary androidLibrary = (ZLAndroidLibrary)ZLAndroidLibrary.Instance();
         final Screen aboutScreen = createPreferenceScreen("about");
-        addPreference(new InfoPreference(this, aboutScreen.Resource.getResource("version").getValue(), androidLibrary.getFullVersionName()));
+        String fullVersionName = androidLibrary.getFullVersionName();
+        fullVersionName = fullVersionName.replace("GoRead", "Go Read");
+        addPreference(new InfoPreference(this, aboutScreen.Resource.getResource("version").getValue(), fullVersionName));
         addPreference(new UrlPreference(this, aboutScreen.Resource, "site"));
         addPreference(new UrlPreference(this, aboutScreen.Resource, "email"));
         addPreference(new UrlPreference(this, aboutScreen.Resource, "twitter"));

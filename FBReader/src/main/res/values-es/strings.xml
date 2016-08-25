@@ -174,8 +174,8 @@
     <string name="button_label_done_sync_bookshare">Listo</string>
     <string name="title_sync_bookshare_progress_dialog">Sincronizando Bookshare...</string>
     <string name="title_sync_bookshare_complete_progress_dialog">Sincronización completada</string>
-    <string name="message_sync_bookshare_progress_dialog">Creando listas de lectura.  La lista original se llama "Go Read Books" y contiene libros disponibles en su dispositivo. Para seleccionar una lista diferente, tope el tab Listas de Lecture en Mis Libros.  Para sincronizar con Bookshare, seleccione Sincronizar con Bookshare desde el menú Más Acciones.</string>
-    <string name="message_sync_bookshare_reading_lists_complete_progress_dialog">Lista de lectura creada.  La lista original se llama "Go Read Books" y contiene libros disponibles en su dispositivo. Para seleccionar una lista diferente, tope el tab Listas de Lecture en Mis Libros.  Para sincronizar con Bookshare, seleccione Sincronizar con Bookshare desde el menú Más Acciones.</string>
+    <string name="message_sync_bookshare_progress_dialog">Creando listas de lectura.  La lista original se llama "Go Read" y contiene libros disponibles en su dispositivo. Para seleccionar una lista diferente, tope el tab Listas en Mis Libros.\n\nPara sincronizar con Bookshare, seleccione Sincronizar con Bookshare desde el menú Más Acciones ( ⋮ ).</string>
+    <string name="message_sync_bookshare_reading_lists_complete_progress_dialog">Lista de lectura creada.  La lista original se llama "Go Read" y contiene libros disponibles en su dispositivo. Para seleccionar una lista diferente, tope el tab Listas en Mis Libros.\n\nPara sincronizar con Bookshare, seleccione Sincronizar con Bookshare desde el menú Más Acciones ( ⋮ ).</string>
     <string name="message_sync_bookshare_reading_lists_short_progress_dialog">Actualizando libros y listas de lectura desde su cuenta de Bookshare.</string>
     <string name="my_books_tab_go_read">Go Read</string>
     <string name="my_books_tab_recent">Recientes</string>

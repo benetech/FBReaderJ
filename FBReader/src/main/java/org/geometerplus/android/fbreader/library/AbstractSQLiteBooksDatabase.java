@@ -171,7 +171,7 @@ abstract public class AbstractSQLiteBooksDatabase extends BooksDatabase {
 			book.setTitle(cursor.getString(0));
 			book.setEncoding(cursor.getString(1));
 			book.setLanguage(cursor.getString(2));
-			book.setBookshareId(cursor.getLong(4));
+			book.setBookshareId(cursor.getLong(3));
 		}
 		cursor.close();
 	}

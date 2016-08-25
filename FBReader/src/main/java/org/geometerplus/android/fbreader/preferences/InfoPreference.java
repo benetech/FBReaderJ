@@ -27,6 +27,6 @@ class InfoPreference extends Preference {
 		super(context);
 		setTitle(title);
 		setSummary(value);
-		setEnabled(false);
+		setEnabled(true);
 	}
 }

@@ -19,16 +19,15 @@
 
 package org.geometerplus.zlibrary.text.view.style;
 
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-
 import org.geometerplus.android.fbreader.preferences.ZLFontSizeListPreference;
-import org.geometerplus.zlibrary.core.options.*;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
+import org.geometerplus.zlibrary.core.options.ZLBooleanOption;
+import org.geometerplus.zlibrary.core.options.ZLIntegerArrayOption;
+import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
+import org.geometerplus.zlibrary.core.options.ZLStringOption;
 import org.geometerplus.zlibrary.text.model.ZLTextAlignmentType;
-import org.geometerplus.zlibrary.text.view.ZLTextStyle;
 import org.geometerplus.zlibrary.text.view.ZLTextHyperlink;
+import org.geometerplus.zlibrary.text.view.ZLTextStyle;
 
 public class ZLTextBaseStyle extends ZLTextStyle {
 	private static final String GROUP = "Style";
@@ -44,7 +43,7 @@ public class ZLTextBaseStyle extends ZLTextStyle {
 	public final ZLBooleanOption UnderlineOption =
 		new ZLBooleanOption(GROUP, "Base:underline", false);
 	public final ZLIntegerRangeOption AlignmentOption =
-		new ZLIntegerRangeOption(GROUP, "Base:alignment", 1, 4, ZLTextAlignmentType.ALIGN_JUSTIFY);
+		new ZLIntegerRangeOption(GROUP, "Base:alignment", 1, 4, ZLTextAlignmentType.ALIGN_LEFT);
 	public final ZLIntegerRangeOption LineSpaceOption =
 		new ZLIntegerRangeOption(GROUP, "Base:lineSpacing", 5, 20, 12);
 

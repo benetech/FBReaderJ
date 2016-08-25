@@ -114,6 +114,8 @@ public class PreferenceActivity extends ZLPreferenceActivity {
                 this, textScreen.Resource, "alignment",
                 baseStyle.AlignmentOption, alignments
         ));
+        textScreen.addOption(androidLibrary.AllowPinchZoomOption, "allowPinchZoom");
+
 
         final ZLPreferenceSet footerPreferences = new ZLPreferenceSet();
         final ZLPreferenceSet bgPreferences = new ZLPreferenceSet();
