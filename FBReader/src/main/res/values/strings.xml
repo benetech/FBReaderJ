@@ -174,7 +174,7 @@
     <string name="button_label_done_sync_bookshare">Done</string>
     <string name="title_sync_bookshare_progress_dialog">Bookshare sync in progress...</string>
     <string name="title_sync_bookshare_complete_progress_dialog">Bookshare Sync\nComplete</string>
-    <string name="message_sync_bookshare_progress_dialog">Creating Reading Lists.  The default reading list is called "Go Read" and contains books loaded on your device.  To select a different reading list, click the Lists tab in My Books.\n\nTo sync again with Bookshare, select Sync with Bookshare from the More Actions ( ⋮ ) menu</string>
+    <string name="message_sync_bookshare_progress_dialog">Creating Reading Lists.  The default reading list is called "Go Read" and contains books loaded on your device.  To select a different reading list, click the Lists tab in My Books.\n\nTo sync again with Bookshare, select Sync with Bookshare from the More Actions ( ⋮ ) menu.</string>
     <string name="message_sync_bookshare_reading_lists_complete_progress_dialog">Reading Lists created.  The default reading list is called "Go Read" and contains books loaded on your device.  To select a different reading list, click the Lists tab in My Books.\n\nTo sync again with Bookshare, select Sync with Bookshare from the More Actions ( ⋮ ) menu.</string>
     <string name="message_sync_bookshare_reading_lists_short_progress_dialog">Updating books and reading lists from your Bookshare account.</string>
     <string name="my_books_tab_go_read">Go Read</string>
