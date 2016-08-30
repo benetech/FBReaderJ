@@ -34,7 +34,9 @@ class UrlPreference extends Preference implements Preference.OnPreferenceClickLi
 		resource = resource.getResource(resourceKey);
 		myUrl = resource.getResource("url").getValue();
 		setTitle(resource.getValue());
-		setSummary(myUrl);
+		if(myUrl != null) {
+			setSummary(myUrl.replace("mailto", "mail to"));//for accessibility purposes we want mailto to appear as different words, but to preserve the mailto link
+		}
 		setOnPreferenceClickListener(this);
 	}
 
