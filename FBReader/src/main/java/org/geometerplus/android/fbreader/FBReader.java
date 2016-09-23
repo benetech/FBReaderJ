@@ -370,8 +370,12 @@ public class FBReader extends ZLAndroidActivity {
 		if (itemId == R.id.menu_item_settings)
 			return ActionCode.SHOW_PREFERENCES;
 
-		if (itemId == R.id.menu_item_sync_with_bookshare)
-			return ActionCode.SYNC_WITH_BOOKSHARE;
+		if (itemId == R.id.menu_item_sync_with_bookshare) {
+			if (isLoggedintoBookshare())
+				return ActionCode.SYNC_WITH_BOOKSHARE;
+
+			return ActionCode.BOOKSHARE;
+		}
 
 		if (itemId == R.id.menu_item_help)
 			return ActionCode.SHOW_HELP;
