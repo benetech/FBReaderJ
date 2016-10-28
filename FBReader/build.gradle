@@ -68,6 +68,12 @@ android {
                 abiFilters "armeabi-v7a", "armeabi"
             }
         }
+        alpha{
+            applicationId "org.benetech.android.alpha"
+        }
+        live{
+            applicationId "org.benetech.android.live"
+        }
     }
 
     packagingOptions {
