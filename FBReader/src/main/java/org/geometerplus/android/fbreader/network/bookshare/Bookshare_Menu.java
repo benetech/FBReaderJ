@@ -156,13 +156,13 @@ public class Bookshare_Menu extends ZLAndroidActivity {
 			isFree = true;
 		}
 		final int[] drawables = new int[] {
-            R.drawable.titles,
-            R.drawable.authors,
-            R.drawable.isbn,
-            R.drawable.latest,
-            R.drawable.isbn,
-            R.drawable.periodicals,		//Icon for 'All Periodicals' (thushv)
-            R.drawable.titles
+            R.drawable.ic_action_gray_book,
+            R.drawable.ic_action_gray_user,
+            R.drawable.ic_action_gray_barcode,
+            R.drawable.ic_action_gray_recent,
+            R.drawable.ic_action_favorites_gray,
+            R.drawable.ic_action_gray_newspaper,		//Icon for 'All Periodicals' (thushv)
+            R.drawable.ic_action_gray_logout
 		};
 
         String logInMenuItem = isFree ? getResources().getString(R.string.bks_menu_log_in) : getResources().getString(R.string.bks_menu_log_out);
