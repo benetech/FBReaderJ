@@ -58,16 +58,16 @@ android {
     project.archivesBaseName = apkFileName
 
     productFlavors {
-        x86 {
-            ndk {
-                abiFilter "x86"
-            }
-        }
-        arm {
-            ndk {
-                abiFilters "armeabi-v7a", "armeabi"
-            }
-        }
+//        x86 {
+//            ndk {
+//                abiFilter "x86"
+//            }
+//        }
+//        arm {
+//            ndk {
+//                abiFilters "armeabi-v7a", "armeabi"
+//            }
+//        }
         alpha{
             applicationId "org.benetech.android.alpha"
         }
