@@ -65,8 +65,6 @@ class MarginsPreference extends DialogPreference {
 		final String title = myResource.getValue();
 		setTitle(title);
 		setDialogTitle(title);
-		setSummary("asd");
-		setIcon(R.drawable.goread);
 		setDialogLayoutResource(R.layout.custom_dialog_preference);
 		final ZLResource buttonResource = ZLResource.resource("dialog").getResource("button");
 		setPositiveButtonText(buttonResource.getResource("ok").getValue());
