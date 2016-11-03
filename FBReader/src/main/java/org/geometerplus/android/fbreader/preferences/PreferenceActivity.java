@@ -131,23 +131,26 @@ public class PreferenceActivity extends ZLPreferenceActivity {
         colorsScreen.addOption(profile.SelectionBackgroundOption, "selectionBackground");
         colorsScreen.addOption(profile.SelectionForegroundOption, "selectionForeground");
 
-        final Screen marginsScreen = createPreferenceScreen("margins");
-        marginsScreen.addPreference(new ZLIntegerRangePreference(
-                this, marginsScreen.Resource.getResource("left"),
-                fbReader.LeftMarginOption
-        ));
-        marginsScreen.addPreference(new ZLIntegerRangePreference(
-                this, marginsScreen.Resource.getResource("right"),
-                fbReader.RightMarginOption
-        ));
-        marginsScreen.addPreference(new ZLIntegerRangePreference(
-                this, marginsScreen.Resource.getResource("top"),
-                fbReader.TopMarginOption
-        ));
-        marginsScreen.addPreference(new ZLIntegerRangePreference(
-                this, marginsScreen.Resource.getResource("bottom"),
-                fbReader.BottomMarginOption
-        ));
+        addPreference(new MarginsPreference(this, Resource,"margins", fbReader.LeftMarginOption,
+                fbReader.RightMarginOption,  fbReader.TopMarginOption, fbReader.BottomMarginOption));
+
+//        final Screen marginsScreen = createPreferenceScreen("margins");
+//        marginsScreen.addPreference(new ZLIntegerRangePreference(
+//                this, marginsScreen.Resource.getResource("left"),
+//                fbReader.LeftMarginOption
+//        ));
+//        marginsScreen.addPreference(new ZLIntegerRangePreference(
+//                this, marginsScreen.Resource.getResource("right"),
+//                fbReader.RightMarginOption
+//        ));
+//        marginsScreen.addPreference(new ZLIntegerRangePreference(
+//                this, marginsScreen.Resource.getResource("top"),
+//                fbReader.TopMarginOption
+//        ));
+//        marginsScreen.addPreference(new ZLIntegerRangePreference(
+//                this, marginsScreen.Resource.getResource("bottom"),
+//                fbReader.BottomMarginOption
+//        ));
 
         final Screen statusLineScreen = createPreferenceScreen("scrollBar");
 
