@@ -109,6 +109,9 @@ public class PreferenceActivity extends ZLPreferenceActivity {
                 this, textScreen.Resource, "lineSpacing",
                 spaceOption, spacings
         ));
+        textScreen.addPreference(new MarginsPreference(this, Resource,"margins", fbReader.LeftMarginOption,
+                fbReader.RightMarginOption,  fbReader.TopMarginOption, fbReader.BottomMarginOption));
+
         final String[] alignments = { "left", "right", "center", "justify" };
         textScreen.addPreference(new ZLChoicePreference(
                 this, textScreen.Resource, "alignment",
@@ -130,9 +133,6 @@ public class PreferenceActivity extends ZLPreferenceActivity {
         colorsScreen.addOption(profile.VisitedHyperlinkTextOption, "hyperlinkVisited");
         colorsScreen.addOption(profile.SelectionBackgroundOption, "selectionBackground");
         colorsScreen.addOption(profile.SelectionForegroundOption, "selectionForeground");
-
-        addPreference(new MarginsPreference(this, Resource,"margins", fbReader.LeftMarginOption,
-                fbReader.RightMarginOption,  fbReader.TopMarginOption, fbReader.BottomMarginOption));
 
 //        final Screen marginsScreen = createPreferenceScreen("margins");
 //        marginsScreen.addPreference(new ZLIntegerRangePreference(
