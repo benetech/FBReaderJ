@@ -75,15 +75,11 @@ class MarginsPreference extends DialogPreference {
 	protected void onBindDialogView(View view) {
 	myRadio = (RadioGroup) view.findViewById(R.id.radio_group);
 		int value = myTopOption.getValue();
-		if(value == 0){
-			myRadio.check(R.id.radio_none);
-		}else if(value > 0 && value <= 7){
+		if(value >= 0 && value <= 10){
 			myRadio.check(R.id.radio_narrow);
-		}else if(value > 7 && value <= 15){
+		}else if(value > 10 && value <= 60){
 			myRadio.check(R.id.radio_medium);
-		}else if(value > 15 && value <= 22){
-			myRadio.check(R.id.radio_wide);
-		}else if(value > 22){
+		}else if(value > 60){
 			myRadio.check(R.id.radio_extrawide);
 		}
 		super.onBindDialogView(view);
@@ -95,23 +91,16 @@ class MarginsPreference extends DialogPreference {
 			int radioButtonID = myRadio.getCheckedRadioButtonId();
 			View radioButton = myRadio.findViewById(radioButtonID);
 			switch(radioButton.getId()) {
-				case R.id.radio_none:
-					valueSelected = 0;
-					break;
 				case R.id.radio_narrow:
-					valueSelected = 7;
+					valueSelected = 10;
 					break;
 				case R.id.radio_medium:
-					valueSelected = 15;
-					break;
-				case R.id.radio_wide:
-					valueSelected = 22;
+					valueSelected = 60;
 					break;
 				case R.id.radio_extrawide:
-					valueSelected = 30;
+					valueSelected = 120;
 					break;
 			}
-
 			myLeftOption.setValue(valueSelected);
 			myRightOption.setValue(valueSelected);
 			myTopOption.setValue(valueSelected);
