@@ -24,6 +24,7 @@ import android.content.DialogInterface;
 import android.graphics.*;
 import android.graphics.drawable.*;
 import android.preference.DialogPreference;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -49,6 +50,10 @@ class ZLColorPreference extends DialogPreference {
 		setTitle(title);
 		setDialogTitle(title);
 		setDialogLayoutResource(R.layout.color_dialog);
+
+		setIcon(R.drawable.ic_color_drawable);
+		DrawableCompat.setTint(getIcon(), ZLAndroidColorUtil.rgb(myOption.getValue()));
+
 
 		final ZLResource buttonResource = ZLResource.resource("dialog").getResource("button");
 		setPositiveButtonText(buttonResource.getResource("ok").getValue());
@@ -116,6 +121,7 @@ class ZLColorPreference extends DialogPreference {
 				myGreenSlider.getProgress(),
 				myBlueSlider.getProgress()
 			));
+			DrawableCompat.setTint(getIcon(), ZLAndroidColorUtil.rgb(myOption.getValue()));
 		}
 	}
 
