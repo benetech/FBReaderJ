@@ -22,16 +22,25 @@ package org.geometerplus.android.fbreader.preferences;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.*;
 import android.content.Intent;
-
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import org.benetech.android.R;
+import org.geometerplus.android.fbreader.api.PluginApi;
+import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
 import org.geometerplus.zlibrary.core.options.*;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
-abstract class ZLPreferenceActivity extends android.preference.PreferenceActivity {
+abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 	public static String SCREEN_KEY = "screen";
 
+	private Toolbar toolbar;
 	private final HashMap<String,Screen> myScreenMap = new HashMap<String,Screen>();
 
 	protected class Screen {
@@ -123,6 +132,10 @@ abstract class ZLPreferenceActivity extends android.preference.PreferenceActivit
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 
+		setContentView(R.layout.settings);
+
+		setupActionBar();
+
 		Thread.setDefaultUncaughtExceptionHandler(new org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler(this));
 
 		myScreen = getPreferenceManager().createPreferenceScreen(this);
@@ -131,5 +144,67 @@ abstract class ZLPreferenceActivity extends android.preference.PreferenceActivit
 		init(intent);
 		final Screen screen = myScreenMap.get(intent.getStringExtra(SCREEN_KEY));
 		setPreferenceScreen(screen != null ? screen.myScreen : myScreen);
+	}
+
+	private void setupActionBar() {
+		toolbar = (Toolbar)findViewById(R.id.toolbar);
+		//Toolbar will now take on default Action Bar characteristics
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		toolbar.setTitle("Settings");
+		toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
+	}
+
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		getMenuInflater().inflate(R.menu.toolbar_overflow_menu, menu);
+
+		changeLoginState(menu);
+
+		final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
+		application.myMainWindow.refreshMenu();
+
+		return true;
+	}
+
+	private void changeLoginState(Menu menu) {
+		MenuItem loginMenuItem = menu.findItem(R.id.menu_item_login_bookshare);
+		MenuItem logoutMenuItem = menu.findItem(R.id.menu_item_logout_bookshare);
+
+		final boolean isLoggedintoBookshare = isLoggedintoBookshare();
+		if(isLoggedintoBookshare) {
+			String title = String.format(getString(R.string.signout_button_title_pattern), getCurrentLoggedUsername());
+			logoutMenuItem.setTitle(title);
+		}
+		loginMenuItem.setVisible(!isLoggedintoBookshare);
+		logoutMenuItem.setVisible(isLoggedintoBookshare);
+	}
+
+	protected boolean isLoggedintoBookshare() {
+		SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(this);
+		String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
+		String password = login_preference.getString(Bookshare_Webservice_Login.PASSWORD, "");
+		if (username == null || username.isEmpty())
+			return false;
+
+		if (password == null || password.isEmpty())
+			return false;
+
+		return true;
+	}
+
+	protected String getCurrentLoggedUsername() {
+		SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(this);
+		String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
+		return username;
 	}
 }
