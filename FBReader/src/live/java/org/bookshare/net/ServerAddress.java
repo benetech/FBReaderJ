@@ -1,8 +1,3 @@
-/**
- * Copyright (c) 2016 Intellect Solution, Inc. All Rights Reserved
- * http://i-solutionsinc.com
- * Developed by: Avantica Technologies.
- */
 package org.bookshare.net;
 
 /**
