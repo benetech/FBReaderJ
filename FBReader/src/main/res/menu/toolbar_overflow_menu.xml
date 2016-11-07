@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/menu_item_settings"
-        android:title="@string/menu_item_settings" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menu_item_sync_with_bookshare"
-        android:title="@string/menu_item_sync_with_bookshare" />
+    <item
+        android:id="@+id/empty"
+        android:icon="@drawable/ic_action_overflow"
+        android:orderInCategory="101"
+        app:showAsAction="always">
+        <menu>
+            <item android:id="@+id/menu_item_settings"
+                android:icon="@drawable/ic_gray_settings"
+                android:title="@string/menu_item_settings" />
 
-    <item android:id="@+id/menu_item_help"
-        android:title="@string/menu_item_help" />
+            <item android:id="@+id/menu_item_sync_with_bookshare"
+                android:icon="@drawable/ic_gray_sync"
+                android:title="@string/menu_item_sync_with_bookshare" />
 
-    <item android:id="@+id/menu_item_about_goread"
-        android:title="@string/menu_item_about_goread" />
+            <item android:id="@+id/menu_item_help"
+                android:icon="@drawable/ic_gray_help"
+                android:title="@string/menu_item_help" />
 
-    <item android:id="@+id/menu_item_login_bookshare"
-        android:title="@string/menu_item_login_bookshare"/>
+            <item android:id="@+id/menu_item_about_goread"
+                android:icon="@drawable/ic_gray_info"
+                android:title="@string/menu_item_about_goread" />
 
-    <item android:id="@+id/menu_item_logout_bookshare"
-        android:title="@string/menu_item_logout_bookshare"/>
+            <item android:id="@+id/menu_item_login_bookshare"
+                android:icon="@drawable/ic_gray_logout"
+                android:title="@string/menu_item_login_bookshare"/>
+
+            <item android:id="@+id/menu_item_logout_bookshare"
+                android:icon="@drawable/ic_gray_logout"
+                android:title="@string/menu_item_logout_bookshare"/>
+        </menu>
+    </item>
 </menu>
