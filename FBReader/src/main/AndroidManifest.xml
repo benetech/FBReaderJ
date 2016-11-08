@@ -227,7 +227,7 @@
 		<activity android:name="org.geometerplus.android.fbreader.tips.TipsActivity" android:configChanges="orientation|keyboardHidden" android:theme="@android:style/Theme.Dialog"/>
         <activity android:name="org.geometerplus.android.fbreader.benetech.SpeakActivity" android:configChanges="orientation|keyboardHidden"  android:theme="@android:style/Theme.Dialog" android:label=" " />
 
-        <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Menu"  android:label="Bookshare Menu" />
+        <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Menu"  android:label="Bookshare Library" />
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Books_Listing"
                   android:configChanges="orientation|screenSize|keyboard|keyboardHidden|locale|layoutDirection"
                   android:label="Books Listing" />

@@ -4,20 +4,30 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -33,13 +43,26 @@ import android.widget.TextView;
 import org.accessibility.ParentCloserDialog;
 import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.LogoutFromBookshareAction;
+import org.geometerplus.android.fbreader.api.PluginApi;
+import org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity;
 import org.geometerplus.android.fbreader.benetech.Analytics;
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
+import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.fbreader.fbreader.FBReaderApp;
+import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.core.library.ZLibrary;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivity;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -47,8 +70,8 @@ import java.util.TreeMap;
 /**
  * This ListActivity shows options for retrieving data from Bookshare.
  */
-public class Bookshare_Menu extends ListActivity {
-    
+public class Bookshare_Menu extends ZLAndroidActivity {
+    public static final String BOOK_PATH_KEY = "BookPath";
     protected final static String REQUEST_TYPE = "requestType";
     protected final static String REQUEST_URI = "requestUri";
 
@@ -77,37 +100,71 @@ public class Bookshare_Menu extends ListActivity {
 	
 	private final int START_BOOKSHARE_PERIODICAL_LISTING_ACTIVITY = 3; //This is to start listing periodicals (thushv)
 	private final int BOOKSHARE_PERIODICAL_LISTING_FINISHED=4;
-	
+
 	private String username;
 	private String password;
 	private boolean isFree = false; 
 	private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
     private final Activity myActivity = this;
+    private Toolbar toolbar;
+    private AccessibilityManager accessibilityManager;
+    private boolean initialOpen = true;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+    private final List<PluginApi.ActionInfo> myPluginActions =
+            new LinkedList<PluginApi.ActionInfo>();
+    private static final String PLUGIN_ACTION_PREFIX = "___";
+
+    @Override
+    protected ZLApplication createApplication(ZLFile file) {
+        if (SQLiteBooksDatabase.Instance() == null) {
+            new SQLiteBooksDatabase(this);
+        }
+        return new FBReaderApp(file != null ? file.getPath() : null);
+    }
+
+    @Override
+    protected ZLFile fileFromIntent(Intent intent) {
+        String filePath = intent.getStringExtra(BOOK_PATH_KEY);
+        if (filePath == null) {
+            final Uri data = intent.getData();
+            if (data != null) {
+                filePath = data.getPath();
+            }
+        }
+        return filePath != null ? ZLFile.createFileByPath(filePath) : null;
+    }
+
+    @Override
+	public void onCreate(Bundle savedInstanceState) {
+        accessibilityManager = (AccessibilityManager) getApplicationContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.bookshare_menu_main);
-		
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//setContentView(R.layout.bookshare_menu_main);
+
+        View view = findViewById(R.id.main_view);
+        view.setVisibility(View.GONE);
+
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.navigation_bar_id);
+        linearLayout.setVisibility(View.GONE);
+
 		// Fetch the login info from the caller intent
 		Intent callerIntent  = getIntent();
 		username = callerIntent.getStringExtra("username");
 		password = callerIntent.getStringExtra("password");
-		
+
 		if(username == null || password == null){
 			isFree = true;
 		}
 		final int[] drawables = new int[] {
-            R.drawable.titles,
-            R.drawable.authors,
-            R.drawable.isbn,
-            R.drawable.latest,
-            R.drawable.isbn,
-            R.drawable.periodicals,		//Icon for 'All Periodicals' (thushv)
-            R.drawable.titles
+            R.drawable.ic_action_gray_book,
+            R.drawable.ic_action_gray_user,
+            R.drawable.ic_action_gray_barcode,
+            R.drawable.ic_action_gray_recent,
+            R.drawable.ic_action_favorites_gray,
+            R.drawable.ic_action_gray_newspaper,		//Icon for 'All Periodicals' (thushv)
+            R.drawable.ic_action_gray_logout
 		};
-        
+
         String logInMenuItem = isFree ? getResources().getString(R.string.bks_menu_log_in) : getResources().getString(R.string.bks_menu_log_out);
 		//Create a TreeMap for use in the SimpleAdapter
         String[] items = {getResources().getString(R.string.bks_menu_title_label),
@@ -118,7 +175,7 @@ public class Bookshare_Menu extends ListActivity {
 			row_item.put("Name", items[i]);
 			row_item.put("icon", drawables[i]);
 			list.add(row_item);
-		}		
+		}
 		// Construct a SimpleAdapter which will serve as data source for this ListView
 		MySimpleAdapter simpleadapter = new MySimpleAdapter(
 				this,list,
@@ -127,9 +184,11 @@ public class Bookshare_Menu extends ListActivity {
 				new int[]{R.id.text1,R.id.row_icon});
 
 		//Set the adapter for this view
-		setListAdapter(simpleadapter);
-		
-		ListView lv = getListView();
+		//setListAdapter(simpleadapter);
+
+		ListView lv = (ListView) findViewById(R.id.list_items);
+        lv.setVisibility(View.VISIBLE);
+        lv.setAdapter(simpleadapter);
 
 		dialog = new Dialog(this);
 		dialog.setContentView(R.layout.bookshare_dialog);
@@ -148,19 +207,19 @@ public class Bookshare_Menu extends ListActivity {
 		        return false;
 		    }
 		});
-		
+
 		dialog_ok.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
                 doSearch();
             }
 		});
-		
+
 		dialog_cancel.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-		
+
 		//Listener for the ListView
 		lv.setOnItemClickListener(new MenuClickListener(this));
 	}
@@ -500,4 +559,208 @@ public class Bookshare_Menu extends ListActivity {
 	private enum MenuControl {
 		title, author, isbn, latest, popular, periodicals, logout
 	}
+
+    /**
+     * This is a workaround solution because the Ice Cream Sandwich and later releases of Android
+     * made it so that the options menu will not open on larger sized screens.
+     * This solution is gross, but fixes the problem with the menu and
+     * maintains backwards compatibility.
+     * http://stackoverflow.com/questions/9996333/openoptionsmenu-function-not-working-in-ics/17903128#17903128
+     * In the future we should replace this with the options overflow menu.
+     */
+    @Override
+    public void openOptionsMenu() {
+        super.openOptionsMenu();
+        Configuration config = getResources().getConfiguration();
+        if ((config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) > Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            int originalScreenLayout = config.screenLayout;
+            config.screenLayout = Configuration.SCREENLAYOUT_SIZE_LARGE;
+            super.openOptionsMenu();
+            config.screenLayout = originalScreenLayout;
+        } else {
+            super.openOptionsMenu();
+        }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary) ZLibrary.Instance();
+        if (!zlibrary.isKindleFire() && !zlibrary.ShowStatusBarOption.getValue()) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        }
+
+        changeLoginState(menu);
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void changeLoginState(Menu menu) {
+        MenuItem loginMenuItem = menu.findItem(R.id.menu_item_login_bookshare);
+        MenuItem logoutMenuItem = menu.findItem(R.id.menu_item_logout_bookshare);
+
+        final boolean isLoggedintoBookshare = isLoggedintoBookshare();
+        if(isLoggedintoBookshare) {
+            String title = String.format(getString(R.string.signout_button_title_pattern), getCurrentLoggedUsername());
+            logoutMenuItem.setTitle(title);
+        }
+        loginMenuItem.setVisible(!isLoggedintoBookshare);
+        logoutMenuItem.setVisible(isLoggedintoBookshare);
+    }
+
+    protected boolean isLoggedintoBookshare() {
+        SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(this);
+        String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
+        String password = login_preference.getString(Bookshare_Webservice_Login.PASSWORD, "");
+        if (username == null || username.isEmpty())
+            return false;
+
+        if (password == null || password.isEmpty())
+            return false;
+
+        return true;
+    }
+
+    protected String getCurrentLoggedUsername() {
+        SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(this);
+        String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
+        return username;
+    }
+
+    @Override
+    public void onOptionsMenuClosed(Menu menu) {
+        super.onOptionsMenuClosed(menu);
+        final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary)ZLibrary.Instance();
+        if (!zlibrary.isKindleFire() && !zlibrary.ShowStatusBarOption.getValue()) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary)ZLibrary.Instance();
+        if (!zlibrary.isKindleFire() && !zlibrary.ShowStatusBarOption.getValue()) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        }
+
+        String action = findActionForMenuItem(item.getItemId());
+        Object[] params = findParamsForMenuItemAction(item.getItemId());
+        if(params == null){
+            ZLApplication.Instance().doAction(action);
+        }
+        else {
+            ZLApplication.Instance().doAction(action, params);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @NonNull
+    private String findActionForMenuItem(int itemId) {
+        if (itemId == R.id.menu_item_settings)
+            return ActionCode.SHOW_PREFERENCES;
+
+        if (itemId == R.id.menu_item_sync_with_bookshare) {
+            if (isLoggedintoBookshare())
+                return ActionCode.SYNC_WITH_BOOKSHARE;
+
+            return ActionCode.BOOKSHARE;
+        }
+
+        if (itemId == R.id.menu_item_help)
+            return ActionCode.SHOW_HELP;
+
+        if (itemId == R.id.menu_item_about_goread)
+            return ActionCode.ABOUT_GOREAD;
+
+        if (itemId == R.id.menu_item_logout_bookshare)
+            return ActionCode.LOGOUT_BOOKSHARE;
+
+        if (itemId == R.id.menu_item_login_bookshare)
+            return ActionCode.BOOKSHARE;
+        return "";
+    }
+
+    private Object[] findParamsForMenuItemAction(int itemId){
+        if (itemId == R.id.menu_item_sync_with_bookshare)
+            return new Object[]{SyncReadingListsWithBookshareAction.SyncType.USER_ACTIVATED};
+        return null;
+    }
+
+
+    private Menu addSubMenu(Menu menu, String id) {
+        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
+        return application.myMainWindow.addSubMenu(menu, id);
+    }
+
+    private void addMenuItem(Menu menu, String actionId, String name) {
+        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
+        application.myMainWindow.addMenuItem(menu, actionId, null, name);
+    }
+
+    private void addMenuItem(Menu menu, String actionId, int iconId) {
+        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
+        application.myMainWindow.addMenuItem(menu, actionId, iconId, null);
+    }
+
+    private void addMenuItem(Menu menu, String actionId) {
+        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
+        application.myMainWindow.addMenuItem(menu, actionId, null, null);
+    }
+
+    private void addMenuItem(Menu menu, int itemId, String actionId) {
+        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
+        application.myMainWindow.addMenuItem(menu, itemId, actionId, null, null);
+    }
+
+    private void addMenuItem(Menu menu, int itemId, String actionId, String name) {
+        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
+        application.myMainWindow.addMenuItem(menu, itemId, actionId, null, name);
+    }
+
+    private void addMenuItem(Menu menu, String actionId, String name, int iconId) {
+        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
+        application.myMainWindow.addMenuItem(menu, actionId, iconId, name);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+//        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.toolbar_overflow_menu, menu);
+
+        synchronized (myPluginActions) {
+            int index = 0;
+            for (PluginApi.ActionInfo info : myPluginActions) {
+                if (info instanceof PluginApi.MenuActionInfo) {
+                    addMenuItem(menu, PLUGIN_ACTION_PREFIX + index++, ((PluginApi.MenuActionInfo)info).MenuItemName);
+                }
+            }
+        }
+
+        changeLoginState(menu);
+
+        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
+        application.myMainWindow.refreshMenu();
+
+        return true;
+    }
+
+    /*
+     * show accessible full screen menu when accessibility is turned on
+     *
+    */
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (accessibilityManager.isEnabled()) {
+            if(keyCode == KeyEvent.KEYCODE_MENU){
+                Intent i = new Intent(this, AccessibleMainMenuActivity.class);
+                startActivity(i);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void onWindowFocusChanged(boolean hasFocus) {
+        if (hasFocus && accessibilityManager.isEnabled() && initialOpen) {
+            initialOpen = false;
+        }
+    }
 }
