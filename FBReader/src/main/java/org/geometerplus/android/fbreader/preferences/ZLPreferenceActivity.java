@@ -27,18 +27,25 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.*;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
+import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
+import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.options.*;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
 abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 	public static String SCREEN_KEY = "screen";
@@ -135,8 +142,10 @@ abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 
-		setContentView(R.layout.settings);
-		setupActionBar();
+		if(this instanceof PreferenceActivity){
+			setContentView(R.layout.settings);
+			setupActionBar();
+		}
 
 		Thread.setDefaultUncaughtExceptionHandler(new org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler(this));
 
@@ -151,7 +160,7 @@ abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 	private void setupActionBar() {
 		toolbar = (Toolbar)findViewById(R.id.toolbar);
 		//Toolbar will now take on default Action Bar characteristics
-		toolbar.setTitle("Settings");
+		toolbar.setTitle(ZLResource.resource("menu").getResource("preferences").getValue());
 
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setHomeButtonEnabled(true);
@@ -180,21 +189,22 @@ abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 
 	public void setUpNestedScreen(PreferenceScreen preferenceScreen) {
 		final Dialog dialog = preferenceScreen.getDialog();
+		if(dialog != null) {
+			Toolbar bar;
 
-		Toolbar bar;
+			LinearLayout root = (LinearLayout) dialog.findViewById(android.R.id.list).getParent();
+			bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.sub_settings, root, false);
+			root.addView(bar, 0); // insert at top
 
-		LinearLayout root = (LinearLayout) dialog.findViewById(android.R.id.list).getParent();
-		bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.sub_settings, root, false);
-		root.addView(bar, 0); // insert at top
+			bar.setTitle(preferenceScreen.getTitle());
 
-		bar.setTitle(preferenceScreen.getTitle());
-
-		bar.setNavigationOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
+			bar.setNavigationOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+		}
 	}
 
 
@@ -241,5 +251,56 @@ abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 		SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(this);
 		String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
 		return username;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary) ZLibrary.Instance();
+		if (!zlibrary.isKindleFire() && !zlibrary.ShowStatusBarOption.getValue()) {
+			getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+		}
+
+		String action = findActionForMenuItem(item.getItemId());
+		Object[] params = findParamsForMenuItemAction(item.getItemId());
+		if(params == null){
+			ZLApplication.Instance().doAction(action);
+		}
+		else {
+			ZLApplication.Instance().doAction(action, params);
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	@NonNull
+	private String findActionForMenuItem(int itemId) {
+		if (itemId == R.id.menu_item_settings)
+			return ActionCode.SHOW_PREFERENCES;
+
+		if (itemId == R.id.menu_item_sync_with_bookshare) {
+			if (isLoggedintoBookshare())
+				return ActionCode.SYNC_WITH_BOOKSHARE;
+
+			return ActionCode.BOOKSHARE;
+		}
+
+		if (itemId == R.id.menu_item_help)
+			return ActionCode.SHOW_HELP;
+
+		if (itemId == R.id.menu_item_about_goread)
+			return ActionCode.ABOUT_GOREAD;
+
+		if (itemId == R.id.menu_item_logout_bookshare)
+			return ActionCode.LOGOUT_BOOKSHARE;
+
+		if (itemId == R.id.menu_item_login_bookshare)
+			return ActionCode.BOOKSHARE;
+		return "";
+	}
+
+	private Object[] findParamsForMenuItemAction(int itemId){
+		if (itemId == R.id.menu_item_sync_with_bookshare)
+			return new Object[]{SyncReadingListsWithBookshareAction.SyncType.USER_ACTIVATED};
+		return null;
 	}
 }
