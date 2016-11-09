@@ -24,6 +24,8 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
+import static org.bookshare.net.ServerAddress.HOST_NAME;
+
 /**
  * Created by animal@martus.org on 3/31/16.
  */
@@ -37,9 +39,6 @@ public class BookshareHttpOauth2Client {
     private static final String COLON = ":";
     private static final String MASHERY_PASSWORD = "";
     private static final String MASHERY_REQUEST_HEADER_LOGIN = MASHERY_API_KEY + COLON + MASHERY_PASSWORD;
-    //FIXME the two below urls are currently changed by the developer.  This needs to be baked into the APK through gradle builds
-//    private static final String HOST_NAME = "api.staging.bookshare.org";
-    private static final String HOST_NAME = "api.bookshare.org";
     private static final String POST_REQUESTE_METHOD = "POST";
     private static final String GET_REQUEST_METHOD = "GET";
     private static String URL_AS_STRING = "https://" + HOST_NAME + "/v2/oauth/token?api_key=" + API_KEY;
