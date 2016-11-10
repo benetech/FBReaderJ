@@ -114,6 +114,11 @@ public class EditBookInfoActivity extends ZLPreferenceActivity {
 	}
 
 	@Override
+	protected void setupActionBar() {
+
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
 		if (myBook != null) {
