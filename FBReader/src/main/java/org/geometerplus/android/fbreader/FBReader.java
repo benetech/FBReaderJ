@@ -72,7 +72,7 @@ import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.text.hyphenation.ZLTextHyphenator;
 import org.geometerplus.zlibrary.text.view.ZLTextView;
-import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivity;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivityforActionBar;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 import org.geometerplus.zlibrary.ui.android.util.SortUtil;
@@ -85,7 +85,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FBReader extends ZLAndroidActivity {
+public class FBReader extends ZLAndroidActivityforActionBar {
 	public static final String BOOK_PATH_KEY = "BookPath";
     public static final String PREFS_USER_MANUAL_VERSION = "bks_userManualVersion";
     public static final String USER_GUIDE_FILE = "User-Guide.epub";

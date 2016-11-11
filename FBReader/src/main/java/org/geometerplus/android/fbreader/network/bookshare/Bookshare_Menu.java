@@ -43,7 +43,6 @@ import android.widget.TextView;
 import org.accessibility.ParentCloserDialog;
 import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
-import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.LogoutFromBookshareAction;
 import org.geometerplus.android.fbreader.api.PluginApi;
 import org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity;
@@ -55,7 +54,7 @@ import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
-import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivity;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivityforActionBar;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
@@ -70,7 +69,7 @@ import java.util.TreeMap;
 /**
  * This ListActivity shows options for retrieving data from Bookshare.
  */
-public class Bookshare_Menu extends ZLAndroidActivity {
+public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
     public static final String BOOK_PATH_KEY = "BookPath";
     protected final static String REQUEST_TYPE = "requestType";
     protected final static String REQUEST_URI = "requestUri";
