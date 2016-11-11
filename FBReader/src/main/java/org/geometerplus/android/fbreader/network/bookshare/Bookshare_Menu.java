@@ -3,30 +3,17 @@ package org.geometerplus.android.fbreader.network.bookshare;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -44,24 +31,13 @@ import org.accessibility.ParentCloserDialog;
 import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.LogoutFromBookshareAction;
-import org.geometerplus.android.fbreader.api.PluginApi;
-import org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity;
 import org.geometerplus.android.fbreader.benetech.Analytics;
-import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
-import org.geometerplus.fbreader.fbreader.ActionCode;
-import org.geometerplus.fbreader.fbreader.FBReaderApp;
-import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
-import org.geometerplus.zlibrary.core.application.ZLApplication;
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivityforActionBar;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
-import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -105,33 +81,6 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
 	private boolean isFree = false; 
 	private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
     private final Activity myActivity = this;
-    private Toolbar toolbar;
-    private AccessibilityManager accessibilityManager;
-    private boolean initialOpen = true;
-
-    private final List<PluginApi.ActionInfo> myPluginActions =
-            new LinkedList<PluginApi.ActionInfo>();
-    private static final String PLUGIN_ACTION_PREFIX = "___";
-
-    @Override
-    protected ZLApplication createApplication(ZLFile file) {
-        if (SQLiteBooksDatabase.Instance() == null) {
-            new SQLiteBooksDatabase(this);
-        }
-        return new FBReaderApp(file != null ? file.getPath() : null);
-    }
-
-    @Override
-    protected ZLFile fileFromIntent(Intent intent) {
-        String filePath = intent.getStringExtra(BOOK_PATH_KEY);
-        if (filePath == null) {
-            final Uri data = intent.getData();
-            if (data != null) {
-                filePath = data.getPath();
-            }
-        }
-        return filePath != null ? ZLFile.createFileByPath(filePath) : null;
-    }
 
     @Override
 	public void onCreate(Bundle savedInstanceState) {
