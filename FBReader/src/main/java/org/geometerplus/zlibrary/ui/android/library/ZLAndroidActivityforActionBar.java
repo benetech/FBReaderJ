@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 
-ß import org.benetech.android.R;
+import org.benetech.android.R;
 import org.geometerplus.android.fbreader.api.PluginApi;
 import org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
