@@ -43,7 +43,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * This ListActivity shows options for retrieving data from Bookshare.
+ * This ZLAndroidActivityforActionBar shows options for retrieving data from Bookshare.
  */
 public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
     public static final String BOOK_PATH_KEY = "BookPath";
