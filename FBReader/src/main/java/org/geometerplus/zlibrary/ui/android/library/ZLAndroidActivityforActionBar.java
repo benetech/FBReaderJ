@@ -87,36 +87,6 @@ public abstract class ZLAndroidActivityforActionBar extends ZLAndroidActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private Menu addSubMenu(Menu menu, String id) {
-        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
-        return application.myMainWindow.addSubMenu(menu, id);
-    }
-
-    private void addMenuItem(Menu menu, String actionId, int iconId) {
-        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
-        application.myMainWindow.addMenuItem(menu, actionId, iconId, null);
-    }
-
-    private void addMenuItem(Menu menu, String actionId) {
-        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
-        application.myMainWindow.addMenuItem(menu, actionId, null, null);
-    }
-
-    private void addMenuItem(Menu menu, int itemId, String actionId) {
-        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
-        application.myMainWindow.addMenuItem(menu, itemId, actionId, null, null);
-    }
-
-    private void addMenuItem(Menu menu, int itemId, String actionId, String name) {
-        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
-        application.myMainWindow.addMenuItem(menu, itemId, actionId, null, name);
-    }
-
-    private void addMenuItem(Menu menu, String actionId, String name, int iconId) {
-            final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
-            application.myMainWindow.addMenuItem(menu, actionId, iconId, name);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
