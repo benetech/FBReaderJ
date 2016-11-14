@@ -2,28 +2,20 @@ package org.geometerplus.zlibrary.ui.android.library;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 
-import org.benetech.android.R;
 import org.geometerplus.android.fbreader.api.PluginApi;
 import org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity;
+import org.geometerplus.android.fbreader.benetech.OptionsMenuHandler;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
-import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
-import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
-import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
-import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-import org.geometerplus.zlibrary.core.library.ZLibrary;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -35,12 +27,20 @@ import java.util.List;
 public abstract class ZLAndroidActivityforActionBar extends ZLAndroidActivity {
 
     public static final String BOOK_PATH_KEY = "BookPath";
-    protected static final String PLUGIN_ACTION_PREFIX = "___";
+    public static final String PLUGIN_ACTION_PREFIX = "___";
     protected final List<PluginApi.ActionInfo> myPluginActions =
         new LinkedList<PluginApi.ActionInfo>();
     //Added for the detecting whether the talkback is on
     protected AccessibilityManager accessibilityManager;
     private boolean initialOpen = true;
+    private OptionsMenuHandler optionsMenuHandler;
+
+    @Override
+    public void onCreate(Bundle state) {
+        super.onCreate(state);
+
+        optionsMenuHandler = new OptionsMenuHandler(this);
+    }
 
     /**
      * This is a workaround solution because the Ice Cream Sandwich and later releases of Android
@@ -66,116 +66,30 @@ public abstract class ZLAndroidActivityforActionBar extends ZLAndroidActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary) ZLibrary.Instance();
-        if (!zlibrary.isKindleFire() && !zlibrary.ShowStatusBarOption.getValue()) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-        }
-
-        changeLoginState(menu);
+        optionsMenuHandler.onPrepareOptionsMenu(menu);
 
         return super.onPrepareOptionsMenu(menu);
     }
 
-    private void changeLoginState(Menu menu) {
-        MenuItem loginMenuItem = menu.findItem(R.id.menu_item_login_bookshare);
-        MenuItem logoutMenuItem = menu.findItem(R.id.menu_item_logout_bookshare);
-
-        final boolean isLoggedintoBookshare = isLoggedintoBookshare();
-        if(isLoggedintoBookshare) {
-            String title = String.format(getString(R.string.signout_button_title_pattern), getCurrentLoggedUsername());
-            logoutMenuItem.setTitle(title);
-        }
-        loginMenuItem.setVisible(!isLoggedintoBookshare);
-        logoutMenuItem.setVisible(isLoggedintoBookshare);
-    }
-
     protected boolean isLoggedintoBookshare() {
-        SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
-        String password = login_preference.getString(Bookshare_Webservice_Login.PASSWORD, "");
-        if (username == null || username.isEmpty())
-            return false;
-
-        if (password == null || password.isEmpty())
-            return false;
-
-        return true;
-    }
-
-    protected String getCurrentLoggedUsername() {
-        SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
-        return username;
+       return optionsMenuHandler.isLoggedintoBookshare();
     }
 
     @Override
     public void onOptionsMenuClosed(Menu menu) {
         super.onOptionsMenuClosed(menu);
-        final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary)ZLibrary.Instance();
-        if (!zlibrary.isKindleFire() && !zlibrary.ShowStatusBarOption.getValue()) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-        }
+        optionsMenuHandler.onOptionsMenuClosed();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary)ZLibrary.Instance();
-        if (!zlibrary.isKindleFire() && !zlibrary.ShowStatusBarOption.getValue()) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-        }
-
-        String action = findActionForMenuItem(item.getItemId());
-        Object[] params = findParamsForMenuItemAction(item.getItemId());
-        if(params == null){
-            ZLApplication.Instance().doAction(action);
-        }
-        else {
-            ZLApplication.Instance().doAction(action, params);
-        }
-
+        optionsMenuHandler.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
-    }
-
-    @NonNull
-    private String findActionForMenuItem(int itemId) {
-        if (itemId == R.id.menu_item_settings)
-            return ActionCode.SHOW_PREFERENCES;
-
-        if (itemId == R.id.menu_item_sync_with_bookshare) {
-            if (isLoggedintoBookshare())
-                return ActionCode.SYNC_WITH_BOOKSHARE;
-
-            return ActionCode.BOOKSHARE;
-        }
-
-        if (itemId == R.id.menu_item_help)
-            return ActionCode.SHOW_HELP;
-
-        if (itemId == R.id.menu_item_about_goread)
-            return ActionCode.ABOUT_GOREAD;
-
-        if (itemId == R.id.menu_item_logout_bookshare)
-            return ActionCode.LOGOUT_BOOKSHARE;
-
-        if (itemId == R.id.menu_item_login_bookshare)
-            return ActionCode.BOOKSHARE;
-        return "";
-    }
-
-    private Object[] findParamsForMenuItemAction(int itemId){
-        if (itemId == R.id.menu_item_sync_with_bookshare)
-            return new Object[]{SyncReadingListsWithBookshareAction.SyncType.USER_ACTIVATED};
-        return null;
     }
 
     private Menu addSubMenu(Menu menu, String id) {
         final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
         return application.myMainWindow.addSubMenu(menu, id);
-    }
-
-    private void addMenuItem(Menu menu, String actionId, String name) {
-        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
-        application.myMainWindow.addMenuItem(menu, actionId, null, name);
     }
 
     private void addMenuItem(Menu menu, String actionId, int iconId) {
@@ -201,28 +115,12 @@ public abstract class ZLAndroidActivityforActionBar extends ZLAndroidActivity {
     private void addMenuItem(Menu menu, String actionId, String name, int iconId) {
             final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
             application.myMainWindow.addMenuItem(menu, actionId, iconId, name);
-        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.toolbar_overflow_menu, menu);
-
-        synchronized (myPluginActions) {
-            int index = 0;
-            for (PluginApi.ActionInfo info : myPluginActions) {
-                if (info instanceof PluginApi.MenuActionInfo) {
-                    addMenuItem(menu, PLUGIN_ACTION_PREFIX + index++, ((PluginApi.MenuActionInfo)info).MenuItemName);
-                }
-            }
-        }
-
-        changeLoginState(menu);
-
-        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
-        application.myMainWindow.refreshMenu();
-
-        return true;
+        return optionsMenuHandler.onCreateOptionsMenu(menu, myPluginActions);
     }
 
     /*
