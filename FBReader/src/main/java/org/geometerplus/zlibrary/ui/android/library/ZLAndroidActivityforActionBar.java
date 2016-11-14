@@ -124,24 +124,24 @@ public abstract class ZLAndroidActivityforActionBar extends ZLAndroidActivity {
     }
 
     /*
-* show accessible full screen menu when accessibility is turned on
-*
-*/
-public boolean onKeyDown(int keyCode, KeyEvent event) {
-if (accessibilityManager.isEnabled()) {
-if(keyCode == KeyEvent.KEYCODE_MENU){
-Intent i = new Intent(this, AccessibleMainMenuActivity.class);
-startActivity(i);
-}
-}
-return super.onKeyDown(keyCode, event);
-}
+    * show accessible full screen menu when accessibility is turned on
+    *
+    */
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (accessibilityManager.isEnabled()) {
+            if(keyCode == KeyEvent.KEYCODE_MENU){
+                Intent i = new Intent(this, AccessibleMainMenuActivity.class);
+                startActivity(i);
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
     public void onWindowFocusChanged(boolean hasFocus) {
-if (hasFocus && accessibilityManager.isEnabled() && initialOpen) {
-initialOpen = false;
-}
-}
+        if (hasFocus && accessibilityManager.isEnabled() && initialOpen) {
+            initialOpen = false;
+        }
+    }
 
     @Override
     protected ZLFile fileFromIntent(Intent intent) {
