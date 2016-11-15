@@ -20,31 +20,23 @@
 package org.geometerplus.android.fbreader.preferences;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.SeekBar;
 
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.DictionaryUtil;
-import org.geometerplus.android.fbreader.FBReader;
-import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
+import org.geometerplus.android.fbreader.benetech.OptionsMenuHandler;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.ColorProfile;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.fbreader.fbreader.FBView;
 import org.geometerplus.fbreader.fbreader.ScrollingPreferences;
-import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.fbreader.tips.TipsManager;
-import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
-import org.geometerplus.zlibrary.core.library.ZLibrary;
 import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.text.view.style.ZLTextBaseStyle;
@@ -59,9 +51,11 @@ public class PreferenceActivity extends ZLPreferenceActivity {
     }
 
     private Toolbar toolbar;
+    private OptionsMenuHandler optionsMenuHandler;
 
     @Override
     protected void init(Intent intent) {
+        optionsMenuHandler = new OptionsMenuHandler(this);
         final FBReaderApp fbReader = (FBReaderApp)FBReaderApp.Instance();
         final ZLAndroidLibrary androidLibrary = (ZLAndroidLibrary)ZLAndroidLibrary.Instance();
         final ColorProfile profile = fbReader.getColorProfile();
@@ -330,96 +324,14 @@ public class PreferenceActivity extends ZLPreferenceActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.toolbar_overflow_menu, menu);
-
-        changeLoginState(menu);
-
-        final ZLAndroidApplication application = (ZLAndroidApplication)getApplication();
-        application.myMainWindow.refreshMenu();
+        optionsMenuHandler.onCreateOptionsMenuWithoutPluginActions(menu);
 
         return true;
-    }
-
-    private void changeLoginState(Menu menu) {
-        MenuItem loginMenuItem = menu.findItem(R.id.menu_item_login_bookshare);
-        MenuItem logoutMenuItem = menu.findItem(R.id.menu_item_logout_bookshare);
-
-        final boolean isLoggedintoBookshare = isLoggedintoBookshare();
-        if(isLoggedintoBookshare) {
-            String title = String.format(getString(R.string.signout_button_title_pattern), getCurrentLoggedUsername());
-            logoutMenuItem.setTitle(title);
-        }
-        loginMenuItem.setVisible(!isLoggedintoBookshare);
-        logoutMenuItem.setVisible(isLoggedintoBookshare);
-    }
-
-    protected boolean isLoggedintoBookshare() {
-        SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
-        String password = login_preference.getString(Bookshare_Webservice_Login.PASSWORD, "");
-        if (username == null || username.isEmpty())
-            return false;
-
-        if (password == null || password.isEmpty())
-            return false;
-
-        return true;
-    }
-
-    protected String getCurrentLoggedUsername() {
-        SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(this);
-        String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
-        return username;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary) ZLibrary.Instance();
-        if (!zlibrary.isKindleFire() && !zlibrary.ShowStatusBarOption.getValue()) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-        }
-
-        String action = findActionForMenuItem(item.getItemId());
-        Object[] params = findParamsForMenuItemAction(item.getItemId());
-        if(params == null){
-            ZLApplication.Instance().doAction(action);
-        }
-        else {
-            ZLApplication.Instance().doAction(action, params);
-        }
-
+         optionsMenuHandler.onOptionsItemSelected(item);
         return super.onOptionsItemSelected(item);
-    }
-
-    @NonNull
-    private String findActionForMenuItem(int itemId) {
-        if (itemId == R.id.menu_item_settings)
-            return ActionCode.SHOW_PREFERENCES;
-
-        if (itemId == R.id.menu_item_sync_with_bookshare) {
-            if (isLoggedintoBookshare())
-                return ActionCode.SYNC_WITH_BOOKSHARE;
-
-            return ActionCode.BOOKSHARE;
-        }
-
-        if (itemId == R.id.menu_item_help)
-            return ActionCode.SHOW_HELP;
-
-        if (itemId == R.id.menu_item_about_goread)
-            return ActionCode.ABOUT_GOREAD;
-
-        if (itemId == R.id.menu_item_logout_bookshare)
-            return ActionCode.LOGOUT_BOOKSHARE;
-
-        if (itemId == R.id.menu_item_login_bookshare)
-            return ActionCode.BOOKSHARE;
-        return "";
-    }
-
-    private Object[] findParamsForMenuItemAction(int itemId){
-        if (itemId == R.id.menu_item_sync_with_bookshare)
-            return new Object[]{SyncReadingListsWithBookshareAction.SyncType.USER_ACTIVATED};
-        return null;
     }
 }

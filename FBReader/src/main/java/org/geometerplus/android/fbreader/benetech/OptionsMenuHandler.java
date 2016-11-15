@@ -19,6 +19,7 @@ import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivityforActionBa
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -157,5 +158,9 @@ public class OptionsMenuHandler {
         application.myMainWindow.refreshMenu();
 
         return true;
+    }
+
+    public void onCreateOptionsMenuWithoutPluginActions(Menu menu){
+        onCreateOptionsMenu(menu,new LinkedList<PluginApi.ActionInfo>());
     }
 }
