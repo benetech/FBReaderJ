@@ -53,6 +53,7 @@ public abstract class ZLAndroidActivityforActionBar extends ZLAndroidActivity {
     @Override
     public void openOptionsMenu() {
         super.openOptionsMenu();
+
         Configuration config = getResources().getConfiguration();
         if ((config.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) > Configuration.SCREENLAYOUT_SIZE_LARGE) {
             int originalScreenLayout = config.screenLayout;
@@ -78,18 +79,21 @@ public abstract class ZLAndroidActivityforActionBar extends ZLAndroidActivity {
     @Override
     public void onOptionsMenuClosed(Menu menu) {
         super.onOptionsMenuClosed(menu);
+
         optionsMenuHandler.onOptionsMenuClosed();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         optionsMenuHandler.onOptionsItemSelected(item);
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
+
         return optionsMenuHandler.onCreateOptionsMenu(menu, myPluginActions);
     }
 
@@ -104,6 +108,7 @@ public abstract class ZLAndroidActivityforActionBar extends ZLAndroidActivity {
                 startActivity(i);
             }
         }
+        
         return super.onKeyDown(keyCode, event);
     }
 
@@ -122,6 +127,7 @@ public abstract class ZLAndroidActivityforActionBar extends ZLAndroidActivity {
                 filePath = data.getPath();
             }
         }
+
         return filePath != null ? ZLFile.createFileByPath(filePath) : null;
     }
 
@@ -130,6 +136,7 @@ public abstract class ZLAndroidActivityforActionBar extends ZLAndroidActivity {
         if (SQLiteBooksDatabase.Instance() == null) {
             new SQLiteBooksDatabase(this);
         }
+
         return new FBReaderApp(file != null ? file.getPath() : null);
     }
 }
