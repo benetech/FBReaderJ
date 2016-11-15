@@ -160,7 +160,7 @@ public class OptionsMenuHandler {
         return true;
     }
 
-    public void onCreateOptionsMenuWithoutPluginActions(Menu menu){
-        onCreateOptionsMenu(menu,new LinkedList<PluginApi.ActionInfo>());
+    public boolean onCreateOptionsMenuWithoutPluginActions(Menu menu){
+        return onCreateOptionsMenu(menu,new LinkedList<PluginApi.ActionInfo>());
     }
 }

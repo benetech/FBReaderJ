@@ -306,14 +306,14 @@ public class PreferenceActivity extends ZLPreferenceActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        optionsMenuHandler.onCreateOptionsMenuWithoutPluginActions(menu);
 
-        return true;
+        return optionsMenuHandler.onCreateOptionsMenuWithoutPluginActions(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-         optionsMenuHandler.onOptionsItemSelected(item);
+        optionsMenuHandler.onOptionsItemSelected(item);
+
         return super.onOptionsItemSelected(item);
     }
 }
