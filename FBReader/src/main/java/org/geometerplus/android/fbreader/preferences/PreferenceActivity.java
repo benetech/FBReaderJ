@@ -155,6 +155,7 @@ public class PreferenceActivity extends ZLPreferenceActivity {
             @Override
             protected void onDialogClosed(boolean result) {
                 super.onDialogClosed(result);
+
                 footerPreferences.setEnabled(
                         findIndexOfValue(getValue()) == FBView.SCROLLBAR_SHOW_AS_FOOTER
                 );
@@ -275,12 +276,14 @@ public class PreferenceActivity extends ZLPreferenceActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         ((ZLAndroidApplication) getApplication()).startTracker(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+
         ((ZLAndroidApplication) getApplication()).stopTracker(this);
     }
 
