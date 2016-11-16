@@ -9,13 +9,14 @@ android {
     project.ext.set("versionMajor", "5")
     project.ext.set("versionMinor", "3")
     project.ext.set("versionRevision", "10")
+    project.ext.set("internalReleaseDate", getDate() + "_alpha")
     project.ext.set("versionCode","72")
     
     //NOTE: Changing the app name here will cause Jenkins to fail copying to anitfactory.
     //See the build Jenkins -> Configure -> Published Artifacts field
     project.ext.set("appName", "GoRead")
 
-    def version = "${versionMajor}.${versionMinor}.${versionRevision}"
+    def version = "${versionMajor}.${versionMinor}.${versionRevision}_${internalReleaseDate}"
 
     defaultConfig {
         applicationId "org.benetech.android"
@@ -104,4 +105,11 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:robolectric:3.0"
     testCompile "org.robolectric:shadows-multidex:3.0"
+}
+
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('MM-dd-yyyy')
+
+    return formattedDate
 }
