@@ -25,4 +25,9 @@ public class AboutGoReadPreference extends ZLPreferenceActivity {
         addPreference(new UrlPreference(this, aboutScreen.Resource, "twitter"));
         addPreference(new UrlPreference(this, aboutScreen.Resource, "forum"));
     }
+
+    @Override
+    protected void setupActionBar() {
+
+    }
 }

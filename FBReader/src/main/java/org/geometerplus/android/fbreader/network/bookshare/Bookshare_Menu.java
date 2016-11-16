@@ -3,21 +3,18 @@ package org.geometerplus.android.fbreader.network.bookshare;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
+import android.view.accessibility.AccessibilityManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -35,6 +32,7 @@ import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.LogoutFromBookshareAction;
 import org.geometerplus.android.fbreader.benetech.Analytics;
+import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivityforActionBar;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
 import java.io.UnsupportedEncodingException;
@@ -45,10 +43,10 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * This ListActivity shows options for retrieving data from Bookshare.
+ * This ZLAndroidActivityforActionBar shows options for retrieving data from Bookshare.
  */
-public class Bookshare_Menu extends ListActivity {
-    
+public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
+    public static final String BOOK_PATH_KEY = "BookPath";
     protected final static String REQUEST_TYPE = "requestType";
     protected final static String REQUEST_URI = "requestUri";
 
@@ -77,37 +75,44 @@ public class Bookshare_Menu extends ListActivity {
 	
 	private final int START_BOOKSHARE_PERIODICAL_LISTING_ACTIVITY = 3; //This is to start listing periodicals (thushv)
 	private final int BOOKSHARE_PERIODICAL_LISTING_FINISHED=4;
-	
+
 	private String username;
 	private String password;
 	private boolean isFree = false; 
 	private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
     private final Activity myActivity = this;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+    @Override
+	public void onCreate(Bundle savedInstanceState) {
+        accessibilityManager = (AccessibilityManager) getApplicationContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.bookshare_menu_main);
-		
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//setContentView(R.layout.bookshare_menu_main);
+
+        View view = findViewById(R.id.main_view);
+        view.setVisibility(View.GONE);
+
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.navigation_bar_id);
+        linearLayout.setVisibility(View.GONE);
+
 		// Fetch the login info from the caller intent
 		Intent callerIntent  = getIntent();
 		username = callerIntent.getStringExtra("username");
 		password = callerIntent.getStringExtra("password");
-		
+
 		if(username == null || password == null){
 			isFree = true;
 		}
 		final int[] drawables = new int[] {
-            R.drawable.titles,
-            R.drawable.authors,
-            R.drawable.isbn,
-            R.drawable.latest,
-            R.drawable.isbn,
-            R.drawable.periodicals,		//Icon for 'All Periodicals' (thushv)
-            R.drawable.titles
+            R.drawable.ic_action_gray_book,
+            R.drawable.ic_action_gray_user,
+            R.drawable.ic_action_gray_barcode,
+            R.drawable.ic_action_gray_recent,
+            R.drawable.ic_action_favorites_gray,
+            R.drawable.ic_action_gray_newspaper,		//Icon for 'All Periodicals' (thushv)
+            R.drawable.ic_action_gray_logout
 		};
-        
+
         String logInMenuItem = isFree ? getResources().getString(R.string.bks_menu_log_in) : getResources().getString(R.string.bks_menu_log_out);
 		//Create a TreeMap for use in the SimpleAdapter
         String[] items = {getResources().getString(R.string.bks_menu_title_label),
@@ -118,7 +123,7 @@ public class Bookshare_Menu extends ListActivity {
 			row_item.put("Name", items[i]);
 			row_item.put("icon", drawables[i]);
 			list.add(row_item);
-		}		
+		}
 		// Construct a SimpleAdapter which will serve as data source for this ListView
 		MySimpleAdapter simpleadapter = new MySimpleAdapter(
 				this,list,
@@ -127,9 +132,11 @@ public class Bookshare_Menu extends ListActivity {
 				new int[]{R.id.text1,R.id.row_icon});
 
 		//Set the adapter for this view
-		setListAdapter(simpleadapter);
-		
-		ListView lv = getListView();
+		//setListAdapter(simpleadapter);
+
+		ListView lv = (ListView) findViewById(R.id.list_items);
+        lv.setVisibility(View.VISIBLE);
+        lv.setAdapter(simpleadapter);
 
 		dialog = new Dialog(this);
 		dialog.setContentView(R.layout.bookshare_dialog);
@@ -148,19 +155,19 @@ public class Bookshare_Menu extends ListActivity {
 		        return false;
 		    }
 		});
-		
+
 		dialog_ok.setOnClickListener(new OnClickListener(){
 			public void onClick(View v){
                 doSearch();
             }
 		});
-		
+
 		dialog_cancel.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
-		
+
 		//Listener for the ListView
 		lv.setOnItemClickListener(new MenuClickListener(this));
 	}
@@ -500,4 +507,6 @@ public class Bookshare_Menu extends ListActivity {
 	private enum MenuControl {
 		title, author, isbn, latest, popular, periodicals, logout
 	}
+
+
 }

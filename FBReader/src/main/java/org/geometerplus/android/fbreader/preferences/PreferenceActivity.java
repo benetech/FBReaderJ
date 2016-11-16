@@ -20,10 +20,16 @@
 package org.geometerplus.android.fbreader.preferences;
 
 import android.content.Intent;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.SeekBar;
 
+import org.benetech.android.R;
 import org.geometerplus.android.fbreader.DictionaryUtil;
+import org.geometerplus.android.fbreader.benetech.OptionsMenuHandler;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.ColorProfile;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
@@ -32,6 +38,7 @@ import org.geometerplus.fbreader.fbreader.ScrollingPreferences;
 import org.geometerplus.fbreader.tips.TipsManager;
 import org.geometerplus.zlibrary.core.application.ZLKeyBindings;
 import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
+import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.text.view.style.ZLTextBaseStyle;
 import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
@@ -43,8 +50,12 @@ public class PreferenceActivity extends ZLPreferenceActivity {
         super("Preferences");
     }
 
+    private Toolbar toolbar;
+    private OptionsMenuHandler optionsMenuHandler;
+
     @Override
     protected void init(Intent intent) {
+        optionsMenuHandler = new OptionsMenuHandler(this);
         final FBReaderApp fbReader = (FBReaderApp)FBReaderApp.Instance();
         final ZLAndroidLibrary androidLibrary = (ZLAndroidLibrary)ZLAndroidLibrary.Instance();
         final ColorProfile profile = fbReader.getColorProfile();
@@ -109,6 +120,9 @@ public class PreferenceActivity extends ZLPreferenceActivity {
                 this, textScreen.Resource, "lineSpacing",
                 spaceOption, spacings
         ));
+        textScreen.addPreference(new MarginsPreference(this, Resource,"margins", fbReader.LeftMarginOption,
+                fbReader.RightMarginOption,  fbReader.TopMarginOption, fbReader.BottomMarginOption));
+
         final String[] alignments = { "left", "right", "center", "justify" };
         textScreen.addPreference(new ZLChoicePreference(
                 this, textScreen.Resource, "alignment",
@@ -131,24 +145,6 @@ public class PreferenceActivity extends ZLPreferenceActivity {
         colorsScreen.addOption(profile.SelectionBackgroundOption, "selectionBackground");
         colorsScreen.addOption(profile.SelectionForegroundOption, "selectionForeground");
 
-        final Screen marginsScreen = createPreferenceScreen("margins");
-        marginsScreen.addPreference(new ZLIntegerRangePreference(
-                this, marginsScreen.Resource.getResource("left"),
-                fbReader.LeftMarginOption
-        ));
-        marginsScreen.addPreference(new ZLIntegerRangePreference(
-                this, marginsScreen.Resource.getResource("right"),
-                fbReader.RightMarginOption
-        ));
-        marginsScreen.addPreference(new ZLIntegerRangePreference(
-                this, marginsScreen.Resource.getResource("top"),
-                fbReader.TopMarginOption
-        ));
-        marginsScreen.addPreference(new ZLIntegerRangePreference(
-                this, marginsScreen.Resource.getResource("bottom"),
-                fbReader.BottomMarginOption
-        ));
-
         final Screen statusLineScreen = createPreferenceScreen("scrollBar");
 
         final String[] scrollBarTypes = {"hide", "show", "showAsProgress", "showAsFooter"};
@@ -159,6 +155,7 @@ public class PreferenceActivity extends ZLPreferenceActivity {
             @Override
             protected void onDialogClosed(boolean result) {
                 super.onDialogClosed(result);
+
                 footerPreferences.setEnabled(
                         findIndexOfValue(getValue()) == FBView.SCROLLBAR_SHOW_AS_FOOTER
                 );
@@ -279,12 +276,47 @@ public class PreferenceActivity extends ZLPreferenceActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
         ((ZLAndroidApplication) getApplication()).startTracker(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+
         ((ZLAndroidApplication) getApplication()).stopTracker(this);
+    }
+
+    @Override
+    protected void setupActionBar() {
+        setContentView(R.layout.settings);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        //Toolbar will now take on default Action Bar characteristics
+        toolbar.setTitle(ZLResource.resource("menu").getResource("preferences").getValue());
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
+        return optionsMenuHandler.onCreateOptionsMenuWithoutPluginActions(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        optionsMenuHandler.onOptionsItemSelected(item);
+
+        return super.onOptionsItemSelected(item);
     }
 }

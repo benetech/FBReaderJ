@@ -19,18 +19,24 @@
 
 package org.geometerplus.android.fbreader.preferences;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.preference.*;
 import android.content.Intent;
+import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
 
+import org.benetech.android.R;
 import org.geometerplus.zlibrary.core.options.*;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 
-abstract class ZLPreferenceActivity extends android.preference.PreferenceActivity {
+abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 	public static String SCREEN_KEY = "screen";
+
 
 	private final HashMap<String,Screen> myScreenMap = new HashMap<String,Screen>();
 
@@ -119,9 +125,13 @@ abstract class ZLPreferenceActivity extends android.preference.PreferenceActivit
 
 	protected abstract void init(Intent intent);
 
+	protected abstract void setupActionBar();
+
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
+
+		setupActionBar();
 
 		Thread.setDefaultUncaughtExceptionHandler(new org.geometerplus.zlibrary.ui.android.library.UncaughtExceptionHandler(this));
 
@@ -132,4 +142,40 @@ abstract class ZLPreferenceActivity extends android.preference.PreferenceActivit
 		final Screen screen = myScreenMap.get(intent.getStringExtra(SCREEN_KEY));
 		setPreferenceScreen(screen != null ? screen.myScreen : myScreen);
 	}
+
+
+	@SuppressWarnings("deprecation")
+	@Override
+	public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+		super.onPreferenceTreeClick(preferenceScreen, preference);
+
+		// If the user has clicked on a preference screen, set up the screen
+		if (preference instanceof PreferenceScreen) {
+			setUpNestedScreen((PreferenceScreen) preference);
+		}
+
+		return false;
+	}
+
+	public void setUpNestedScreen(PreferenceScreen preferenceScreen) {
+		final Dialog dialog = preferenceScreen.getDialog();
+		if(dialog != null) {
+			Toolbar bar;
+
+			LinearLayout root = (LinearLayout) dialog.findViewById(android.R.id.list).getParent();
+			bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.sub_settings, root, false);
+			root.addView(bar, 0); // insert at top
+
+			bar.setTitle(preferenceScreen.getTitle());
+
+			bar.setNavigationOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					dialog.dismiss();
+				}
+			});
+		}
+	}
+
+
 }
