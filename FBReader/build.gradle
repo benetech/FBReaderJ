@@ -9,7 +9,7 @@ android {
     project.ext.set("versionMajor", "5")
     project.ext.set("versionMinor", "3")
     project.ext.set("versionRevision", "10")
-    project.ext.set("internalReleaseDate", getDate() + "_alpha")
+    project.ext.set("internalReleaseDate", getDate())
     project.ext.set("versionCode","72")
     
     //NOTE: Changing the app name here will cause Jenkins to fail copying to anitfactory.
@@ -23,7 +23,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
         versionCode = project.ext.get("versionCode").toInteger()
-        versionName = project.ext.get("appName") + " " + "${version}"
+        versionName = project.ext.get("appName") + " " + "${version}" + "_alpha"
         multiDexEnabled true
 
         ndk {
