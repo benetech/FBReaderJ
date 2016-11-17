@@ -48,7 +48,7 @@ public class Bookshare_Webservice_Login extends Activity{
     public static final String PASSWORD = "password";
 
     public static final String BOOKSHARE_API_PROTOCOL = "https://";
-    public static final String BOOKSHARE_API_HOST = BuildConfig.BOOKSHARE_API_HOST_NAME;
+    public static final String BOOKSHARE_API_HOST = "api.bookshare.org";
 	private String BOOKSHARE_URL = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL + BOOKSHARE_API_HOST + "/book/search/title/potter";
 	private String FORGOT_PW_URL = "http://www.bookshare.org/forgotPassword";
 	private String SIGNUP_URL = "https://www.bookshare.org/signUpType";
