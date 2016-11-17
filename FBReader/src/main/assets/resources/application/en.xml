@@ -541,6 +541,10 @@
                 <node name="forum" value="Leave feedback on our forum">
                     <node name="url" value="https://www.bookshare.org/cms/help-center/user-feedback"/>
                 </node>
+				<node name="bookshare_host" value="Bookshare API Host">
+					<node name="url" value=""/>
+				</node>
+
 			</node>
 		</node>
 		<node name="OptionsDialog">
