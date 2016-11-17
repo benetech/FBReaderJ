@@ -2,6 +2,7 @@ package org.geometerplus.android.fbreader.preferences;
 
 import android.content.Intent;
 
+import org.benetech.android.BuildConfig;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidLibrary;
 
 /**
@@ -24,6 +25,7 @@ public class AboutGoReadPreference extends ZLPreferenceActivity {
         addPreference(new UrlPreference(this, aboutScreen.Resource, "email"));
         addPreference(new UrlPreference(this, aboutScreen.Resource, "twitter"));
         addPreference(new UrlPreference(this, aboutScreen.Resource, "forum"));
+        addPreference(new InfoPreference(this, aboutScreen.Resource.getResource("bookshare_host").getValue(), BuildConfig.BOOKSHARE_API_HOST_NAME));
     }
 
     @Override

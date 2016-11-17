@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import org.accessibility.VoiceableDialog;
+import org.benetech.android.BuildConfig;
 import org.benetech.android.R;
 import org.bookshare.net.BookshareWebServiceClient;
 
@@ -47,7 +48,7 @@ public class Bookshare_Webservice_Login extends Activity{
     public static final String PASSWORD = "password";
 
     public static final String BOOKSHARE_API_PROTOCOL = "https://";
-    public static final String BOOKSHARE_API_HOST = "api.bookshare.org";
+    public static final String BOOKSHARE_API_HOST = BuildConfig.BOOKSHARE_API_HOST_NAME;
 	private String BOOKSHARE_URL = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL + BOOKSHARE_API_HOST + "/book/search/title/potter";
 	private String FORGOT_PW_URL = "http://www.bookshare.org/forgotPassword";
 	private String SIGNUP_URL = "https://www.bookshare.org/signUpType";

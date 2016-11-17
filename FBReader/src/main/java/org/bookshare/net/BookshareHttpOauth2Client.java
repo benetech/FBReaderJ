@@ -3,6 +3,7 @@ package org.bookshare.net;
 import android.support.annotation.NonNull;
 
 import org.apache.commons.codec.binary.Base64;
+import org.benetech.android.BuildConfig;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -24,8 +25,6 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
-import static org.bookshare.net.ServerAddress.HOST_NAME;
-
 /**
  * Created by animal@martus.org on 3/31/16.
  */
@@ -34,6 +33,7 @@ public class BookshareHttpOauth2Client {
     private String userName;
     private String password;
 
+    private static final String HOST_NAME = BuildConfig.BOOKSHARE_API_HOST_NAME;
     private static final String API_KEY = "ytvs9pzsd62bv7rzamwdkthe";
     private static final String MASHERY_API_KEY = API_KEY;
     private static final String COLON = ":";
