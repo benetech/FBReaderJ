@@ -47,10 +47,6 @@ android {
                 minifyEnabled false
                 proguardFiles 'proguard.cfg'
                 signingConfig signingConfigs.release
-                buildConfigField "String", "BOOKSHARE_API_HOST_NAME", '"api.bookshare.org"'
-            }
-            debug {
-                buildConfigField "String", "BOOKSHARE_API_HOST_NAME", '"api.staging.bookshare.org"'
             }
         }
 
@@ -64,9 +60,11 @@ android {
 
     productFlavors {
         alpha{
+            buildConfigField "String", "BOOKSHARE_API_HOST_NAME", '"api.staging.bookshare.org"'
             applicationId "org.benetech.android"
         }
         live{
+            buildConfigField "String", "BOOKSHARE_API_HOST_NAME", '"api.bookshare.org"'
             applicationId "org.benetech.android"
         }
     }
