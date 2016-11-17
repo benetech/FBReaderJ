@@ -20,6 +20,7 @@ import android.util.Log;
  */
 public final class BookshareWebServiceClient {
 
+    //FIXME urgent - this needs to be looked at closer and removed.
     // endpoint for bookshare API calls
     private static String bookshareApiUrl = "api.bookshare.org";
 
