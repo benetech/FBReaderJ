@@ -34,6 +34,8 @@ import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
+import org.geometerplus.zlibrary.text.view.ZLTextRegion;
+import org.geometerplus.zlibrary.text.view.ZLTextWordRegionSoul;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
 import java.lang.reflect.InvocationTargetException;
@@ -523,23 +525,41 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private String getNextParagraph() {
         String text = "";
-        List<String> wl = null;
-        ArrayList<Integer> il = new ArrayList<Integer>();
+        final FBReaderApp fbReader = (FBReaderApp)FBReaderApp.Instance();
+        ZLTextRegion region = fbReader.getTextView().getLatestLongPressSelectedRegion();
+        int offset = 0;
+        int wordOffset = 0;
+        if(region != null){
+            myParagraphIndex = region.getSoul().getParagraphIndex();
+            fbReader.getTextView().resetLatestLongPressSelectedRegion();
+            if(region.getSoul() instanceof ZLTextWordRegionSoul){
+                offset = ((ZLTextWordRegionSoul) region.getSoul()).Word.getParagraphOffset();
+                wordOffset = (region.getSoul().getStartElementIndex() /2);
+            }
+        }
+        List<String> wordsList = null;
+        ArrayList<Integer> paragraphIndexesList = new ArrayList<Integer>();
         for (; myParagraphIndex < myParagraphsNumber; ++myParagraphIndex) {
             final String s = myApi.getParagraphText(myParagraphIndex);
-            wl = myApi.getParagraphWords(myParagraphIndex);
+            wordsList = myApi.getParagraphWords(myParagraphIndex);
             if (s.length() > 0) {
                 text = s;
-                il = myApi.getParagraphIndices(myParagraphIndex);
+                paragraphIndexesList = myApi.getParagraphIndices(myParagraphIndex);
                 break;
             }
         }
-        if (!"".equals(text) && !myApi.isPageEndOfText()) {
-            myApi.setPageStart(new TextPosition(myParagraphIndex, 0, 0));
+//        if (!"".equals(text) && !myApi.isPageEndOfText()) {
+//            myApi.setPageStart(new TextPosition(myParagraphIndex, 0, 0));
+//        }
+
+        if(wordOffset > 0 && wordOffset < wordsList.size()){
+            for(int c = wordOffset; c > 0; c --){
+                wordsList.remove(0);
+            }
         }
 
-        if (null != wl) {
-            mySentences = TtsSentenceExtractor.build(wl, il, myTTS.getLanguage());
+        if (null != wordsList) {
+            mySentences = TtsSentenceExtractor.build(wordsList, paragraphIndexesList, myTTS.getLanguage());
             highlightParagraph();
         }
 
@@ -548,6 +568,9 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             disableNextButton();
         }
 
+        if(offset > 0){
+            text = text.substring(offset);
+        }
         return text;
     }
 

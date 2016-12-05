@@ -35,10 +35,17 @@ public final class ZLTextRegion {
 			EndElementIndex = endElementIndex;
 		}
 
+		public int getParagraphIndex() {
+			return ParagraphIndex;
+		}
+		public int getStartElementIndex() {
+			return StartElementIndex;
+		}
+
 		final boolean accepts(ZLTextElementArea area) {
 			return compareTo(area) == 0;
 		}
-	
+
 		@Override
 		public final boolean equals(Object other) {
 			if (other == this) {

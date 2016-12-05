@@ -56,6 +56,16 @@ public final class FBView extends ZLTextView {
 	private String myZoneMapId;
 	private TapZoneMap myZoneMap;
 
+	private ZLTextRegion latestLongPressSelectedRegion = null;
+
+	public ZLTextRegion getLatestLongPressSelectedRegion(){
+		return latestLongPressSelectedRegion;
+	}
+
+	public void resetLatestLongPressSelectedRegion(){
+		latestLongPressSelectedRegion = null;
+	}
+
 	private TapZoneMap getZoneMap() {
 		//final String id =
 		//	ScrollingPreferences.Instance().TapZonesSchemeOption.getValue().toString();
@@ -213,7 +223,7 @@ public final class FBView extends ZLTextView {
 		final ZLTextRegion region = findRegion(x, y, MAX_SELECTION_DISTANCE, ZLTextRegion.AnyRegionFilter);
 		if (region != null) {
 			final ZLTextRegion.Soul soul = region.getSoul();
-			boolean doSelectRegion = false;
+			boolean doSelectRegion = true;
 			if (soul instanceof ZLTextWordRegionSoul) {
 				switch (myReader.WordTappingActionOption.getValue()) {
 					case startSelecting:
@@ -223,6 +233,7 @@ public final class FBView extends ZLTextView {
 						if (cursor != ZLTextSelectionCursor.None) {
 							moveSelectionCursorTo(cursor, x, y);
 						}
+						latestLongPressSelectedRegion = region;
 						return true;
 					case selectSingleWord:
 					case openDictionary:
