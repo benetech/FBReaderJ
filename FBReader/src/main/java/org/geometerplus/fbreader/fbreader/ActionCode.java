@@ -83,4 +83,6 @@ public interface ActionCode {
     String ACCESSIBLE_NAVIGATION = "accessible_navigation";
 	String LOGOUT_BOOKSHARE = "logout_from_bookshare";
 	String ABOUT_GOREAD = "about_goread";
+
+	String SELECT_SENTENCE = "select_sentence";
 }

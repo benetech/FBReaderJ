@@ -57,7 +57,7 @@ public final class FBReaderApp extends ZLApplication {
 		new ZLBooleanOption("KeysOptions", "UseSeparateBindings", false);
 
 	public final ZLBooleanOption EnableDoubleTapOption =
-		new ZLBooleanOption("Options", "EnableDoubleTap", false);
+		new ZLBooleanOption("Options", "EnableDoubleTap", true);
 	public final ZLBooleanOption NavigateAllWordsOption =
 		new ZLBooleanOption("Options", "NavigateAllWords", false);
 
@@ -187,7 +187,7 @@ public final class FBReaderApp extends ZLApplication {
 			}
 		});
 	}
-    
+
     public void openBook(final Book book, final Bookmark bookmark, final Activity activity) {
     		if (book == null) {
     			return;
@@ -197,7 +197,7 @@ public final class FBReaderApp extends ZLApplication {
     				return;
     			}
     		}
-        
+
             if (activity != null) {
         			UIUtil.wait("loadingBook", new Runnable() {
                         @Override
@@ -378,7 +378,7 @@ public final class FBReaderApp extends ZLApplication {
 
 	private static class BookmarkDescription extends CancelActionDescription {
 		final Bookmark Bookmark;
-		
+
 		BookmarkDescription(Bookmark b) {
 			super(CancelActionType.returnTo, b.getText());
 			Bookmark = b;
@@ -490,7 +490,7 @@ public final class FBReaderApp extends ZLApplication {
 			return null;
 		}
 
-		int index = cursor.getParagraphIndex();	
+		int index = cursor.getParagraphIndex();
 		if (cursor.isEndOfParagraph()) {
 			++index;
 		}
@@ -507,15 +507,15 @@ public final class FBReaderApp extends ZLApplication {
 		}
 		return treeToSelect;
 	}
-    
+
     public LinkedHashMap<String, Integer> getDaisyPageMap() {
         if (null != Model) {
-            return Model.getDaisyPageMap();    
+            return Model.getDaisyPageMap();
         } else {
             return new LinkedHashMap<String, Integer>();
         }
     }
-    
+
     public String getLastDaisyPage() {
         if (null != Model) {
             return Model.getLastDaisyPage();

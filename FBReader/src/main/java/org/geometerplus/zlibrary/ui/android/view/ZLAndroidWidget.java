@@ -295,7 +295,18 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 			myPendingShortClickRunnable = null;
 		}
 	}
+
+	private class DoubleClickRunnable implements Runnable {
+		public void run() {
+			final ZLView view = ZLApplication.Instance().getCurrentView();
+			view.onFingerDoubleTap(myPressedX, myPressedY);
+			myPendingPress = false;
+			myPendingDoubleClickRunnable = null;
+		}
+	}
+
 	private volatile ShortClickRunnable myPendingShortClickRunnable;
+	private volatile DoubleClickRunnable myPendingDoubleClickRunnable;
 
 	private volatile boolean myPendingPress;
 	private volatile boolean myPendingDoubleTap;
@@ -320,10 +331,10 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 					}
 					if (myPendingPress) {
 						if (view.isDoubleTapSupported()) {
-        					if (myPendingShortClickRunnable == null) {
-            					myPendingShortClickRunnable = new ShortClickRunnable();
+        					if (myPendingDoubleClickRunnable == null) {
+								myPendingDoubleClickRunnable = new DoubleClickRunnable();
         					}
-        					postDelayed(myPendingShortClickRunnable, ViewConfiguration.getDoubleTapTimeout());
+        					postDelayed(myPendingDoubleClickRunnable, ViewConfiguration.getDoubleTapTimeout());
 						} else {
 							view.onFingerSingleTap(x, y);
 						}
