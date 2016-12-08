@@ -21,6 +21,7 @@ package org.geometerplus.zlibrary.ui.android.view;
 
 import android.content.Context;
 import android.graphics.*;
+import android.util.Log;
 import android.view.*;
 import android.util.AttributeSet;
 
@@ -296,20 +297,10 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 		}
 	}
 
-	private class DoubleClickRunnable implements Runnable {
-		public void run() {
-			final ZLView view = ZLApplication.Instance().getCurrentView();
-			view.onFingerDoubleTap(myPressedX, myPressedY);
-			myPendingPress = false;
-			myPendingDoubleClickRunnable = null;
-		}
-	}
-
 	private volatile ShortClickRunnable myPendingShortClickRunnable;
-	private volatile DoubleClickRunnable myPendingDoubleClickRunnable;
-
 	private volatile boolean myPendingPress;
 	private volatile boolean myPendingDoubleTap;
+	private volatile boolean myPendingTwoFingerDoubleTap;
 	private int myPressedX, myPressedY;
 	private boolean myScreenIsTouched;
 	@Override
@@ -318,11 +309,17 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 		int y = (int)event.getY();
 
 		final ZLView view = ZLApplication.Instance().getCurrentView();
+
 		switch (event.getAction()) {
+			case MotionEvent.ACTION_POINTER_UP:
+				myPendingTwoFingerDoubleTap = true;
+				break;
 			case MotionEvent.ACTION_UP:
 				if (myPendingDoubleTap) {
-					view.onFingerDoubleTap(x, y);
+					view.onFingerDoubleTap(x, y, myPendingTwoFingerDoubleTap);
+					myPendingTwoFingerDoubleTap = false;
 				} if (myLongClickPerformed) {
+					myPendingTwoFingerDoubleTap = false;
 					view.onFingerReleaseAfterLongPress(x, y);
 				} else {
 					if (myPendingLongClickRunnable != null) {
@@ -331,14 +328,17 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 					}
 					if (myPendingPress) {
 						if (view.isDoubleTapSupported()) {
-        					if (myPendingDoubleClickRunnable == null) {
-								myPendingDoubleClickRunnable = new DoubleClickRunnable();
+        					if (myPendingShortClickRunnable == null) {
+								myPendingShortClickRunnable = new ShortClickRunnable();
         					}
-        					postDelayed(myPendingDoubleClickRunnable, ViewConfiguration.getDoubleTapTimeout());
+//							myPendingDoubleClickRunnable.isMultipleTouch = (event.getPointerCount() > 1);
+        					postDelayed(myPendingShortClickRunnable, ViewConfiguration.getDoubleTapTimeout());
 						} else {
+							myPendingTwoFingerDoubleTap = false;
 							view.onFingerSingleTap(x, y);
 						}
 					} else {
+						myPendingTwoFingerDoubleTap = false;
 						view.onFingerRelease(x, y);
 					}
 				}

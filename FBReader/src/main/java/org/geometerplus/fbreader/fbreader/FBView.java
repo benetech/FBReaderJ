@@ -111,15 +111,20 @@ public final class FBView extends ZLTextView {
 	}
 
 	@Override
-	public boolean onFingerDoubleTap(int x, int y) {
-		if (super.onFingerDoubleTap(x, y)) {
+	public boolean onFingerDoubleTap(int x, int y, boolean multitouch) {
+		if (super.onFingerDoubleTap(x, y, multitouch)) {
 			return true;
 		}
 
-		doubleTapSelectedRegion = findRegion(x, y, MAX_SELECTION_DISTANCE, ZLTextRegion.AnyRegionFilter);
+		if(!multitouch){
+			doubleTapSelectedRegion = findRegion(x, y, MAX_SELECTION_DISTANCE, ZLTextRegion.AnyRegionFilter);
+			myReader.doAction(ActionCode.SELECT_SENTENCE);
+		}
+		else {
+			doubleTapSelectedRegion = null;
+			myReader.doAction(ActionCode.PLAY_OR_PAUSE);
+		}
 
-
-		myReader.doAction(ActionCode.SELECT_SENTENCE);
 		return true;
 	}
 
@@ -239,7 +244,6 @@ public final class FBView extends ZLTextView {
 						if (cursor != ZLTextSelectionCursor.None) {
 							moveSelectionCursorTo(cursor, x, y);
 						}
-						doubleTapSelectedRegion = region;
 						return true;
 					case selectSingleWord:
 					case openDictionary:

@@ -147,7 +147,7 @@ public class SimpleGestureFilter extends GestureDetector.SimpleOnGestureListener
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent arg0) {
-        return true;
+        return false;
     }
 
     @Override
@@ -165,7 +165,7 @@ public class SimpleGestureFilter extends GestureDetector.SimpleOnGestureListener
     public interface SimpleGestureListener {
         void onSwipe(int direction);
 
-        void onDoubleTap();
+        void onTwoFingerDoubleTap();
     }
 
 }

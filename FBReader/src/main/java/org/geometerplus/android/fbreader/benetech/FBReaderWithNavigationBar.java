@@ -27,6 +27,7 @@ import org.accessibility.SimpleGestureFilter;
 import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.android.fbreader.PlayOrPauseAction;
 import org.geometerplus.android.fbreader.SelectSentenceAction;
 import org.geometerplus.android.fbreader.TOCActivity;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
@@ -118,6 +119,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         super.onCreate(savedInstanceState);
         fbReader = (FBReaderApp)FBReaderApp.Instance();
         fbReader.addAction(ActionCode.SELECT_SENTENCE, new SelectSentenceAction(this, fbReader));
+        fbReader.addAction(ActionCode.PLAY_OR_PAUSE, new PlayOrPauseAction(this, fbReader));
         if(savedInstanceState != null){
             activityResuming = savedInstanceState.getBoolean(ACTIVITY_RESUMING_STATE, false);
         }
@@ -308,7 +310,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     @Override
     public void selectSentenceFromView() {
-        playOrPause();
+        getNextParagraph();
+        highlightSentence(myCurrentSentence);
     }
 
 
@@ -523,7 +526,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             fbReader.getTextView().resetLatestLongPressSelectedRegion();
             if(region.getSoul() instanceof ZLTextWordRegionSoul){
                 offset = ((ZLTextWordRegionSoul) region.getSoul()).Word.getParagraphOffset();
-                wordOffset = (region.getSoul().getStartElementIndex() /2);
+                wordOffset = (region.getSoul().getStartElementIndex() /2) +1;
             }
         }
         List<String> wordsList = null;
@@ -549,19 +552,21 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
         if (null != wordsList) {
             mySentences = TtsSentenceExtractor.build(wordsList, paragraphIndexesList, myTTS.getLanguage());
-            int currentSentence = 0;
-            for(int i = 0; i < mySentences.length; i++){
-                TtsSentenceExtractor.SentenceIndex sentence = mySentences[i];
-                int sentenceWordCount = new StringTokenizer(sentence.s).countTokens();
-                if(sentenceWordCount >= wordOffset) {
-                    currentSentence = i;
-                    break;
+
+            if(region != null) {
+                int currentSentence = 0;
+                for (int i = 0; i < mySentences.length; i++) {
+                    TtsSentenceExtractor.SentenceIndex sentence = mySentences[i];
+                    int sentenceWordCount = new StringTokenizer(sentence.s).countTokens();
+                    if (sentenceWordCount >= wordOffset) {
+                        currentSentence = i;
+                        break;
+                    } else {
+                        wordOffset -= sentenceWordCount;
+                    }
                 }
-                else {
-                    wordOffset -= sentenceWordCount;
-                }
+                myCurrentSentence = currentSentence;
             }
-            myCurrentSentence = currentSentence + 1;
 
             highlightParagraph();
         }
@@ -597,8 +602,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         if (isPaused()) {
             enablePauseButton();
             setIsPlaying();
-            if (myCurrentSentence > 1 && numWordIndices > myCurrentSentence) {
-                sentenceNumber = myCurrentSentence - 1;
+            if (myCurrentSentence > 0 && numWordIndices > myCurrentSentence) {
+                sentenceNumber = myCurrentSentence ;
                 highlightSentence(sentenceNumber);
             }
 
@@ -647,7 +652,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         });
     }
 
-    private void playOrPause() {
+    @Override
+    public void playOrPause() {
         if (isPlaying()) {
             pause();
         } else {
@@ -804,7 +810,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     @Override
-    public void onDoubleTap() {
+    public void onTwoFingerDoubleTap() {
         myVib.vibrate(VIBE_PATTERN, -1);
         ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_PLAY_PAUSE);
         playOrPause();

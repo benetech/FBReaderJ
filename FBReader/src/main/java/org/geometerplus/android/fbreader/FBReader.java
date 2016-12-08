@@ -519,4 +519,9 @@ public class FBReader extends ZLAndroidActivityforActionBar {
 	public void selectSentenceFromView() {
 		return;
 	}
+
+	public void playOrPause() {
+		return;
+	}
+
 }

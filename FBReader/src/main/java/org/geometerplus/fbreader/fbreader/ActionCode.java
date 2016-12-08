@@ -85,4 +85,6 @@ public interface ActionCode {
 	String ABOUT_GOREAD = "about_goread";
 
 	String SELECT_SENTENCE = "select_sentence";
+	String PLAY_OR_PAUSE = "play_or_pause";
+
 }
