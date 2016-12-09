@@ -86,5 +86,6 @@ public interface ActionCode {
 
 	String SELECT_SENTENCE = "select_sentence";
 	String PLAY_OR_PAUSE = "play_or_pause";
+	String TOGGLE_BARS = "toggle_bars";
 
 }

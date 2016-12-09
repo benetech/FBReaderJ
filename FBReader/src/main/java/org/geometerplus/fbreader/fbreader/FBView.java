@@ -96,11 +96,14 @@ public final class FBView extends ZLTextView {
 			myReader.doAction(ActionCode.PROCESS_HYPERLINK);
 			return true;
 		}
-
-		myReader.doAction(getZoneMap().getActionByCoordinates(
-			x, y, myContext.getWidth(), myContext.getHeight(),
-			isDoubleTapSupported() ? TapZoneMap.Tap.singleNotDoubleTap : TapZoneMap.Tap.singleTap
-		), x, y);
+		String action = getZoneMap().getActionByCoordinates(
+				x, y, myContext.getWidth(), myContext.getHeight(),
+				isDoubleTapSupported() ? TapZoneMap.Tap.singleNotDoubleTap : TapZoneMap.Tap.singleTap
+		);
+		if(action == null){ //we're not catching any other events for this tap
+			action = ActionCode.TOGGLE_BARS;
+		}
+		myReader.doAction(action, x, y);
 
 		return true;
 	}

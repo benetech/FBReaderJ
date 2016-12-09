@@ -186,7 +186,11 @@ public class FBReader extends ZLAndroidActivityforActionBar {
 		fbReader.addAction(ActionCode.ABOUT_GOREAD, new ShowAboutGoReadAction(this, fbReader));
 		fbReader.addAction(ActionCode.LOGOUT_BOOKSHARE, new LogoutFromBookshareAction(this, fbReader));
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		fbReader.addAction(ActionCode.SELECT_SENTENCE, new SelectSentenceAction(this, fbReader));
+		fbReader.addAction(ActionCode.PLAY_OR_PAUSE, new PlayOrPauseAction(this, fbReader));
+		fbReader.addAction(ActionCode.TOGGLE_BARS, new ToggleBarsAction(this, fbReader));
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int currentVersion = zlibrary.getVersionCode();
         int userManualVersion = prefs.getInt(PREFS_USER_MANUAL_VERSION, 0);
 
@@ -521,6 +525,10 @@ public class FBReader extends ZLAndroidActivityforActionBar {
 	}
 
 	public void playOrPause() {
+		return;
+	}
+
+	public void toggleDisplayBars(){
 		return;
 	}
 

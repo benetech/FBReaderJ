@@ -118,8 +118,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
         super.onCreate(savedInstanceState);
         fbReader = (FBReaderApp)FBReaderApp.Instance();
-        fbReader.addAction(ActionCode.SELECT_SENTENCE, new SelectSentenceAction(this, fbReader));
-        fbReader.addAction(ActionCode.PLAY_OR_PAUSE, new PlayOrPauseAction(this, fbReader));
         if(savedInstanceState != null){
             activityResuming = savedInstanceState.getBoolean(ACTIVITY_RESUMING_STATE, false);
         }
@@ -658,6 +656,21 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             pause();
         } else {
             play();
+        }
+    }
+
+    @Override
+    public void toggleDisplayBars(){
+        if(getSupportActionBar() != null){
+            View playBar = findViewById(R.id.navigation_bar_id);
+            if(getSupportActionBar().isShowing()){
+                getSupportActionBar().hide();
+                if(playBar != null)playBar.setVisibility(View.GONE);
+            }
+            else {
+                getSupportActionBar().show();
+                if(playBar != null)playBar.setVisibility(View.VISIBLE);
+            }
         }
     }
 
