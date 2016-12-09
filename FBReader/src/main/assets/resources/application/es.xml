@@ -281,6 +281,7 @@
 			<node name="openBook" value="Leer" />
 			<node name="editInfo" value="Editar" />
 			<node name="reloadInfo" value="Recargar" />
+			<node name="removeBook" value="Eliminar"/>
 			<node name="topup" value="Completar"/>
 			<node name="pay" value="Pagar"/>
 			<node name="refresh" value="Actualizar"/>

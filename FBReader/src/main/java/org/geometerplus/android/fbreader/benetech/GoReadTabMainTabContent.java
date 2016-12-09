@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.geometerplus.android.fbreader.library.BookInfoActivity;
 import org.geometerplus.fbreader.library.Book;
@@ -16,10 +17,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import static org.geometerplus.android.fbreader.library.BookInfoActivity.REQUEST_BOOK_INFO;
+
 /**
  * Created by animal@martus.org on 4/26/16.
  */
 public class GoReadTabMainTabContent extends ListFragment implements SortUtil.SortChangesListener{
+
 
     private ArrayList<AbstractTitleListRowItem> downloadedBooksList;
 
@@ -42,9 +46,23 @@ public class GoReadTabMainTabContent extends ListFragment implements SortUtil.So
     }
 
     @Override
-    public void onPause(){
-        super.onPause();
+    public void onDetach() {
+        super.onDetach();
         SortUtil.unregisterForSortChanges(this);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        Toast.makeText(getActivity(), "qwerqwer", Toast.LENGTH_LONG);
+        if(requestCode == BookInfoActivity.REQUEST_BOOK_INFO){
+            if(resultCode == BookInfoActivity.RESULT_BOOK_DELETED){
+                try {
+                    fillListAdapter();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void fillListAdapter() throws Exception {
@@ -69,7 +87,7 @@ public class GoReadTabMainTabContent extends ListFragment implements SortUtil.So
         AbstractTitleListRowItem clickedRowItem = downloadedBooksList.get(position);
         Intent intent = new Intent(getActivity().getApplicationContext(), BookInfoActivity.class);
         intent.putExtra(BookInfoActivity.CURRENT_BOOK_PATH_KEY, clickedRowItem.getBookFilePath());
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_BOOK_INFO);
     }
 
     @Override
@@ -77,5 +95,16 @@ public class GoReadTabMainTabContent extends ListFragment implements SortUtil.So
         sortListItems();
         ((BaseAdapter)getListAdapter()).notifyDataSetChanged();
     }
+
+    @Override
+    public void onForceRefresh(){
+        try {
+            downloadedBooksList.clear();
+            fillListAdapter();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
