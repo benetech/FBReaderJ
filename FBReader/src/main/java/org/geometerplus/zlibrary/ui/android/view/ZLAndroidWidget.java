@@ -69,9 +69,9 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 		getAnimationProvider().terminate();
-		if (myScreenIsTouched) {
+		if (isScreenIsTouched) {
 			final ZLView view = ZLApplication.Instance().getCurrentView();
-			myScreenIsTouched = false;
+			isScreenIsTouched = false;
 			view.onScrollingFinished(ZLView.PageIndex.current);
 		}
 	}
@@ -287,7 +287,7 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 
 	private void postLongClickRunnable() {
         myLongClickPerformed = false;
-		myPendingPress = false;
+		isPendingPress = false;
         if (myPendingLongClickRunnable == null) {
             myPendingLongClickRunnable = new LongClickRunnable();
         }
@@ -298,17 +298,17 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 		public void run() {
 			final ZLView view = ZLApplication.Instance().getCurrentView();
 			view.onFingerSingleTap(myPressedX, myPressedY);
-			myPendingPress = false;
+			isPendingPress = false;
 			myPendingShortClickRunnable = null;
 		}
 	}
 
 	private volatile ShortClickRunnable myPendingShortClickRunnable;
-	private volatile boolean myPendingPress;
-	private volatile boolean myPendingDoubleTap;
-	private volatile boolean myPendingTwoFingerDoubleTap;
+	private volatile boolean isPendingPress;
+	private volatile boolean isPendingDoubleTap;
+	private volatile boolean isPendingTwoFingerDoubleTap;
 	private int myPressedX, myPressedY;
-	private boolean myScreenIsTouched;
+	private boolean isScreenIsTouched;
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		int x = (int)event.getX();
@@ -318,24 +318,24 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 
 		switch (event.getAction()) {
 			case MotionEvent.ACTION_POINTER_UP:
-				myPendingTwoFingerDoubleTap = true;
+				isPendingTwoFingerDoubleTap = true;
 				break;
 			case MotionEvent.ACTION_UP:
 				handleActionUpEvents(view);
-				myPendingDoubleTap = false;
-				myPendingPress = false;
-				myScreenIsTouched = false;
+				isPendingDoubleTap = false;
+				isPendingPress = false;
+				isScreenIsTouched = false;
 				break;
 			case MotionEvent.ACTION_DOWN:
 				if (myPendingShortClickRunnable != null) {
 					removeCallbacks(myPendingShortClickRunnable);
 					myPendingShortClickRunnable = null;
-					myPendingDoubleTap = true;
+					isPendingDoubleTap = true;
 				} else {
 					postLongClickRunnable();
-					myPendingPress = true;
+					isPendingPress = true;
 				}
-				myScreenIsTouched = true;
+				isScreenIsTouched = true;
 				myPressedX = x;
 				myPressedY = y;
 				break;
@@ -350,29 +350,29 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 	}
 
 	private void handleActionUpEvents(ZLView view){
-		if (myPendingDoubleTap) {
-			view.onFingerDoubleTap(x, y, myPendingTwoFingerDoubleTap);
-			myPendingTwoFingerDoubleTap = false;
+		if (isPendingDoubleTap) {
+			view.onFingerDoubleTap(x, y, isPendingTwoFingerDoubleTap);
+			isPendingTwoFingerDoubleTap = false;
 		} if (myLongClickPerformed) {
-			myPendingTwoFingerDoubleTap = false;
+			isPendingTwoFingerDoubleTap = false;
 			view.onFingerReleaseAfterLongPress(x, y);
 		} else {
 			if (myPendingLongClickRunnable != null) {
 				removeCallbacks(myPendingLongClickRunnable);
 				myPendingLongClickRunnable = null;
 			}
-			if (myPendingPress) {
+			if (isPendingPress) {
 				if (view.isDoubleTapSupported()) {
 					if (myPendingShortClickRunnable == null) {
 						myPendingShortClickRunnable = new ShortClickRunnable();
 					}
 					postDelayed(myPendingShortClickRunnable, ViewConfiguration.getDoubleTapTimeout());
 				} else {
-					myPendingTwoFingerDoubleTap = false;
+					isPendingTwoFingerDoubleTap = false;
 					view.onFingerSingleTap(x, y);
 				}
 			} else {
-				myPendingTwoFingerDoubleTap = false;
+				isPendingTwoFingerDoubleTap = false;
 				view.onFingerRelease(x, y);
 			}
 		}
@@ -383,12 +383,12 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 		final boolean isAMove =
 				Math.abs(myPressedX - x) > slop || Math.abs(myPressedY - y) > slop;
 		if (isAMove) {
-			myPendingDoubleTap = false;
+			isPendingDoubleTap = false;
 		}
 		if (myLongClickPerformed) {
 			view.onFingerMoveAfterLongPress(x, y);
 		} else {
-			if (myPendingPress) {
+			if (isPendingPress) {
 				if (isAMove) {
 					if (myPendingShortClickRunnable != null) {
 						removeCallbacks(myPendingShortClickRunnable);
@@ -398,10 +398,10 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 						removeCallbacks(myPendingLongClickRunnable);
 					}
 					view.onFingerPress(myPressedX, myPressedY);
-					myPendingPress = false;
+					isPendingPress = false;
 				}
 			}
-			if (!myPendingPress) {
+			if (!isPendingPress) {
 				view.onFingerMove(x, y);
 			}
 		}

@@ -533,10 +533,10 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         List<String> wordsList = null;
         ArrayList<Integer> paragraphIndexesList = new ArrayList<Integer>();
         for (; myParagraphIndex < myParagraphsNumber; ++myParagraphIndex) {
-            final String s = myApi.getParagraphText(myParagraphIndex);
+            final String paragraphText = myApi.getParagraphText(myParagraphIndex);
             wordsList = myApi.getParagraphWords(myParagraphIndex);
-            if (s.length() > 0) {
-                text = s;
+            if (paragraphText.length() > 0) {
+                text = paragraphText;
                 paragraphIndexesList = myApi.getParagraphIndices(myParagraphIndex);
                 break;
             }

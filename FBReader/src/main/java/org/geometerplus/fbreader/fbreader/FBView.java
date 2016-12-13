@@ -39,11 +39,11 @@ import org.geometerplus.zlibrary.text.view.ZLTextWordRegionSoul;
 import java.util.ArrayList;
 
 public final class FBView extends ZLTextView {
-	private FBReaderApp myReader;
+	private FBReaderApp mFBReader;
 
 	FBView(FBReaderApp reader) {
 		super(reader);
-		myReader = reader;
+		mFBReader = reader;
 	}
 
 	public void setModel(ZLTextModel model) {
@@ -105,9 +105,9 @@ public final class FBView extends ZLTextView {
 		final ZLTextRegion region = findRegion(x, y, MAX_SELECTION_DISTANCE, ZLTextRegion.HyperlinkFilter);
 		if (region != null) {
 			selectRegion(region);
-			myReader.getViewWidget().reset();
-			myReader.getViewWidget().repaint();
-			myReader.doAction(ActionCode.PROCESS_HYPERLINK);
+			mFBReader.getViewWidget().reset();
+			mFBReader.getViewWidget().repaint();
+			mFBReader.doAction(ActionCode.PROCESS_HYPERLINK);
 			return true;
 		}
 		String action = getZoneMap().getActionByCoordinates(
@@ -117,14 +117,14 @@ public final class FBView extends ZLTextView {
 		if(action == null){ //we're not catching any other events for this tap
 			action = ActionCode.TOGGLE_BARS;
 		}
-		myReader.doAction(action, x, y);
+		mFBReader.doAction(action, x, y);
 
 		return true;
 	}
 
 	@Override
 	public boolean isDoubleTapSupported() {
-		return myReader.EnableDoubleTapOption.getValue();
+		return mFBReader.EnableDoubleTapOption.getValue();
 	}
 
 	@Override
@@ -135,11 +135,11 @@ public final class FBView extends ZLTextView {
 
 		if(multitouch){
 			doubleTapSelectedRegion = null;
-			myReader.doAction(ActionCode.PLAY_OR_PAUSE);
+			mFBReader.doAction(ActionCode.PLAY_OR_PAUSE);
 		}
 		else {
 			doubleTapSelectedRegion = findRegion(x, y, MAX_SELECTION_DISTANCE, ZLTextRegion.AnyRegionFilter);
-			myReader.doAction(ActionCode.SELECT_SENTENCE);
+			mFBReader.doAction(ActionCode.SELECT_SENTENCE);
 		}
 
 		return true;
@@ -152,12 +152,12 @@ public final class FBView extends ZLTextView {
 
 		final ZLTextSelectionCursor cursor = findSelectionCursor(x, y, MAX_SELECTION_DISTANCE);
 		if (cursor != ZLTextSelectionCursor.None) {
-			myReader.doAction(ActionCode.SELECTION_HIDE_PANEL);
+			mFBReader.doAction(ActionCode.SELECTION_HIDE_PANEL);
 			moveSelectionCursorTo(cursor, x, y);
 			return true;
 		}
 
-		if (myReader.AllowScreenBrightnessAdjustmentOption.getValue() && x < myContext.getWidth() / 10) {
+		if (mFBReader.AllowScreenBrightnessAdjustmentOption.getValue() && x < myContext.getWidth() / 10) {
 			myIsBrightnessAdjustmentInProgress = true;
 			myStartY = y;
 			myStartBrightness = ZLibrary.Instance().getScreenBrightness();
@@ -183,7 +183,7 @@ public final class FBView extends ZLTextView {
 
 		final boolean horizontal = ScrollingPreferences.Instance().HorizontalOption.getValue();
 		final Direction direction = horizontal ? Direction.rightToLeft : Direction.up;
-		myReader.getViewWidget().startManualScrolling(x, y, direction);
+		mFBReader.getViewWidget().startManualScrolling(x, y, direction);
 	}
 
 	public boolean onFingerMove(int x, int y) {
@@ -211,7 +211,7 @@ public final class FBView extends ZLTextView {
 			}
 
 			if (isFlickScrollingEnabled()) {
-				myReader.getViewWidget().scrollManuallyTo(x, y);
+				mFBReader.getViewWidget().scrollManuallyTo(x, y);
 			}
 		}
 		return true;
@@ -234,7 +234,7 @@ public final class FBView extends ZLTextView {
 		}
 
 		if (isFlickScrollingEnabled()) {
-			myReader.getViewWidget().startAnimatedScrolling(
+			mFBReader.getViewWidget().startAnimatedScrolling(
 				x, y, ScrollingPreferences.Instance().AnimationSpeedOption.getValue()
 			);
 			return true;
@@ -253,9 +253,9 @@ public final class FBView extends ZLTextView {
 			final ZLTextRegion.Soul soul = region.getSoul();
 			boolean doSelectRegion = true;
 			if (soul instanceof ZLTextWordRegionSoul) {
-				switch (myReader.WordTappingActionOption.getValue()) {
+				switch (mFBReader.WordTappingActionOption.getValue()) {
 					case startSelecting:
-						myReader.doAction(ActionCode.SELECTION_HIDE_PANEL);
+						mFBReader.doAction(ActionCode.SELECTION_HIDE_PANEL);
 						initSelection(x, y);
 						final ZLTextSelectionCursor cursor = findSelectionCursor(x, y);
 						if (cursor != ZLTextSelectionCursor.None) {
@@ -269,7 +269,7 @@ public final class FBView extends ZLTextView {
 				}
 			} else if (soul instanceof ZLTextImageRegionSoul) {
 				doSelectRegion =
-					myReader.ImageTappingActionOption.getValue() !=
+					mFBReader.ImageTappingActionOption.getValue() !=
 					FBReaderApp.ImageTappingAction.doNothing;
 			} else if (soul instanceof ZLTextHyperlinkRegionSoul) {
 				doSelectRegion = true;
@@ -277,8 +277,8 @@ public final class FBView extends ZLTextView {
 
 			if (doSelectRegion) {
 				selectRegion(region);
-				myReader.getViewWidget().reset();
-				myReader.getViewWidget().repaint();
+				mFBReader.getViewWidget().reset();
+				mFBReader.getViewWidget().repaint();
 				return true;
 			}
 		}
@@ -302,7 +302,7 @@ public final class FBView extends ZLTextView {
 			ZLTextRegion.Soul soul = region.getSoul();
 			if (soul instanceof ZLTextHyperlinkRegionSoul ||
 				soul instanceof ZLTextWordRegionSoul) {
-				if (myReader.WordTappingActionOption.getValue() !=
+				if (mFBReader.WordTappingActionOption.getValue() !=
 					FBReaderApp.WordTappingAction.doNothing) {
 					region = findRegion(x, y, MAX_SELECTION_DISTANCE, ZLTextRegion.AnyRegionFilter);
 					if (region != null) {
@@ -310,8 +310,8 @@ public final class FBView extends ZLTextView {
 						if (soul instanceof ZLTextHyperlinkRegionSoul
 							 || soul instanceof ZLTextWordRegionSoul) {
 							selectRegion(region);
-							myReader.getViewWidget().reset();
-							myReader.getViewWidget().repaint();
+							mFBReader.getViewWidget().reset();
+							mFBReader.getViewWidget().repaint();
 						}
 					}
 				}
@@ -338,16 +338,16 @@ public final class FBView extends ZLTextView {
 			boolean doRunAction = false;
 			if (soul instanceof ZLTextWordRegionSoul) {
 				doRunAction =
-					myReader.WordTappingActionOption.getValue() ==
+					mFBReader.WordTappingActionOption.getValue() ==
 					FBReaderApp.WordTappingAction.openDictionary;
 			} else if (soul instanceof ZLTextImageRegionSoul) {
 				doRunAction =
-					myReader.ImageTappingActionOption.getValue() ==
+					mFBReader.ImageTappingActionOption.getValue() ==
 					FBReaderApp.ImageTappingAction.openImageView;
 			}
 
 			if (doRunAction) {
-				myReader.doAction(ActionCode.PROCESS_HYPERLINK);
+				mFBReader.doAction(ActionCode.PROCESS_HYPERLINK);
 				return true;
 			}
 		}
@@ -364,7 +364,7 @@ public final class FBView extends ZLTextView {
 			(diffY > 0 ? Direction.down : Direction.up) :
 			(diffX > 0 ? Direction.leftToRight : Direction.rightToLeft);
 
-		new MoveCursorAction(myReader, direction).run();
+		new MoveCursorAction(mFBReader, direction).run();
 		return true;
 	}
 
@@ -377,27 +377,27 @@ public final class FBView extends ZLTextView {
 
 	@Override
 	public int getLeftMargin() {
-		return myReader.LeftMarginOption.getValue();
+		return mFBReader.LeftMarginOption.getValue();
 	}
 
 	@Override
 	public int getRightMargin() {
-		return myReader.RightMarginOption.getValue();
+		return mFBReader.RightMarginOption.getValue();
 	}
 
 	@Override
 	public int getTopMargin() {
-		return myReader.TopMarginOption.getValue();
+		return mFBReader.TopMarginOption.getValue();
 	}
 
 	@Override
 	public int getBottomMargin() {
-		return myReader.BottomMarginOption.getValue();
+		return mFBReader.BottomMarginOption.getValue();
 	}
 
 	@Override
 	public ZLFile getWallpaperFile() {
-		final String filePath = myReader.getColorProfile().WallpaperOption.getValue();
+		final String filePath = mFBReader.getColorProfile().WallpaperOption.getValue();
 		if ("".equals(filePath)) {
 			return null;
 		}
@@ -411,28 +411,28 @@ public final class FBView extends ZLTextView {
 
 	@Override
 	public ZLColor getBackgroundColor() {
-		return myReader.getColorProfile().BackgroundOption.getValue();
+		return mFBReader.getColorProfile().BackgroundOption.getValue();
 	}
 
 	@Override
 	public ZLColor getSelectedBackgroundColor() {
-		return myReader.getColorProfile().SelectionBackgroundOption.getValue();
+		return mFBReader.getColorProfile().SelectionBackgroundOption.getValue();
 	}
 
 	@Override
 	public ZLColor getSelectedForegroundColor() {
-		return myReader.getColorProfile().SelectionForegroundOption.getValue();
+		return mFBReader.getColorProfile().SelectionForegroundOption.getValue();
 	}
 
 	@Override
 	public ZLColor getTextColor(ZLTextHyperlink hyperlink) {
-		final ColorProfile profile = myReader.getColorProfile();
+		final ColorProfile profile = mFBReader.getColorProfile();
 		switch (hyperlink.Type) {
 			default:
 			case FBHyperlinkType.NONE:
 				return profile.RegularTextOption.getValue();
 			case FBHyperlinkType.INTERNAL:
-				return myReader.Model.Book.isHyperlinkVisited(hyperlink.Id)
+				return mFBReader.Model.Book.isHyperlinkVisited(hyperlink.Id)
 					? profile.VisitedHyperlinkTextOption.getValue()
 					: profile.HyperlinkTextOption.getValue();
 			case FBHyperlinkType.EXTERNAL:
@@ -442,20 +442,20 @@ public final class FBView extends ZLTextView {
 
 	@Override
 	public ZLColor getHighlightingColor() {
-		return myReader.getColorProfile().HighlightingOption.getValue();
+		return mFBReader.getColorProfile().HighlightingOption.getValue();
 	}
 
 	private class Footer implements FooterArea {
 		private Runnable UpdateTask = new Runnable() {
 			public void run() {
-				myReader.getViewWidget().repaint();
+				mFBReader.getViewWidget().repaint();
 			}
 		};
 
 		private ArrayList<TOCTree> myTOCMarks;
 
 		public int getHeight() {
-			return myReader.FooterHeightOption.getValue();
+			return mFBReader.FooterHeightOption.getValue();
 		}
 
 		public synchronized void resetTOCMarks() {
@@ -492,7 +492,7 @@ public final class FBView extends ZLTextView {
 		}
 
 		public synchronized void paint(ZLPaintContext context) {
-			final FBReaderApp reader = myReader;
+			final FBReaderApp reader = mFBReader;
 			if (reader == null) {
 				return;
 			}
@@ -602,8 +602,8 @@ public final class FBView extends ZLTextView {
 			} else {
 				gotoPage(page);
 			}
-			myReader.getViewWidget().reset();
-			myReader.getViewWidget().repaint();
+			mFBReader.getViewWidget().reset();
+			mFBReader.getViewWidget().repaint();
 		}*/
 	}
 
@@ -611,14 +611,14 @@ public final class FBView extends ZLTextView {
 
 	@Override
 	public Footer getFooterArea() {
-		if (myReader.ScrollbarTypeOption.getValue() == SCROLLBAR_SHOW_AS_FOOTER) {
+		if (mFBReader.ScrollbarTypeOption.getValue() == SCROLLBAR_SHOW_AS_FOOTER) {
 			if (myFooter == null) {
 				myFooter = new Footer();
-				myReader.addTimerTask(myFooter.UpdateTask, 15000);
+				mFBReader.addTimerTask(myFooter.UpdateTask, 15000);
 			}
 		} else {
 			if (myFooter != null) {
-				myReader.removeTimerTask(myFooter.UpdateTask);
+				mFBReader.removeTimerTask(myFooter.UpdateTask);
 				myFooter = null;
 			}
 		}
@@ -629,7 +629,7 @@ public final class FBView extends ZLTextView {
 	protected void releaseSelectionCursor() {
 		super.releaseSelectionCursor();
 		if (getCountOfSelectedWords() > 0) {
-			myReader.doAction(ActionCode.SELECTION_SHOW_PANEL);
+			mFBReader.doAction(ActionCode.SELECTION_SHOW_PANEL);
 		}
 	}
 
@@ -653,7 +653,7 @@ public final class FBView extends ZLTextView {
 
 	@Override
 	public int scrollbarType() {
-		return myReader.ScrollbarTypeOption.getValue();
+		return mFBReader.ScrollbarTypeOption.getValue();
 	}
 
 	@Override
