@@ -19,20 +19,24 @@
 
 package org.geometerplus.fbreader.fbreader;
 
-import java.util.*;
-
-import org.geometerplus.zlibrary.core.util.ZLColor;
-import org.geometerplus.zlibrary.core.library.ZLibrary;
-import org.geometerplus.zlibrary.core.view.ZLPaintContext;
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-import org.geometerplus.zlibrary.core.filesystem.ZLResourceFile;
-
-import org.geometerplus.zlibrary.text.model.ZLTextModel;
-import org.geometerplus.zlibrary.text.view.*;
-
 import org.geometerplus.fbreader.bookmodel.BookModel;
 import org.geometerplus.fbreader.bookmodel.FBHyperlinkType;
 import org.geometerplus.fbreader.bookmodel.TOCTree;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.core.filesystem.ZLResourceFile;
+import org.geometerplus.zlibrary.core.library.ZLibrary;
+import org.geometerplus.zlibrary.core.util.ZLColor;
+import org.geometerplus.zlibrary.core.view.ZLPaintContext;
+import org.geometerplus.zlibrary.text.model.ZLTextModel;
+import org.geometerplus.zlibrary.text.view.ZLTextHyperlink;
+import org.geometerplus.zlibrary.text.view.ZLTextHyperlinkRegionSoul;
+import org.geometerplus.zlibrary.text.view.ZLTextImageRegionSoul;
+import org.geometerplus.zlibrary.text.view.ZLTextRegion;
+import org.geometerplus.zlibrary.text.view.ZLTextSelectionCursor;
+import org.geometerplus.zlibrary.text.view.ZLTextView;
+import org.geometerplus.zlibrary.text.view.ZLTextWordRegionSoul;
+
+import java.util.ArrayList;
 
 public final class FBView extends ZLTextView {
 	private FBReaderApp myReader;
@@ -55,6 +59,30 @@ public final class FBView extends ZLTextView {
 
 	private String myZoneMapId;
 	private TapZoneMap myZoneMap;
+
+	private ZLTextRegion doubleTapSelectedRegion = null;
+
+	private boolean didScroll = false;
+
+	public ZLTextRegion getDoubleTapSelectedRegion(){
+		return doubleTapSelectedRegion;
+	}
+
+	public ZLTextRegion getTopOfPageRegion(){
+		return findRegion(25, 25, MAX_SELECTION_DISTANCE, ZLTextRegion.AnyRegionFilter);
+	}
+
+	public boolean didScroll() {
+		return didScroll;
+	}
+
+	public void resetDidScroll(){
+		didScroll = false;
+	}
+
+	public void resetLatestLongPressSelectedRegion(){
+		doubleTapSelectedRegion = null;
+	}
 
 	private TapZoneMap getZoneMap() {
 		//final String id =
@@ -82,11 +110,14 @@ public final class FBView extends ZLTextView {
 			myReader.doAction(ActionCode.PROCESS_HYPERLINK);
 			return true;
 		}
-
-		myReader.doAction(getZoneMap().getActionByCoordinates(
-			x, y, myContext.getWidth(), myContext.getHeight(),
-			isDoubleTapSupported() ? TapZoneMap.Tap.singleNotDoubleTap : TapZoneMap.Tap.singleTap
-		), x, y);
+		String action = getZoneMap().getActionByCoordinates(
+				x, y, myContext.getWidth(), myContext.getHeight(),
+				isDoubleTapSupported() ? TapZoneMap.Tap.singleNotDoubleTap : TapZoneMap.Tap.singleTap
+		);
+		if(action == null){ //we're not catching any other events for this tap
+			action = ActionCode.TOGGLE_BARS;
+		}
+		myReader.doAction(action, x, y);
 
 		return true;
 	}
@@ -97,13 +128,20 @@ public final class FBView extends ZLTextView {
 	}
 
 	@Override
-	public boolean onFingerDoubleTap(int x, int y) {
-		if (super.onFingerDoubleTap(x, y)) {
+	public boolean onFingerDoubleTap(int x, int y, boolean multitouch) {
+		if (super.onFingerDoubleTap(x, y, multitouch)) {
 			return true;
 		}
-		myReader.doAction(getZoneMap().getActionByCoordinates(
-			x, y, myContext.getWidth(), myContext.getHeight(), TapZoneMap.Tap.doubleTap
-		), x, y);
+
+		if(!multitouch){
+			doubleTapSelectedRegion = findRegion(x, y, MAX_SELECTION_DISTANCE, ZLTextRegion.AnyRegionFilter);
+			myReader.doAction(ActionCode.SELECT_SENTENCE);
+		}
+		else {
+			doubleTapSelectedRegion = null;
+			myReader.doAction(ActionCode.PLAY_OR_PAUSE);
+		}
+
 		return true;
 	}
 
@@ -213,7 +251,7 @@ public final class FBView extends ZLTextView {
 		final ZLTextRegion region = findRegion(x, y, MAX_SELECTION_DISTANCE, ZLTextRegion.AnyRegionFilter);
 		if (region != null) {
 			final ZLTextRegion.Soul soul = region.getSoul();
-			boolean doSelectRegion = false;
+			boolean doSelectRegion = true;
 			if (soul instanceof ZLTextWordRegionSoul) {
 				switch (myReader.WordTappingActionOption.getValue()) {
 					case startSelecting:
@@ -236,7 +274,7 @@ public final class FBView extends ZLTextView {
 			} else if (soul instanceof ZLTextHyperlinkRegionSoul) {
 				doSelectRegion = true;
 			}
-        
+
 			if (doSelectRegion) {
 				selectRegion(region);
 				myReader.getViewWidget().reset();
@@ -330,6 +368,13 @@ public final class FBView extends ZLTextView {
 		return true;
 	}
 
+
+	@Override
+	public synchronized void onScrollingFinished(PageIndex pageIndex) {
+		super.onScrollingFinished(pageIndex);
+		didScroll = true;
+	}
+
 	@Override
 	public int getLeftMargin() {
 		return myReader.LeftMarginOption.getValue();
@@ -356,7 +401,7 @@ public final class FBView extends ZLTextView {
 		if ("".equals(filePath)) {
 			return null;
 		}
-		
+
 		final ZLFile file = ZLFile.createFileByPath(filePath);
 		if (file == null || !file.exists()) {
 			return null;

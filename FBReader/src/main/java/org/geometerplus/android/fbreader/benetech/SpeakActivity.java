@@ -808,7 +808,7 @@ public class SpeakActivity {}/*extends Activity implements TextToSpeech.OnInitLi
 //    }
 //
 //    @Override
-//    public void onDoubleTap() {
+//    public void onTwoFingerDoubleTap() {
 //        myVib.vibrate(VIBE_PATTERN, -1);
 //        ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_PLAY_PAUSE);
 //        playOrPause();

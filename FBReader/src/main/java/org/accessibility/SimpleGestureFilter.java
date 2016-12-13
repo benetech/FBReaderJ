@@ -138,13 +138,16 @@ public class SimpleGestureFilter extends GestureDetector.SimpleOnGestureListener
 
     @Override
     public boolean onDoubleTap(MotionEvent arg0) {
-        this.listener.onDoubleTap();
-        return true;
+        if (this.mode == MODE_DYNAMIC) {        // we owe an ACTION_UP, so we fake an
+            arg0.setAction(ACTION_FAKE);      //action which will be converted to an ACTION_UP later.
+            this.context.dispatchTouchEvent(arg0);
+        }
+        return false;
     }
 
     @Override
     public boolean onDoubleTapEvent(MotionEvent arg0) {
-        return true;
+        return false;
     }
 
     @Override
@@ -162,7 +165,7 @@ public class SimpleGestureFilter extends GestureDetector.SimpleOnGestureListener
     public interface SimpleGestureListener {
         void onSwipe(int direction);
 
-        void onDoubleTap();
+        void onTwoFingerDoubleTap();
     }
 
 }
