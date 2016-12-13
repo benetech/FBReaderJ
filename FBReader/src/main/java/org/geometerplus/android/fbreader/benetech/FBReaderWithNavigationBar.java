@@ -517,13 +517,18 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         String text = "";
         final FBReaderApp fbReader = (FBReaderApp)FBReaderApp.Instance();
         ZLTextRegion region = fbReader.getTextView().getDoubleTapSelectedRegion();
-        int offset = 0;
+
+        boolean shouldHighlightSentence = false;
+        if(region == null && fbReader.getTextView().didScroll){
+            region = fbReader.getTextView().getTopOfPageRegion();
+            shouldHighlightSentence = true;
+            fbReader.getTextView().didScroll = false;
+        }
         int wordOffset = 0;
         if(region != null){
             myParagraphIndex = region.getSoul().getParagraphIndex();
             fbReader.getTextView().resetLatestLongPressSelectedRegion();
             if(region.getSoul() instanceof ZLTextWordRegionSoul){
-                offset = ((ZLTextWordRegionSoul) region.getSoul()).Word.getParagraphOffset();
                 wordOffset = (region.getSoul().getStartElementIndex() /2) +1;
             }
         }
@@ -538,15 +543,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 break;
             }
         }
-//        if (!"".equals(text) && !myApi.isPageEndOfText()) {
-//            myApi.setPageStart(new TextPosition(myParagraphIndex, 0, 0));
-//        }
-
-//        if(wordOffset > 0 && wordOffset < wordsList.size()){
-//            for(int c = wordOffset; c > 0; c --){
-//                wordsList.remove(0);
-//            }
-//        }
 
         if (null != wordsList) {
             mySentences = TtsSentenceExtractor.build(wordsList, paragraphIndexesList, myTTS.getLanguage());
@@ -566,16 +562,17 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 myCurrentSentence = currentSentence;
             }
 
-            highlightParagraph();
+            if(shouldHighlightSentence){
+                highlightSentence(myCurrentSentence);
+            }
+            else {
+                highlightParagraph();
+            }
         }
 
         //Disable next section button if this is the last paragraph
         if (myParagraphIndex >= (myParagraphsNumber - 1)) {
             disableNextButton();
-        }
-
-        if(offset > 0){
-            text = text.substring(offset);
         }
         return text;
     }

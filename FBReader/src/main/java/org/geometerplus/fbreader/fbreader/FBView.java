@@ -66,6 +66,11 @@ public final class FBView extends ZLTextView {
 		return doubleTapSelectedRegion;
 	}
 
+	public ZLTextRegion getTopOfPageRegion(){
+		return findRegion(25, 25, MAX_SELECTION_DISTANCE, ZLTextRegion.AnyRegionFilter);
+	}
+
+
 	public void resetLatestLongPressSelectedRegion(){
 		doubleTapSelectedRegion = null;
 	}
@@ -352,6 +357,14 @@ public final class FBView extends ZLTextView {
 
 		new MoveCursorAction(myReader, direction).run();
 		return true;
+	}
+
+	public boolean didScroll = false;
+
+	@Override
+	public synchronized void onScrollingFinished(PageIndex pageIndex) {
+		super.onScrollingFinished(pageIndex);
+		didScroll = true;
 	}
 
 	@Override
