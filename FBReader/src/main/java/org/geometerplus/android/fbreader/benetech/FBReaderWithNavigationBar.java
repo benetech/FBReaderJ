@@ -519,10 +519,10 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         ZLTextRegion region = fbReader.getTextView().getDoubleTapSelectedRegion();
 
         boolean shouldHighlightSentence = false;
-        if(region == null && fbReader.getTextView().didScroll){
+        if(region == null && fbReader.getTextView().didScroll()){
             region = fbReader.getTextView().getTopOfPageRegion();
             shouldHighlightSentence = true;
-            fbReader.getTextView().didScroll = false;
+            fbReader.getTextView().resetDidScroll();
         }
         int wordOffset = 0;
         if(region != null){

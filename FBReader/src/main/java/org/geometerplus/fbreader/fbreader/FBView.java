@@ -62,6 +62,8 @@ public final class FBView extends ZLTextView {
 
 	private ZLTextRegion doubleTapSelectedRegion = null;
 
+	private boolean didScroll = false;
+
 	public ZLTextRegion getDoubleTapSelectedRegion(){
 		return doubleTapSelectedRegion;
 	}
@@ -70,6 +72,13 @@ public final class FBView extends ZLTextView {
 		return findRegion(25, 25, MAX_SELECTION_DISTANCE, ZLTextRegion.AnyRegionFilter);
 	}
 
+	public boolean didScroll() {
+		return didScroll;
+	}
+
+	public void resetDidScroll(){
+		didScroll = false;
+	}
 
 	public void resetLatestLongPressSelectedRegion(){
 		doubleTapSelectedRegion = null;
@@ -359,7 +368,6 @@ public final class FBView extends ZLTextView {
 		return true;
 	}
 
-	public boolean didScroll = false;
 
 	@Override
 	public synchronized void onScrollingFinished(PageIndex pageIndex) {
