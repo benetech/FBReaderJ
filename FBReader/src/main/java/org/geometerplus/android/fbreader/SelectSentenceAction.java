@@ -23,15 +23,12 @@ import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
 public class SelectSentenceAction extends FBAndroidAction {
 
-	private FBReader myReader = null;
-
 	public SelectSentenceAction(FBReader baseActivity, FBReaderApp fbreader) {
 		super(baseActivity, fbreader);
-		myReader = baseActivity;
 	}
 
 	@Override
 	protected void run(Object ... params) {
-		myReader.selectSentenceFromView();
+		baseActivity.selectSentenceFromView();
 	}
 }

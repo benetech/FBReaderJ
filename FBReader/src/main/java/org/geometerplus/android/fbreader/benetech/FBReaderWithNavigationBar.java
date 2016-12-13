@@ -27,8 +27,6 @@ import org.accessibility.SimpleGestureFilter;
 import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.FBReader;
-import org.geometerplus.android.fbreader.PlayOrPauseAction;
-import org.geometerplus.android.fbreader.SelectSentenceAction;
 import org.geometerplus.android.fbreader.TOCActivity;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.TextPosition;
@@ -660,13 +658,14 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     public void toggleDisplayBars(){
         if(getSupportActionBar() != null){
             View playBar = findViewById(R.id.navigation_bar_id);
+            if(playBar != null){
+                playBar.setVisibility(getSupportActionBar().isShowing()?View.GONE:View.VISIBLE);
+            }
             if(getSupportActionBar().isShowing()){
                 getSupportActionBar().hide();
-                if(playBar != null)playBar.setVisibility(View.GONE);
             }
             else {
                 getSupportActionBar().show();
-                if(playBar != null)playBar.setVisibility(View.VISIBLE);
             }
         }
     }

@@ -23,15 +23,12 @@ import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
 public class ToggleBarsAction extends FBAndroidAction {
 
-	private FBReader myReader = null;
-
 	public ToggleBarsAction(FBReader baseActivity, FBReaderApp fbreader) {
 		super(baseActivity, fbreader);
-		myReader = baseActivity;
 	}
 
 	@Override
 	protected void run(Object ... params) {
-		myReader.toggleDisplayBars();
+		baseActivity.toggleDisplayBars();
 	}
 }

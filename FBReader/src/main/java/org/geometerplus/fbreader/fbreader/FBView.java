@@ -133,13 +133,13 @@ public final class FBView extends ZLTextView {
 			return true;
 		}
 
-		if(!multitouch){
-			doubleTapSelectedRegion = findRegion(x, y, MAX_SELECTION_DISTANCE, ZLTextRegion.AnyRegionFilter);
-			myReader.doAction(ActionCode.SELECT_SENTENCE);
-		}
-		else {
+		if(multitouch){
 			doubleTapSelectedRegion = null;
 			myReader.doAction(ActionCode.PLAY_OR_PAUSE);
+		}
+		else {
+			doubleTapSelectedRegion = findRegion(x, y, MAX_SELECTION_DISTANCE, ZLTextRegion.AnyRegionFilter);
+			myReader.doAction(ActionCode.SELECT_SENTENCE);
 		}
 
 		return true;
