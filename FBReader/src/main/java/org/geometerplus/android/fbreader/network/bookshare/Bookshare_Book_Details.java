@@ -123,6 +123,8 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 
     private Button btnDownload;
 
+    private Button btnReadingList;
+
     private Button btnDownloadWithImages;
 
     Button currentButton;// points to btnDownload if(downloadType==1), else
@@ -296,6 +298,8 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
             btnDownloadWithImages = (Button) findViewById(R.id.bookshare_btn_download_images);
             bookshare_download_not_available_text = (TextView) findViewById(R.id.bookshare_download_not_available_msg);
 
+            btnReadingList = (Button) findViewById(R.id.bookshare_btn_readinglist);
+
             bookshare_book_detail_language.setNextFocusDownId(R.id.bookshare_book_detail_category);
             bookshare_book_detail_category.setNextFocusDownId(R.id.bookshare_book_detail_publish_date);
             bookshare_book_detail_publish_date.setNextFocusUpId(R.id.bookshare_book_detail_category);
@@ -312,14 +316,17 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 bookshare_download_not_available_text.setNextFocusUpId(R.id.bookshare_book_detail_authors);
             } else {
                 bookshare_download_not_available_text.setVisibility(View.GONE);
+                btnReadingList.setNextFocusUpId(R.id.bookshare_book_detail_authors);
+                btnReadingList.setNextFocusDownId(R.id.bookshare_btn_download);
                 btnDownload.setNextFocusDownId(R.id.bookshare_btn_download_images);
-                btnDownload.setNextFocusUpId(R.id.bookshare_book_detail_authors);
+                btnDownload.setNextFocusUpId(R.id.bookshare_btn_readinglist);
                 btnDownloadWithImages.setNextFocusDownId(R.id.bookshare_book_detail_isbn);
                 btnDownloadWithImages.setNextFocusUpId(R.id.bookshare_btn_download);
                 bookshare_book_detail_authors.setNextFocusDownId(R.id.bookshare_btn_download);
 
                 btnDownload.setOnClickListener(Bookshare_Book_Details.this);
                 btnDownloadWithImages.setOnClickListener(Bookshare_Book_Details.this);
+                btnReadingList.setOnClickListener(Bookshare_Book_Details.this);
 
             }
             if (!imagesAvailable) {
@@ -1237,8 +1244,15 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
             downloadType = 1;
             currentButton = (Button) findViewById(R.id.bookshare_btn_download);
             break;
+        case R.id.bookshare_btn_readinglist:
+            showReadingListsDialog();
+            break;
         }
         downloadPressed();
+
+    }
+
+    private void showReadingListsDialog(){
 
     }
 

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Go Read</string>
     <string name="book_info_activity">Información de libro</string>
-    
+
 	<string name="empty_string"></string>
 	<string name="search_hint">Ingrese búsqueda</string>
 
@@ -25,8 +25,9 @@
     <string name="login_forgot_password">Olvidó clave</string>
     <string name="login_signup">Crear cuenta!</string>
 
-    
+
     <!-- Bookshare_Book_Details -->
+    <string name="book_details_readinglist_button">Añadir a lista</string>
     <string name="book_details_download_button">Bajar (solo texto)</string>
      <string name="book_details_download_images">Bajar libro con imágenes</string>
     <string name="book_details_download_error">Download falló! Intentar de nuevo</string>
@@ -75,13 +76,13 @@
 
     <!-- Bookshare Twitter Handler -->
     <string name="twitter_successful_post">Publicar en Twitter</string>
-    
+
     <!-- Bug Report Activity -->
     <string name="crash_report_sent">Lo sentimos, hubo un error. Soporte ha sido notificado.</string>
-    
+
     <!-- Cancel Activity -->
     <string name="cancel_menu_title">Nos deja? Escoja una opción ...</string>
-    
+
     <!-- FBReader -->
     <string name="navigate_dialog_title">Ir a página.</string>
     <string name="navigate_dialog_label">Ingresar número de página.</string>
@@ -113,7 +114,7 @@
 
     <!-- NetworkLibraryActivity -->
     <string name="network_library_accessibility_warning">Otros catálogos no están disponibles para usuarios con problemas de visión.</string>
-    
+
     <!-- SpeakActivity -->
     <string name="play">Play/Pause</string>
     <string name="next">Siguiente sección</string>
