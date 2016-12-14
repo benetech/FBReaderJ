@@ -111,7 +111,7 @@ abstract public class ZLView {
 		return false;
 	}
 
-	public boolean onFingerDoubleTap(int x, int y) {
+	public boolean onFingerDoubleTap(int x, int y, boolean multitouch) {
 		return false;
 	}
 

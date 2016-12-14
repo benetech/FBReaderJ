@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010-2012 Geometer Plus <contact@geometerplus.com>
+ * Copyright (C) 2007-2012 Geometer Plus <contact@geometerplus.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,18 +19,16 @@
 
 package org.geometerplus.android.fbreader;
 
-import org.geometerplus.fbreader.fbreader.FBAction;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 
-abstract public class FBAndroidAction extends FBAction {
-	protected final FBReader baseActivity;
+public class SelectSentenceAction extends FBAndroidAction {
 
-	public FBAndroidAction(FBReader baseActivity, FBReaderApp fbreader) {
-		super(fbreader);
-		this.baseActivity = baseActivity;
+	public SelectSentenceAction(FBReader baseActivity, FBReaderApp fbreader) {
+		super(baseActivity, fbreader);
 	}
 
-	protected FBReader getBaseActivity() {
-		return baseActivity;
+	@Override
+	protected void run(Object ... params) {
+		baseActivity.selectSentenceFromView();
 	}
 }
