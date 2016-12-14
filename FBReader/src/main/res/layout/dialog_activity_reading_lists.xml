@@ -4,44 +4,59 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" >
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar_layout"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textSize="22sp"
+            android:textColor="@android:color/black"
+            android:text="@string/book_details_readinglist_button"/>
+        <View
+            android:id="@+id/separator_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_below="@id/title"
+            />
+        <LinearLayout
+            android:id="@+id/button_area"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:paddingBottom="4dp"
-                android:background="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab_layout"
-                android:layout_width="match_parent"
+            android:layout_alignParentBottom="true">
+            <Button
+                android:id="@+id/positive_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                app:tabIndicatorHeight="5dp"
-                app:tabIndicatorColor="@color/tab_indicator_color"
-                app:tabMode="fixed"
-                app:tabGravity="fill"
-                style="@style/MyCustomTabLayout"
                 />
+            <Button
+                android:id="@+id/negative_button"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                />
+        </LinearLayout>
 
-        </android.support.design.widget.AppBarLayout>
-
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager"
+        <ListView
+            android:id="@+id/listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/app_bar_layout"
+            android:layout_below="@id/separator_1"
+            android:layout_above="@id/button_area"
+            >
+        </ListView>
+        <View
+            android:id="@+id/separator_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_below="@id/listview"
             />
+
     </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

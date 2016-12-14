@@ -35,6 +35,7 @@ import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
 import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.android.fbreader.benetech.AddToReadingListDialogActivity;
 import org.geometerplus.android.fbreader.benetech.Analytics;
 import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
@@ -299,6 +300,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
             bookshare_download_not_available_text = (TextView) findViewById(R.id.bookshare_download_not_available_msg);
 
             btnReadingList = (Button) findViewById(R.id.bookshare_btn_readinglist);
+            btnReadingList.setOnClickListener(Bookshare_Book_Details.this);
 
             bookshare_book_detail_language.setNextFocusDownId(R.id.bookshare_book_detail_category);
             bookshare_book_detail_category.setNextFocusDownId(R.id.bookshare_book_detail_publish_date);
@@ -326,7 +328,6 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 
                 btnDownload.setOnClickListener(Bookshare_Book_Details.this);
                 btnDownloadWithImages.setOnClickListener(Bookshare_Book_Details.this);
-                btnReadingList.setOnClickListener(Bookshare_Book_Details.this);
 
             }
             if (!imagesAvailable) {
@@ -1233,27 +1234,28 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
     // called after the download button is pressed
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
-        switch (v.getId()) {
-        case R.id.bookshare_btn_download_images:
-            downloadType = 4;
-            currentButton = (Button) findViewById(R.id.bookshare_btn_download_images);
-            Log.i(LOG_TAG, "books with images" + "on click method");
-            break;
-        case R.id.bookshare_btn_download:
-            downloadType = 1;
-            currentButton = (Button) findViewById(R.id.bookshare_btn_download);
-            break;
-        case R.id.bookshare_btn_readinglist:
+        if(v.getId() == R.id.bookshare_btn_readinglist) {
             showReadingListsDialog();
-            break;
         }
-        downloadPressed();
-
+        else {
+            switch (v.getId()) {
+                case R.id.bookshare_btn_download_images:
+                    downloadType = 4;
+                    currentButton = (Button) findViewById(R.id.bookshare_btn_download_images);
+                    Log.i(LOG_TAG, "books with images" + "on click method");
+                    break;
+                case R.id.bookshare_btn_download:
+                    downloadType = 1;
+                    currentButton = (Button) findViewById(R.id.bookshare_btn_download);
+                    break;
+            }
+            downloadPressed();
+        }
     }
 
     private void showReadingListsDialog(){
-
+        Intent intent = new Intent(this, AddToReadingListDialogActivity.class);
+        startActivityForResult(intent, 0);
     }
 
     // called after the download button is pressed, after onClick method
