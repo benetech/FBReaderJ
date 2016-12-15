@@ -129,6 +129,12 @@ public class SortUtil {
         }
     }
 
+    static public void forceRefreshListeners(){
+        for(SortChangesListener listener : registeredListeners){
+            listener.onForceRefresh();
+        }
+    }
+
     static public Comparator<AbstractTitleListRowItem> getComparator(){
         return mComparator;
     }
@@ -173,6 +179,7 @@ public class SortUtil {
 
     public interface SortChangesListener {
         void onSortChanged();
+        void onForceRefresh();
     }
 
 }

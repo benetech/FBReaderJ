@@ -1,5 +1,6 @@
 package org.geometerplus.android.fbreader.benetech;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -71,6 +72,13 @@ public class MyBooksActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         initTabs();
         initSortByPopup();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        bookHashMap = null;
+        SortUtil.forceRefreshListeners();
     }
 
     @Override

@@ -131,7 +131,7 @@ public class FBReader extends ZLAndroidActivityforActionBar {
         //todo:
 		//inputAccess.onCreate();
 		final ZLAndroidLibrary zlibrary = (ZLAndroidLibrary)ZLibrary.Instance();
-        
+
         accessibilityManager = (AccessibilityManager) getApplicationContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
 		myFullScreenFlag = zlibrary.ShowStatusBarOption.getValue() ? 0 : WindowManager.LayoutParams.FLAG_FULLSCREEN;
 
@@ -158,7 +158,7 @@ public class FBReader extends ZLAndroidActivityforActionBar {
 		fbReader.addAction(ActionCode.SHOW_TOC, new ShowTOCAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_BOOKMARKS, new ShowBookmarksAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_NETWORK_LIBRARY, new ShowNetworkLibraryAction(this, fbReader));
-		
+
 		fbReader.addAction(ActionCode.SHOW_MENU, new ShowMenuAction(this, fbReader));
 		fbReader.addAction(ActionCode.SHOW_NAVIGATION, new ShowNavigationAction(this, fbReader));
 		fbReader.addAction(ActionCode.SEARCH, new SearchAction(this, fbReader));
@@ -186,7 +186,11 @@ public class FBReader extends ZLAndroidActivityforActionBar {
 		fbReader.addAction(ActionCode.ABOUT_GOREAD, new ShowAboutGoReadAction(this, fbReader));
 		fbReader.addAction(ActionCode.LOGOUT_BOOKSHARE, new LogoutFromBookshareAction(this, fbReader));
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		fbReader.addAction(ActionCode.SELECT_SENTENCE, new SelectSentenceAction(this, fbReader));
+		fbReader.addAction(ActionCode.PLAY_OR_PAUSE, new PlayOrPauseAction(this, fbReader));
+		fbReader.addAction(ActionCode.TOGGLE_BARS, new ToggleBarsAction(this, fbReader));
+
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int currentVersion = zlibrary.getVersionCode();
         int userManualVersion = prefs.getInt(PREFS_USER_MANUAL_VERSION, 0);
 
@@ -424,13 +428,13 @@ public class FBReader extends ZLAndroidActivityforActionBar {
 	public void navigate() {
         ((NavigationPopup)FBReaderApp.Instance().getPopupById(NavigationPopup.ID)).runNavigation();
 	}
-    
-    /** 
+
+    /**
      * If book is available, add it to application title.
      */
     private void setApplicationTitle() {
         final Book currentBook = Library.getRecentBook();
-        
+
         if (currentBook != null) {
             setTitle(currentBook.getTitle());
         }
@@ -515,5 +519,17 @@ public class FBReader extends ZLAndroidActivityforActionBar {
                 }
         }
     }
+
+	public void selectSentenceFromView() {
+		return;
+	}
+
+	public void playOrPause() {
+		return;
+	}
+
+	public void toggleDisplayBars(){
+		return;
+	}
 
 }

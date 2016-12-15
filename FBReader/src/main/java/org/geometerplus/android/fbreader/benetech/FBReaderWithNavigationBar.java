@@ -30,10 +30,13 @@ import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.TOCActivity;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.TextPosition;
+import org.geometerplus.android.fbreader.library.BookInfoActivity;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
+import org.geometerplus.zlibrary.text.view.ZLTextRegion;
+import org.geometerplus.zlibrary.text.view.ZLTextWordRegionSoul;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
 import java.lang.reflect.InvocationTargetException;
@@ -43,6 +46,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener, SimpleGestureFilter.SimpleGestureListener, AsyncResponse<Boolean>  {
 
@@ -77,7 +81,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private static Method AccessibilityManager_isTouchExplorationEnabled;
     private static SharedPreferences myPreferences;
-    private final FBReaderApp fbReader = (FBReaderApp) FBReaderApp.Instance();
+    private FBReaderApp fbReader;
 
     private TtsSentenceExtractor.SentenceIndex mySentences[] = new TtsSentenceExtractor.SentenceIndex[0];
     private static int myCurrentSentence = 0;
@@ -112,7 +116,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
 
         super.onCreate(savedInstanceState);
-
+        fbReader = (FBReaderApp)FBReaderApp.Instance();
         if(savedInstanceState != null){
             activityResuming = savedInstanceState.getBoolean(ACTIVITY_RESUMING_STATE, false);
         }
@@ -244,6 +248,11 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 syncBookshareReadingLists();
             }
         }
+        else if(requestCode == REPAINT_CODE){
+            if(resultCode == BookInfoActivity.RESULT_BOOK_DELETED){
+                postDeleteBook();
+            }
+        }
         else {
             if (resultCode == TOCActivity.BACK_PRESSED) {
                 returnFromOtherScreen = true;
@@ -300,6 +309,13 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     public static boolean isFirstTimeAppRunning() {
         return myPreferences.getBoolean(IS_FIRST_TIME_RUNNING_PREFERENCE_TAG, true);
     }
+
+    @Override
+    public void selectSentenceFromView() {
+        getNextParagraph();
+        highlightSentence(myCurrentSentence);
+    }
+
 
     @Override
     public void onStart() {
@@ -433,26 +449,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
     }
 
-    @Override
-    public void onUtteranceCompleted(String uttId) {
-        String lastSentenceID = Integer.toString(lastSentence);
-        if (isActive() && uttId.equals(lastSentenceID)) {
-            ++myParagraphIndex;
-            speakParagraph(getNextParagraph());
-            if (myParagraphIndex >= myParagraphsNumber) {
-                stopTalking();
-            }
-        } else {
-            myCurrentSentence = Integer.parseInt(uttId);
-            if (isActive()) {
-                int listSize = mySentences.length;
-                if (listSize > 1 && myCurrentSentence < listSize) {
-                    highlightSentence(myCurrentSentence);
-                }
-            }
-        }
-    }
-
     private void highlightParagraph()  {
         if (0 <= myParagraphIndex && myParagraphIndex < myParagraphsNumber) {
             myApi.highlightArea(
@@ -523,64 +519,66 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private String getNextParagraph() {
         String text = "";
-        List<String> wl = null;
-        ArrayList<Integer> il = new ArrayList<Integer>();
+        final FBReaderApp fbReader = (FBReaderApp)FBReaderApp.Instance();
+        ZLTextRegion region = fbReader.getTextView().getDoubleTapSelectedRegion();
+
+        boolean shouldHighlightSentence = false;
+        if(region == null && fbReader.getTextView().didScroll()){
+            region = fbReader.getTextView().getTopOfPageRegion();
+            shouldHighlightSentence = true;
+            fbReader.getTextView().resetDidScroll();
+        }
+        int wordOffset = 0;
+        if(region != null){
+            myParagraphIndex = region.getSoul().getParagraphIndex();
+            fbReader.getTextView().resetLatestLongPressSelectedRegion();
+            if(region.getSoul() instanceof ZLTextWordRegionSoul){
+                wordOffset = (region.getSoul().getStartElementIndex() /2) +1;
+            }
+        }
+        List<String> wordsList = null;
+        ArrayList<Integer> paragraphIndexesList = new ArrayList<Integer>();
         for (; myParagraphIndex < myParagraphsNumber; ++myParagraphIndex) {
-            final String s = myApi.getParagraphText(myParagraphIndex);
-            wl = myApi.getParagraphWords(myParagraphIndex);
-            if (s.length() > 0) {
-                text = s;
-                il = myApi.getParagraphIndices(myParagraphIndex);
+            final String paragraphText = myApi.getParagraphText(myParagraphIndex);
+            wordsList = myApi.getParagraphWords(myParagraphIndex);
+            if (paragraphText.length() > 0) {
+                text = paragraphText;
+                paragraphIndexesList = myApi.getParagraphIndices(myParagraphIndex);
                 break;
             }
         }
-        if (!"".equals(text) && !myApi.isPageEndOfText()) {
-            myApi.setPageStart(new TextPosition(myParagraphIndex, 0, 0));
-        }
 
-        if (null != wl) {
-            mySentences = TtsSentenceExtractor.build(wl, il, myTTS.getLanguage());
-            highlightParagraph();
+        if (null != wordsList) {
+            mySentences = TtsSentenceExtractor.build(wordsList, paragraphIndexesList, myTTS.getLanguage());
+
+            if(region != null) {
+                int currentSentence = 0;
+                for (int i = 0; i < mySentences.length; i++) {
+                    TtsSentenceExtractor.SentenceIndex sentence = mySentences[i];
+                    int sentenceWordCount = new StringTokenizer(sentence.s).countTokens();
+                    if (sentenceWordCount >= wordOffset) {
+                        currentSentence = i;
+                        break;
+                    } else {
+                        wordOffset -= sentenceWordCount;
+                    }
+                }
+                myCurrentSentence = currentSentence;
+            }
+
+            if(shouldHighlightSentence){
+                highlightSentence(myCurrentSentence);
+            }
+            else {
+                highlightParagraph();
+            }
         }
 
         //Disable next section button if this is the last paragraph
         if (myParagraphIndex >= (myParagraphsNumber - 1)) {
             disableNextButton();
         }
-
         return text;
-    }
-
-    private void disableNextButton() {
-        runOnUiThread(new Runnable() {
-            public void run() {
-                findViewById(R.id.navigation_bar_skip_next).setEnabled(false);
-            }
-        });
-    }
-
-    private void playOrPause() {
-        if (isPlaying()) {
-            pause();
-        } else {
-            play();
-        }
-    }
-
-    private void play() {
-        final String nextParagraph = getNextParagraph();
-        if (null == nextParagraph || nextParagraph.length() < 1) {
-            restorePosition();
-            setIsPlaying();
-        }
-        changePlayPauseButtonState(false);
-        speakParagraph(nextParagraph);
-    }
-
-    private void pause() {
-        stopTalking();
-        changePlayPauseButtonState(true);
-        setIsPaused();
     }
 
     private void speakParagraph(String text) {
@@ -603,9 +601,9 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         if (isPaused()) {
             enablePauseButton();
             setIsPlaying();
-            if (myCurrentSentence > 1 && numWordIndices > myCurrentSentence) {
-                sentenceNumber = myCurrentSentence - 1;
-                highlightSentence(myCurrentSentence + 1);
+            if (myCurrentSentence > 0 && numWordIndices > myCurrentSentence) {
+                sentenceNumber = myCurrentSentence ;
+                highlightSentence(sentenceNumber);
             }
 
         } else { //should only highlight first sentence of paragraph if we haven't just paused
@@ -613,7 +611,9 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 highlightSentence(0);
             }
         }
-
+        for(int c = sentenceNumber; c > 0 && sentenceIterator.hasNext(); c--){
+            sentenceIterator.next();
+        }
         while (sentenceIterator.hasNext())  {   // if there are sentences in the sentence queue
             sentenceNumber++;
             currentSentence = sentenceIterator.next();
@@ -621,6 +621,76 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
 
         lastSentence = sentenceNumber;
+    }
+
+    @Override
+    public void onUtteranceCompleted(String uttId) {
+        String lastSentenceID = Integer.toString(lastSentence);
+        if (isActive() && uttId.equals(lastSentenceID)) {
+            ++myParagraphIndex;
+            speakParagraph(getNextParagraph());
+            if (myParagraphIndex >= myParagraphsNumber) {
+                stopTalking();
+            }
+        } else {
+            myCurrentSentence = Integer.parseInt(uttId);
+            if (isActive()) {
+                int listSize = mySentences.length;
+                if (listSize > 1 && myCurrentSentence < listSize) {
+                    highlightSentence(myCurrentSentence);
+                }
+            }
+        }
+    }
+
+    private void disableNextButton() {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                findViewById(R.id.navigation_bar_skip_next).setEnabled(false);
+            }
+        });
+    }
+
+    @Override
+    public void playOrPause() {
+        if (isPlaying()) {
+            pause();
+        } else {
+            play();
+        }
+    }
+
+    @Override
+    public void toggleDisplayBars(){
+        if(getSupportActionBar() != null){
+            View playBar = findViewById(R.id.navigation_bar_id);
+            if(playBar != null){
+                playBar.setVisibility(getSupportActionBar().isShowing()?View.GONE:View.VISIBLE);
+            }
+            if(getSupportActionBar().isShowing()){
+                getSupportActionBar().hide();
+            }
+            else {
+                getSupportActionBar().show();
+            }
+        }
+    }
+
+    private void play() {
+        final String nextParagraph = getNextParagraph();
+        if (null == nextParagraph || nextParagraph.length() < 1) {
+            restorePosition();
+            setIsPlaying();
+        }
+        hideSelectionPanel();
+        changePlayPauseButtonState(false);
+        speakParagraph(nextParagraph);
+    }
+
+    private void pause() {
+        stopTalking();
+        changePlayPauseButtonState(true);
+        setIsPaused();
     }
 
     private void highlightSentence(int myCurrentSentence) {
@@ -755,7 +825,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     @Override
-    public void onDoubleTap() {
+    public void onTwoFingerDoubleTap() {
         myVib.vibrate(VIBE_PATTERN, -1);
         ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_PLAY_PAUSE);
         playOrPause();

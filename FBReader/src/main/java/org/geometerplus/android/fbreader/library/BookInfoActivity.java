@@ -20,7 +20,9 @@
 package org.geometerplus.android.fbreader.library;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -36,6 +38,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.FBReader;
@@ -62,6 +65,8 @@ import java.util.Date;
 import java.util.HashSet;
 
 public class BookInfoActivity extends Activity {
+	public static final int REQUEST_BOOK_INFO = 1001;
+	public static final int RESULT_BOOK_DELETED = 100;
 	private static final boolean ENABLE_EXTENDED_FILE_INFO = false;
 
 	public static final String CURRENT_BOOK_PATH_KEY = "CurrentBookPath";
@@ -148,10 +153,18 @@ public class BookInfoActivity extends Activity {
 				if (book != null) {
 					book.reloadInfoFromFile();
 					setupBookInfo(book);
-					myDontReloadBook = false;
+					myDontReloadBook = false	;
 				}
 			}
 		});
+		setupButton(R.id.book_info_button_remove, "removeBook", new View.OnClickListener() {
+			public void onClick(View view) {
+				if (book != null) {
+					deleteBook(book);
+				}
+			}
+		});
+
 
 		final View root = findViewById(R.id.book_info_root);
 		root.invalidate();
@@ -289,7 +302,7 @@ public class BookInfoActivity extends Activity {
 	private void setupAnnotation(Book book) {
 		final TextView titleView = (TextView)findViewById(R.id.book_info_annotation_title);
 		final TextView bodyView = (TextView)findViewById(R.id.book_info_annotation_body);
-		final String annotation = Library.getAnnotation(book.File);	
+		final String annotation = Library.getAnnotation(book.File);
 		if (annotation == null) {
 			titleView.setVisibility(View.GONE);
 			bodyView.setVisibility(View.GONE);
@@ -307,7 +320,7 @@ public class BookInfoActivity extends Activity {
 		setupInfoPair(R.id.file_name, "name", book.File.getPath());
 		if (ENABLE_EXTENDED_FILE_INFO) {
 			setupInfoPair(R.id.file_type, "type", book.File.getExtension());
-        
+
 			final ZLFile physFile = book.File.getPhysicalFile();
 			final File file = physFile == null ? null : new File(physFile.getPath());
 			if (file != null && file.exists() && file.isFile()) {
@@ -357,4 +370,36 @@ public class BookInfoActivity extends Activity {
         }
         (findViewById(R.id.book_title)).requestFocus();
     }
+
+	private void deleteBook(Book book) {
+		if (book.File.getShortName().equals(FBReader.MINI_HELP_FILE_NAME)) {
+			Toast.makeText(
+					getApplicationContext(),
+					getString(R.string.message_cannot_delete_guide),
+					Toast.LENGTH_SHORT
+			).show();
+			return;
+		}
+		new AlertDialog.Builder(this)
+				.setTitle(book.getTitle())
+				.setMessage(getString(R.string.message_confirm_remove_book))
+				.setIcon(0)
+				.setPositiveButton(getString(R.string.button_label_delete_book), deleteDialogListener)
+				.setNegativeButton(getString(R.string.button_label_cancel), null)
+				.create().show();
+	}
+
+
+	private DialogInterface.OnClickListener deleteDialogListener = new DialogInterface.OnClickListener() {
+
+		@Override
+		public void onClick(DialogInterface dialogInterface, int i) {
+			final Book book = Book.getByFile(myFile);
+			Library.Instance().removeBook(book, Library.REMOVE_FROM_DISK);
+			((SQLiteBooksDatabase)SQLiteBooksDatabase.Instance()).clearBookStatus(book);
+			BookInfoActivity.this.setResult(RESULT_BOOK_DELETED, getIntent());
+			BookInfoActivity.this.finish();
+		}
+	};
+
 }
