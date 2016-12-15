@@ -66,8 +66,8 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment impl
     }
 
     @Override
-    public void onPause(){
-        super.onPause();
+    public void onDetach() {
+        super.onDetach();
         SortUtil.unregisterForSortChanges(this);
     }
 
@@ -263,6 +263,13 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment impl
         sortListItems();
         ((BaseAdapter)getListAdapter()).notifyDataSetChanged();
     }
+
+    @Override
+    public void onForceRefresh(){
+        bookRowItems.clear();
+        fillListAdapter();
+    }
+
 
     abstract protected void fillListAdapter();
 }

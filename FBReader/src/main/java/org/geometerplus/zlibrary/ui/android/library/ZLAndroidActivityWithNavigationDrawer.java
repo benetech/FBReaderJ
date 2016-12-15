@@ -210,7 +210,7 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
         postDeleteBook();
     }
 
-    private void postDeleteBook() {
+    protected void postDeleteBook() {
         ZLApplication.Instance().doAction(ActionCode.SHOW_HELP);
         ZLApplication.Instance().doAction(ActionCode.SHOW_MY_BOOKS);
     }
