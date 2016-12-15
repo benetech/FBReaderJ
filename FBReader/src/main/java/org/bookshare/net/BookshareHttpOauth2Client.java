@@ -20,6 +20,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -90,6 +91,39 @@ public class BookshareHttpOauth2Client {
 
         return readingLists;
     }
+
+    public JSONArray postTitleToReadingList(String accessToken, String readingListId, String titleId) throws Exception {
+
+        String url = String.format("https://%s/v2/lists/%s/titles?api_key=%s",HOST_NAME, readingListId, API_KEY);
+
+        HttpsURLConnection urlConnection = createHttpsUrlConnection(url, POST_REQUESTE_METHOD);
+        setAccessToken(accessToken, urlConnection);
+
+        LinkedHashMap<String, String> formParameters = new LinkedHashMap<>();
+        formParameters.put("bookshareId", titleId);
+        writeFormParameters(formParameters, urlConnection);
+
+        final String rawResponseWithReadingLists = requestData(urlConnection);
+
+        JSONObject readingListJson = new JSONObject(rawResponseWithReadingLists);
+        JSONArray readingListsJsonArray = readingListJson.optJSONArray(JSON_CODE_LISTS);
+        if (readingListsJsonArray == null)
+            return null;
+
+        JSONArray readingLists = new JSONArray();
+        for (int index = 0; index < readingListsJsonArray.length(); ++index) {
+            final JSONObject jsonElement = readingListsJsonArray.getJSONObject(index);
+            int bookshareReadingListId = jsonElement.getInt(JSON_CODE_READING_LIST_ID);
+            String readingListName = jsonElement.optString(JSON_CODE_READING_LIST_NAME);
+            JSONObject readingListDetailsJson = getBooksForReadingList(accessToken, bookshareReadingListId);
+            readingListDetailsJson.put(JSON_CODE_READING_LIST_NAME, readingListName);
+            readingLists.put(readingListDetailsJson);
+        }
+
+        return readingLists;
+    }
+
+
 
     private JSONObject getBooksForReadingList(String accessToken, int readingListId) throws Exception {
         String urlWithReadingListId = BOOK_TITLES_FOR_READING_LIST_URL.replace(READINGLIST_ID_REPLACEMENT_TOKEN, Integer.toString(readingListId));
@@ -165,6 +199,21 @@ public class BookshareHttpOauth2Client {
 
         outputStream.close();
     }
+
+    private void writeFormParameters(LinkedHashMap<String, String> formParameterList, HttpsURLConnection urlConnection) throws IOException {
+
+        OutputStream outputStream = urlConnection.getOutputStream();
+
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, UTF_8));
+        final String result = createQuery(formParameterList);
+        writer.write(result);
+        writer.flush();
+        writer.close();
+
+        outputStream.close();
+
+    }
+
 
     @NonNull
     private LinkedHashMap<String, String> createFormParameterList() {

@@ -206,4 +206,8 @@
     <string name="menu_item_login_bookshare">Ingresar a Bookshare</string>
     <string name="menu_item_logout_bookshare">Salir de Bookshare</string>
     <string name="book_unavailable_for_download_warning">Este libro no está disponible para descargar con tu cuenta.  Has iniciado sesión de Bookshare?</string>
+    <string name="added_to_readinglist_success">Añadido a la lista</string>
+    <string name="added_to_readinglist_fail_title">Falla al añadir titulo a la lista</string>
+    <string name="added_to_readinglist_fail_message">Ha habido un error inesperado y el titulo no pudo ser añadido a la lista seleccionada.</string>
+
 </resources>

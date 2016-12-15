@@ -215,4 +215,8 @@
     <string name="signout_button_title_pattern">Logout %s</string>
 
     <string name="book_unavailable_for_download_warning">This book is not currently available for download to your account.  Are you signed in to Bookshare?</string>
+
+    <string name="added_to_readinglist_success">Added to list</string>
+    <string name="added_to_readinglist_fail_title">Failed to add title to list</string>
+    <string name="added_to_readinglist_fail_message">There has been an unexpected error and the title could not be added to the selected reading list.</string>
 </resources>

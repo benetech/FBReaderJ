@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,6 +26,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -148,6 +150,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
     private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
 
     private final int START_BOOKSHARE_OM_LIST = 0;
+    private final int START_READINGLIST_DIALOG = 1;
 
     private String memberId = null;
 
@@ -505,7 +508,23 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 new DownloadFilesTask().execute();
             }
         }
-
+        else if (requestCode == START_READINGLIST_DIALOG) {
+            if(resultCode == AddToReadingListDialogActivity.RESULT_CODE_SUCCESS){
+                String listName = "";
+                if(data != null){
+                    listName = data.getStringExtra(AddToReadingListDialogActivity.EXTRA_READINGLIST_NAME);
+                }
+                btnReadingList.setText(
+                        String.format("%s %s", getString(R.string.added_to_readinglist_success), listName));
+            }
+            else if(resultCode == AddToReadingListDialogActivity.RESULT_CODE_FAIL){
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.added_to_readinglist_fail_title)
+                        .setMessage(R.string.added_to_readinglist_fail_message)
+                        .setPositiveButton(R.string.accept, null)
+                        .show();
+            }
+        }
     }
 
     @Override
@@ -1255,7 +1274,8 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 
     private void showReadingListsDialog(){
         Intent intent = new Intent(this, AddToReadingListDialogActivity.class);
-        startActivityForResult(intent, 0);
+        intent.putExtra(AddToReadingListDialogActivity.EXTRA_BOOK_ID, metadata_bean.getBookshareId());
+        startActivityForResult(intent, START_READINGLIST_DIALOG);
     }
 
     // called after the download button is pressed, after onClick method

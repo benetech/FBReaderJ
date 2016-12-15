@@ -1,7 +1,11 @@
 package org.geometerplus.android.fbreader.benetech;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,28 +18,45 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import org.benetech.android.R;
+import org.bookshare.net.BookshareHttpOauth2Client;
 import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
+import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
 import org.geometerplus.fbreader.library.ReadingList;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by animal@martus.org on 4/4/16.
  */
 public class AddToReadingListDialogActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
-    private ListView mListView;
+    public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
+    public static final String EXTRA_READINGLIST_NAME = "EXTRA_READINGLIST_NAME";
+    public static final int RESULT_CODE_SUCCESS = 1;
+    public static final int RESULT_CODE_FAIL = 0;
 
-    private ArrayList<ReadingListsItem> readingListsItems;
     private int selectedReadingListIndex = -1;
+    private String bookId = null;
+
+    private ListView mListView;
+    private ArrayList<ReadingListsItem> readingListsItems;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_activity_reading_lists);
         mListView = (ListView)findViewById(R.id.listview);
         mListView.setOnItemClickListener(this);
+
+        findViewById(R.id.positive_button).setOnClickListener(this);
+        findViewById(R.id.negative_button).setOnClickListener(this);
+
         readingListsItems = new ArrayList<>();
+        bookId = getIntent().getStringExtra(EXTRA_BOOK_ID);
         try {
             fillListAdapter();
         } catch (Exception e) {
@@ -60,6 +81,18 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
         mListView.setAdapter(new ReadingListsAdapter(this, readingListsItems));
     }
 
+    protected void handleResult(boolean result, ReadingList chosenReadingList){
+        Intent intent  = getIntent();
+        intent.putExtra(EXTRA_READINGLIST_NAME, chosenReadingList.getReadingListName());
+        if(result){
+            setResult(RESULT_CODE_SUCCESS, intent);
+        }
+        else{
+            setResult(RESULT_CODE_FAIL, intent);
+        }
+        finish();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -73,9 +106,46 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
     }
 
     private void addToReadingList() {
-        ReadingList readingList = readingListsItems.get(selectedReadingListIndex).readingList;
-
+        new AddTitleToReadingListTask().execute();
     }
+
+    class AddTitleToReadingListTask extends AsyncTask<String, Void, Boolean> {
+        ReadingList readingList;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            readingList = readingListsItems.get(selectedReadingListIndex).readingList;
+        }
+
+        protected Boolean doInBackground(String... urls) {
+            Object result = null;
+            try {
+                SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(AddToReadingListDialogActivity.this);
+                String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
+                String password = login_preference.getString(Bookshare_Webservice_Login.PASSWORD, "");
+
+                BookshareHttpOauth2Client client =  new BookshareHttpOauth2Client();
+                HttpsURLConnection urlConnection = client.createBookshareApiUrlConnection(username, password);
+
+                String response = client.requestData(urlConnection);
+                JSONObject jsonResponse = new JSONObject(response);
+                String accessToken = jsonResponse.getString(BookshareHttpOauth2Client.ACCESS_TOKEN_CODE);
+
+                result  = client.postTitleToReadingList(accessToken, readingList.getBookshareId(), bookId);
+            } catch (Exception e) {
+                Log.e(getClass().getSimpleName(), e.getMessage(), e);
+                result = new JSONArray();
+            }
+            Log.d("", result.toString());
+
+            return result != null;
+        }
+
+        protected void onPostExecute(Boolean result) {
+            AddToReadingListDialogActivity.this.handleResult(result, readingList);
+        }
+    }
+
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

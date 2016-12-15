@@ -17,10 +17,13 @@ public class ReadingList {
     private static final String JSON_CODE_NAME = "readingListName";
     private static final String JSON_CODE_BOOKSJSON = "readingListJson";
     private static final String JSON_CODE_TITLES = "titles";
+    private static final String JSON_BOOKSHARE_ID = "readingListId";
 
 
     private Long id;
     private String readingListName;
+
+    private String bookshareId;
     private ArrayList<ReadingListBook> readingListBooks;
     private JSONObject readingListJson;
 
@@ -41,6 +44,10 @@ public class ReadingList {
 
     public Long getId() {
         return id;
+    }
+
+    public String getBookshareId() {
+        return bookshareId;
     }
 
     public void setReadingListName(String readingListName) {
@@ -66,7 +73,7 @@ public class ReadingList {
 
     public void setReadingListJson(String readingListJsonAsString) throws Exception {
         readingListJson = new JSONObject(readingListJsonAsString);
-
+        bookshareId = readingListJson.optString(JSON_BOOKSHARE_ID);
         JSONArray titlesArray = readingListJson.optJSONArray(JSON_CODE_TITLES);
         for (int index = 0; index < titlesArray.length(); ++index) {
             JSONObject titleJson = titlesArray.getJSONObject(index);
