@@ -14,12 +14,14 @@
             android:layout_centerHorizontal="true"
             android:textSize="22sp"
             android:textColor="@android:color/black"
-            android:text="@string/book_details_readinglist_button"/>
+            android:text="@string/book_details_readinglist_button"
+            android:visibility="gone"/>
         <View
             android:id="@+id/separator_1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@android:color/black"
+            android:layout_marginTop="10dp"
             android:layout_below="@id/title"
             />
         <LinearLayout
@@ -33,12 +35,14 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:text="@string/button_label_cancel"
                 />
             <Button
                 android:id="@+id/negative_button"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:text="@string/button_label_accept"
                 />
         </LinearLayout>
 

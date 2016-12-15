@@ -172,6 +172,7 @@
 
     <string name="button_label_delete_book">Delete</string>
     <string name="button_label_cancel">Cancel</string>
+    <string name="button_label_accept">Accept</string>
     <string name="button_label_done_sync_bookshare">Done</string>
     <string name="title_sync_bookshare_progress_dialog">Bookshare sync in progress...</string>
     <string name="title_sync_bookshare_complete_progress_dialog">Bookshare Sync\nComplete</string>

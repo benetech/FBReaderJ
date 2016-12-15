@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import org.benetech.android.R;
@@ -22,15 +24,17 @@ import java.util.List;
 /**
  * Created by animal@martus.org on 4/4/16.
  */
-public class AddToReadingListDialogActivity extends AppCompatActivity {
+public class AddToReadingListDialogActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     private ListView mListView;
 
     private ArrayList<ReadingListsItem> readingListsItems;
+    private int selectedReadingListIndex = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_activity_reading_lists);
         mListView = (ListView)findViewById(R.id.listview);
+        mListView.setOnItemClickListener(this);
         readingListsItems = new ArrayList<>();
         try {
             fillListAdapter();
@@ -56,6 +60,35 @@ public class AddToReadingListDialogActivity extends AppCompatActivity {
         mListView.setAdapter(new ReadingListsAdapter(this, readingListsItems));
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.negative_button:
+                this.finish();
+                break;
+            case R.id.positive_button:
+                addToReadingList();
+                break;
+        }
+    }
+
+    private void addToReadingList() {
+        ReadingList readingList = readingListsItems.get(selectedReadingListIndex).readingList;
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        selectItem(i);
+    }
+
+    private void selectItem(int i){
+        selectedReadingListIndex = i;
+        ((ReadingListsAdapter)mListView.getAdapter()).notifyDataSetChanged();
+
+    }
+
+
     private class ReadingListsAdapter extends ArrayAdapter<AddToReadingListDialogActivity.ReadingListsItem> {
         public ReadingListsAdapter(Context context, List<AddToReadingListDialogActivity.ReadingListsItem> items) {
             super(context, R.layout.reading_lists_item, items);
@@ -71,27 +104,28 @@ public class AddToReadingListDialogActivity extends AppCompatActivity {
 
             if(convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
-                convertView = inflater.inflate(R.layout.reading_lists_item, parent, false);
+                convertView = inflater.inflate(R.layout.cell_readinglist_dialog, parent, false);
 
                 viewHolder = new AddToReadingListDialogActivity.ViewHolder();
                 viewHolder.readingListNameTextView = (TextView) convertView.findViewById(R.id.readingListName);
-                viewHolder.readingListBooksCountTextView = (TextView) convertView.findViewById(R.id.readingListBookCount);
+                viewHolder.radioButton = (RadioButton) convertView.findViewById(R.id.radiobutton);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (AddToReadingListDialogActivity.ViewHolder) convertView.getTag();
             }
 
-            AddToReadingListDialogActivity.ReadingListsItem item = getItem(position);
-            viewHolder.readingListNameTextView.setText(item.readingListName);
-            viewHolder.readingListBooksCountTextView.setText(item.readingListBooksCount);
-
+            ReadingListsItem item = getItem(position);
+            viewHolder.readingListNameTextView.setText(
+                    String.format("%s  (%s)", item.readingListName, item.readingListBooksCount));
+            viewHolder.radioButton.setChecked(position == selectedReadingListIndex);
+            viewHolder.radioButton.setClickable(false);
             return convertView;
         }
-
     }
+
     private static class ViewHolder {
+        public RadioButton radioButton;
         public TextView readingListNameTextView;
-        public TextView readingListBooksCountTextView;
     }
     private class ReadingListsItem {
         private String readingListName;
@@ -103,12 +137,7 @@ public class AddToReadingListDialogActivity extends AppCompatActivity {
             readingListName = readingList.getReadingListName();
 
             final int bookCount = readingList.getBookCount();
-            readingListBooksCount = Integer.toString(bookCount) + " " + "titles";
-        }
-
-        public ReadingList getReadingList() {
-            return readingList;
+            readingListBooksCount = Integer.toString(bookCount);
         }
     }
-
 }
