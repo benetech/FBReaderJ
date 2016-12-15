@@ -20,7 +20,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -92,7 +91,7 @@ public class BookshareHttpOauth2Client {
         return readingLists;
     }
 
-    public JSONArray postTitleToReadingList(String accessToken, String readingListId, String titleId) throws Exception {
+    public boolean postTitleToReadingList(String accessToken, String readingListId, String titleId) throws Exception {
 
         String url = String.format("https://%s/v2/lists/%s/titles?api_key=%s",HOST_NAME, readingListId, API_KEY);
 
@@ -103,24 +102,10 @@ public class BookshareHttpOauth2Client {
         formParameters.put("bookshareId", titleId);
         writeFormParameters(formParameters, urlConnection);
 
-        final String rawResponseWithReadingLists = requestData(urlConnection);
+        int[] responseCode = new int[1];
+        final String rawResponseWithReadingLists = requestData(urlConnection, responseCode);
 
-        JSONObject readingListJson = new JSONObject(rawResponseWithReadingLists);
-        JSONArray readingListsJsonArray = readingListJson.optJSONArray(JSON_CODE_LISTS);
-        if (readingListsJsonArray == null)
-            return null;
-
-        JSONArray readingLists = new JSONArray();
-        for (int index = 0; index < readingListsJsonArray.length(); ++index) {
-            final JSONObject jsonElement = readingListsJsonArray.getJSONObject(index);
-            int bookshareReadingListId = jsonElement.getInt(JSON_CODE_READING_LIST_ID);
-            String readingListName = jsonElement.optString(JSON_CODE_READING_LIST_NAME);
-            JSONObject readingListDetailsJson = getBooksForReadingList(accessToken, bookshareReadingListId);
-            readingListDetailsJson.put(JSON_CODE_READING_LIST_NAME, readingListName);
-            readingLists.put(readingListDetailsJson);
-        }
-
-        return readingLists;
+        return responseCode[0] == HttpURLConnection.HTTP_OK;
     }
 
 
@@ -156,9 +141,14 @@ public class BookshareHttpOauth2Client {
     }
 
     public String requestData(HttpsURLConnection urlConnection) throws Exception {
+        int[] responseCode = new int[1];
+        return requestData(urlConnection, responseCode);
+    }
+
+    public String requestData(HttpsURLConnection urlConnection, int[] responseCode) throws Exception {
         InputStream inputStream;
-        final int responseCode = urlConnection.getResponseCode();
-        if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
+        responseCode[0] = urlConnection.getResponseCode();
+        if (responseCode[0] < HttpURLConnection.HTTP_BAD_REQUEST) {
             inputStream = urlConnection.getInputStream();
         } else {
             inputStream = urlConnection.getErrorStream();

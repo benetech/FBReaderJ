@@ -26,7 +26,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -43,7 +42,10 @@ import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.BookDownloaderService;
 import org.geometerplus.fbreader.Paths;
+import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.fbreader.library.Book;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
@@ -516,6 +518,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 }
                 btnReadingList.setText(
                         String.format("%s %s", getString(R.string.added_to_readinglist_success), listName));
+
             }
             else if(resultCode == AddToReadingListDialogActivity.RESULT_CODE_FAIL){
                 new AlertDialog.Builder(this)
@@ -524,6 +527,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                         .setPositiveButton(R.string.accept, null)
                         .show();
             }
+            ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
         }
     }
 

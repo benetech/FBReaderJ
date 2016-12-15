@@ -23,7 +23,6 @@ import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
 import org.geometerplus.fbreader.library.ReadingList;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -118,7 +117,7 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
         }
 
         protected Boolean doInBackground(String... urls) {
-            Object result = null;
+            boolean result;
             try {
                 SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(AddToReadingListDialogActivity.this);
                 String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
@@ -134,11 +133,9 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
                 result  = client.postTitleToReadingList(accessToken, readingList.getBookshareId(), bookId);
             } catch (Exception e) {
                 Log.e(getClass().getSimpleName(), e.getMessage(), e);
-                result = new JSONArray();
+                result = false;
             }
-            Log.d("", result.toString());
-
-            return result != null;
+            return result;
         }
 
         protected void onPostExecute(Boolean result) {
