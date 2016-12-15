@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
     private String bookId = null;
 
     private ListView mListView;
+    private ProgressBar mProgressBar;
     private ArrayList<ReadingListsItem> readingListsItems;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
         setContentView(R.layout.dialog_activity_reading_lists);
         mListView = (ListView)findViewById(R.id.listview);
         mListView.setOnItemClickListener(this);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
 
         findViewById(R.id.positive_button).setOnClickListener(this);
         findViewById(R.id.negative_button).setOnClickListener(this);
@@ -110,10 +113,12 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
 
     class AddTitleToReadingListTask extends AsyncTask<String, Void, Boolean> {
         ReadingList readingList;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             readingList = readingListsItems.get(selectedReadingListIndex).readingList;
+            mProgressBar.setVisibility(View.VISIBLE);
         }
 
         protected Boolean doInBackground(String... urls) {

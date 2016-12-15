@@ -54,6 +54,17 @@
             android:layout_above="@id/button_area"
             >
         </ListView>
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/separator_1"
+            android:layout_above="@id/button_area"
+            android:background="@android:color/white"
+            android:padding="80dp"
+            android:visibility="gone"
+            >
+        </ProgressBar>
         <View
             android:id="@+id/separator_2"
             android:layout_width="match_parent"
