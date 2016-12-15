@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.geometerplus.android.fbreader.library.BookInfoActivity;
 import org.geometerplus.fbreader.library.Book;
@@ -53,21 +52,23 @@ public class GoReadTabMainTabContent extends ListFragment implements SortUtil.So
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        Toast.makeText(getActivity(), "qwerqwer", Toast.LENGTH_LONG);
         if(requestCode == BookInfoActivity.REQUEST_BOOK_INFO){
             if(resultCode == BookInfoActivity.RESULT_BOOK_DELETED){
-                try {
-                    fillListAdapter();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                fillListAdapter();
             }
         }
     }
 
-    private void fillListAdapter() throws Exception {
+    private void fillListAdapter() {
         if(getActivity() instanceof MyBooksActivity){
-            HashMap<Long, Book> map = ((MyBooksActivity)getActivity()).getDownloadedBooksMap();
+            HashMap<Long, Book> map;
+            try{
+                map = ((MyBooksActivity)getActivity()).getDownloadedBooksMap();
+            }
+            catch (Exception e){
+                Log.e("GoReadTabMainController", "fill list adapter crashed", e);
+                map = new HashMap<>();
+            }
             for(Book book :map.values()){
                 downloadedBooksList.add(new DownloadedTitleListRowItem(book));
             }
@@ -98,12 +99,8 @@ public class GoReadTabMainTabContent extends ListFragment implements SortUtil.So
 
     @Override
     public void onForceRefresh(){
-        try {
-            downloadedBooksList.clear();
-            fillListAdapter();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        downloadedBooksList.clear();
+        fillListAdapter();
     }
 
 

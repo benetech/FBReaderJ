@@ -267,11 +267,7 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment impl
     @Override
     public void onForceRefresh(){
         bookRowItems.clear();
-        try {
-            fillListAdapter();
-        } catch (Exception e) {
-            Log.e(this.getClass().getSimpleName(), e.getMessage(), e);
-        }
+        fillListAdapter();
     }
 
 
