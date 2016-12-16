@@ -122,7 +122,6 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
         }
 
         protected Boolean doInBackground(String... urls) {
-            boolean result;
             try {
                 SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(AddToReadingListDialogActivity.this);
                 String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
@@ -135,12 +134,11 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
                 JSONObject jsonResponse = new JSONObject(response);
                 String accessToken = jsonResponse.getString(BookshareHttpOauth2Client.ACCESS_TOKEN_CODE);
 
-                result  = client.postTitleToReadingList(accessToken, readingList.getBookshareId(), bookId);
+                return client.postTitleToReadingList(accessToken, readingList.getBookshareId(), bookId);
             } catch (Exception e) {
                 Log.e(getClass().getSimpleName(), e.getMessage(), e);
-                result = false;
+                return false;
             }
-            return result;
         }
 
         protected void onPostExecute(Boolean result) {

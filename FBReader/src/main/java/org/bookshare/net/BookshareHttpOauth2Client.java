@@ -1,6 +1,7 @@
 package org.bookshare.net;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.apache.commons.codec.binary.Base64;
 import org.benetech.android.BuildConfig;
@@ -180,14 +181,23 @@ public class BookshareHttpOauth2Client {
 
     private void writeLoginFormParameters(HttpsURLConnection urlConnection) throws IOException {
         OutputStream outputStream = urlConnection.getOutputStream();
-
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, UTF_8));
-        final String result = createQuery(createFormParameterList());
-        writer.write(result);
-        writer.flush();
-        writer.close();
-
-        outputStream.close();
+        try {
+            final String result = createQuery(createFormParameterList());
+            writer.write(result);
+            writer.flush();
+        }
+        catch (IOException e){
+            Log.e("OauthClient", "Writing parameters to connection crashed", e);
+        }
+        finally {
+            if(writer != null){
+                writer.close();
+            }
+            if(outputStream != null){
+                outputStream.close();
+            }
+        }
     }
 
     private void writeFormParameters(LinkedHashMap<String, String> formParameterList, HttpsURLConnection urlConnection) throws IOException {
