@@ -147,7 +147,9 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 
     private boolean isFree = false;
 
-    private boolean isOM;
+    private boolean isOM; //Organization member
+    private boolean isIM; //Independent member
+    private boolean isLoggedIn;
 
     private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
 
@@ -196,7 +198,8 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
         final SharedPreferences login_preference = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext());
         isOM = login_preference.getBoolean("isOM", false);
-
+        isIM = login_preference.getBoolean("isIM", false);
+        isLoggedIn = login_preference.getString("username", null) != null;
         final String uri = intent.getStringExtra("ID_SEARCH_URI");
 
         final VoiceableDialog finishedDialog = new VoiceableDialog(this);
@@ -304,7 +307,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
             btnDownloadWithImages = (Button) findViewById(R.id.bookshare_btn_download_images);
             bookshare_download_not_available_text = (TextView) findViewById(R.id.bookshare_download_not_available_msg);
 
-            btnReadingList = (Button) findViewById(R.id.bookshare_btn_readinglist);
+            btnReadingList = (Button) findViewById(isIM?R.id.bookshare_btn_readinglist_bottom:R.id.bookshare_btn_readinglist_top);
             btnReadingList.setOnClickListener(Bookshare_Book_Details.this);
 
             bookshare_book_detail_language.setNextFocusDownId(R.id.bookshare_book_detail_category);
@@ -326,7 +329,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 btnReadingList.setNextFocusUpId(R.id.bookshare_book_detail_authors);
                 btnReadingList.setNextFocusDownId(R.id.bookshare_btn_download);
                 btnDownload.setNextFocusDownId(R.id.bookshare_btn_download_images);
-                btnDownload.setNextFocusUpId(R.id.bookshare_btn_readinglist);
+                btnDownload.setNextFocusUpId(btnReadingList.getId());
                 btnDownloadWithImages.setNextFocusDownId(R.id.bookshare_book_detail_isbn);
                 btnDownloadWithImages.setNextFocusUpId(R.id.bookshare_btn_download);
                 bookshare_book_detail_authors.setNextFocusDownId(R.id.bookshare_btn_download);
@@ -339,8 +342,10 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 Log.d("checking images", String.valueOf(imagesAvailable));
                 btnDownloadWithImages.setVisibility(View.GONE);
             }
-            if(isOM){
+            if(isOM || !isLoggedIn){
                 btnReadingList.setVisibility(View.GONE);
+            } else {
+                btnReadingList.setVisibility(View.VISIBLE);
             }
             // Set the fields of the layout with book details
             if (metadata_bean.getTitle() != null) {
@@ -1260,7 +1265,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
     // called after the download button is pressed
     @Override
     public void onClick(View v) {
-        if(v.getId() == R.id.bookshare_btn_readinglist) {
+        if(v.getId() == btnReadingList.getId()) {
             showReadingListsDialog();
         }
         else {

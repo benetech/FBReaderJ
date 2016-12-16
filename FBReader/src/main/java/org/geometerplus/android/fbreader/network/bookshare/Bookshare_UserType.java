@@ -57,6 +57,9 @@ public class Bookshare_UserType {
 	public String getDownloadPassword(){
 		return downloadPassword;
 	}
+	public boolean isIM() {
+		return isIM;
+	}
 	// Class containing the logic for parsing XML elements in the response and locating download password
 	private class SAXHandler extends DefaultHandler{
 

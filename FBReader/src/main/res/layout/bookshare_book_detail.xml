@@ -54,14 +54,15 @@
 			android:layout_height="wrap_content"/>
 
 		<Button
-			android:id="@+id/bookshare_btn_readinglist"
+			android:id="@+id/bookshare_btn_readinglist_top"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="20dip"
 			android:layout_marginBottom="2dip"
 			android:text="@string/book_details_readinglist_button"
 			android:textStyle="bold"
-			android:focusable="true"/>
+			android:focusable="true"
+			android:visibility="gone"/>
 
 		<Button
 			android:id="@+id/bookshare_btn_download"
@@ -78,10 +79,20 @@
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginTop="2dip"
-			android:layout_marginBottom="10dip"
+			android:layout_marginBottom="2dip"
 			android:text="@string/book_details_download_images"
 			android:textStyle="bold"
 			android:focusable="true"/>
+		<Button
+			android:id="@+id/bookshare_btn_readinglist_bottom"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="2dip"
+			android:layout_marginBottom="20dip"
+			android:text="@string/book_details_readinglist_button"
+			android:textStyle="bold"
+			android:focusable="true"
+			android:visibility="gone"/>
 
 		<CheckBox
 			android:id="@+id/bookshare_chkbx_subscribe_periodical"
