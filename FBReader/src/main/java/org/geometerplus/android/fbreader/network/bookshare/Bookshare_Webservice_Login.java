@@ -72,6 +72,7 @@ public class Bookshare_Webservice_Login extends Activity{
 	private boolean isFree= false;
 	private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
 	private boolean isOM = false;
+	private boolean isIM = false;
 	private String response;
 	//private InputAccess inputAccess = new InputAccess(this, true);
 
@@ -362,6 +363,7 @@ public class Bookshare_Webservice_Login extends Activity{
 				if(!isFree){
 					Bookshare_UserType userTypeObj = new Bookshare_UserType();
 					isOM = userTypeObj.isOM(response);
+					isIM = userTypeObj.isIM();
 					if(isOM){
 						String downloadPassword = userTypeObj.getDownloadPassword();
 						if(downloadPassword == null){
@@ -422,6 +424,7 @@ public class Bookshare_Webservice_Login extends Activity{
 				editor.putString(USER, username);
 				editor.putString(PASSWORD, password);
 				editor.putBoolean("isOM", isOM);
+				editor.putBoolean("isIM", isIM);
 				editor.commit();
 				if (isFree)
 					startActivity(intent);

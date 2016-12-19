@@ -99,8 +99,10 @@ public class GoReadTabMainTabContent extends ListFragment implements SortUtil.So
 
     @Override
     public void onForceRefresh(){
-        downloadedBooksList.clear();
-        fillListAdapter();
+        if(getActivity() != null) {
+            downloadedBooksList.clear();
+            fillListAdapter();
+        }
     }
 
 

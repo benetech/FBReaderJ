@@ -22,8 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.benetech.android.R.id.bookId;
-
 /**
  * Created by animal@martus.org on 4/6/16.
  */

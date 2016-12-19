@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Go Read</string>
     <string name="book_info_activity">Book Info</string>
-    
+
 	<string name="empty_string"></string>
 	<string name="search_hint">enter search query</string>
 
@@ -25,8 +25,9 @@
     <string name="login_forgot_password">Forgot password</string>
     <string name="login_signup">Sign up!</string>
 
-    
+
     <!-- Bookshare_Book_Details -->
+    <string name="book_details_readinglist_button">Add to reading list</string>
     <string name="book_details_download_button">Download (text only)</string>
      <string name="book_details_download_images">Download book with images</string>
     <string name="book_details_download_error">Download Failed! Download again</string>
@@ -75,13 +76,13 @@
 
     <!-- Bookshare Twitter Handler -->
     <string name="twitter_successful_post">Posted to Twitter</string>
-    
+
     <!-- Bug Report Activity -->
     <string name="crash_report_sent">Sorry, we had an error. Support has been notified.</string>
-    
+
     <!-- Cancel Activity -->
     <string name="cancel_menu_title">Leaving us? Choose below ...</string>
-    
+
     <!-- FBReader -->
     <string name="navigate_dialog_title">Navigate to Page.</string>
     <string name="navigate_dialog_label">Enter page number.</string>
@@ -113,7 +114,7 @@
 
     <!-- NetworkLibraryActivity -->
     <string name="network_library_accessibility_warning">Other catalogs have not been made accessible to vision impaired users.</string>
-    
+
     <!-- SpeakActivity -->
     <string name="play">Play/Pause</string>
     <string name="next">Next section</string>
@@ -171,6 +172,7 @@
 
     <string name="button_label_delete_book">Delete</string>
     <string name="button_label_cancel">Cancel</string>
+    <string name="button_label_accept">Accept</string>
     <string name="button_label_done_sync_bookshare">Done</string>
     <string name="title_sync_bookshare_progress_dialog">Bookshare sync in progress...</string>
     <string name="title_sync_bookshare_complete_progress_dialog">Bookshare Sync\nComplete</string>
@@ -213,4 +215,8 @@
     <string name="signout_button_title_pattern">Logout %s</string>
 
     <string name="book_unavailable_for_download_warning">This book is not currently available for download to your account.  Are you signed in to Bookshare?</string>
+
+    <string name="added_to_readinglist_success">Added to list</string>
+    <string name="added_to_readinglist_fail_title">Failed to add title to list</string>
+    <string name="added_to_readinglist_fail_message">There has been an unexpected error and the title could not be added to the selected reading list.</string>
 </resources>

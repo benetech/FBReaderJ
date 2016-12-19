@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareActionObserver;
 import org.geometerplus.fbreader.library.ReadingList;
+import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ import java.util.List;
 /**
  * Created by animal@martus.org on 4/4/16.
  */
-public class BookshareReadingListsFragment extends ListFragment {
+public class BookshareReadingListsFragment extends ListFragment implements SortUtil.SortChangesListener{
 
     private ArrayList<ReadingListsItem> readingListsItems;
     private static final String READINGLIST_TAG = "ReadingListFragment";
@@ -56,6 +58,7 @@ public class BookshareReadingListsFragment extends ListFragment {
     @Override
     public void onResume(){
         super.onResume();
+        SortUtil.registerForSortChanges(this);
         SyncReadingListsWithBookshareActionObserver.getInstance().notifyRelevantBooklistOpened(getActivity());
         if(myReadingListFragment != null){
             try{
@@ -66,9 +69,35 @@ public class BookshareReadingListsFragment extends ListFragment {
         }
     }
 
-    private void fillListAdapter() throws Exception {
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        SortUtil.unregisterForSortChanges(this);
+    }
+
+    @Override
+    public void onSortChanged(){
+        ((BaseAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
+    @Override
+    public void onForceRefresh(){
+        if(getActivity() != null) {
+            readingListsItems.clear();
+            fillListAdapter();
+        }
+    }
+
+    private void fillListAdapter()  {
         SQLiteBooksDatabase database = (SQLiteBooksDatabase) AbstractSQLiteBooksDatabase.Instance();
-        ArrayList<ReadingList> readingLists = database.getAllReadingLists();
+        ArrayList<ReadingList> readingLists;
+        try{
+            readingLists = database.getAllReadingLists();
+        }
+        catch (Exception e){
+            Log.e("ReadingListsFragment", " BookshareReadingListsFrag fillListAdapter crashed", e);
+            readingLists = new ArrayList<>();
+        }
         fillListAdapter(readingLists);
     }
 

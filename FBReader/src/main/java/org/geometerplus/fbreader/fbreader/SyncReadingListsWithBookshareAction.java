@@ -25,6 +25,7 @@ import org.geometerplus.android.fbreader.benetech.AsyncResponse;
 import org.geometerplus.android.fbreader.benetech.DownLoadReadingListsTask;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
+import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -100,6 +101,7 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
                 if(progressDialog != null) {
                     if(progressDialog.shouldDismissOnFinish){
                         progressDialog.dismiss();
+                        SortUtil.forceRefreshListeners();
                     }
                     else {
                         showGreenCheckMarkImageView();

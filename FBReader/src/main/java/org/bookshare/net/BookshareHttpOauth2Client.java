@@ -1,6 +1,7 @@
 package org.bookshare.net;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.apache.commons.codec.binary.Base64;
 import org.benetech.android.BuildConfig;
@@ -91,6 +92,25 @@ public class BookshareHttpOauth2Client {
         return readingLists;
     }
 
+    public boolean postTitleToReadingList(String accessToken, String readingListId, String titleId) throws Exception {
+
+        String url = String.format("https://%s/v2/lists/%s/titles?api_key=%s",HOST_NAME, readingListId, API_KEY);
+
+        HttpsURLConnection urlConnection = createHttpsUrlConnection(url, POST_REQUESTE_METHOD);
+        setAccessToken(accessToken, urlConnection);
+
+        LinkedHashMap<String, String> formParameters = new LinkedHashMap<>();
+        formParameters.put("bookshareId", titleId);
+        writeFormParameters(formParameters, urlConnection);
+
+        int[] responseCode = new int[1];
+        final String rawResponseWithReadingLists = requestData(urlConnection, responseCode);
+
+        return responseCode[0] == HttpURLConnection.HTTP_OK;
+    }
+
+
+
     private JSONObject getBooksForReadingList(String accessToken, int readingListId) throws Exception {
         String urlWithReadingListId = BOOK_TITLES_FOR_READING_LIST_URL.replace(READINGLIST_ID_REPLACEMENT_TOKEN, Integer.toString(readingListId));
         HttpsURLConnection urlConnection = createConnection(urlWithReadingListId, accessToken);
@@ -122,9 +142,14 @@ public class BookshareHttpOauth2Client {
     }
 
     public String requestData(HttpsURLConnection urlConnection) throws Exception {
+        int[] responseCode = new int[1];
+        return requestData(urlConnection, responseCode);
+    }
+
+    public String requestData(HttpsURLConnection urlConnection, int[] responseCode) throws Exception {
         InputStream inputStream;
-        final int responseCode = urlConnection.getResponseCode();
-        if (responseCode < HttpURLConnection.HTTP_BAD_REQUEST) {
+        responseCode[0] = urlConnection.getResponseCode();
+        if (responseCode[0] < HttpURLConnection.HTTP_BAD_REQUEST) {
             inputStream = urlConnection.getInputStream();
         } else {
             inputStream = urlConnection.getErrorStream();
@@ -156,15 +181,39 @@ public class BookshareHttpOauth2Client {
 
     private void writeLoginFormParameters(HttpsURLConnection urlConnection) throws IOException {
         OutputStream outputStream = urlConnection.getOutputStream();
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, UTF_8));
+        try {
+            final String result = createQuery(createFormParameterList());
+            writer.write(result);
+            writer.flush();
+        }
+        catch (IOException e){
+            Log.e("OauthClient", "Writing parameters to connection crashed", e);
+        }
+        finally {
+            if(writer != null){
+                writer.close();
+            }
+            if(outputStream != null){
+                outputStream.close();
+            }
+        }
+    }
+
+    private void writeFormParameters(LinkedHashMap<String, String> formParameterList, HttpsURLConnection urlConnection) throws IOException {
+
+        OutputStream outputStream = urlConnection.getOutputStream();
 
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream, UTF_8));
-        final String result = createQuery(createFormParameterList());
+        final String result = createQuery(formParameterList);
         writer.write(result);
         writer.flush();
         writer.close();
 
         outputStream.close();
+
     }
+
 
     @NonNull
     private LinkedHashMap<String, String> createFormParameterList() {
