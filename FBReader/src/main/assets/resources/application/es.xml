@@ -380,6 +380,10 @@
 					<node name="justify" value="Justificado"/>
 					<node name="unchanged" value="&lt;sin cambios&gt;"/>
 				</node>
+				<node name="allowPinchZoom" value="Permitir pinza de zoom">
+					<node name="summaryOn" value="Pinza de zoom activado"/>
+					<node name="summaryOff" value="Pinza de zoom desactivado"/>
+				</node>
 				<node name="allowHyphenations" value="Permitir división de palabras">
 					<node name="on" value="dividir palabras"/>
 					<node name="off" value="no dividir palabras"/>

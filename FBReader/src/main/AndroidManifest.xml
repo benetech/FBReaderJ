@@ -243,7 +243,7 @@
         <activity android:name="org.geometerplus.android.fbreader.benetech.AccessibleMainMenuActivity" android:label="Main Menu" />
         <activity android:name="org.geometerplus.android.fbreader.benetech.AccessibleNavigateActivity" android:label="Go to page" />
 		<activity android:name="org.geometerplus.android.fbreader.BookTabbedNavigationMainAcitivity" android:label="Book Navigation" />
-		<activity android:name="org.geometerplus.android.fbreader.benetech.MyBooksActivity" android:label="My books"
+		<activity android:name="org.geometerplus.android.fbreader.benetech.MyBooksActivity" android:label="@string/menu_library"
 			android:configChanges="orientation|keyboardHidden|screenSize" />
 		<activity android:name="org.geometerplus.android.fbreader.benetech.AddToReadingListDialogActivity" android:theme="@style/Theme.AppCompat.Light.Dialog"
 			android:label="@string/book_details_readinglist_button"	android:configChanges="orientation|keyboardHidden|screenSize"  />
