@@ -32,7 +32,7 @@
 			<node name="summary" value="Buscar resultados para: %s"/>
 		</node>
 		<node name="search" value="Buscar">
-			<node name="summary" value="Buscar libros bajados"/>
+			<node name="summary" value="Buscar libros descargados"/>
 		</node>
 		<node name="fileTree" value="Árbol de archivos">
 			<node name="summary" value="Navegar por el sistema de archivos"/>
@@ -597,7 +597,7 @@
 		</node>
 		<node name="tips">
 			<node name="title" value="Tip del día"/>
-			<node name="initializationText" value="Desea leer tips diarios FBReader? Nuevos tips se bajarán del sitio FBReader. Consumo de red es 1-2 kilobytes por semana.&#10;&#10;Habilitar tips?"/>
+			<node name="initializationText" value="Desea leer tips diarios FBReader? Nuevos tips se descargarán del sitio FBReader. Consumo de red es 1-2 kilobytes por semana.&#10;&#10;Habilitar tips?"/>
 			<node name="dontShowAgain" value="No mostrar de nuevo"/>
 			<node name="more" value="Siguiente tip"/>
 		</node>
