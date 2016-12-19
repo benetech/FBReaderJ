@@ -34,9 +34,6 @@ import org.geometerplus.zlibrary.core.view.ZLView;
 import org.geometerplus.zlibrary.core.view.ZLViewWidget;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidActivity;
 
-import static android.R.attr.x;
-import static android.R.attr.y;
-
 public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongClickListener {
 	private final Paint myPaint = new Paint();
 	private final BitmapManager myBitmapManager = new BitmapManager(this);
@@ -321,7 +318,7 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 				isPendingTwoFingerDoubleTap = true;
 				break;
 			case MotionEvent.ACTION_UP:
-				handleActionUpEvents(view);
+				handleActionUpEvents(view,x ,y);
 				isPendingDoubleTap = false;
 				isPendingPress = false;
 				isScreenIsTouched = false;
@@ -341,7 +338,7 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 				break;
 			case MotionEvent.ACTION_MOVE:
 			{
-				handleActionMoveEvents(view);
+				handleActionMoveEvents(view, x, y);
 				break;
 			}
 		}
@@ -349,7 +346,7 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 		return true;
 	}
 
-	private void handleActionUpEvents(ZLView view){
+	private void handleActionUpEvents(ZLView view, int x, int y){
 		if (isPendingDoubleTap) {
 			view.onFingerDoubleTap(x, y, isPendingTwoFingerDoubleTap);
 			isPendingTwoFingerDoubleTap = false;
@@ -378,7 +375,7 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 		}
 	}
 
-	private void handleActionMoveEvents(ZLView view){
+	private void handleActionMoveEvents(ZLView view, int x, int y){
 		final int slop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
 		final boolean isAMove =
 				Math.abs(myPressedX - x) > slop || Math.abs(myPressedY - y) > slop;
