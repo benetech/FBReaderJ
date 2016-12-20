@@ -19,16 +19,16 @@
 
 package org.geometerplus.zlibrary.core.library;
 
-import java.util.Collection;
-
 import org.geometerplus.zlibrary.core.filesystem.ZLResourceFile;
 import org.geometerplus.zlibrary.core.options.ZLStringOption;
+
+import java.util.Collection;
 
 public abstract class ZLibrary {
 	public static ZLibrary Instance() {
 		return ourImplementation;
 	}
-		
+
 	private static ZLibrary ourImplementation;
 
 	public static final String SCREEN_ORIENTATION_SYSTEM = "system";
@@ -51,7 +51,6 @@ public abstract class ZLibrary {
 	abstract public String getFullVersionName();
     abstract public int getVersionCode();
 	abstract public String getCurrentTimeString();
-	abstract public void setScreenBrightness(int percent);
 	abstract public int getScreenBrightness();
 	abstract public int getDisplayDPI();
 	abstract public Collection<String> defaultLanguageCodes();

@@ -19,10 +19,6 @@
 
 package org.geometerplus.zlibrary.ui.android.library;
 
-import java.io.*;
-import java.util.*;
-import java.lang.reflect.Field;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
@@ -32,16 +28,24 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
-import android.util.Log;
-
-import org.geometerplus.zlibrary.core.library.ZLibrary;
-import org.geometerplus.zlibrary.core.filesystem.ZLFile;
-import org.geometerplus.zlibrary.core.filesystem.ZLResourceFile;
-import org.geometerplus.zlibrary.core.options.ZLBooleanOption;
-import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
 
 import org.benetech.android.R;
+import org.geometerplus.zlibrary.core.filesystem.ZLFile;
+import org.geometerplus.zlibrary.core.filesystem.ZLResourceFile;
+import org.geometerplus.zlibrary.core.library.ZLibrary;
+import org.geometerplus.zlibrary.core.options.ZLBooleanOption;
+import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
 import org.geometerplus.zlibrary.ui.android.view.ZLAndroidWidget;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TreeSet;
 
 public final class ZLAndroidLibrary extends ZLibrary {
 	public final ZLBooleanOption ShowStatusBarOption = new ZLBooleanOption("LookNFeel", "ShowStatusBar", hasNoHardwareMenuButton());
@@ -155,13 +159,6 @@ public final class ZLAndroidLibrary extends ZLibrary {
 	@Override
 	public String getCurrentTimeString() {
 		return DateFormat.getTimeFormat(myApplication.getApplicationContext()).format(new Date());
-	}
-
-	@Override
-	public void setScreenBrightness(int percent) {
-		if (myActivity != null) {
-			myActivity.setScreenBrightness(percent);
-		}
 	}
 
 	@Override
@@ -298,7 +295,7 @@ public final class ZLAndroidLibrary extends ZLibrary {
 				return length;
 			} catch (IOException e) {
 				return 0;
-			} 
+			}
 		}
 
 		@Override
