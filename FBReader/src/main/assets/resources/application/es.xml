@@ -465,8 +465,8 @@
 					<node name="custom" value="Personalizado&#8230;"/>
 				</node>
 			</node>
-			<node name="moresettings" value="Más">
-				<node name="summary" value="Ajustes adicionales"/>
+			<node name="moresettings" value="Más ajustes">
+				<node name="summary" value="Diccionario, Imágenes"/>
 			</node>
 			<node name="dictionary" value="Diccionario">
 				<node name="summary" value="Preferencias del diccionario"/>

@@ -474,8 +474,8 @@
 					<node name="custom" value="Custom&#8230;"/>
 				</node>
 			</node>
-			<node name="moresettings" value="More">
-				<node name="summary" value="Additional settings"/>
+			<node name="moresettings" value="More settings">
+				<node name="summary" value="Dictionary, Images"/>
 			</node>
 			<node name="dictionary" value="Dictionary">
 				<node name="summary" value="Dictionary settings"/>
