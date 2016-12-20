@@ -17,18 +17,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.BookNavigationBookmarkTab;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.fbreader.library.Book;
+import org.geometerplus.fbreader.library.Bookmark;
 import org.geometerplus.fbreader.library.Library;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.library.ZLibrary;
+import org.geometerplus.zlibrary.ui.android.util.BookmarkUtil;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by animal@martus.org on 10/27/15.
@@ -87,6 +95,10 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
         if (item.getItemId() == R.id.toc) {
             ZLApplication.Instance().doAction(ActionCode.SHOW_TOC);
         }
+        else if (item.getItemId() == R.id.top_menu_bookmark) {
+            addBookmark();
+        }
+
 
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
@@ -286,5 +298,25 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
             fbReader.doAction(ActionCode.SWITCH_TO_DAY_PROFILE);
         }
 
+    }
+
+    private void addBookmark(){
+
+        List<Bookmark> allBooksBookmarks = Bookmark.bookmarks();
+        List<Bookmark> bookBookmarks = new ArrayList<>();
+
+        Collections.sort(allBooksBookmarks, new Bookmark.ByTimeComparator());
+        final FBReaderApp fbreader = (FBReaderApp)FBReaderApp.Instance();
+
+        if (fbreader.Model != null) {
+            final long bookId = fbreader.Model.Book.getId();
+            for (Bookmark bookmark : allBooksBookmarks) {
+                if (bookmark.getBookId() == bookId) {
+                    bookBookmarks.add(bookmark);
+                }
+            }
+
+        }
+        BookmarkUtil.addBookmark(bookBookmarks, allBooksBookmarks, this);
     }
 }

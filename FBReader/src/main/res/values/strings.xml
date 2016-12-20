@@ -94,6 +94,7 @@
     <string name="menu_speak">Read to Me</string>
     <string name="menu_bookshare">Search Bookshare</string>
     <string name="menu_toc">Table of Contents</string>
+    <string name="menu_bookmark">Add bookmark here</string>
     <string name="main_menu">Main Menu</string>
     <string name="menu_navigate">Navigate to Page</string>
     <string name="menu_bookmarks">Bookmarks</string>

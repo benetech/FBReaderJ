@@ -29,6 +29,7 @@ import org.geometerplus.fbreader.library.Library;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.options.ZLStringOption;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
+import org.geometerplus.zlibrary.ui.android.util.BookmarkUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,29 +86,6 @@ public class BookNavigationBookmarkTab extends Fragment implements MenuItem.OnMe
         listView = (ListView) contextMenuDialog.findViewById(R.id.accessible_list);
 
         return view;
-    }
-
-    private void addBookmark() {
-        final FBReaderApp fbreader = (FBReaderApp)FBReaderApp.Instance();
-        final Bookmark bookmark = fbreader.addBookmark(20, true);
-        if (myThisBookBookmarks.contains(bookmark)) {
-            final VoiceableDialog finishedDialog = new VoiceableDialog(getActivity());
-            String message = getResources().getString(R.string.message_bookmark_already_exists);
-            finishedDialog.popup(message, 2000);
-
-            return;
-        }
-
-        if (bookmark != null) {
-            bookmark.save();
-            myThisBookBookmarks.add(0, bookmark);
-            allBooksBookmarks.add(0, bookmark);
-            invalidateAllViews();
-
-            final VoiceableDialog finishedDialog = new VoiceableDialog(getActivity());
-            String msg = getResources().getString(R.string.bookmark_added, bookmark.getPageNumber());
-            finishedDialog.popup(msg, 3000);
-        }
     }
 
     private void invalidateAllViews() {
@@ -263,7 +241,8 @@ public class BookNavigationBookmarkTab extends Fragment implements MenuItem.OnMe
                     contextMenuDialog.show();
                 }
             } else {
-                addBookmark();
+                BookmarkUtil.addBookmark(myThisBookBookmarks, allBooksBookmarks, getActivity());
+                invalidateAllViews();
             }
         }
 
