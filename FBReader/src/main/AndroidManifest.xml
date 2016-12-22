@@ -18,6 +18,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<application android:name="org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication" android:icon="@drawable/goread" android:theme="@style/MyAppTheme" android:label="@string/app_name"
 		>
+		<meta-data
+			android:name="android.app.default_searchable"
+			android:value="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Menu" />
 		<activity android:name="org.geometerplus.zlibrary.ui.android.library.BugReportActivity" android:label="Go Read crash" android:configChanges="orientation|keyboardHidden" android:process=":crash" />
 		<activity android:name="org.geometerplus.android.fbreader.crash.FixBooksDirectoryActivity" android:theme="@android:style/Theme.Dialog" android:configChanges="orientation|keyboardHidden" android:process=":crash">
 			<intent-filter>
@@ -227,7 +230,15 @@
 		<activity android:name="org.geometerplus.android.fbreader.tips.TipsActivity" android:configChanges="orientation|keyboardHidden" android:theme="@android:style/Theme.Dialog"/>
         <activity android:name="org.geometerplus.android.fbreader.benetech.SpeakActivity" android:configChanges="orientation|keyboardHidden"  android:theme="@android:style/Theme.Dialog" android:label=" " />
 
-        <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Menu"  android:label="Bookshare Library" />
+        <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Menu"
+			android:label="@string/library_search_title">
+			<intent-filter>
+				<action android:name="android.intent.action.SEARCH" />
+			</intent-filter>
+			<meta-data
+				android:name="android.app.searchable"
+				android:resource="@xml/library_searchable" />
+		</activity>
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Books_Listing"
                   android:configChanges="orientation|screenSize|keyboard|keyboardHidden|locale|layoutDirection"
                   android:label="Books Listing" />

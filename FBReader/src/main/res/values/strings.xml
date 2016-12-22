@@ -106,8 +106,10 @@
     <string name="menu_help">Help</string>
     <string name="menu_accessibility_settings">Accessibility Settings</string>
     <string name="menu_tts_settings">Text To Speech Settings</string>
+    <string name="menu_search_bar">Search</string>
 
     <!-- LibraryActivity -->
+    <string name="library_search_title">Bookshare Library</string>
     <string name="library_search_books_popup">Search downloaded books?</string>
     <string name="library_added_to_favorites">Added to favorites</string>
     <string name="library_removed_from_favorites">Removed from favorites</string>

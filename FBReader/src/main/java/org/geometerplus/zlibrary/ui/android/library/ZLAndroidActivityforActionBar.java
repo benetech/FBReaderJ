@@ -33,7 +33,7 @@ public abstract class ZLAndroidActivityforActionBar extends ZLAndroidActivity {
     //Added for the detecting whether the talkback is on
     protected AccessibilityManager accessibilityManager;
     private boolean initialOpen = true;
-    private OptionsMenuHandler optionsMenuHandler;
+    protected OptionsMenuHandler optionsMenuHandler;
 
     @Override
     public void onCreate(Bundle state) {

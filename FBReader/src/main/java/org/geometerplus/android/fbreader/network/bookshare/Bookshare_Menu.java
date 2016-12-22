@@ -3,6 +3,9 @@ package org.geometerplus.android.fbreader.network.bookshare;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +14,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -24,6 +30,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -171,6 +178,35 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
 		//Listener for the ListView
 		lv.setOnItemClickListener(new MenuClickListener(this));
 	}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_action_bar_menu, menu);
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService( Context.SEARCH_SERVICE );
+        MenuItem item = menu.findItem(R.id.search);
+        SearchView searchView =
+                (SearchView) item.getActionView();
+        ComponentName componentName = getComponentName();
+        SearchableInfo info = searchManager.getSearchableInfo(componentName);
+        searchView.setSearchableInfo(info);
+
+        return optionsMenuHandler.onCreateOptionsMenu(menu, myPluginActions);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId() == R.id.search) {
+            displaySearchBar();
+            return true;
+        }
+        else return super.onOptionsItemSelected(item);
+    }
+
+    private void displaySearchBar(){
+    }
 
 	private class MenuClickListener implements OnItemClickListener {
 	    private final Activity activity;
