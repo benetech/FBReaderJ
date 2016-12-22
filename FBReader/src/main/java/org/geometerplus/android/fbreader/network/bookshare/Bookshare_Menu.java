@@ -65,6 +65,7 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
     protected final static int POPULAR_REQUEST = 5;
     protected final static int ALL_PERIODICAL_REQUEST = 6; //(thushv)
     protected final static int PERIODICAL_EDITION_REQUEST = 7;
+    protected final static int TITLE_OR_AUTHOR_REQUEST = 8;
 
 	ArrayList<TreeMap<String,Object>> list = new ArrayList<TreeMap<String, Object>>();
 	private Dialog dialog;
@@ -207,7 +208,7 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
                 intent = new Intent(getApplicationContext(),Bookshare_Books_Listing.class);
                 intent.putExtra(REQUEST_TYPE, AUTHOR_SEARCH_REQUEST);
                 dialog_search_term.setText(query);
-                query_type = AUTHOR_SEARCH_REQUEST;
+                query_type = TITLE_OR_AUTHOR_REQUEST;
                 doSearch();
                 return true;
             }
@@ -477,6 +478,13 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
 
             isMetadataSearch = true;
         }
+        else if(query_type == TITLE_OR_AUTHOR_REQUEST){
+            if(isFree)
+                search_term = URI_String+"search/"+search_term+"?api_key="+developerKey;
+            else
+                search_term = URI_String+"search/"+search_term+"/for/"+username+"?api_key="+developerKey;
+        }
+
 
         if(isMetadataSearch){
             intent.putExtra("ID_SEARCH_URI", search_term);
