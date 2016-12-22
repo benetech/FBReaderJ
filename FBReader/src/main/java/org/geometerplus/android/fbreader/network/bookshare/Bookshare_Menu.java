@@ -33,6 +33,7 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.accessibility.ParentCloserDialog;
 import org.accessibility.VoiceableDialog;
@@ -184,6 +185,11 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_action_bar_menu, menu);
         // Associate searchable configuration with the SearchView
+        setupSearchView(menu);
+        return optionsMenuHandler.onCreateOptionsMenu(menu, myPluginActions);
+    }
+
+    private void setupSearchView(Menu menu){
         SearchManager searchManager =
                 (SearchManager) getSystemService( Context.SEARCH_SERVICE );
         MenuItem item = menu.findItem(R.id.search);
@@ -193,19 +199,25 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
         SearchableInfo info = searchManager.getSearchableInfo(componentName);
         searchView.setSearchableInfo(info);
 
-        return optionsMenuHandler.onCreateOptionsMenu(menu, myPluginActions);
-    }
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // use this method when query submitted
+                Toast.makeText(Bookshare_Menu.this, query, Toast.LENGTH_SHORT).show();
+                intent = new Intent(getApplicationContext(),Bookshare_Books_Listing.class);
+                intent.putExtra(REQUEST_TYPE, AUTHOR_SEARCH_REQUEST);
+                dialog_search_term.setText(query);
+                query_type = AUTHOR_SEARCH_REQUEST;
+                doSearch();
+                return true;
+            }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        if(item.getItemId() == R.id.search) {
-            displaySearchBar();
-            return true;
-        }
-        else return super.onOptionsItemSelected(item);
-    }
-
-    private void displaySearchBar(){
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // use this method for auto complete search process
+                return false;
+            }
+        });
     }
 
 	private class MenuClickListener implements OnItemClickListener {
