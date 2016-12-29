@@ -211,8 +211,12 @@ public class BookNavigationBookmarkTab extends Fragment implements MenuItem.OnMe
                 textView.setText(ZLResource.resource("bookmarksView").getResource("new").getValue());
                 bookTitleView.setVisibility(View.GONE);
             } else {
+                String delimiter = " page ";
+                String pageNumber = bookmark.getText().substring(bookmark.getText()
+                        .lastIndexOf(delimiter)+delimiter.length());
                 imageView.setVisibility(View.GONE);
-                textView.setText(bookmark.getText());
+                textView.setText(String.format("%s %s : %s", getString(R.string.bookmark_page),
+                        pageNumber, bookmark.getText()));
                 if (myCurrentBook) {
                     bookTitleView.setVisibility(View.GONE);
                 } else {

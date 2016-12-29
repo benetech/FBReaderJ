@@ -8,6 +8,7 @@
 
     <!-- BookmarksActivity -->
     <string name="bookmark_added">bookmark on page %1$s added</string>
+    <string name="bookmark_page">Page</string>
 
 	<!--  Bookshare_Webservice_login -->
 	<string name="fetch_book_data">Fetching free books data.</string>
