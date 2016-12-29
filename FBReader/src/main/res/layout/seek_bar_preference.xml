@@ -9,7 +9,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Screen Brightness adjustment"
+        android:text="@string/screen_brightness_adjustment"
         android:layout_marginLeft="10dip"
         android:layout_marginTop="6dip"
         android:layout_marginBottom="6dip"/>
