@@ -3,6 +3,9 @@ package org.geometerplus.android.fbreader.network.bookshare;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +14,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -24,8 +30,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.accessibility.ParentCloserDialog;
 import org.accessibility.VoiceableDialog;
@@ -57,6 +65,7 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
     protected final static int POPULAR_REQUEST = 5;
     protected final static int ALL_PERIODICAL_REQUEST = 6; //(thushv)
     protected final static int PERIODICAL_EDITION_REQUEST = 7;
+    protected final static int TITLE_OR_AUTHOR_REQUEST = 8;
 
 	ArrayList<TreeMap<String,Object>> list = new ArrayList<TreeMap<String, Object>>();
 	private Dialog dialog;
@@ -171,6 +180,46 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
 		//Listener for the ListView
 		lv.setOnItemClickListener(new MenuClickListener(this));
 	}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_action_bar_menu, menu);
+        // Associate searchable configuration with the SearchView
+        setupSearchView(menu);
+        return optionsMenuHandler.onCreateOptionsMenu(menu, myPluginActions);
+    }
+
+    private void setupSearchView(Menu menu){
+        SearchManager searchManager =
+                (SearchManager) getSystemService( Context.SEARCH_SERVICE );
+        MenuItem item = menu.findItem(R.id.search);
+        SearchView searchView =
+                (SearchView) item.getActionView();
+        ComponentName componentName = getComponentName();
+        SearchableInfo info = searchManager.getSearchableInfo(componentName);
+        searchView.setSearchableInfo(info);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // use this method when query submitted
+                Toast.makeText(Bookshare_Menu.this, query, Toast.LENGTH_SHORT).show();
+                intent = new Intent(getApplicationContext(),Bookshare_Books_Listing.class);
+                intent.putExtra(REQUEST_TYPE, AUTHOR_SEARCH_REQUEST);
+                dialog_search_term.setText(query);
+                query_type = TITLE_OR_AUTHOR_REQUEST;
+                doSearch();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // use this method for auto complete search process
+                return false;
+            }
+        });
+    }
 
 	private class MenuClickListener implements OnItemClickListener {
 	    private final Activity activity;
@@ -429,6 +478,13 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
 
             isMetadataSearch = true;
         }
+        else if(query_type == TITLE_OR_AUTHOR_REQUEST){
+            if(isFree)
+                search_term = URI_String+"search/"+search_term+"?api_key="+developerKey;
+            else
+                search_term = URI_String+"search/"+search_term+"/for/"+username+"?api_key="+developerKey;
+        }
+
 
         if(isMetadataSearch){
             intent.putExtra("ID_SEARCH_URI", search_term);
