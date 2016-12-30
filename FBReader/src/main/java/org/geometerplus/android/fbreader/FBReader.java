@@ -422,6 +422,9 @@ public class FBReader extends ZLAndroidActivityforActionBar {
 			case CANCEL_CODE:
 				fbreader.runCancelAction(resultCode - 1);
 				break;
+			case LOGIN_CODE:
+				invalidateOptionsMenu();
+				break;
 		}
 	}
 
