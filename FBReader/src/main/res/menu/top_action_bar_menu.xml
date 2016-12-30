@@ -2,6 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/top_menu_bookmark"
+        android:icon="@drawable/ic_bookmark_white"
+        android:title="@string/menu_bookmark"
+        android:orderInCategory="99"
+        app:showAsAction="always"
+        android:contentDescription="@string/menu_bookmark"
+        />
+    <item
         android:id="@+id/toc"
         android:icon="@drawable/ic_menu_toc"
         android:title="@string/menu_toc"
