@@ -352,7 +352,14 @@
 				<node name="font" value="Tipo de letra">
 					<node name="unchanged" value="&lt;sin cambios&gt;"/>
 				</node>
-				<node name="fontSize" value="Tamaño de letra"/>
+				<node name="fontSize" value="Tamaño de letra">
+					<node name="X Small" value="Minúscula"/>
+					<node name="Small" value="Pequeña"/>
+					<node name="Regular" value="Regular"/>
+					<node name="Large" value="Grande"/>
+					<node name="X Large" value="Extra grande"/>
+					<node name="Huge" value="Enorme"/>
+				</node>
 				<node name="fontSizeDifference" value="Diferencia de tamaño de letra"/>
 				<node name="fontStyle" value="Estilo de letra">
 					<node name="regular" value="Normal"/>
