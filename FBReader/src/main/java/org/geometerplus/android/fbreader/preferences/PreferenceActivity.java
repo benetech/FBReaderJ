@@ -271,6 +271,12 @@ public class PreferenceActivity extends ZLPreferenceActivity {
 
         final Screen tipsScreen = createPreferenceScreen("tips");
         tipsScreen.addOption(TipsManager.Instance().ShowTipsOption, "showTips");
+
+        final Screen moreSettingsScreen = createPreferenceScreen("moresettings");
+        myScreen.removePreference(dictionaryScreen.myScreen);
+        myScreen.removePreference(imagesScreen.myScreen);
+        moreSettingsScreen.addPreference(dictionaryScreen.myScreen);
+        moreSettingsScreen.addPreference(imagesScreen.myScreen);
     }
 
     @Override

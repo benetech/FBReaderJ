@@ -19,20 +19,24 @@
 
 package org.geometerplus.android.fbreader.preferences;
 
-import java.util.HashMap;
-
 import android.app.Dialog;
-import android.os.Bundle;
-import android.preference.*;
 import android.content.Intent;
+import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceScreen;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import org.benetech.android.R;
-import org.geometerplus.zlibrary.core.options.*;
+import org.geometerplus.zlibrary.core.options.ZLBooleanOption;
+import org.geometerplus.zlibrary.core.options.ZLColorOption;
+import org.geometerplus.zlibrary.core.options.ZLEnumOption;
+import org.geometerplus.zlibrary.core.options.ZLStringOption;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
+
+import java.util.HashMap;
 
 abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 	public static String SCREEN_KEY = "screen";
@@ -42,7 +46,7 @@ abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 
 	protected class Screen {
 		public final ZLResource Resource;
-		private final PreferenceScreen myScreen;
+		public final PreferenceScreen myScreen;
 
 		private Screen(ZLResource root, String resourceKey) {
 			Resource = root.getResource(resourceKey);
@@ -91,7 +95,7 @@ abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 		}
 	}
 
-	private PreferenceScreen myScreen;
+	protected PreferenceScreen myScreen;
 	final ZLResource Resource;
 
 	ZLPreferenceActivity(String resourceKey) {

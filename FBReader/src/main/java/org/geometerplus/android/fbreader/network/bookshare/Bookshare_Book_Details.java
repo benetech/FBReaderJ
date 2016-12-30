@@ -621,7 +621,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 
             // Disable the download button while the download is in progress
 
-            currentButton.setText("Downloading Book...");
+            currentButton.setText(R.string.book_details_download_downloading);
             // Disable the download button while the download is in progress
             currentButton.setEnabled(false);
 

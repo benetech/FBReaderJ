@@ -5,11 +5,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.design.internal.NavigationMenuPresenter;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +28,7 @@ import org.geometerplus.android.fbreader.BookNavigationBookmarkTab;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.fbreader.fbreader.ColorProfile;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.Bookmark;
@@ -37,6 +40,8 @@ import org.geometerplus.zlibrary.ui.android.util.BookmarkUtil;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by animal@martus.org on 10/27/15.
@@ -76,8 +81,8 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
         mDrawerToggle.syncState();
+        setupNavigationMenu();
     }
 
     @Override
@@ -105,6 +110,15 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupNavigationMenu(){
+        FBReaderApp fbReader =  (FBReaderApp) FBReaderApp.Instance();
+        if(fbReader != null && ColorProfile.DAY.equals(fbReader.getColorProfileName())){
+            MenuItem item = mNavigationMenu.getMenu().findItem(R.id.drawer_item_day);
+            item.setTitle(R.string.nav_draw_night);
+            item.setIcon(R.drawable.ic_menu_night);
+        }
     }
 
     private void doWorkBeforeCallingSuper() {
@@ -265,11 +279,8 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
             if (menuItemId == R.id.drawer_item_search_text)
                 ZLApplication.Instance().doAction(ActionCode.SEARCH);
 
-            if (menuItemId == R.id.drawer_item_night)
-                handleNightEvent();
-
             if (menuItemId == R.id.drawer_item_day)
-                handleDayEvent();
+                toggleDayNight(menuItem);
 
             if (menuItemId == R.id.drawer_item_screen_orientation)
                 showOrientationPopup();
@@ -288,16 +299,40 @@ public class ZLAndroidActivityWithNavigationDrawer extends AppCompatActivity imp
             return true;
         }
 
-        private void handleNightEvent() {
+        private void toggleDayNight(MenuItem item){
+            String day = getString(R.string.nav_draw_day);
             final FBReaderApp fbReader = (FBReaderApp)FBReaderApp.Instance();
-            fbReader.doAction(ActionCode.SWITCH_TO_NIGHT_PROFILE);
-        }
 
-        private void handleDayEvent() {
-            final FBReaderApp fbReader = (FBReaderApp)FBReaderApp.Instance();
-            fbReader.doAction(ActionCode.SWITCH_TO_DAY_PROFILE);
+            if(day.equals(item.getTitle())){
+                item.setTitle(R.string.nav_draw_night);
+                item.setIcon(R.drawable.ic_menu_night);
+                fbReader.doAction(ActionCode.SWITCH_TO_DAY_PROFILE);
+            }
+            else {
+                item.setTitle(R.string.nav_draw_day);
+                item.setIcon(R.drawable.ic_menu_day);
+                fbReader.doAction(ActionCode.SWITCH_TO_NIGHT_PROFILE);
+            }
+            updateNavigationView();
         }
+    }
 
+
+
+    /**
+     * THIS METHOD IS A WORKAROUND THAT USES REFLECTION IN ORDER TO UPDATE THE NAVIGATION DRAWER'S MENU
+     * IN THE FUTURE WHEN THE APP IS MOVED TO SDK VERSION 23 OR HIGHER THIS WORKAROUND SHOULD BE REMOVED
+     */
+    private void updateNavigationView() {
+        try {
+            Field presenterField = NavigationView.class.getDeclaredField("mPresenter");
+            presenterField.setAccessible(true);
+            ((NavigationMenuPresenter) presenterField.get(mNavigationMenu)).updateMenuView(false);
+        } catch (NoSuchFieldException e) {
+            Log.e("Hack crashed", "hack to refresh navigation drawer crashed", e);
+        } catch (IllegalAccessException e) {
+            Log.e("Hack crashed", "hack to refresh navigation drawer crashed", e);
+        }
     }
 
     private void addBookmark(){

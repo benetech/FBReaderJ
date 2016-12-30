@@ -73,7 +73,7 @@
                         android:nextFocusUp="@+id/bookshare_dialog_btn_ok"
                         android:nextFocusRight="@+id/bookshare_dialog_search_edit_txt"
                         android:nextFocusDown="@+id/bookshare_dialog_search_edit_txt"
-						android:text="Cancel"/>
+						android:text="@string/button_label_cancel"/>
 				</TableRow>
 
 			</TableLayout>
