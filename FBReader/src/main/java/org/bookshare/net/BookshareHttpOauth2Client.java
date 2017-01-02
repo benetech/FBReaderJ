@@ -42,6 +42,7 @@ public class BookshareHttpOauth2Client {
     private static final String MASHERY_REQUEST_HEADER_LOGIN = MASHERY_API_KEY + COLON + MASHERY_PASSWORD;
     private static final String POST_REQUESTE_METHOD = "POST";
     private static final String GET_REQUEST_METHOD = "GET";
+    private static final String DELETE_REQUESTE_METHOD = "DELETE";
     private static String URL_AS_STRING = "https://" + HOST_NAME + "/v2/oauth/token?api_key=" + API_KEY;
     private static final String UTF_8 = "UTF-8";
 
@@ -109,6 +110,18 @@ public class BookshareHttpOauth2Client {
         return responseCode[0] == HttpURLConnection.HTTP_OK;
     }
 
+    public boolean deleteTitleFromReadingList(String accessToken, String readingListId, String titleId) throws Exception {
+
+        String url = String.format("https://%s/v2/lists/%s/titles/%s?api_key=%s",HOST_NAME, readingListId, titleId, API_KEY);
+
+        HttpsURLConnection urlConnection = createHttpsUrlConnection(url, DELETE_REQUESTE_METHOD);
+        setAccessToken(accessToken, urlConnection);
+
+        int[] responseCode = new int[1];
+        final String rawResponseWithReadingLists = requestData(urlConnection, responseCode);
+
+        return responseCode[0] == HttpURLConnection.HTTP_OK;
+    }
 
 
     private JSONObject getBooksForReadingList(String accessToken, int readingListId) throws Exception {

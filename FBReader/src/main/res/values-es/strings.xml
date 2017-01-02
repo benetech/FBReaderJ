@@ -27,6 +27,10 @@
 
 
     <!-- Bookshare_Book_Details -->
+    <string name="book_details_removefromreadinglist_title">Eliminar libro</string>
+    <string name="book_details_removefromreadinglist_message">Desea eliminar este libro?</string>
+    <string name="book_details_removefromreadinglist_button_list">Eliminar de la lista de lectura</string>
+    <string name="book_details_removefromreadinglist_button_both">Eliminar de la lista y del dispositivo</string>
     <string name="book_details_readinglist_button">Añadir a lista</string>
     <string name="book_details_download_button">Bajar (solo texto)</string>
      <string name="book_details_download_images">Bajar libro con imágenes</string>

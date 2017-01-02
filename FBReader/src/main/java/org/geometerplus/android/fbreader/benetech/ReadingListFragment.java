@@ -1,15 +1,19 @@
 package org.geometerplus.android.fbreader.benetech;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.BooksDatabase;
 import org.geometerplus.fbreader.library.ReadingList;
@@ -25,10 +29,11 @@ import java.util.Map;
 /**
  * Created by animal@martus.org on 4/6/16.
  */
-public class ReadingListFragment extends TitleListFragmentWithContextMenu {
+public class ReadingListFragment extends TitleListFragmentWithContextMenu implements AdapterView.OnItemLongClickListener {
 
     public static final String ARG_SHOULD_ADD_FAVORITES = "shouldAddFavorites";
     public static final String PARAM_READINGLIST_JSON= "PARAM_READINGLIST_JSON";
+    private final int START_READINGLIST_DIALOG = 1;
 
     private ReadingList readingList;
 
@@ -54,6 +59,13 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             shouldAddFavorites = getArguments().getBoolean(ARG_SHOULD_ADD_FAVORITES, false);
         }
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        getListView().setOnItemLongClickListener(this);
     }
 
     @Override
@@ -83,7 +95,8 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
                     e.printStackTrace();
                 }
             }
-            bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle, readingListBookAuthors, readingListBook.getDateAdded(), book));
+            bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle,
+                    readingListBookAuthors, readingListBook.getDateAdded(), book));
         }
 
         if(shouldAddFavorites) {
@@ -115,6 +128,19 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
         }
 
         return favoriteBooksOnDevice;
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        AbstractTitleListRowItem item = (AbstractTitleListRowItem)getListView().getAdapter().getItem(position);
+
+        Intent intent = new Intent(getActivity().getApplicationContext(), RemoveFromReadingListDialogActivity.class);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.putExtra(RemoveFromReadingListDialogActivity.EXTRA_LIST_ID, readingList.getBookshareId());
+        intent.putExtra(RemoveFromReadingListDialogActivity.EXTRA_BOOK_ID, Long.toString(item.getBookId()));
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        return true;
     }
 
     public class ReadingListBooksAdapter extends ArrayAdapter<AbstractTitleListRowItem> {
