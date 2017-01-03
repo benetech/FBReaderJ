@@ -8,6 +8,7 @@
 
     <!-- BookmarksActivity -->
     <string name="bookmark_added">Marcador en página  %1$s agregado</string>
+    <string name="bookmark_page">Página</string>
 
 	<!--  Bookshare_Webservice_login -->
 	<string name="fetch_book_data">Trayendo información de libros gratuitos.</string>
@@ -32,15 +33,16 @@
     <string name="book_details_removefromreadinglist_button_list">Eliminar de la lista de lectura</string>
     <string name="book_details_removefromreadinglist_button_both">Eliminar de la lista y del dispositivo</string>
     <string name="book_details_readinglist_button">Añadir a lista</string>
-    <string name="book_details_download_button">Bajar (solo texto)</string>
-     <string name="book_details_download_images">Bajar libro con imágenes</string>
+    <string name="book_details_download_button">Descargar (solo texto)</string>
+     <string name="book_details_download_images">Descargar libro con imágenes</string>
     <string name="book_details_download_error">Download falló! Intentar de nuevo</string>
     <string name="book_details_download_error_other_member">Download falló! Intentar otra cuenta</string>
     <string name="book_details_download_started">Download iniciado</string>
-    <string name="book_details_download_success">Libro bajado! Leer libro</string>
+    <string name="book_details_download_success">Libro descargado! Leer libro</string>
     <string name="book_details_not_available">No disponible</string>
     <string name="book_details_open_error">Error abriendo libro!</string>
     <string name="bookshare_book_detail_publish_date">Fecha agregada:\u0020</string>
+    <string name="book_details_download_downloading">"Descargando libro..."</string>
 
     <!-- Bookshare_Books_Listing -->
     <string name="fetching_books">Trayendo libros. Por favor espere.</string>
@@ -110,9 +112,12 @@
     <string name="menu_help">Ayuda</string>
     <string name="menu_accessibility_settings">Opciones de Accessibilidad</string>
     <string name="menu_tts_settings">Configuración Text To Speech</string>
+    <string name="menu_search_bar">Búsqueda</string>
 
     <!-- LibraryActivity -->
+    <string name="library_search_title">Biblioteca Bookshare</string>
     <string name="library_search_books_popup">Buscar libros bajados?</string>
+
     <string name="library_added_to_favorites">Agregar a favoritos</string>
     <string name="library_removed_from_favorites">Remover de favoritos</string>
 
@@ -145,18 +150,18 @@
     <string name="bks_menu_periodicals_label">Periódicos &amp; Revistas</string>
     <string name="fetching_periodicals">Obteniendo periódicos. Por favor espere.</string>
     <string name="search_complete_with_periodicals">Búsqueda completada. Lista de periódicos.</string>
-    <string name="login_to_continue">Por favor ingrese para bajar este periódico.</string>
-    <string name="edition_details_download_success">Periódico bajado! Leer Periódico.</string>
+    <string name="login_to_continue">Por favor ingrese para descargar este periódico.</string>
+    <string name="edition_details_download_success">Periódico descargado! Leer Periódico.</string>
     <string name="warning_no_general_downloads_for_periodicals">Advertencia! Ud no ha ingresado. Periódicos &amp; Revistas no están disponibles para visitantes. Seguro que desea continuar? </string>
     <string name="share_with_friends">Compartir com amigos!</string>
     <string name="subscription_chk_box">Subscribirse a este periódico</string>
-    <string name="subscribe_chkbox_description">(Bajar automáticamente la última edición)</string>
+    <string name="subscribe_chkbox_description">(Descargar automáticamente la última edición)</string>
 
     <string name="drawer_open">Abrir menú</string>
     <string name="drawer_close">Cerrar menú</string>
     <string name="menu_item_add_to_favorites">Agregar a favoritos</string>
     <string name="menu_item_content_description_add_to_favorites">Agregar libro actual a mis favoritos</string>
-    <string name="menu_item_delete_book">Borrar Libro</string>
+    <string name="menu_item_delete_book">Eliminar Libro</string>
     <string name="menu_item_content_description_delete_book">Borrar libro abierto</string>
     <string name="menu_item_sync_with_bookshare">Sincronizar con Bookshare</string>
 
@@ -176,6 +181,7 @@
 
     <string name="button_label_delete_book">Borrar</string>
     <string name="button_label_cancel">Cancelar</string>
+    <string name="button_label_ok">Ok</string>
     <string name="button_label_done_sync_bookshare">Listo</string>
     <string name="title_sync_bookshare_progress_dialog">Sincronizando Bookshare...</string>
     <string name="title_sync_bookshare_complete_progress_dialog">Sincronización completada</string>
@@ -185,7 +191,7 @@
     <string name="my_books_tab_go_read">Go Read</string>
     <string name="my_books_tab_recent">Recientes</string>
     <string name="my_books_tab_favorites">Favoritos</string>
-    <string name="my_books_tab_reading_lists">Listas de Lectura</string>
+    <string name="my_books_tab_reading_lists">Listas</string>
 
     <string name="tab_label_section">Sección</string>
     <string name="tab_label_page">Página</string>
@@ -214,4 +220,10 @@
     <string name="added_to_readinglist_fail_title">Falla al añadir titulo a la lista</string>
     <string name="added_to_readinglist_fail_message">Ha habido un error inesperado y el titulo no pudo ser añadido a la lista seleccionada.</string>
 
+    <string name="sort_by_title">Ordernar por título</string>
+    <string name="sort_by_author">Ordenar por autor</string>
+    <string name="sort_by_date">Ordenar por fecha</string>
+    <string name="sort_by">Ordenar por</string>
+
+    <string name="screen_brightness_adjustment">Ajuste de brillo de la pantalla</string>
 </resources>

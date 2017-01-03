@@ -49,6 +49,7 @@ public class LogoutFromBookshareAction extends FBAndroidAction {
                 confirmDialog.dismiss();
                 String toastMessage = getBaseActivity().getString(R.string.bks_menu_log_out);
                 Toast.makeText(getBaseActivity(), toastMessage, Toast.LENGTH_SHORT).show();
+                getBaseActivity().invalidateOptionsMenu();
             }
         });
 

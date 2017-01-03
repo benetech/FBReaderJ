@@ -8,6 +8,7 @@
 
     <!-- BookmarksActivity -->
     <string name="bookmark_added">bookmark on page %1$s added</string>
+    <string name="bookmark_page">Page</string>
 
 	<!--  Bookshare_Webservice_login -->
 	<string name="fetch_book_data">Fetching free books data.</string>
@@ -41,6 +42,7 @@
     <string name="book_details_not_available">Not available</string>
     <string name="book_details_open_error">Error opening book!</string>
     <string name="bookshare_book_detail_publish_date">Date Added:\u0020</string>
+    <string name="book_details_download_downloading">"Downloading Book..."</string>
 
     <!-- Bookshare_Books_Listing -->
     <string name="fetching_books">Fetching books. Please wait.</string>
@@ -98,6 +100,7 @@
     <string name="menu_speak">Read to Me</string>
     <string name="menu_bookshare">Search Bookshare</string>
     <string name="menu_toc">Table of Contents</string>
+    <string name="menu_bookmark">Add bookmark here</string>
     <string name="main_menu">Main Menu</string>
     <string name="menu_navigate">Navigate to Page</string>
     <string name="menu_bookmarks">Bookmarks</string>
@@ -110,8 +113,10 @@
     <string name="menu_help">Help</string>
     <string name="menu_accessibility_settings">Accessibility Settings</string>
     <string name="menu_tts_settings">Text To Speech Settings</string>
+    <string name="menu_search_bar">Search</string>
 
     <!-- LibraryActivity -->
+    <string name="library_search_title">Bookshare Library</string>
     <string name="library_search_books_popup">Search downloaded books?</string>
     <string name="library_added_to_favorites">Added to favorites</string>
     <string name="library_removed_from_favorites">Removed from favorites</string>
@@ -156,7 +161,7 @@
     <string name="drawer_close">Close drawer menu</string>
     <string name="menu_item_add_to_favorites">Add to favorites</string>
     <string name="menu_item_content_description_add_to_favorites">Add current open book to favorites</string>
-    <string name="menu_item_delete_book">Delete Book</string>
+    <string name="menu_item_delete_book">Remove Book</string>
     <string name="menu_item_content_description_delete_book">Delete current open book</string>
     <string name="menu_item_sync_with_bookshare">Sync with Bookshare</string>
 
@@ -177,6 +182,7 @@
     <string name="button_label_delete_book">Delete</string>
     <string name="button_label_cancel">Cancel</string>
     <string name="button_label_accept">Accept</string>
+    <string name="button_label_ok">Ok</string>
     <string name="button_label_done_sync_bookshare">Done</string>
     <string name="title_sync_bookshare_progress_dialog">Bookshare sync in progress...</string>
     <string name="title_sync_bookshare_complete_progress_dialog">Bookshare Sync\nComplete</string>
@@ -219,6 +225,7 @@
     <string name="signout_button_title_pattern">Logout %s</string>
 
     <string name="book_unavailable_for_download_warning">This book is not currently available for download to your account.  Are you signed in to Bookshare?</string>
+    <string name="screen_brightness_adjustment">Screen Brightness adjustment</string>
 
     <string name="added_to_readinglist_success">Added to list</string>
     <string name="added_to_readinglist_fail_title">Failed to add title to list</string>

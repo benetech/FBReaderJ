@@ -357,7 +357,14 @@
 				<node name="font" value="Font family">
 					<node name="unchanged" value="&lt;unchanged&gt;"/>
 				</node>
-				<node name="fontSize" value="Font size"/>
+				<node name="fontSize" value="Font size">
+					<node name="X Small" value="X Small"/>
+					<node name="Small" value="Small"/>
+					<node name="Regular" value="Regular"/>
+					<node name="Large" value="Large"/>
+					<node name="X Large" value="X Large"/>
+					<node name="Huge" value="Huge"/>
+				</node>
 				<node name="fontSizeDifference" value="Font size difference"/>
 				<node name="fontStyle" value="Font style">
 					<node name="regular" value="Regular"/>

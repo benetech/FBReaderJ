@@ -39,13 +39,6 @@
                 />
 
             <item
-                android:id="@+id/drawer_item_night"
-                android:title="@string/nav_draw_night"
-                android:icon="@drawable/ic_menu_night"
-                android:contentDescription="@string/nav_draw_night"
-                />
-
-            <item
                 android:id="@+id/drawer_item_day"
                 android:title="@string/nav_draw_day"
                 android:icon="@drawable/ic_menu_day"

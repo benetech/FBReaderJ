@@ -59,7 +59,7 @@ public class ZLFontSizeListPreference extends ZLStringListPreference {
         super.onDialogClosed(result);
 
         if (result) {
-            int keyForFontSize = findKey(getEntry().toString());
+            int keyForFontSize = findKey(getValue().toString());
             fontSizeOption.setValue(keyForFontSize);
         }
     }
