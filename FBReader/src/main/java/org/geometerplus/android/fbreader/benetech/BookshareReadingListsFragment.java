@@ -1,16 +1,26 @@
 package org.geometerplus.android.fbreader.benetech;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +62,24 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
         if(getActivity() instanceof MyBooksActivity){
             ((MyBooksActivity)getActivity()).onBookshareReadingListsFragmentAppeared();
         }
-        return super.onCreateView(inflater, container, savedInstanceState);
+        ViewGroup root = (ViewGroup)super.onCreateView(inflater, container, savedInstanceState);
+
+        FloatingActionButton mButton = new FloatingActionButton(getActivity());
+        mButton.setImageResource(R.drawable.ic_add_white_24dp);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        int dpInPx = Math.round(
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, dm));
+
+        params.bottomMargin = dpInPx;
+        params.rightMargin = dpInPx;
+        root.addView(mButton, params);
+
+        mButton.setOnClickListener(buttonListener);
+        return root;
     }
 
     @Override
@@ -140,6 +167,44 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
         getFragmentManager().executePendingTransactions();
     }
 
+    private void createReadingList(String name){
+
+    }
+
+    private void showCreateListDialog(){
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.setContentView(R.layout.bookshare_dialog);
+        final EditText dialog_search_term = (EditText)dialog.findViewById(R.id.bookshare_dialog_search_edit_txt);
+        TextView dialog_search_title = (TextView)dialog.findViewById(R.id.bookshare_dialog_search_txt);
+        TextView dialog_example_text = (TextView)dialog.findViewById(R.id.bookshare_dialog_search_example);
+        Button dialog_ok = (Button)dialog.findViewById(R.id.bookshare_dialog_btn_ok);
+        Button dialog_cancel = (Button) dialog.findViewById(R.id.bookshare_dialog_btn_cancel);
+
+        dialog_search_title.setText(R.string.create_new_readinglist_title);
+
+        dialog_search_term.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    createReadingList(dialog_search_term.getText().toString());
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        dialog_ok.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                createReadingList(dialog_search_term.getText().toString());
+            }
+        });
+
+        dialog_cancel.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
 
     private class ReadingListsAdapter extends ArrayAdapter<ReadingListsItem> {
         public ReadingListsAdapter(Context context, List<ReadingListsItem> items) {
@@ -169,6 +234,13 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
             return convertView;
         }
     }
+
+    private View.OnClickListener buttonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            showCreateListDialog();
+        }
+    };
 
     private static class ViewHolder {
         public TextView readingListNameTextView;
