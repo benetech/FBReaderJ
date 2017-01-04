@@ -28,12 +28,16 @@ public class ReadingListApiManager {
     private static final ReadingListApiManager instance = new ReadingListApiManager();
 
 
-    static public void createReadingList(Context context, String readingListName){
-        instance.context = context;
+    static public void createReadingList(Context context, String readingListName, ReadinglistAPIListener listener){
+        instance._createReadingList(context, readingListName, listener);
+    }
+    public void _createReadingList(Context context, String readingListName, ReadinglistAPIListener listener){
+        this.context = context;
         CreateReadingListTask createTask = new CreateReadingListTask();
         createTask.readingListName = readingListName;
+        createTask.listener = listener;
+        runTask(createTask);
 
-        instance.runTask(createTask);
     }
 
     private void runTask(AsyncTask task){
@@ -54,7 +58,7 @@ public class ReadingListApiManager {
         }
     }
 
-    private class CreateReadingListTask extends AsyncTask<String, Void, Boolean> {
+    private class CreateReadingListTask extends AsyncTask<Object, Void, Boolean> {
         public String readingListName;
         public ReadinglistAPIListener listener;
 
@@ -63,7 +67,7 @@ public class ReadingListApiManager {
             super.onPreExecute();
         }
 
-        protected Boolean doInBackground(String... urls) {
+        protected Boolean doInBackground(Object... params) {
             try {
                 BookshareHttpOauth2Client client =  new BookshareHttpOauth2Client();
                 return client.postReadingList(accessToken, readingListName, "");
@@ -85,20 +89,15 @@ public class ReadingListApiManager {
         }
     }
 
-    private class GetAuthenticatedTokenTask extends AsyncTask<Context, Void, String> {
+    private class GetAuthenticatedTokenTask extends AsyncTask<Object, Void, String> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
 
-        protected String doInBackground(Context... contexts) {
+        protected String doInBackground(Object... params) {
             try {
-                Context context = contexts[0];
-                if(context == null) {
-                    return null;
-                }
-
                 SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(context);
                 String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
                 String password = login_preference.getString(Bookshare_Webservice_Login.PASSWORD, "");
@@ -122,7 +121,7 @@ public class ReadingListApiManager {
         }
     }
 
-    interface ReadinglistAPIListener {
+    public interface ReadinglistAPIListener {
         void onAPICallResult(Bundle results);
         void onAPICallError(Bundle results);
     }

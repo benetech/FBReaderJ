@@ -28,8 +28,12 @@ import android.widget.Toast;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
+import org.geometerplus.android.fbreader.network.ReadingListApiManager;
+import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareActionObserver;
 import org.geometerplus.fbreader.library.ReadingList;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 
 import java.util.ArrayList;
@@ -43,6 +47,8 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
     private ArrayList<ReadingListsItem> readingListsItems;
     private static final String READINGLIST_TAG = "ReadingListFragment";
     private ReadingListFragment myReadingListFragment = null;
+
+    private Dialog createDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -168,20 +174,39 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
     }
 
     private void createReadingList(String name){
-
+        ReadingListApiManager.createReadingList(getActivity(), name, apiListener);
     }
+
+    private final ReadingListApiManager.ReadinglistAPIListener apiListener = new ReadingListApiManager.ReadinglistAPIListener() {
+        @Override
+        public void onAPICallResult(Bundle results) {
+            ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
+            SyncReadingListsWithBookshareActionObserver.getInstance().notifyRelevantBooklistOpened(getActivity());
+            if(createDialog.isShowing()){
+                createDialog.dismiss();
+            }
+        }
+
+        @Override
+        public void onAPICallError(Bundle results) {
+            if(createDialog.isShowing()){
+                createDialog.dismiss();
+            }
+        }
+    };
 
     private void showCreateListDialog(){
         final Dialog dialog = new Dialog(getActivity());
+        createDialog = dialog;
         dialog.setContentView(R.layout.bookshare_dialog);
         final EditText dialog_search_term = (EditText)dialog.findViewById(R.id.bookshare_dialog_search_edit_txt);
         TextView dialog_search_title = (TextView)dialog.findViewById(R.id.bookshare_dialog_search_txt);
         TextView dialog_example_text = (TextView)dialog.findViewById(R.id.bookshare_dialog_search_example);
-        Button dialog_ok = (Button)dialog.findViewById(R.id.bookshare_dialog_btn_ok);
+        Button positiveButton = (Button)dialog.findViewById(R.id.bookshare_dialog_btn_ok);
         Button dialog_cancel = (Button) dialog.findViewById(R.id.bookshare_dialog_btn_cancel);
 
         dialog_search_title.setText(R.string.create_new_readinglist_title);
-
+        dialog_example_text.setText("");
         dialog_search_term.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -192,7 +217,7 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
             }
         });
 
-        dialog_ok.setOnClickListener(new View.OnClickListener(){
+        positiveButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 createReadingList(dialog_search_term.getText().toString());
             }
@@ -203,6 +228,7 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
                 dialog.dismiss();
             }
         });
+        dialog.show();
     }
 
 
