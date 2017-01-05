@@ -22,9 +22,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
@@ -191,6 +193,7 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
         public void onAPICallError(Bundle results) {
             if(createDialog.isShowing()){
                 createDialog.dismiss();
+                showErrorMessage(getString(R.string.create_new_readinglist_error));
             }
         }
     };
@@ -198,15 +201,16 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
     private void showCreateListDialog(){
         final Dialog dialog = new Dialog(getActivity());
         createDialog = dialog;
-        dialog.setContentView(R.layout.bookshare_dialog);
+        dialog.setContentView(R.layout.bookshare_dialog_with_progress);
         final EditText dialog_search_term = (EditText)dialog.findViewById(R.id.bookshare_dialog_search_edit_txt);
         TextView dialog_search_title = (TextView)dialog.findViewById(R.id.bookshare_dialog_search_txt);
-        TextView dialog_example_text = (TextView)dialog.findViewById(R.id.bookshare_dialog_search_example);
         Button positiveButton = (Button)dialog.findViewById(R.id.bookshare_dialog_btn_ok);
         Button dialog_cancel = (Button) dialog.findViewById(R.id.bookshare_dialog_btn_cancel);
-
-        dialog_search_title.setText(R.string.create_new_readinglist_title);
-        dialog_example_text.setText("");
+        TextView dialog_example_text = (TextView)dialog.findViewById(R.id.bookshare_dialog_search_example);
+        final ProgressBar bar = (ProgressBar)dialog.findViewById(R.id.progressbar);
+        dialog.setTitle(R.string.create_new_readinglist_title);
+        dialog_search_title.setText(R.string.create_new_readinglist_message);
+        dialog_example_text.setVisibility(View.GONE);
         dialog_search_term.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -220,6 +224,7 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
         positiveButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 createReadingList(dialog_search_term.getText().toString());
+                bar.setVisibility(View.VISIBLE);
             }
         });
 
@@ -230,6 +235,12 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
         });
         dialog.show();
     }
+
+    private void showErrorMessage(final CharSequence text) {
+        final VoiceableDialog finishedDialog = new VoiceableDialog(getActivity());
+        finishedDialog.popup(text.toString(), 5000);
+    }
+
 
 
     private class ReadingListsAdapter extends ArrayAdapter<ReadingListsItem> {

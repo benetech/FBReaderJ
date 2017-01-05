@@ -222,4 +222,6 @@
 
     <string name="screen_brightness_adjustment">Ajuste de brillo de la pantalla</string>
     <string name="create_new_readinglist_title">Crear nueva lista de lectura</string>
+    <string name="create_new_readinglist_message">Digite el nombre de la nueva lista</string>
+    <string name="create_new_readinglist_error">Ha habido un error y no se pudo crear la lista.</string>
 </resources>
