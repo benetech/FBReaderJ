@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    
+
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
@@ -11,7 +11,7 @@ android {
     project.ext.set("versionRevision", "10")
     project.ext.set("internalReleaseDate", getDate())
     project.ext.set("versionCode","77")
-    
+
     //NOTE: Changing the app name here will cause Jenkins to fail copying to anitfactory.
     //See the build Jenkins -> Configure -> Published Artifacts field
     project.ext.set("appName", "GoRead")
@@ -61,10 +61,12 @@ android {
     productFlavors {
         alpha{
             buildConfigField "String", "BOOKSHARE_API_HOST_NAME", '"api.staging.bookshare.org"'
+            buildConfigField "Boolean", "BOOKSHARE_STAGING_IGNORE_CERT", "true"
             applicationId "org.benetech.android"
         }
         live{
             buildConfigField "String", "BOOKSHARE_API_HOST_NAME", '"api.bookshare.org"'
+            buildConfigField "Boolean", "BOOKSHARE_STAGING_IGNORE_CERT", "false"
             applicationId "org.benetech.android"
         }
     }

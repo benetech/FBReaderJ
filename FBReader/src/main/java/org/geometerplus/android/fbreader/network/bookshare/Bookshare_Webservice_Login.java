@@ -30,6 +30,7 @@ import org.accessibility.VoiceableDialog;
 import org.benetech.android.BuildConfig;
 import org.benetech.android.R;
 import org.bookshare.net.BookshareWebServiceClient;
+import org.geometerplus.android.fbreader.network.CertificateBypassHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,7 +49,7 @@ public class Bookshare_Webservice_Login extends Activity{
     public static final String PASSWORD = "password";
 
     public static final String BOOKSHARE_API_PROTOCOL = "https://";
-    public static final String BOOKSHARE_API_HOST = "api.bookshare.org";
+    public static final String BOOKSHARE_API_HOST = BuildConfig.BOOKSHARE_API_HOST_NAME;
 	private String BOOKSHARE_URL = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL + BOOKSHARE_API_HOST + "/book/search/title/potter";
 	private String FORGOT_PW_URL = "http://www.bookshare.org/forgotPassword";
 	private String SIGNUP_URL = "https://www.bookshare.org/signUpType";
@@ -64,6 +65,7 @@ public class Bookshare_Webservice_Login extends Activity{
 	private final static int STATUS_NOT_SET = 0;
 	private final static int LOGIN_FAILED = -1;
 	private final static int NETWORK_ERROR = -2;
+	private final static int CERT_ERROR = -3;
 
 	private String username;
 	private String password;
@@ -321,12 +323,13 @@ public class Bookshare_Webservice_Login extends Activity{
 			String result_HTML = "";
 			boolean inTry = false;
 			status = STATUS_NOT_SET;
-
+			CertificateBypassHelper.applyBypassIfStaging();
 			try{
 				inTry = true;	
 				// Get a BookshareWebservice instance for accessing the utility methods
 
 				final BookshareWebServiceClient bws = new BookshareWebServiceClient(BOOKSHARE_API_HOST);
+
 				if(isFree){
 					BOOKSHARE_URL = BOOKSHARE_URL + "?api_key="+developerKey;
 				}
@@ -346,8 +349,7 @@ public class Bookshare_Webservice_Login extends Activity{
 			}
 			catch(IOException ioe){
 				status = NETWORK_ERROR;
-			}
-			finally {
+			} finally {
 				if (!inTry) {                      // uncaught exception
 					status = NETWORK_ERROR;
 				}
@@ -439,6 +441,7 @@ public class Bookshare_Webservice_Login extends Activity{
 				editText_username.setText("");
 				editText_password.setText("");
 				break;
+			case CERT_ERROR:
 			case NETWORK_ERROR:
                 String nMessage =  getResources().getString(R.string.login_network_error);
                 confirmAndClose(nMessage);

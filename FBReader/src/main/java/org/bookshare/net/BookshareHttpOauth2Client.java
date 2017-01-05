@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.apache.commons.codec.binary.Base64;
 import org.benetech.android.BuildConfig;
+import org.geometerplus.android.fbreader.network.CertificateBypassHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -62,6 +63,7 @@ public class BookshareHttpOauth2Client {
         userName = userNameToUse;
         password = passwordToUse;
 
+        CertificateBypassHelper.applyBypassIfStaging();
         HttpsURLConnection urlConnection = createHttpsUrlConnection(URL_AS_STRING, POST_REQUESTE_METHOD);
         setMasheryLoginInHeader(urlConnection);
         writeLoginFormParameters(urlConnection);

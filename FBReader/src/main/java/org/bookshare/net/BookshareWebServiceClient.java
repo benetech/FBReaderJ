@@ -1,5 +1,9 @@
 package org.bookshare.net;
 
+import android.util.Log;
+
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -10,10 +14,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import org.apache.commons.io.IOUtils;
-
-import android.util.Log;
 
 /**
  * This class provides the services needed for getting data from Bookshare's Webservice API.
