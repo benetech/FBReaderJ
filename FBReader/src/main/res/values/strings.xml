@@ -233,4 +233,5 @@
     <string name="create_new_readinglist_title">Create new reading list</string>
     <string name="create_new_readinglist_message">Enter reading list name</string>
     <string name="create_new_readinglist_error">There has been an error. The list could not be created.</string>
+    <string name="delete_from_readinglist_error">There has been an error. The title was not removed.</string>
 </resources>

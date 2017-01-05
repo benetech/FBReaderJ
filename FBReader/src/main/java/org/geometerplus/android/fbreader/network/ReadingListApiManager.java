@@ -8,18 +8,18 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.bookshare.net.BookshareHttpOauth2Client;
-import org.geometerplus.android.fbreader.benetech.AddToReadingListDialogActivity;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
 import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
+
 /**
  * Created by avanticatechnologies on 1/3/17.
  */
 
 public class ReadingListApiManager {
 
-    public static final String RESULT_SUCCESS = "";
+    public static final String RESULT_SUCCESS = "RESULT_SUCCESS";
 
     private String accessToken = null;
     private AsyncTask pendingTask = null;
@@ -40,6 +40,19 @@ public class ReadingListApiManager {
 
     }
 
+    static public void removeFromReadingList(Context context, String listBookshareId, String bookBookshareId, ReadinglistAPIListener listener){
+        instance._removeFromReadingList(context, listBookshareId, bookBookshareId, listener);
+    }
+    public void _removeFromReadingList(Context context, String listBookshareId, String bookBookshareId, ReadinglistAPIListener listener){
+        this.context = context;
+        RemoveTitleFromReadingListTask removeTask = new RemoveTitleFromReadingListTask();
+        removeTask.listBookshareId = listBookshareId;
+        removeTask.bookId = bookBookshareId;
+        removeTask.listener = listener;
+        runTask(removeTask);
+
+    }
+
     private void runTask(AsyncTask task){
         if(accessToken == null){
             pendingTask = task;
@@ -55,37 +68,6 @@ public class ReadingListApiManager {
         if(pendingTask != null){
             runTask(pendingTask);
             pendingTask = null;
-        }
-    }
-
-    private class CreateReadingListTask extends AsyncTask<Object, Void, Boolean> {
-        public String readingListName;
-        public ReadinglistAPIListener listener;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        protected Boolean doInBackground(Object... params) {
-            try {
-                BookshareHttpOauth2Client client =  new BookshareHttpOauth2Client();
-                return client.postReadingList(accessToken, readingListName, "");
-            } catch (Exception e) {
-                Log.e(getClass().getSimpleName(), e.getMessage(), e);
-                return false;
-            }
-        }
-
-        protected void onPostExecute(Boolean result) {
-            Bundle results = new Bundle();
-            results.putString(RESULT_SUCCESS, result.toString());
-            if(result){
-                listener.onAPICallResult(results);
-            }
-            else {
-                listener.onAPICallError(results);
-            }
         }
     }
 
@@ -120,6 +102,70 @@ public class ReadingListApiManager {
             setToken(result);
         }
     }
+
+    private class CreateReadingListTask extends AsyncTask<Object, Void, Boolean> {
+        public String readingListName;
+        public ReadinglistAPIListener listener;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        protected Boolean doInBackground(Object... params) {
+            try {
+                BookshareHttpOauth2Client client =  new BookshareHttpOauth2Client();
+                return client.postReadingList(accessToken, readingListName, "");
+            } catch (Exception e) {
+                Log.e(getClass().getSimpleName(), e.getMessage(), e);
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean result) {
+            Bundle results = new Bundle();
+            results.putString(RESULT_SUCCESS, result.toString());
+            if(result){
+                listener.onAPICallResult(results);
+            }
+            else {
+                listener.onAPICallError(results);
+            }
+        }
+    }
+
+    class RemoveTitleFromReadingListTask extends AsyncTask<Object, Void, Boolean> {
+
+        public ReadinglistAPIListener listener;
+        String listBookshareId, bookId;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        protected Boolean doInBackground(Object... urls) {
+            try {
+                BookshareHttpOauth2Client client =  new BookshareHttpOauth2Client();
+                return client.deleteTitleFromReadingList(accessToken, listBookshareId, bookId);
+            } catch (Exception e) {
+                Log.e(getClass().getSimpleName(), e.getMessage(), e);
+                return false;
+            }
+        }
+
+        protected void onPostExecute(Boolean result) {
+            Bundle results = new Bundle();
+            results.putString(RESULT_SUCCESS, result.toString());
+            if(result){
+                listener.onAPICallResult(results);
+            }
+            else {
+                listener.onAPICallError(results);
+            }
+        }
+    }
+
 
     public interface ReadinglistAPIListener {
         void onAPICallResult(Bundle results);

@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import org.accessibility.VoiceableDialog;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.library.BookInfoActivity;
 import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
@@ -270,6 +271,11 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment impl
             bookRowItems.clear();
             fillListAdapter();
         }
+    }
+
+    protected  void showErrorMessage(final CharSequence text) {
+        final VoiceableDialog finishedDialog = new VoiceableDialog(getActivity());
+        finishedDialog.popup(text.toString(), 5000);
     }
 
 

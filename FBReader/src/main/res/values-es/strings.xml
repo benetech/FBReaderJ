@@ -229,4 +229,5 @@
     <string name="create_new_readinglist_title">Crear nueva lista de lectura</string>
     <string name="create_new_readinglist_message">Digite el nombre de la nueva lista</string>
     <string name="create_new_readinglist_error">Ha habido un error y no se pudo crear la lista.</string>
+    <string name="remove_from_readinglist_error">Ha habido un error y eliminar el título.</string>
 </resources>

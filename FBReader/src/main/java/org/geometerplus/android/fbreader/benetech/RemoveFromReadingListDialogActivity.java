@@ -1,21 +1,13 @@
 package org.geometerplus.android.fbreader.benetech;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import org.benetech.android.R;
-import org.bookshare.net.BookshareHttpOauth2Client;
-import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
-import org.json.JSONObject;
-
-import javax.net.ssl.HttpsURLConnection;
+import org.geometerplus.android.fbreader.network.ReadingListApiManager;
 
 /**
  * Created by mvillalobos on dec 2016.
@@ -23,6 +15,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class RemoveFromReadingListDialogActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
     public static final String EXTRA_LIST_ID = "EXTRA_LIST_ID";
+    public static final String EXTRA_BOOK_POSITION = "EXTRA_BOOK_POSITION";
     public static final int RESULT_CODE_SUCCESS = 1;
     public static final int RESULT_CODE_FAIL = 0;
 
@@ -76,40 +69,21 @@ public class RemoveFromReadingListDialogActivity extends AppCompatActivity imple
     }
 
     private void removeFromReadingList() {
-        new RemoveTitleFromReadingListTask().execute();
-    }
-
-    class RemoveTitleFromReadingListTask extends AsyncTask<String, Void, Boolean> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
-
-        protected Boolean doInBackground(String... urls) {
-            try {
-                SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(RemoveFromReadingListDialogActivity.this);
-                String username = login_preference.getString(Bookshare_Webservice_Login.USER, "");
-                String password = login_preference.getString(Bookshare_Webservice_Login.PASSWORD, "");
-
-                BookshareHttpOauth2Client client =  new BookshareHttpOauth2Client();
-                HttpsURLConnection urlConnection = client.createBookshareApiUrlConnection(username, password);
-
-                String response = client.requestData(urlConnection);
-                JSONObject jsonResponse = new JSONObject(response);
-                String accessToken = jsonResponse.getString(BookshareHttpOauth2Client.ACCESS_TOKEN_CODE);
-
-                return client.deleteTitleFromReadingList(accessToken, listBookshareId, bookId);
-            } catch (Exception e) {
-                Log.e(getClass().getSimpleName(), e.getMessage(), e);
-                return false;
+        mProgressBar.setVisibility(View.VISIBLE);
+        ReadingListApiManager.removeFromReadingList(this, listBookshareId, bookId, new ReadingListApiManager.ReadinglistAPIListener() {
+            @Override
+            public void onAPICallResult(Bundle results) {
+                boolean result = results.getBoolean(ReadingListApiManager.RESULT_SUCCESS, false);
+                handleResult(result);
             }
-        }
 
-        protected void onPostExecute(Boolean result) {
-            RemoveFromReadingListDialogActivity.this.handleResult(result);
-        }
+            @Override
+            public void onAPICallError(Bundle results) {
+                handleResult(false);
+            }
+        });
+
     }
+
 
 }

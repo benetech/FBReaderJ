@@ -10,14 +10,16 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.benetech.android.R;
-import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
+import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareActionObserver;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.BooksDatabase;
 import org.geometerplus.fbreader.library.ReadingList;
 import org.geometerplus.fbreader.library.ReadingListBook;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
 import org.json.JSONObject;
 
@@ -34,6 +36,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
     public static final String ARG_SHOULD_ADD_FAVORITES = "shouldAddFavorites";
     public static final String PARAM_READINGLIST_JSON= "PARAM_READINGLIST_JSON";
     private final int START_READINGLIST_DIALOG = 1;
+    private final int REQUEST_CODE_DELETE_FROM_LIST = 2;
 
     private ReadingList readingList;
 
@@ -66,6 +69,22 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
         super.onViewCreated(view, savedInstanceState);
 
         getListView().setOnItemLongClickListener(this);
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if(requestCode == START_READINGLIST_DIALOG){
+            if(resultCode == RemoveFromReadingListDialogActivity.RESULT_OK){
+                int position = data.getIntExtra(RemoveFromReadingListDialogActivity.EXTRA_BOOK_POSITION, -1);
+                bookRowItems.remove(position);
+                ((ReadingListBooksAdapter)getListAdapter()).notifyDataSetChanged();
+                ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
+                SyncReadingListsWithBookshareActionObserver.getInstance().notifyRelevantBooklistOpened(getActivity());
+            }
+            else {
+                showErrorMessage(getString(R.string.delete_from_readinglist_error));
+            }
+        }
     }
 
     @Override
@@ -138,8 +157,9 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
         intent.setAction(Intent.ACTION_VIEW);
         intent.putExtra(RemoveFromReadingListDialogActivity.EXTRA_LIST_ID, readingList.getBookshareId());
         intent.putExtra(RemoveFromReadingListDialogActivity.EXTRA_BOOK_ID, Long.toString(item.getBookId()));
+        intent.putExtra(RemoveFromReadingListDialogActivity.EXTRA_BOOK_POSITION, Integer.toString(position));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_DELETE_FROM_LIST);
         return true;
     }
 
