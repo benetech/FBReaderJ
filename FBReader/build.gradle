@@ -60,7 +60,7 @@ android {
 
     productFlavors {
         alpha{
-            buildConfigField "String", "BOOKSHARE_API_HOST_NAME", '"api.staging.bookshare.org"'
+            buildConfigField "String", "BOOKSHARE_API_HOST_NAME", '"api.bookshare.org"'
             applicationId "org.benetech.android"
         }
         live{
