@@ -109,6 +109,26 @@ public class BookshareHttpOauth2Client {
         return responseCode[0] == HttpURLConnection.HTTP_OK;
     }
 
+    public boolean postReadingList(String accessToken, String readingListName, String description) throws Exception {
+
+        String url = String.format("https://%s/v2/lists/?api_key=%s",HOST_NAME, API_KEY);
+
+        HttpsURLConnection urlConnection = createHttpsUrlConnection(url, POST_REQUESTE_METHOD);
+        setAccessToken(accessToken, urlConnection);
+
+        LinkedHashMap<String, String> formParameters = new LinkedHashMap<>();
+        formParameters.put("name", readingListName);
+        formParameters.put("description", readingListName);
+        formParameters.put("access", "private");
+        writeFormParameters(formParameters, urlConnection);
+
+        int[] responseCode = new int[1];
+        final String rawResponseWithReadingLists = requestData(urlConnection, responseCode);
+
+        return responseCode[0] == HttpURLConnection.HTTP_OK;
+    }
+
+
 
 
     private JSONObject getBooksForReadingList(String accessToken, int readingListId) throws Exception {

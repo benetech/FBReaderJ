@@ -226,4 +226,7 @@
     <string name="added_to_readinglist_success">Added to list</string>
     <string name="added_to_readinglist_fail_title">Failed to add title to list</string>
     <string name="added_to_readinglist_fail_message">There has been an unexpected error and the title could not be added to the selected reading list.</string>
+    <string name="create_new_readinglist_title">Create new reading list</string>
+    <string name="create_new_readinglist_message">Enter reading list name</string>
+    <string name="create_new_readinglist_error">There has been an error. The list could not be created.</string>
 </resources>
