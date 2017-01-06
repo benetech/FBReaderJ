@@ -214,6 +214,7 @@
     <string name="added_to_readinglist_success">Añadido a la lista</string>
     <string name="added_to_readinglist_fail_title">Falla al añadir titulo a la lista</string>
     <string name="added_to_readinglist_fail_message">Ha habido un error inesperado y el titulo no pudo ser añadido a la lista seleccionada.</string>
+    <string name="no_reading_lists">No hay listas de lectura disponibles.</string>
 
     <string name="sort_by_title">Ordernar por título</string>
     <string name="sort_by_author">Ordenar por autor</string>
@@ -221,7 +222,6 @@
     <string name="sort_by">Ordenar por</string>
 
     <string name="screen_brightness_adjustment">Ajuste de brillo de la pantalla</string>
-    <string name="create_new_readinglist_title">Crear nueva lista de lectura</string>
     <string name="create_new_readinglist_message">Digite el nombre de la nueva lista</string>
     <string name="create_new_readinglist_error">Ha habido un error y no se pudo crear la lista.</string>
 </resources>

@@ -13,10 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.benetech.android.R;
 import org.bookshare.net.BookshareHttpOauth2Client;
@@ -37,6 +39,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class AddToReadingListDialogActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";
     public static final String EXTRA_READINGLIST_NAME = "EXTRA_READINGLIST_NAME";
+    public static final int RESULT_CODE_CANCEL = 2;
     public static final int RESULT_CODE_SUCCESS = 1;
     public static final int RESULT_CODE_FAIL = 0;
 
@@ -46,16 +49,20 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
     private ListView mListView;
     private ProgressBar mProgressBar;
     private ArrayList<ReadingListsItem> readingListsItems;
+    private Button positiveButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_activity_reading_lists);
         mListView = (ListView)findViewById(R.id.listview);
         mListView.setOnItemClickListener(this);
+        mListView.setEmptyView(findViewById(android.R.id.empty));
         mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
 
-        findViewById(R.id.positive_button).setOnClickListener(this);
         findViewById(R.id.negative_button).setOnClickListener(this);
+        positiveButton = (Button)findViewById(R.id.positive_button);
+        positiveButton.setOnClickListener(this);
+        positiveButton.setEnabled(false);
 
         readingListsItems = new ArrayList<>();
         bookId = getIntent().getStringExtra(EXTRA_BOOK_ID);
@@ -99,6 +106,7 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.negative_button:
+                this.setResult(RESULT_CODE_CANCEL);
                 this.finish();
                 break;
             case R.id.positive_button:
@@ -108,7 +116,9 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
     }
 
     private void addToReadingList() {
-        new AddTitleToReadingListTask().execute();
+        if(selectedReadingListIndex > -1) {
+            new AddTitleToReadingListTask().execute();
+        }
     }
 
     class AddTitleToReadingListTask extends AsyncTask<String, Void, Boolean> {
@@ -154,6 +164,7 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
 
     private void selectItem(int i){
         selectedReadingListIndex = i;
+        positiveButton.setEnabled(true);
         ((ReadingListsAdapter)mListView.getAdapter()).notifyDataSetChanged();
 
     }
