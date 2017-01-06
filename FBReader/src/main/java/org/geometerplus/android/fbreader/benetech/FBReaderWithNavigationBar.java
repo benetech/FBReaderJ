@@ -220,7 +220,12 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             task.execute();
         }
         else {
-            Toast.makeText(this,   "Must log into bookshare to auto sync reading lists", Toast.LENGTH_LONG).show();
+            if(isFirstTimeRunningApp){
+                ZLApplication.Instance().doAction(ActionCode.BOOKSHARE);
+            }
+            else {
+                Toast.makeText(this,   "Must log into bookshare to auto sync reading lists", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
