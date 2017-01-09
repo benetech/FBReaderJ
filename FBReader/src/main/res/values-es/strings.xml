@@ -233,6 +233,6 @@
     <!-- Delete from reading list -->
     <string name="delete">Eliminar</string>
     <string name="delete_fromreadinglist_progress_title">Eliminando el título de la lista</string>
-    <string name="delete_fromreadinglist_success">El título fue eliminado de la lista</string>
-    <string name="delete_fromreadinglist_failure">El título no pudo ser eliminado de la lista</string>
+    <string name="delete_fromreadinglist_success">El título fue eliminado.</string>
+    <string name="delete_fromreadinglist_failure">El título no se pudo eliminar.</string>
 </resources>

@@ -157,7 +157,21 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
     }
 
     private boolean canDelete(){
-        return true;
+        boolean answer = false;
+        if(getActivity() instanceof  MyBooksActivity) {
+            if(((MyBooksActivity) getActivity()).isOM()){
+                answer = false;
+            }
+            else {
+                if(((MyBooksActivity) getActivity()).isIM()){
+                    answer = true;//Future: here we should check if the IM user is the owner of the list.
+                }
+                else{
+                    answer = true;//Future: here we should check if the list isn't public. (public = can't delete)
+                }
+            }
+        }
+        return answer;
     }
 
     private boolean isTalkbackOn(){
