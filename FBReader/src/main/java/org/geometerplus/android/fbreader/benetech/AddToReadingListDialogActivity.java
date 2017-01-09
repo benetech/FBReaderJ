@@ -34,7 +34,7 @@ import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
 /**
- * Created by animal@martus.org on 4/4/16.
+ * Created by mvillalobos on dec 2016.
  */
 public class AddToReadingListDialogActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     public static final String EXTRA_BOOK_ID = "EXTRA_BOOK_ID";

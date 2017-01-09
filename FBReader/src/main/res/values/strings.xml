@@ -28,6 +28,10 @@
 
 
     <!-- Bookshare_Book_Details -->
+    <string name="book_details_removefromreadinglist_title">Remove book</string>
+    <string name="book_details_removefromreadinglist_message">Do you want to remove this book?</string>
+    <string name="book_details_removefromreadinglist_button_list">Remove from reading list</string>
+    <string name="book_details_removefromreadinglist_button_both">Remove from list and from device</string>
     <string name="book_details_readinglist_button">Add to reading list</string>
     <string name="book_details_download_button">Download (text only)</string>
      <string name="book_details_download_images">Download book with images</string>
@@ -229,5 +233,10 @@
     <string name="create_new_readinglist_title">Create new reading list</string>
     <string name="create_new_readinglist_message">Enter reading list name</string>
     <string name="create_new_readinglist_error">There has been an error. The list could not be created.</string>
-
+    <string name="delete_from_readinglist_error">There has been an error. The title was not removed.</string>
+    <!-- Delete from reading list -->
+    <string name="delete">Delete</string>
+    <string name="delete_fromreadinglist_progress_title">Removing the title from reading list</string>
+    <string name="delete_fromreadinglist_success">Title was removed from the reading list.</string>
+    <string name="delete_fromreadinglist_failure">Title could not be removed from the reading list.</string>
 </resources>

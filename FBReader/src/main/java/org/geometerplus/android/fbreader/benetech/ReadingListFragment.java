@@ -1,19 +1,35 @@
 package org.geometerplus.android.fbreader.benetech;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
+
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.network.ReadingListApiManager;
+import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
+import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareActionObserver;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.BooksDatabase;
 import org.geometerplus.fbreader.library.ReadingList;
 import org.geometerplus.fbreader.library.ReadingListBook;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
 import org.json.JSONObject;
 
@@ -25,10 +41,14 @@ import java.util.Map;
 /**
  * Created by animal@martus.org on 4/6/16.
  */
-public class ReadingListFragment extends TitleListFragmentWithContextMenu {
+public class ReadingListFragment extends TitleListFragmentWithContextMenu implements AdapterView.OnItemLongClickListener {
 
     public static final String ARG_SHOULD_ADD_FAVORITES = "shouldAddFavorites";
     public static final String PARAM_READINGLIST_JSON= "PARAM_READINGLIST_JSON";
+    private final int START_READINGLIST_DIALOG = 1;
+    private final int REQUEST_CODE_DELETE_FROM_LIST = 2;
+
+    private long lastSwipeEventTimestamp = 0;
 
     private ReadingList readingList;
 
@@ -54,6 +74,39 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             shouldAddFavorites = getArguments().getBoolean(ARG_SHOULD_ADD_FAVORITES, false);
         }
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        getListView().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                onListItemClick(getListView(), view, position, id);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        if(requestCode == START_READINGLIST_DIALOG){
+            if(resultCode == RemoveFromReadingListDialogActivity.RESULT_OK){
+                int position = data.getIntExtra(RemoveFromReadingListDialogActivity.EXTRA_BOOK_POSITION, -1);
+                bookRowItems.remove(position);
+                ((ReadingListBooksAdapter)getListAdapter()).notifyDataSetChanged();
+                sync();
+            }
+            else {
+                showErrorMessage(getString(R.string.delete_from_readinglist_error));
+            }
+        }
     }
 
     @Override
@@ -83,7 +136,8 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
                     e.printStackTrace();
                 }
             }
-            bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle, readingListBookAuthors, readingListBook.getDateAdded(), book));
+            bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle,
+                    readingListBookAuthors, readingListBook.getDateAdded(), book));
         }
 
         if(shouldAddFavorites) {
@@ -96,6 +150,29 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
         sortListItems();
         setListAdapter(new ReadingListBooksAdapter(getActivity(), bookRowItems));
     }
+
+    private void sync(){
+        ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
+        SyncReadingListsWithBookshareActionObserver.getInstance().notifyRelevantBooklistOpened(getActivity());
+    }
+
+    private boolean canDelete(){
+        return true;
+    }
+
+    private boolean isTalkbackOn(){
+        AccessibilityManager am = (AccessibilityManager) getActivity().getSystemService(Activity.ACCESSIBILITY_SERVICE);
+        return am.isTouchExplorationEnabled();
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        long timeSinceUpdate =  System.currentTimeMillis() - lastSwipeEventTimestamp;
+        if(timeSinceUpdate >= 100) {
+            super.onListItemClick(l, v, position, id);
+        }
+    }
+
 
     private ArrayList<Book> getFavoritesOnDevice() {
         final BooksDatabase db = BooksDatabase.Instance();
@@ -117,6 +194,19 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
         return favoriteBooksOnDevice;
     }
 
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        AbstractTitleListRowItem item = (AbstractTitleListRowItem)getListView().getAdapter().getItem(position);
+        Intent intent = new Intent(getActivity().getApplicationContext(), RemoveFromReadingListDialogActivity.class);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.putExtra(RemoveFromReadingListDialogActivity.EXTRA_LIST_ID, readingList.getBookshareId());
+        intent.putExtra(RemoveFromReadingListDialogActivity.EXTRA_BOOK_ID, Long.toString(item.getBookId()));
+        intent.putExtra(RemoveFromReadingListDialogActivity.EXTRA_BOOK_POSITION, Integer.toString(position));
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivityForResult(intent, REQUEST_CODE_DELETE_FROM_LIST);
+        return true;
+    }
+
     public class ReadingListBooksAdapter extends ArrayAdapter<AbstractTitleListRowItem> {
 
         public ReadingListBooksAdapter(Context context, List<AbstractTitleListRowItem> items) {
@@ -129,9 +219,15 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
 
             if(convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
-                convertView = inflater.inflate(R.layout.reading_list_book_item, parent, false);
-
                 viewHolder = new ViewHolder();
+                if(canDelete()) {
+                    convertView = inflater.inflate(R.layout.reading_list_book_item_with_drag, parent, false);
+                    viewHolder.hiddenLayout = (LinearLayout) convertView.findViewById(R.id.hidden_layout);
+                    viewHolder.swipeLayout = (SwipeLayout) convertView.findViewById(R.id.swipe_layout);
+                }
+                else {
+                    convertView = inflater.inflate(R.layout.reading_list_book_item, parent, false);
+                }
                 viewHolder.readingListBook = (TextView) convertView.findViewById(R.id.bookTitle);
                 viewHolder.readingListBookAuthors = (TextView) convertView.findViewById(R.id.bookAuthorsLabel);
                 convertView.setTag(viewHolder);
@@ -152,13 +248,109 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu {
             lowerValue = Math.max(lowerValue, 12d);
             viewHolder.readingListBookAuthors.setTextSize(Math.round(lowerValue));
 
-
+            if(viewHolder.hiddenLayout != null){
+                viewHolder.hiddenLayout.setTag(new Integer(position));
+                viewHolder.hiddenLayout.setOnClickListener(deleteListener);
+                viewHolder.swipeLayout.setOnLongClickListener(openListener);
+                viewHolder.swipeLayout.addSwipeListener(swipeListener);
+            }
             return convertView;
         }
     }
+    private View.OnClickListener selectListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final Integer position = (Integer) v.getTag();
+            onListItemClick(getListView(), v, position.intValue(), v.getId());
+        }
+    };
+
+    private View.OnClickListener deleteListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final Integer position = (Integer) v.getTag();
+            final AbstractTitleListRowItem item = bookRowItems.get(position);
+            final ProgressDialog progress = new ProgressDialog(getActivity());
+            progress.setCancelable(false);
+            progress.setTitle(R.string.delete_fromreadinglist_progress_title);
+            progress.show();
+            ReadingListApiManager.removeFromReadingList(getActivity(), readingList.getBookshareId(),
+                    Long.toString(item.getBookId()),
+                    new ReadingListApiManager.ReadinglistAPIListener() {
+                @Override
+                public void onAPICallResult(Bundle results) {
+                    progress.hide();
+                    bookRowItems.remove(item);
+                    ((ReadingListBooksAdapter)getListAdapter()).notifyDataSetChanged();
+                    showErrorMessage(getString(R.string.delete_fromreadinglist_success));
+                    ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
+                }
+
+                @Override
+                public void onAPICallError(Bundle results) {
+                    progress.hide();
+                    showErrorMessage(getString(R.string.delete_fromreadinglist_failure));
+                }
+            });
+
+        }
+    };
 
     private static class ViewHolder {
         public TextView readingListBook;
         public TextView readingListBookAuthors;
+        public ViewGroup hiddenLayout;
+        public SwipeLayout swipeLayout;
     }
+    View.OnLongClickListener openListener = new View.OnLongClickListener(){
+
+        @Override
+        public boolean onLongClick(View v) {
+            SwipeLayout swipeLayout =((SwipeLayout)v);
+            if(swipeLayout.getOpenStatus().equals(SwipeLayout.Status.Open)){
+                swipeLayout.close();
+            }
+            else {
+                swipeLayout.open();
+            }
+            return true;
+        }
+    };
+
+    private SwipeLayout.SwipeListener swipeListener = new SwipeLayout.SwipeListener() {
+        @Override
+        public void onStartOpen(SwipeLayout layout) {
+            lastSwipeEventTimestamp = System.currentTimeMillis();
+        }
+
+        @Override
+        public void onOpen(SwipeLayout layout) {
+            if(isTalkbackOn()){
+                LinearLayout view = (LinearLayout)layout.findViewById(R.id.hidden_layout);
+                view.requestFocus();
+                view.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+            }
+            lastSwipeEventTimestamp = System.currentTimeMillis();
+        }
+
+        @Override
+        public void onStartClose(SwipeLayout layout) {
+            lastSwipeEventTimestamp = System.currentTimeMillis();
+        }
+
+        @Override
+        public void onClose(SwipeLayout layout) {
+            lastSwipeEventTimestamp = System.currentTimeMillis();
+        }
+
+        @Override
+        public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
+
+        }
+
+        @Override
+        public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
+        }
+    };
+
 }

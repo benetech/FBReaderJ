@@ -28,6 +28,11 @@
 
 
     <!-- Bookshare_Book_Details -->
+    <string name="book_details_removefromreadinglist_title">Eliminar libro</string>
+    <string name="book_details_removefromreadinglist_message">Desea eliminar este libro?</string>
+    <string name="book_details_removefromreadinglist_button_list">Eliminar de la lista de lectura</string>
+    <string name="book_details_removefromreadinglist_button_both">Eliminar de la lista y del dispositivo</string>
+    <string name="book_details_readinglist_button">Añadir a lista</string>
     <string name="book_details_download_button">Descargar (solo texto)</string>
      <string name="book_details_download_images">Descargar libro con imágenes</string>
     <string name="book_details_download_error">Download falló! Intentar de nuevo</string>
@@ -224,4 +229,10 @@
     <string name="screen_brightness_adjustment">Ajuste de brillo de la pantalla</string>
     <string name="create_new_readinglist_message">Digite el nombre de la nueva lista</string>
     <string name="create_new_readinglist_error">Ha habido un error y no se pudo crear la lista.</string>
+    <string name="remove_from_readinglist_error">Ha habido un error y eliminar el título.</string>
+    <!-- Delete from reading list -->
+    <string name="delete">Eliminar</string>
+    <string name="delete_fromreadinglist_progress_title">Eliminando el título de la lista</string>
+    <string name="delete_fromreadinglist_success">El título fue eliminado de la lista</string>
+    <string name="delete_fromreadinglist_failure">El título no pudo ser eliminado de la lista</string>
 </resources>
