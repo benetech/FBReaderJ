@@ -1,5 +1,6 @@
 package org.geometerplus.android.fbreader.benetech;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,9 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
@@ -42,6 +47,8 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
     public static final String PARAM_READINGLIST_JSON= "PARAM_READINGLIST_JSON";
     private final int START_READINGLIST_DIALOG = 1;
     private final int REQUEST_CODE_DELETE_FROM_LIST = 2;
+
+    private long lastSwipeEventTimestamp = 0;
 
     private ReadingList readingList;
 
@@ -153,6 +160,20 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
         return true;
     }
 
+    private boolean isTalkbackOn(){
+        AccessibilityManager am = (AccessibilityManager) getActivity().getSystemService(Activity.ACCESSIBILITY_SERVICE);
+        return am.isTouchExplorationEnabled();
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        long timeSinceUpdate =  System.currentTimeMillis() - lastSwipeEventTimestamp;
+        if(timeSinceUpdate >= 100) {
+            super.onListItemClick(l, v, position, id);
+        }
+    }
+
+
     private ArrayList<Book> getFavoritesOnDevice() {
         final BooksDatabase db = BooksDatabase.Instance();
         final Map<Long,Book> savedBooksByBookId = new HashMap<>();
@@ -231,6 +252,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
                 viewHolder.hiddenLayout.setTag(new Integer(position));
                 viewHolder.hiddenLayout.setOnClickListener(deleteListener);
                 viewHolder.swipeLayout.setOnLongClickListener(openListener);
+                viewHolder.swipeLayout.addSwipeListener(swipeListener);
             }
             return convertView;
         }
@@ -284,8 +306,50 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
 
         @Override
         public boolean onLongClick(View v) {
-            ((SwipeLayout)v).open();
+            SwipeLayout swipeLayout =((SwipeLayout)v);
+            if(swipeLayout.getOpenStatus().equals(SwipeLayout.Status.Open)){
+                swipeLayout.close();
+            }
+            else {
+                swipeLayout.open();
+            }
             return true;
+        }
+    };
+
+    private SwipeLayout.SwipeListener swipeListener = new SwipeLayout.SwipeListener() {
+        @Override
+        public void onStartOpen(SwipeLayout layout) {
+            lastSwipeEventTimestamp = System.currentTimeMillis();
+        }
+
+        @Override
+        public void onOpen(SwipeLayout layout) {
+            if(isTalkbackOn()){
+                LinearLayout view = (LinearLayout)layout.findViewById(R.id.hidden_layout);
+                view.requestFocus();
+                view.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED);
+            }
+            lastSwipeEventTimestamp = System.currentTimeMillis();
+        }
+
+        @Override
+        public void onStartClose(SwipeLayout layout) {
+            lastSwipeEventTimestamp = System.currentTimeMillis();
+        }
+
+        @Override
+        public void onClose(SwipeLayout layout) {
+            lastSwipeEventTimestamp = System.currentTimeMillis();
+        }
+
+        @Override
+        public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
+
+        }
+
+        @Override
+        public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
         }
     };
 
