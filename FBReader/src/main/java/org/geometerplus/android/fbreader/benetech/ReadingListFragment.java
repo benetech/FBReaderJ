@@ -272,7 +272,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
             final AbstractTitleListRowItem item = bookRowItems.get(position);
             final ProgressDialog progress = new ProgressDialog(getActivity());
             progress.setCancelable(false);
-            progress.setTitle(null);
+            progress.setTitle(R.string.delete_fromreadinglist_progress_title);
             progress.show();
             ReadingListApiManager.removeFromReadingList(getActivity(), readingList.getBookshareId(),
                     Long.toString(item.getBookId()),
@@ -282,14 +282,14 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
                     progress.hide();
                     bookRowItems.remove(item);
                     ((ReadingListBooksAdapter)getListAdapter()).notifyDataSetChanged();
-                    showErrorMessage("success");
+                    showErrorMessage(getString(R.string.delete_fromreadinglist_success));
                     ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
                 }
 
                 @Override
                 public void onAPICallError(Bundle results) {
                     progress.hide();
-                    showErrorMessage("failure");
+                    showErrorMessage(getString(R.string.delete_fromreadinglist_failure));
                 }
             });
 

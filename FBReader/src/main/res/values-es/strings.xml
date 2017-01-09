@@ -230,5 +230,9 @@
     <string name="create_new_readinglist_message">Digite el nombre de la nueva lista</string>
     <string name="create_new_readinglist_error">Ha habido un error y no se pudo crear la lista.</string>
     <string name="remove_from_readinglist_error">Ha habido un error y eliminar el título.</string>
+    <!-- Delete from reading list -->
     <string name="delete">Eliminar</string>
+    <string name="delete_fromreadinglist_progress_title">Eliminando el título de la lista</string>
+    <string name="delete_fromreadinglist_success">El título fue eliminado de la lista</string>
+    <string name="delete_fromreadinglist_failure">El título no pudo ser eliminado de la lista</string>
 </resources>
