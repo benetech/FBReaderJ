@@ -1,5 +1,6 @@
 package org.geometerplus.android.fbreader.benetech;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
+
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.network.ReadingListApiManager;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareActionObserver;
@@ -78,8 +83,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
                 int position = data.getIntExtra(RemoveFromReadingListDialogActivity.EXTRA_BOOK_POSITION, -1);
                 bookRowItems.remove(position);
                 ((ReadingListBooksAdapter)getListAdapter()).notifyDataSetChanged();
-                ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
-                SyncReadingListsWithBookshareActionObserver.getInstance().notifyRelevantBooklistOpened(getActivity());
+                sync();
             }
             else {
                 showErrorMessage(getString(R.string.delete_from_readinglist_error));
@@ -129,6 +133,15 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
         setListAdapter(new ReadingListBooksAdapter(getActivity(), bookRowItems));
     }
 
+    private void sync(){
+        ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
+        SyncReadingListsWithBookshareActionObserver.getInstance().notifyRelevantBooklistOpened(getActivity());
+    }
+
+    private boolean canDelete(){
+        return true;
+    }
+
     private ArrayList<Book> getFavoritesOnDevice() {
         final BooksDatabase db = BooksDatabase.Instance();
         final Map<Long,Book> savedBooksByBookId = new HashMap<>();
@@ -152,7 +165,6 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
         AbstractTitleListRowItem item = (AbstractTitleListRowItem)getListView().getAdapter().getItem(position);
-
         Intent intent = new Intent(getActivity().getApplicationContext(), RemoveFromReadingListDialogActivity.class);
         intent.setAction(Intent.ACTION_VIEW);
         intent.putExtra(RemoveFromReadingListDialogActivity.EXTRA_LIST_ID, readingList.getBookshareId());
@@ -175,9 +187,14 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
 
             if(convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
-                convertView = inflater.inflate(R.layout.reading_list_book_item, parent, false);
-
                 viewHolder = new ViewHolder();
+                if(canDelete()) {
+                    convertView = inflater.inflate(R.layout.reading_list_book_item_with_drag, parent, false);
+                    viewHolder.hiddenLayout = (LinearLayout) convertView.findViewById(R.id.hidden_layout);
+                }
+                else {
+                    convertView = inflater.inflate(R.layout.reading_list_book_item, parent, false);
+                }
                 viewHolder.readingListBook = (TextView) convertView.findViewById(R.id.bookTitle);
                 viewHolder.readingListBookAuthors = (TextView) convertView.findViewById(R.id.bookAuthorsLabel);
                 convertView.setTag(viewHolder);
@@ -198,13 +215,48 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
             lowerValue = Math.max(lowerValue, 12d);
             viewHolder.readingListBookAuthors.setTextSize(Math.round(lowerValue));
 
-
+            if(viewHolder.hiddenLayout != null){
+                viewHolder.hiddenLayout.setOnClickListener(deleteListener);
+                viewHolder.hiddenLayout.setTag(new Integer(position));
+            }
             return convertView;
         }
     }
 
+    private View.OnClickListener deleteListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final Integer position = (Integer) v.getTag();
+            final AbstractTitleListRowItem item = bookRowItems.get(position);
+            final ProgressDialog progress = new ProgressDialog(getActivity());
+            progress.setCancelable(false);
+            progress.setTitle(null);
+            progress.show();
+            ReadingListApiManager.removeFromReadingList(getActivity(), readingList.getBookshareId(),
+                    Long.toString(item.getBookId()),
+                    new ReadingListApiManager.ReadinglistAPIListener() {
+                @Override
+                public void onAPICallResult(Bundle results) {
+                    progress.hide();
+                    bookRowItems.remove(item);
+                    ((ReadingListBooksAdapter)getListAdapter()).notifyDataSetChanged();
+                    showErrorMessage("success");
+                    ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
+                }
+
+                @Override
+                public void onAPICallError(Bundle results) {
+                    progress.hide();
+                    showErrorMessage("failure");
+                }
+            });
+
+        }
+    };
+
     private static class ViewHolder {
         public TextView readingListBook;
         public TextView readingListBookAuthors;
+        public ViewGroup hiddenLayout;
     }
 }

@@ -2,6 +2,7 @@ package org.geometerplus.android.fbreader.benetech;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -102,6 +103,10 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
                 Log.e(getClass().getCanonicalName(), "failed trying to refresh inner fragment", e );
             }
         }
+    }
+    @Override
+    public void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        SyncReadingListsWithBookshareActionObserver.getInstance().notifyRelevantBooklistOpened(getActivity());
     }
 
     @Override
