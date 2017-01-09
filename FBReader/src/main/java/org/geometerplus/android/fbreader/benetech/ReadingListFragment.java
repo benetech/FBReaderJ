@@ -73,7 +73,18 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        getListView().setOnItemLongClickListener(this);
+        getListView().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                onListItemClick(getListView(), view, position, id);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
 
     @Override
@@ -191,6 +202,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
                 if(canDelete()) {
                     convertView = inflater.inflate(R.layout.reading_list_book_item_with_drag, parent, false);
                     viewHolder.hiddenLayout = (LinearLayout) convertView.findViewById(R.id.hidden_layout);
+                    viewHolder.swipeLayout = (SwipeLayout) convertView.findViewById(R.id.swipe_layout);
                 }
                 else {
                     convertView = inflater.inflate(R.layout.reading_list_book_item, parent, false);
@@ -216,12 +228,20 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
             viewHolder.readingListBookAuthors.setTextSize(Math.round(lowerValue));
 
             if(viewHolder.hiddenLayout != null){
-                viewHolder.hiddenLayout.setOnClickListener(deleteListener);
                 viewHolder.hiddenLayout.setTag(new Integer(position));
+                viewHolder.hiddenLayout.setOnClickListener(deleteListener);
+                viewHolder.swipeLayout.setOnLongClickListener(openListener);
             }
             return convertView;
         }
     }
+    private View.OnClickListener selectListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final Integer position = (Integer) v.getTag();
+            onListItemClick(getListView(), v, position.intValue(), v.getId());
+        }
+    };
 
     private View.OnClickListener deleteListener = new View.OnClickListener() {
         @Override
@@ -258,5 +278,15 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
         public TextView readingListBook;
         public TextView readingListBookAuthors;
         public ViewGroup hiddenLayout;
+        public SwipeLayout swipeLayout;
     }
+    View.OnLongClickListener openListener = new View.OnLongClickListener(){
+
+        @Override
+        public boolean onLongClick(View v) {
+            ((SwipeLayout)v).open();
+            return true;
+        }
+    };
+
 }

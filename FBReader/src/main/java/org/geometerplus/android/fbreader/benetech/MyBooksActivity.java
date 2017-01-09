@@ -134,6 +134,7 @@ public class MyBooksActivity extends AppCompatActivity {
         public void onCheckedChanged(RadioGroup radioGroup, int id) {
             SortUtil.saveSortPreference(getApplicationContext(), SORT_ORDER.fromId(id));
             sortByPopupWindow.dismiss();
+            viewPager.setenable
             MyBooksPagerAdapter viewPagerAdapter = (MyBooksPagerAdapter) viewPager.getAdapter();
             int currentTabContainerIndex = viewPager.getCurrentItem();
             for(int i = 0; i < viewPagerAdapter.getCount(); i++) {
