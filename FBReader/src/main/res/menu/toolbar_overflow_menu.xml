@@ -21,7 +21,7 @@
                 android:title="@string/menu_item_help" />
 
             <item android:id="@+id/menu_item_about_goread"
-                android:icon="@drawable/ic_gray_info"
+                android:icon="@drawable/goread"
                 android:title="@string/menu_item_about_goread" />
 
             <item android:id="@+id/menu_item_login_bookshare"
