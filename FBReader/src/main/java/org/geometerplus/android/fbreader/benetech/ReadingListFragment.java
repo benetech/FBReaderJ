@@ -13,7 +13,6 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -157,21 +156,16 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
     }
 
     private boolean canDelete(){
-        boolean answer = false;
         if(getActivity() instanceof  MyBooksActivity) {
             if(((MyBooksActivity) getActivity()).isOM()){
-                answer = false;
+                return false;
             }
             else {
-                if(((MyBooksActivity) getActivity()).isIM()){
-                    answer = true;//Future: here we should check if the IM user is the owner of the list.
-                }
-                else{
-                    answer = true;//Future: here we should check if the list isn't public. (public = can't delete)
-                }
+                //Future: IM can delete if owner of the list. Sponsor can delete if the list is not public.
+                return true;
             }
         }
-        return answer;
+        return false;
     }
 
     private boolean isTalkbackOn(){
