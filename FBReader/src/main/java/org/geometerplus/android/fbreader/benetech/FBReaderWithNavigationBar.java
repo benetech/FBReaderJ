@@ -317,8 +317,12 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     @Override
     public void selectSentenceFromView() {
+        if (isPlaying()) {
+            pause();
+        }
         getNextParagraph();
         highlightSentence(myCurrentSentence);
+        play();
     }
 
 
