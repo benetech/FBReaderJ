@@ -139,24 +139,6 @@ public class BookInfoActivity extends Activity {
 				}
 			}
 		});
-		setupButton(R.id.book_info_button_edit, "editInfo", new View.OnClickListener() {
-			public void onClick(View view) {
-				startActivityForResult(
-					new Intent(getApplicationContext(), EditBookInfoActivity.class)
-						.putExtra(CURRENT_BOOK_PATH_KEY, myFile.getPath()),
-					1
-				);
-			}
-		});
-		setupButton(R.id.book_info_button_reload, "reloadInfo", new View.OnClickListener() {
-			public void onClick(View view) {
-				if (book != null) {
-					book.reloadInfoFromFile();
-					setupBookInfo(book);
-					myDontReloadBook = false	;
-				}
-			}
-		});
 		setupButton(R.id.book_info_button_remove, "removeBook", new View.OnClickListener() {
 			public void onClick(View view) {
 				if (book != null) {
@@ -364,10 +346,6 @@ public class BookInfoActivity extends Activity {
     @Override
     public void onWindowFocusChanged (boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        if (accessibilityManager.isEnabled()) {
-            findButton(R.id.book_info_button_edit).setVisibility(View.GONE);
-            findButton(R.id.book_info_button_reload).setVisibility(View.GONE);
-        }
         (findViewById(R.id.book_title)).requestFocus();
     }
 
