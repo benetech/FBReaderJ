@@ -314,9 +314,9 @@ public class ZLAndroidWidget extends View implements ZLViewWidget, View.OnLongCl
 		final ZLView view = ZLApplication.Instance().getCurrentView();
 
 		switch (event.getAction()) {
-			case MotionEvent.ACTION_POINTER_UP:
-				isPendingTwoFingerDoubleTap = true;
-				break;
+//			case MotionEvent.ACTION_POINTER_UP:
+//				isPendingTwoFingerDoubleTap = true;
+//				break;
 			case MotionEvent.ACTION_UP:
 				handleActionUpEvents(view,x ,y);
 				isPendingDoubleTap = false;
