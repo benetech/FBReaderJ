@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.benetech.android.R;
 import org.bookshare.net.BookshareHttpOauth2Client;
@@ -152,7 +151,11 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
         }
 
         protected void onPostExecute(Boolean result) {
-            AddToReadingListDialogActivity.this.handleResult(result, readingList);
+            /*currently the web service returns a false error here, indicating the call failed but actually adding the title to the list.
+            For now we're ignoring server response and returning positive always.
+            ToDo Change when the server is fixed
+            */
+            AddToReadingListDialogActivity.this.handleResult(true, readingList);
         }
     }
 
