@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:drawableLeft="@drawable/ic_narrow"
-        android:paddingLeft="10dp" />
+        android:paddingLeft="10dp"
+        android:text="@string/margins_small"/>
 
     <RadioButton
         android:id="@+id/radio_medium"
@@ -20,7 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:drawableLeft="@drawable/ic_medium"
-        android:paddingLeft="10dp" />
+        android:paddingLeft="10dp"
+        android:text="@string/margins_medium"/>
 
     <RadioButton
         android:id="@+id/radio_extrawide"
@@ -28,5 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:drawableLeft="@drawable/ic_extra_wide"
-        android:paddingLeft="10dp" />
+        android:paddingLeft="10dp"
+        android:text="@string/margins_large"/>
 </RadioGroup>

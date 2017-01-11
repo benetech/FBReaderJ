@@ -239,4 +239,9 @@
     <string name="delete_fromreadinglist_progress_title">Removing the title from reading list</string>
     <string name="delete_fromreadinglist_success">The Title was removed.</string>
     <string name="delete_fromreadinglist_failure">The Title could not be removed.</string>
+
+    <!-- margins -->
+    <string name="margins_small">Small</string>
+    <string name="margins_medium">Medium</string>
+    <string name="margins_large">Large</string>
 </resources>

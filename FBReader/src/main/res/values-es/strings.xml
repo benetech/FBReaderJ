@@ -235,4 +235,9 @@
     <string name="delete_fromreadinglist_progress_title">Eliminando el título de la lista</string>
     <string name="delete_fromreadinglist_success">El título fue eliminado.</string>
     <string name="delete_fromreadinglist_failure">El título no se pudo eliminar.</string>
+
+    <!-- margins -->
+    <string name="margins_small">Pequeño</string>
+    <string name="margins_medium">Mediano</string>
+    <string name="margins_large">Grande</string>
 </resources>
