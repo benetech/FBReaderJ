@@ -218,7 +218,7 @@
     <string name="book_unavailable_for_download_warning">Este libro no está disponible para descargar con tu cuenta.  Has iniciado sesión de Bookshare?</string>
     <string name="added_to_readinglist_success">Añadido a la lista</string>
     <string name="added_to_readinglist_fail_title">Falla al añadir titulo a la lista</string>
-    <string name="added_to_readinglist_fail_message">No estás autorizado para añadir libros a esta lista.</string>
+    <string name="added_to_readinglist_fail_message">No está autorizado para añadir libros a esta lista.</string>
     <string name="no_reading_lists">No hay listas de lectura disponibles.</string>
 
     <string name="sort_by_title">Ordernar por título</string>
@@ -228,8 +228,8 @@
 
     <string name="screen_brightness_adjustment">Ajuste de brillo de la pantalla</string>
     <string name="create_new_readinglist_message">Digite el nombre de la nueva lista</string>
-    <string name="create_new_readinglist_error">No está autorizado para crear nuevas listas.</string>
-    <string name="delete_from_readinglist_error">No está autorizado a eliminar títulos de esta lista.</string>
+    <string name="create_new_readinglist_error">No está autorizado para crear una nueva lista.</string>
+    <string name="delete_from_readinglist_error">No está autorizado para eliminar títulos de esta lista.</string>
 
     <!-- Delete from reading list -->
     <string name="delete">Eliminar</string>
