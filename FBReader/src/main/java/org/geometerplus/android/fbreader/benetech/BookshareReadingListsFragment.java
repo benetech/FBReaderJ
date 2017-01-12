@@ -236,14 +236,11 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
     }
 
     private boolean canCreate(){
-        /* Currently we are only allowing IM users to create reading lists
-        In the future it will be available for Sponsors. But only when we have the posibility of letting a sponsor add suscribers
+        /* The server is not currently handling roles in a satisfactory manner. So for now we'll allow this actions for everyone,
+        and if they fail it means it wasn't allowed.
+        In the future the code to determine wether or not to + button stuff will go here
          */
-        boolean isIm = true;
-        if(getActivity() instanceof MyBooksActivity){
-            isIm = ((MyBooksActivity) getActivity()).isIM();
-        }
-        return isIm;
+        return true;
     }
 
     private void addCreateButton(ViewGroup root){
