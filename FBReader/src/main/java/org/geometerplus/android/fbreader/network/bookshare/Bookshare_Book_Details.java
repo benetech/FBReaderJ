@@ -36,6 +36,7 @@ import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
 import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.android.fbreader.UserRoleHelper;
 import org.geometerplus.android.fbreader.benetech.AddToReadingListDialogActivity;
 import org.geometerplus.android.fbreader.benetech.Analytics;
 import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
@@ -147,8 +148,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 
     private boolean isFree = false;
 
-    private boolean isOM; //Organization member
-    private boolean isIM; //Independent member
+    private UserRoleHelper userRoleHelper; //To get user roles
     private boolean isLoggedIn;
 
     private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
@@ -197,9 +197,8 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
         // login information
         final SharedPreferences login_preference = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext());
-        isOM = login_preference.getBoolean("isOM", false);
-        isIM = login_preference.getBoolean("isIM", false);
         isLoggedIn = login_preference.getString("username", null) != null;
+        userRoleHelper = new UserRoleHelper(getApplicationContext());
         final String uri = intent.getStringExtra("ID_SEARCH_URI");
 
         final VoiceableDialog finishedDialog = new VoiceableDialog(this);
@@ -307,7 +306,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
             btnDownloadWithImages = (Button) findViewById(R.id.bookshare_btn_download_images);
             bookshare_download_not_available_text = (TextView) findViewById(R.id.bookshare_download_not_available_msg);
 
-            btnReadingList = (Button) findViewById(isIM?R.id.bookshare_btn_readinglist_bottom:R.id.bookshare_btn_readinglist_top);
+            btnReadingList = (Button) findViewById(userRoleHelper.isIM()?R.id.bookshare_btn_readinglist_bottom:R.id.bookshare_btn_readinglist_top);
             btnReadingList.setOnClickListener(Bookshare_Book_Details.this);
 
             bookshare_book_detail_language.setNextFocusDownId(R.id.bookshare_book_detail_category);
@@ -342,7 +341,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 Log.d("checking images", String.valueOf(imagesAvailable));
                 btnDownloadWithImages.setVisibility(View.GONE);
             }
-            if(isOM || !isLoggedIn){
+            if(userRoleHelper.isOM() || !isLoggedIn){
                 btnReadingList.setVisibility(View.GONE);
             } else {
                 btnReadingList.setVisibility(View.VISIBLE);
@@ -631,7 +630,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 download_uri = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL
                         + Bookshare_Webservice_Login.BOOKSHARE_API_HOST + "/download/content/" + id + "/version/"
                         + downloadType + "?api_key=" + developerKey;
-            } else if (isOM) {
+            } else if (userRoleHelper.isOM()) {
                 download_uri = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL
                         + Bookshare_Webservice_Login.BOOKSHARE_API_HOST + "/download/member/" + memberId + "content/"
                         + id + "/version/1/for/" + username + "?api_key=" + developerKey;
@@ -706,7 +705,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                         }
                         filename = temp;
                         filename = filename.replaceAll(" +", "_").replaceAll(":", "__").replaceAll("/", "-");
-                        if (isOM) {
+                        if (userRoleHelper.isOM()) {
                             filename = filename + "_" + firstName + "_" + lastName;
                         }
                     }
@@ -756,7 +755,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 
                                     // if yes, then set the password for the zip
                                     // file
-                                    if (!isOM) {
+                                    if (!userRoleHelper.isOM()) {
                                         zipFile.setPassword(password);
                                     }
                                     // Set the OM password sent by the Intent
@@ -1304,7 +1303,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
             // member list
             // See onActivityResult for further
             // processing
-            if (isOM) {
+            if (userRoleHelper.isOM()) {
                 final Intent intent = new Intent(getApplicationContext(), Bookshare_OM_List.class);
                 intent.putExtra("username", username);
                 intent.putExtra("password", password);

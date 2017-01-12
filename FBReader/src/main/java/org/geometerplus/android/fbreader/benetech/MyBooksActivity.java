@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import org.apache.commons.io.FileUtils;
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.UserRoleHelper;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.library.Book;
@@ -58,8 +59,7 @@ public class MyBooksActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private static final String SHARE_PREFERENCE_CURRENT_PAGE_INDEX_TAG = "my_books_current_page_index";
     private HashMap<Long, Book> bookHashMap = null;
-    private boolean isOM; //Organization member
-    private boolean isIM; //Independent member
+    private UserRoleHelper userRoleHelper; //To get user roles
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +70,7 @@ public class MyBooksActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        final SharedPreferences login_preference = PreferenceManager
-                .getDefaultSharedPreferences(getApplicationContext());
-        isOM = login_preference.getBoolean("isOM", false);
-        isIM = login_preference.getBoolean("isIM", false);
+        userRoleHelper = new UserRoleHelper(getApplicationContext());
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         initTabs();
@@ -108,13 +105,11 @@ public class MyBooksActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    public boolean isOM() {
-        return isOM;
+
+    public UserRoleHelper getRoleHelper(){
+        return userRoleHelper;
     }
 
-    public boolean isIM() {
-        return isIM;
-    }
     private void initSortByPopup(){
         SORT_ORDER order = SortUtil.getCurrentSortOrder();
         ContentFrameLayout base = (ContentFrameLayout)findViewById(android.R.id.content);

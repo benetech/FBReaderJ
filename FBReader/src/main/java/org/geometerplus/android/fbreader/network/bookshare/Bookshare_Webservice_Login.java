@@ -27,9 +27,9 @@ import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
 import org.accessibility.VoiceableDialog;
-import org.benetech.android.BuildConfig;
 import org.benetech.android.R;
 import org.bookshare.net.BookshareWebServiceClient;
+import org.geometerplus.android.fbreader.UserRoleHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -73,6 +73,7 @@ public class Bookshare_Webservice_Login extends Activity{
 	private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
 	private boolean isOM = false;
 	private boolean isIM = false;
+	private boolean isSponsor = false;
 	private String response;
 	//private InputAccess inputAccess = new InputAccess(this, true);
 
@@ -319,6 +320,7 @@ public class Bookshare_Webservice_Login extends Activity{
 		protected Void doInBackground(Void... params) {
 
 			String result_HTML = "";
+			String resultSponsor = "<status-code>61</status-code>";
 			boolean inTry = false;
 			status = STATUS_NOT_SET;
 
@@ -336,6 +338,11 @@ public class Bookshare_Webservice_Login extends Activity{
 
 				InputStream inputStream = bws.getResponseStream(password, BOOKSHARE_URL);
 				result_HTML = bws.convertStreamToString(inputStream);
+
+				String secondURL = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL + BOOKSHARE_API_HOST + "/user/members/list/for/"+username+"/?api_key="+developerKey;
+
+				inputStream = bws.getResponseStream(password, secondURL);
+				resultSponsor = bws.convertStreamToString(inputStream);
 
 				// Cleanup the HTML formatted tags
 				response = result_HTML.replace("&apos;", "'").replace("&quot;", "\"").replace("&amp;", "&").replace("&#xd;","").replace("&#x97;", "-");
@@ -364,6 +371,7 @@ public class Bookshare_Webservice_Login extends Activity{
 					Bookshare_UserType userTypeObj = new Bookshare_UserType();
 					isOM = userTypeObj.isOM(response);
 					isIM = userTypeObj.isIM();
+					isSponsor = ! (resultSponsor.contains("<status-code>61</status-code>"));
 					if(isOM){
 						String downloadPassword = userTypeObj.getDownloadPassword();
 						if(downloadPassword == null){
@@ -423,8 +431,7 @@ public class Bookshare_Webservice_Login extends Activity{
 				SharedPreferences.Editor editor = login_preference.edit();
 				editor.putString(USER, username);
 				editor.putString(PASSWORD, password);
-				editor.putBoolean("isOM", isOM);
-				editor.putBoolean("isIM", isIM);
+				UserRoleHelper.storeRoles(editor, isIM, isOM, isSponsor);
 				editor.commit();
 				if (isFree)
 					startActivity(intent);

@@ -217,7 +217,7 @@ public class FBReader extends ZLAndroidActivityforActionBar {
 
         String username = prefs.getString("username", "");
         String password = prefs.getString("password", "");
-        boolean OM = prefs.getBoolean("isOM", false);
+        boolean OM = prefs.getBoolean(UserRoleHelper.PREFERENCE_IS_OM, false);
 
         ArrayList<String> ids = getSubscribedPeriodicalIds(periodicalDb);
 

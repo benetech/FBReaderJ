@@ -157,7 +157,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
 
     private boolean canDelete(){
         if(getActivity() instanceof  MyBooksActivity) {
-            if(((MyBooksActivity) getActivity()).isOM()){
+            if(((MyBooksActivity) getActivity()).getRoleHelper().isOM()){
                 return false;
             }
             else {

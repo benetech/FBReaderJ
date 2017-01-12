@@ -26,7 +26,7 @@ public class LogoutFromBookshareAction extends FBAndroidAction {
         SharedPreferences.Editor editor = login.edit();
         editor.putString("username", "");
         editor.putString("password", "");
-        editor.putBoolean("isOM", false);
+        UserRoleHelper.storeRoles(editor, false, false, false);
         editor.commit();
     }
 

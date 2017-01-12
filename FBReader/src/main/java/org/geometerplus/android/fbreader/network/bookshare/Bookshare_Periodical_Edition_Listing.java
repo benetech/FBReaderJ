@@ -6,14 +6,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -28,6 +26,7 @@ import android.widget.TextView;
 import org.accessibility.ParentCloserDialog;
 import org.benetech.android.R;
 import org.bookshare.net.BookshareWebServiceClient;
+import org.geometerplus.android.fbreader.UserRoleHelper;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -132,8 +131,8 @@ public class Bookshare_Periodical_Edition_Listing extends ListActivity {
         // login information
         // Get information about user. (i.e. Whether he's an organizational
         // member)
-        SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        isOM = login_preference.getBoolean("isOM", false);
+        UserRoleHelper helper = new UserRoleHelper(getApplicationContext());
+        isOM = helper.isOM();
 
         // Request URI is not needed since we're not using search terms (thushv)
         requestURI = intent.getStringExtra("ID_SEARCH_URI");
