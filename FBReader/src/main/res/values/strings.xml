@@ -179,7 +179,7 @@
     <string name="message_confirm_remove_book">Remove book from device?</string>
     <string name="message_bookmark_already_exists">Bookmark already exists!</string>
 
-    <string name="button_label_delete_book">Delete</string>
+    <string name="button_label_delete_book">Remove</string>
     <string name="button_label_cancel">Cancel</string>
     <string name="button_label_accept">Accept</string>
     <string name="button_label_ok">Ok</string>
