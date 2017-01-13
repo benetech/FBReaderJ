@@ -33,6 +33,7 @@ public class ReadingListApiManager {
     }
     public void _createReadingList(Context context, String readingListName, ReadinglistAPIListener listener){
         this.context = context;
+        accessToken = null;
         CreateReadingListTask createTask = new CreateReadingListTask();
         createTask.readingListName = readingListName;
         createTask.listener = listener;
@@ -45,6 +46,7 @@ public class ReadingListApiManager {
     }
     public void _removeFromReadingList(Context context, String listBookshareId, String bookBookshareId, ReadinglistAPIListener listener){
         this.context = context;
+        accessToken = null;
         RemoveTitleFromReadingListTask removeTask = new RemoveTitleFromReadingListTask();
         removeTask.listBookshareId = listBookshareId;
         removeTask.bookId = bookBookshareId;

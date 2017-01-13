@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.AlertHelper;
 import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.ReadingListApiManager;
@@ -230,9 +231,8 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
         dialog.show();
     }
 
-    private void showErrorMessage(final CharSequence text) {
-        final VoiceableDialog finishedDialog = new VoiceableDialog(getActivity());
-        finishedDialog.popup(text.toString(), 5000);
+    private void showErrorMessage(final String text) {
+        AlertHelper.popupAlert(getActivity(), text);
     }
 
     private boolean canCreate(){
@@ -240,12 +240,18 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
         and if they fail it means it wasn't allowed.
         In the future the code to determine wether or not to + button stuff will go here
          */
-        return true;
+
+        boolean isIm = false;
+        if(getActivity() instanceof MyBooksActivity){
+            isIm = ((MyBooksActivity) getActivity()).isIM();
+        }
+        return isIm;
     }
 
     private void addCreateButton(ViewGroup root){
         FloatingActionButton mButton = new FloatingActionButton(getActivity());
         mButton.setImageResource(R.drawable.ic_add_white_24dp);
+        mButton.setContentDescription(getString(R.string.create_new_readinglist_title));
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.BOTTOM | Gravity.RIGHT;

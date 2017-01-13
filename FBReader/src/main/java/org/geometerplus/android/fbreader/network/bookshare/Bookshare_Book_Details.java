@@ -342,7 +342,9 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 Log.d("checking images", String.valueOf(imagesAvailable));
                 btnDownloadWithImages.setVisibility(View.GONE);
             }
-            btnReadingList.setVisibility(View.VISIBLE);
+            if(isIM) {
+                btnReadingList.setVisibility(View.VISIBLE);
+            }
             // Set the fields of the layout with book details
             if (metadata_bean.getTitle() != null) {
                 for (int i = 0; i < metadata_bean.getTitle().length; i++) {

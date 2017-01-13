@@ -156,8 +156,8 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
     }
 
     private boolean canDelete(){
-        if(getActivity() instanceof  MyBooksActivity) {
-            return true;
+        if(getActivity() instanceof MyBooksActivity){
+            return ((MyBooksActivity) getActivity()).isIM();
         }
         return false;
     }
@@ -291,7 +291,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
                 @Override
                 public void onAPICallError(Bundle results) {
                     progress.hide();
-                    showErrorMessage(getString(R.string.delete_fromreadinglist_failure));
+                    showErrorMessage(getString(R.string.delete_from_readinglist_error));
                 }
             });
 
