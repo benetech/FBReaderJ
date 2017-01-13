@@ -179,7 +179,7 @@
     <string name="message_confirm_remove_book">Borrar libro de dispositivo?</string>
     <string name="message_bookmark_already_exists">Marcador ya existeç!</string>
 
-    <string name="button_label_delete_book">Borrar</string>
+    <string name="button_label_delete_book">Eliminar</string>
     <string name="button_label_cancel">Cancelar</string>
     <string name="button_label_ok">Ok</string>
     <string name="button_label_done_sync_bookshare">Listo</string>

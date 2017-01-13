@@ -38,6 +38,7 @@
 		/>
 		<Button
 			android:id="@+id/book_info_button_remove"
+			android:contentDescription="@string/message_confirm_remove_book"
 			android:layout_width="0dip"
 			android:layout_weight="1"
 			android:maxLines="2"
