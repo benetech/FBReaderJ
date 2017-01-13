@@ -21,23 +21,11 @@ package org.geometerplus.android.fbreader.preferences;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.Paint;
-import android.graphics.PixelFormat;
-import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.preference.DialogPreference;
 import android.view.View;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
 
 import org.benetech.android.R;
-import org.geometerplus.fbreader.fbreader.FBReaderApp;
-import org.geometerplus.zlibrary.core.options.ZLIntegerOption;
 import org.geometerplus.zlibrary.core.options.ZLIntegerRangeOption;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 
@@ -66,6 +54,7 @@ class MarginsPreference extends DialogPreference {
 		setTitle(title);
 		setDialogTitle(title);
 		setDialogLayoutResource(R.layout.custom_dialog_preference);
+		setSummary(getStringResForValue(myTopOption.getValue()));
 		final ZLResource buttonResource = ZLResource.resource("dialog").getResource("button");
 		setPositiveButtonText(buttonResource.getResource("ok").getValue());
 		setNegativeButtonText(buttonResource.getResource("cancel").getValue());
@@ -83,6 +72,16 @@ class MarginsPreference extends DialogPreference {
 			myRadio.check(R.id.radio_extrawide);
 		}
 		super.onBindDialogView(view);
+	}
+
+	private int getStringResForValue(int value){
+		if(value >= 0 && value <= 10){
+			return R.string.margins_small;
+		} else if(value > 10 && value <= 60){
+			return R.string.margins_medium;
+		} else{// value > 60
+			return R.string.margins_large;
+		}
 	}
 
 	@Override
@@ -105,6 +104,7 @@ class MarginsPreference extends DialogPreference {
 			myRightOption.setValue(valueSelected);
 			myTopOption.setValue(valueSelected);
 			myBottomOption.setValue(valueSelected);
+			setSummary(getStringResForValue(valueSelected));
 		}
 	}
 
