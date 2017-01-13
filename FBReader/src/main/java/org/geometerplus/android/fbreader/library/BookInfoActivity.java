@@ -43,7 +43,6 @@ import android.widget.Toast;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
-import org.geometerplus.android.fbreader.preferences.EditBookInfoActivity;
 import org.geometerplus.fbreader.library.Author;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.Library;
@@ -358,13 +357,22 @@ public class BookInfoActivity extends Activity {
 			).show();
 			return;
 		}
-		new AlertDialog.Builder(this)
+		final AlertDialog dialog = new AlertDialog.Builder(this)
 				.setTitle(book.getTitle())
 				.setMessage(getString(R.string.message_confirm_remove_book))
 				.setIcon(0)
 				.setPositiveButton(getString(R.string.button_label_delete_book), deleteDialogListener)
 				.setNegativeButton(getString(R.string.button_label_cancel), null)
-				.create().show();
+				.create();
+		dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+			@Override
+			public void onShow(DialogInterface dialogInterface) {
+				Button positiveButton = dialog
+						.getButton(AlertDialog.BUTTON_POSITIVE);
+				positiveButton.setContentDescription(getString(R.string.message_confirm_remove_book));
+			}
+		});
+		dialog.show();
 	}
 
 
