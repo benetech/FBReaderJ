@@ -27,6 +27,7 @@ public class LogoutFromBookshareAction extends FBAndroidAction {
         editor.putString("username", "");
         editor.putString("password", "");
         editor.putBoolean("isOM", false);
+        editor.putBoolean("isIM", false);
         editor.commit();
     }
 
