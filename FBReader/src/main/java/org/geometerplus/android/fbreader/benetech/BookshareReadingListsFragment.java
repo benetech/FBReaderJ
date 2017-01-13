@@ -73,21 +73,10 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
         }
         ViewGroup root = (ViewGroup)super.onCreateView(inflater, container, savedInstanceState);
 
-        FloatingActionButton mButton = new FloatingActionButton(getActivity());
-        mButton.setImageResource(R.drawable.ic_add_white_24dp);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+        if(canCreate()) {
+            addCreateButton(root);
+        }
 
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        int dpInPx = Math.round(
-                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, dm));
-
-        params.bottomMargin = dpInPx;
-        params.rightMargin = dpInPx;
-        root.addView(mButton, params);
-
-        mButton.setOnClickListener(buttonListener);
         return root;
     }
 
@@ -246,7 +235,32 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
         finishedDialog.popup(text.toString(), 5000);
     }
 
+    private boolean canCreate(){
+        /* The server is not currently handling roles in a satisfactory manner. So for now we'll allow this actions for everyone,
+        and if they fail it means it wasn't allowed.
+        In the future the code to determine wether or not to + button stuff will go here
+         */
+        return true;
+    }
 
+    private void addCreateButton(ViewGroup root){
+        FloatingActionButton mButton = new FloatingActionButton(getActivity());
+        mButton.setImageResource(R.drawable.ic_add_white_24dp);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.BOTTOM | Gravity.RIGHT;
+
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        int dpInPx = Math.round(
+                TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, dm));
+
+        params.bottomMargin = dpInPx;
+        params.rightMargin = dpInPx;
+        root.addView(mButton, params);
+
+        mButton.setOnClickListener(buttonListener);
+
+    }
 
     private class ReadingListsAdapter extends ArrayAdapter<ReadingListsItem> {
         public ReadingListsAdapter(Context context, List<ReadingListsItem> items) {

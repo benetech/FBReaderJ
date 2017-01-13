@@ -157,13 +157,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
 
     private boolean canDelete(){
         if(getActivity() instanceof  MyBooksActivity) {
-            if(((MyBooksActivity) getActivity()).isOM()){
-                return false;
-            }
-            else {
-                //Future: IM can delete if owner of the list. Sponsor can delete if the list is not public.
-                return true;
-            }
+            return true;
         }
         return false;
     }

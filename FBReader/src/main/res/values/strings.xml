@@ -229,11 +229,11 @@
 
     <string name="added_to_readinglist_success">Added to list</string>
     <string name="added_to_readinglist_fail_title">Failed to add title to list</string>
-    <string name="added_to_readinglist_fail_message">There has been an unexpected error and the title could not be added to the selected reading list.</string>
+    <string name="added_to_readinglist_fail_message">You are not authorized to add books to this Reading List.</string>
     <string name="create_new_readinglist_title">Create new reading list</string>
     <string name="create_new_readinglist_message">Enter reading list name</string>
-    <string name="create_new_readinglist_error">There has been an error. The list could not be created.</string>
-    <string name="delete_from_readinglist_error">There has been an error. The title was not removed.</string>
+    <string name="create_new_readinglist_error">You are not authorized to create a Reading List.</string>
+    <string name="delete_from_readinglist_error">You are not authorized to remove books from this Reading List.</string>
     <!-- Delete from reading list -->
     <string name="delete">Delete</string>
     <string name="delete_fromreadinglist_progress_title">Removing the title from reading list</string>
