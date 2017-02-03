@@ -321,6 +321,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
             if (!isDownloadable) {
                 btnDownload.setVisibility(View.GONE);
                 btnDownloadWithImages.setVisibility(View.GONE);
+                btnReadingList.setVisibility(View.GONE);
                 bookshare_book_detail_authors.setNextFocusDownId(R.id.bookshare_download_not_available_msg);
                 bookshare_book_detail_isbn.setNextFocusUpId(R.id.bookshare_download_not_available_msg);
                 bookshare_download_not_available_text.setNextFocusUpId(R.id.bookshare_book_detail_authors);
@@ -334,6 +335,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 btnDownloadWithImages.setNextFocusUpId(R.id.bookshare_btn_download);
                 bookshare_book_detail_authors.setNextFocusDownId(R.id.bookshare_btn_download);
 
+                btnReadingList.setVisibility(View.VISIBLE);
                 btnDownload.setOnClickListener(Bookshare_Book_Details.this);
                 btnDownloadWithImages.setOnClickListener(Bookshare_Book_Details.this);
 
@@ -342,10 +344,6 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 Log.d("checking images", String.valueOf(imagesAvailable));
                 btnDownloadWithImages.setVisibility(View.GONE);
             }
-            if(isIM) {
-                btnReadingList.setVisibility(View.VISIBLE);
-            }
-            // Set the fields of the layout with book details
             if (metadata_bean.getTitle() != null) {
                 for (int i = 0; i < metadata_bean.getTitle().length; i++) {
                     temp = temp + metadata_bean.getTitle()[i];
