@@ -232,7 +232,7 @@
     <string name="delete_from_readinglist_error">No está autorizado para eliminar títulos de esta lista.</string>
 
     <!-- Delete from reading list -->
-    <string name="delete">Eliminar</string>
+    <string name="remove_from_reading_list">Eliminar</string>
     <string name="delete_fromreadinglist_progress_title">Eliminando el título de la lista</string>
     <string name="delete_fromreadinglist_success">El título fue eliminado.</string>
 

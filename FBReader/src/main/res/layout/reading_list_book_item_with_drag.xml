@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete"
+            android:text="@string/remove_from_reading_list"
             android:textColor="@android:color/white"/>
     </LinearLayout>
     <!-- Bottom View End-->
