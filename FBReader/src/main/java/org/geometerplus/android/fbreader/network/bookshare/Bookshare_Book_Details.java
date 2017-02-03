@@ -914,7 +914,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
 
             /* Get the XMLReader of the SAXParser we created. */
             final XMLReader parser = sp.getXMLReader();
-            parser.setContentHandler(new SAXHandler());
+            parser.setContentHandler(new BookMetadataSaxHandler());
             parser.parse(is);
         } catch (SAXException e) {
             Log.e(LOG_TAG, e.toString(), e);
@@ -926,7 +926,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
     }
 
     // Class that applies parsing logic
-    private class SAXHandler extends DefaultHandler {
+    private class BookMetadataSaxHandler extends DefaultHandler {
 
         private boolean metadata = false;
 
