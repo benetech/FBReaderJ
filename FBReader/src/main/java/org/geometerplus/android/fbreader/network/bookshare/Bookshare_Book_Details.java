@@ -203,7 +203,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
         final String msg = "Fetching book details. Please wait.";
         finishedDialog.popup(msg, POPUP_TIMEOUT_MILLIS);
 
-        final AsyncTask<Object, Void, Integer> bookResultsFetcher = new BookDetailsTask(uri);
+        final AsyncTask<Object, Void, Integer> bookResultsFetcher = new BookDetailsTask(this, uri, password);
         bookResultsFetcher.execute();
 
         ViewGroup rootLayout = (ViewGroup)findViewById(R.id.book_detail_view);
@@ -211,58 +211,11 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
     }
 
 
-
-    /**
-     * This task gets the book details outside of the main UI thread
-     */
-    private class BookDetailsTask extends AsyncTask<Object, Void, Integer> {
-
-        String uri;
-
-        public BookDetailsTask(final String requestUri) {
-            uri = requestUri;
-        }
-
-        @Override
-        protected Integer doInBackground(final Object... params) {
-
-            try {
-                inputStream = bws.getResponseStream(password, uri);
-                final String response_HTML = bws.convertStreamToString(inputStream);
-
-                final String response = response_HTML.replace("&apos;", "\'").replace("&quot;", "\"")
-                        .replace("&amp;", "and").replace("&#xd;\n", "\n").replace("&#x97;", "-");
-
-                // Parse the response String
-                parseResponse(response);
-
-                Log.w(FBReader.LOG_LABEL, "done with parseResponse in task");
-
-            } catch (Exception e) {
-                Log.e(FBReader.LOG_LABEL, "problem getting results", e);
-            }
-
-            return 0;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(final Integer results) {
-            super.onPostExecute(results);
-            Log.w(FBReader.LOG_LABEL, "about to call on ResultsFetched");
-            onResultsFetched();
-        }
-
-    }
-
-    private void onResultsFetched() {
+    protected void onResultsFetched(Bookshare_Metadata_Bean metadata_bean) {
+        this.metadata_bean = metadata_bean;
         String temp = "";
 
-        if (metadata_bean == null) {
+        if (this.metadata_bean == null) {
             final TextView txtView_msg = (TextView) findViewById(R.id.bookshare_blank_txtView_msg);
             final String noBookFoundMsg = "Book not found.";
             txtView_msg.setText(noBookFoundMsg);
@@ -277,9 +230,9 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
             confirmAndClose(noBookFoundMsg, MESSAGE_TIMEOUT_MILLIS);
             return;
         }
-        if (metadata_bean != null) {
-            setIsDownloadable(metadata_bean);
-            setImagesAvailable(metadata_bean);
+        if (this.metadata_bean != null) {
+            setIsDownloadable(this.metadata_bean);
+            setImagesAvailable(this.metadata_bean);
             setContentView(R.layout.bookshare_book_detail);
             book_detail_view = (View) findViewById(R.id.book_detail_view);
             bookshare_book_detail_title_text = (TextView) findViewById(R.id.bookshare_book_detail_title);
@@ -341,20 +294,20 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 Log.d("checking images", String.valueOf(imagesAvailable));
                 btnDownloadWithImages.setVisibility(View.GONE);
             }
-            if (metadata_bean.getTitle() != null) {
-                for (int i = 0; i < metadata_bean.getTitle().length; i++) {
-                    temp = temp + metadata_bean.getTitle()[i];
+            if (this.metadata_bean.getTitle() != null) {
+                for (int i = 0; i < this.metadata_bean.getTitle().length; i++) {
+                    temp = temp + this.metadata_bean.getTitle()[i];
                 }
                 bookshare_book_detail_title_text.append(temp);
                 temp = "";
             }
 
-            if (metadata_bean.getAuthors() != null) {
-                for (int i = 0; i < metadata_bean.getAuthors().length; i++) {
+            if (this.metadata_bean.getAuthors() != null) {
+                for (int i = 0; i < this.metadata_bean.getAuthors().length; i++) {
                     if (i == 0) {
-                        temp = metadata_bean.getAuthors()[i];
+                        temp = this.metadata_bean.getAuthors()[i];
                     } else {
-                        temp = temp + ", " + metadata_bean.getAuthors()[i];
+                        temp = temp + ", " + this.metadata_bean.getAuthors()[i];
                     }
                 }
                 if (temp == null) {
@@ -367,30 +320,30 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 bookshare_book_detail_authors.setText(getResources().getString(R.string.book_details_not_available));
             }
 
-            if (metadata_bean.getIsbn() != null) {
-                temp = metadata_bean.getIsbn().trim().equals("") ? getResources().getString(
-                        R.string.book_details_not_available) : metadata_bean.getIsbn();
+            if (this.metadata_bean.getIsbn() != null) {
+                temp = this.metadata_bean.getIsbn().trim().equals("") ? getResources().getString(
+                        R.string.book_details_not_available) : this.metadata_bean.getIsbn();
                 bookshare_book_detail_isbn.append(temp);
                 temp = "";
             } else {
                 bookshare_book_detail_isbn.append(getResources().getString(R.string.book_details_not_available));
             }
 
-            if (metadata_bean.getLanguage() != null) {
-                temp = metadata_bean.getLanguage().trim().equals("") ? getResources().getString(
-                        R.string.book_details_not_available) : metadata_bean.getLanguage();
+            if (this.metadata_bean.getLanguage() != null) {
+                temp = this.metadata_bean.getLanguage().trim().equals("") ? getResources().getString(
+                        R.string.book_details_not_available) : this.metadata_bean.getLanguage();
                 bookshare_book_detail_language.append(temp);
                 temp = "";
             } else {
                 bookshare_book_detail_language.append(getResources().getString(R.string.book_details_not_available));
             }
 
-            if (metadata_bean.getCategory() != null) {
-                for (int i = 0; i < metadata_bean.getCategory().length; i++) {
+            if (this.metadata_bean.getCategory() != null) {
+                for (int i = 0; i < this.metadata_bean.getCategory().length; i++) {
                     if (i == 0) {
-                        temp = metadata_bean.getCategory()[i];
+                        temp = this.metadata_bean.getCategory()[i];
                     } else {
-                        temp = temp + ", " + metadata_bean.getCategory()[i];
+                        temp = temp + ", " + this.metadata_bean.getCategory()[i];
                     }
                 }
 
@@ -404,8 +357,8 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 bookshare_book_detail_category.append(getResources().getString(R.string.book_details_not_available));
             }
 
-            if (metadata_bean.getPublishDate() != null) {
-                final StringBuilder str_date = new StringBuilder(metadata_bean.getPublishDate());
+            if (this.metadata_bean.getPublishDate() != null) {
+                final StringBuilder str_date = new StringBuilder(this.metadata_bean.getPublishDate());
                 final String mm = str_date.substring(0, 2);
                 String month = "";
                 if (mm.equalsIgnoreCase("01")) {
@@ -443,30 +396,30 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                         .append(getResources().getString(R.string.book_details_not_available));
             }
 
-            if (metadata_bean.getPublisher() != null) {
-                temp = metadata_bean.getPublisher().trim().equals("") ? getResources().getString(
-                        R.string.book_details_not_available) : metadata_bean.getPublisher();
+            if (this.metadata_bean.getPublisher() != null) {
+                temp = this.metadata_bean.getPublisher().trim().equals("") ? getResources().getString(
+                        R.string.book_details_not_available) : this.metadata_bean.getPublisher();
                 bookshare_book_detail_publisher.append(temp);
                 temp = "";
             } else {
                 bookshare_book_detail_publisher.append(getResources().getString(R.string.book_details_not_available));
             }
 
-            if (metadata_bean.getCopyright() != null) {
-                temp = metadata_bean.getCopyright().trim().equals("") ? getResources().getString(
-                        R.string.book_details_not_available) : metadata_bean.getCopyright();
+            if (this.metadata_bean.getCopyright() != null) {
+                temp = this.metadata_bean.getCopyright().trim().equals("") ? getResources().getString(
+                        R.string.book_details_not_available) : this.metadata_bean.getCopyright();
                 bookshare_book_detail_copyright.append(temp);
                 temp = "";
             } else {
                 bookshare_book_detail_copyright.append(getResources().getString(R.string.book_details_not_available));
             }
 
-            if (metadata_bean.getBriefSynopsis() != null) {
-                for (int i = 0; i < metadata_bean.getBriefSynopsis().length; i++) {
+            if (this.metadata_bean.getBriefSynopsis() != null) {
+                for (int i = 0; i < this.metadata_bean.getBriefSynopsis().length; i++) {
                     if (i == 0) {
-                        temp = metadata_bean.getBriefSynopsis()[i];
+                        temp = this.metadata_bean.getBriefSynopsis()[i];
                     } else {
-                        temp = temp + " " + metadata_bean.getBriefSynopsis()[i];
+                        temp = temp + " " + this.metadata_bean.getBriefSynopsis()[i];
                     }
                 }
                 if (temp == null) {
@@ -474,12 +427,12 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 }
                 temp = temp.trim().equals("") ? getResources().getString(R.string.book_details_not_available) : temp;
                 bookshare_book_detail_synopsis_text.append(temp.trim());
-            } else if (metadata_bean.getCompleteSynopsis() != null) {
-                for (int i = 0; i < metadata_bean.getCompleteSynopsis().length; i++) {
+            } else if (this.metadata_bean.getCompleteSynopsis() != null) {
+                for (int i = 0; i < this.metadata_bean.getCompleteSynopsis().length; i++) {
                     if (i == 0) {
-                        temp = metadata_bean.getCompleteSynopsis()[i];
+                        temp = this.metadata_bean.getCompleteSynopsis()[i];
                     } else {
-                        temp = temp + " " + metadata_bean.getCompleteSynopsis()[i];
+                        temp = temp + " " + this.metadata_bean.getCompleteSynopsis()[i];
                     }
                 }
                 if (temp == null) {
@@ -488,7 +441,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
                 temp = temp.trim().equals("") ? getResources().getString(R.string.book_details_not_available) : temp;
 
                 bookshare_book_detail_synopsis_text.append(temp.trim());
-            } else if (metadata_bean.getBriefSynopsis() == null && metadata_bean.getCompleteSynopsis() == null) {
+            } else if (this.metadata_bean.getBriefSynopsis() == null && this.metadata_bean.getCompleteSynopsis() == null) {
                 bookshare_book_detail_synopsis_text.append("No Synopsis available");
             }
 
@@ -890,36 +843,6 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
             };
             currentButton.requestFocus();
             downloadFinishHandler.sendEmptyMessage(downloadSuccess ? 1 : 0);
-        }
-    }
-
-    /**
-     * Uses a SAX parser to parse the response
-     * @param response String representing the response
-     */
-    private void parseResponse(String response) {
-
-        Log.i(LOG_TAG, response);
-
-        final InputSource is = new InputSource(new StringReader(response));
-
-        try {
-            /* Get a SAXParser from the SAXPArserFactory. */
-            final SAXParserFactory spf = SAXParserFactory.newInstance();
-            SAXParser sp;
-            sp = spf.newSAXParser();
-
-            /* Get the XMLReader of the SAXParser we created. */
-            final XMLReader parser = sp.getXMLReader();
-            metadata_bean = new Bookshare_Metadata_Bean();
-            parser.setContentHandler(new BookMetadataSaxHandler(metadata_bean));
-            parser.parse(is);
-        } catch (SAXException e) {
-            Log.e(LOG_TAG, e.toString(), e);
-        } catch (ParserConfigurationException e) {
-            Log.e(LOG_TAG, e.toString(), e);
-        } catch (IOException ioe) {
-            Log.e(LOG_TAG, ioe.toString(), ioe);
         }
     }
 
