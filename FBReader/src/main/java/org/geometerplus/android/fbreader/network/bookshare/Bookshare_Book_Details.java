@@ -41,6 +41,7 @@ import org.geometerplus.android.fbreader.benetech.Analytics;
 import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.BookDownloaderService;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.BookDetailsFetechedResultsHandler;
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
@@ -68,7 +69,7 @@ import javax.net.ssl.HttpsURLConnection;
 /**
  * Shows the details of a selected book. Will also show a download option if applicable.
  */
-public class Bookshare_Book_Details extends Activity implements OnClickListener {
+public class Bookshare_Book_Details extends Activity implements OnClickListener, BookDetailsFetechedResultsHandler {
 
     private String LOG_TAG = FBReader.LOG_LABEL;
 
@@ -203,8 +204,8 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
         SortUtil.applyCurrentFontToAllInViewGroup(this, rootLayout);
     }
 
-
-    protected void onResultsFetched(Bookshare_Metadata_Bean metadata_bean) {
+    @Override
+    public void onResultsFetched(Bookshare_Metadata_Bean metadata_bean) {
         this.metadata_bean = metadata_bean;
         String temp = "";
 

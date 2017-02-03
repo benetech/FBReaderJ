@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.BookDetailsFetechedResultsHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -26,11 +27,11 @@ public class BookDetailsDownloaderTask extends AsyncTask<Object, Void, Integer> 
     private BookshareWebServiceClient bws = new BookshareWebServiceClient(Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
     private InputStream inputStream;
     private String password;
-    private Bookshare_Book_Details bookshare_book_details;
+    private BookDetailsFetechedResultsHandler bookshare_book_details;
     private String uri;
     private Bookshare_Metadata_Bean metadata_bean;
 
-    public BookDetailsDownloaderTask(Bookshare_Book_Details bookshare_book_details, final String requestUri, String password) {
+    public BookDetailsDownloaderTask(BookDetailsFetechedResultsHandler bookshare_book_details, final String requestUri, String password) {
         this.bookshare_book_details = bookshare_book_details;
         this.uri = requestUri;
         this.password = password;
