@@ -20,7 +20,7 @@ import javax.xml.parsers.SAXParserFactory;
 /**
  * This task gets the book details outside of the main UI thread
  */
-public class BookDetailsTask extends AsyncTask<Object, Void, Integer> {
+public class BookDetailsDownloaderTask extends AsyncTask<Object, Void, Integer> {
 
     private String LOG_TAG = FBReader.LOG_LABEL;
     private BookshareWebServiceClient bws = new BookshareWebServiceClient(Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
@@ -30,7 +30,7 @@ public class BookDetailsTask extends AsyncTask<Object, Void, Integer> {
     private String uri;
     private Bookshare_Metadata_Bean metadata_bean;
 
-    public BookDetailsTask(Bookshare_Book_Details bookshare_book_details, final String requestUri, String password) {
+    public BookDetailsDownloaderTask(Bookshare_Book_Details bookshare_book_details, final String requestUri, String password) {
         this.bookshare_book_details = bookshare_book_details;
         this.uri = requestUri;
         this.password = password;
@@ -95,6 +95,4 @@ public class BookDetailsTask extends AsyncTask<Object, Void, Integer> {
             Log.e(LOG_TAG, ioe.toString(), ioe);
         }
     }
-
-
 }

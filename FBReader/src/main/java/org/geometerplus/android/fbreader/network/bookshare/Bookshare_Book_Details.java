@@ -50,9 +50,6 @@ import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 import org.geometerplus.zlibrary.ui.android.util.SortUtil;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -60,7 +57,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -68,9 +64,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.net.ssl.HttpsURLConnection;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 /**
  * Shows the details of a selected book. Will also show a download option if applicable.
@@ -203,7 +196,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener 
         final String msg = "Fetching book details. Please wait.";
         finishedDialog.popup(msg, POPUP_TIMEOUT_MILLIS);
 
-        final AsyncTask<Object, Void, Integer> bookResultsFetcher = new BookDetailsTask(this, uri, password);
+        final AsyncTask<Object, Void, Integer> bookResultsFetcher = new BookDetailsDownloaderTask(this, uri, password);
         bookResultsFetcher.execute();
 
         ViewGroup rootLayout = (ViewGroup)findViewById(R.id.book_detail_view);
