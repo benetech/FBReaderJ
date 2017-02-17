@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +24,12 @@ import com.daimajia.swipe.SwipeLayout;
 
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.network.ReadingListApiManager;
+import org.geometerplus.android.fbreader.network.bookshare.BookDetailsDownloaderTask;
+import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
+import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Books_Listing;
+import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Metadata_Bean;
+import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
+import org.geometerplus.android.fbreader.network.bookshare.subscription.BookDetailsFetechedResultsHandler;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareActionObserver;
@@ -209,7 +218,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
         return true;
     }
 
-    public class ReadingListBooksAdapter extends ArrayAdapter<AbstractTitleListRowItem> {
+    public class ReadingListBooksAdapter extends ArrayAdapter<AbstractTitleListRowItem> implements BookDetailsFetechedResultsHandler {
 
         public ReadingListBooksAdapter(Context context, List<AbstractTitleListRowItem> items) {
             super(context, R.layout.reading_list_book_item, items);
@@ -218,11 +227,15 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ViewHolder viewHolder;
-
+            AbstractTitleListRowItem item = getItem(position);
             if(convertView == null) {
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 viewHolder = new ViewHolder();
-                if(canDelete()) {
+                loadBootDetailsFromBookshare(item);
+                //FIXME urgent - Temporarly disabling swipe left to remove book from reading list.
+                //FBR-591, as a work around, it was decided to only allow the delete if the books is downloadble.
+                //However what its seen here is that if the books.
+                if(false) {
                     convertView = inflater.inflate(R.layout.reading_list_book_item_with_drag, parent, false);
                     viewHolder.hiddenLayout = (LinearLayout) convertView.findViewById(R.id.hidden_layout);
                     viewHolder.swipeLayout = (SwipeLayout) convertView.findViewById(R.id.swipe_layout);
@@ -230,6 +243,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
                 else {
                     convertView = inflater.inflate(R.layout.reading_list_book_item, parent, false);
                 }
+
                 viewHolder.readingListBook = (TextView) convertView.findViewById(R.id.bookTitle);
                 viewHolder.readingListBookAuthors = (TextView) convertView.findViewById(R.id.bookAuthorsLabel);
                 convertView.setTag(viewHolder);
@@ -237,7 +251,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            AbstractTitleListRowItem item = getItem(position);
+
             viewHolder.readingListBook.setText(item.getBookTitle());
             viewHolder.readingListBookAuthors.setText(item.getAuthors());
 
@@ -253,12 +267,61 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
             if(viewHolder.hiddenLayout != null){
                 viewHolder.hiddenLayout.setTag(new Integer(position));
                 viewHolder.hiddenLayout.setOnClickListener(deleteListener);
-                viewHolder.swipeLayout.setOnLongClickListener(openListener);
-                viewHolder.swipeLayout.addSwipeListener(swipeListener);
             }
             return convertView;
         }
+
+        private void loadBootDetailsFromBookshare(AbstractTitleListRowItem item) {
+            SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String username = defaultSharedPreferences.getString(Bookshare_Webservice_Login.USER, "");
+            String password = defaultSharedPreferences.getString(Bookshare_Webservice_Login.PASSWORD, "");
+
+            final String uri= Bookshare_Books_Listing.URI_BOOKSHARE_ID_SEARCH + item.getBookId() + "/for/" + username + "?api_key="+ BookshareDeveloperKey.DEVELOPER_KEY;
+            final AsyncTask<Object, Void, Integer> bookResultsFetcher = new BookDetailsDownloaderTask(this, uri, password);
+            bookResultsFetcher.execute();
+        }
+
+        public void onResultsFetched(Bookshare_Metadata_Bean metadata_bean) {
+            if (metadata_bean == null)
+                return;
+
+            String bookshareId = metadata_bean.getBookshareId();
+            if (bookshareId == null)
+                return;
+
+            for (int index = 0; index < getCount(); ++index)
+            {
+                AbstractTitleListRowItem item = getItem(index);
+                long rowBookId = item.getBookId();
+                if (String.valueOf(rowBookId).equals(bookshareId)) {
+                    View rowItemLayout = getListView().getChildAt(index - getListView().getFirstVisiblePosition());
+                    if(rowItemLayout == null) {
+                        return;
+                    }
+
+                    SwipeLayout swipeLayout = (SwipeLayout) rowItemLayout.findViewById(R.id.swipe_layout);
+                    if (isDownloadable(metadata_bean)) {
+                        swipeLayout.setOnLongClickListener(openListener);
+                        swipeLayout.addSwipeListener(swipeListener);
+                    }
+                    else
+                    {
+                        swipeLayout.removeSwipeListener(swipeListener);
+                    }
+                    return;
+                }
+            }
+        }
+
+        private boolean isDownloadable(final Bookshare_Metadata_Bean bean) {
+            String availableToDownload = bean.getAvailableToDownload();
+            if (availableToDownload == null)
+                return false;
+
+            return availableToDownload.equals("1");
+        }
     }
+
     private View.OnClickListener selectListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

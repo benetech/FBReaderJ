@@ -51,7 +51,7 @@ public class Bookshare_Books_Listing extends ListActivity{
     private final static int LIST_RESPONSE = 1;
     private final static int METADATA_RESPONSE = 2;
 
-    private String URI_BOOKSHARE_ID_SEARCH = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL + Bookshare_Webservice_Login.BOOKSHARE_API_HOST + "/book/id/";
+    public static final String URI_BOOKSHARE_ID_SEARCH = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL + Bookshare_Webservice_Login.BOOKSHARE_API_HOST + "/book/id/";
     private String username;
     private String password;
     private String requestURI;

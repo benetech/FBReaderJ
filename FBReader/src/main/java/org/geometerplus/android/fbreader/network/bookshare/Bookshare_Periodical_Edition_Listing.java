@@ -62,7 +62,7 @@ public class Bookshare_Periodical_Edition_Listing extends ListActivity {
 
     private int responseType;
 
-    protected final static String URI_BOOKSHARE_PERIODICAL_EDITION_SEARCH = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL
+    public final static String URI_BOOKSHARE_PERIODICAL_EDITION_SEARCH = Bookshare_Webservice_Login.BOOKSHARE_API_PROTOCOL
             + Bookshare_Webservice_Login.BOOKSHARE_API_HOST + "/periodical/id/";
 
     private final int DATA_FETCHED = 99;
