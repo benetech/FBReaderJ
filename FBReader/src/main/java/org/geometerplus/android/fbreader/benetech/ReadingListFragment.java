@@ -289,6 +289,12 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
             if (bookshareId == null)
                 return;
 
+            if (!isAdded())
+                return;
+
+            if (!getListView().isActivated())
+                return;
+
             for (int index = 0; index < getCount(); ++index)
             {
                 AbstractTitleListRowItem item = getItem(index);
