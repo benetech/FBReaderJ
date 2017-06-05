@@ -145,7 +145,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
                 }
             }
             bookRowItems.add(new ReadingListTitleItem(bookshareId, readingListBookTitle,
-                    readingListBookAuthors, readingListBook.getDateAdded(), book));
+                    readingListBookAuthors, readingListBook.getDateAdded(), book, readingListBook.getAllows()));
         }
 
         if(shouldAddFavorites) {
@@ -164,12 +164,6 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
         SyncReadingListsWithBookshareActionObserver.getInstance().notifyRelevantBooklistOpened(getActivity());
     }
 
-    private boolean canDelete(){
-        if(getActivity() instanceof MyBooksActivity){
-            return ((MyBooksActivity) getActivity()).isIM();
-        }
-        return false;
-    }
 
     private boolean isTalkbackOn(){
         AccessibilityManager am = (AccessibilityManager) getActivity().getSystemService(Activity.ACCESSIBILITY_SERVICE);
@@ -232,10 +226,7 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
                 LayoutInflater inflater = LayoutInflater.from(getContext());
                 viewHolder = new ViewHolder();
                 loadBootDetailsFromBookshare(item);
-                //FIXME urgent - Temporarly disabling swipe left to remove book from reading list.
-                //FBR-591, as a work around, it was decided to only allow the delete if the books is downloadble.
-                //However what its seen here is that if the books.
-                if(false) {
+                if(item.canDeleteFromReadinglist()) {
                     convertView = inflater.inflate(R.layout.reading_list_book_item_with_drag, parent, false);
                     viewHolder.hiddenLayout = (LinearLayout) convertView.findViewById(R.id.hidden_layout);
                     viewHolder.swipeLayout = (SwipeLayout) convertView.findViewById(R.id.swipe_layout);

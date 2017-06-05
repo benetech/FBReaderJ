@@ -84,8 +84,9 @@ public class FBReader extends ZLAndroidActivityforActionBar {
 	protected final static int CANCEL_CODE = 2;
 	protected final static int AUTO_SPEAK_CODE = 3;
 	protected final static int LOGIN_CODE = 4;
+    public static final String READING_LIST_ALLOWS_KEY = "READING_LIST_ALLOWS_KEY";
 
-	private int myFullScreenFlag;
+    private int myFullScreenFlag;
 	//private InputAccess inputAccess = new InputAccess(this, true);
 
 	private BooksharePeriodicalDataSource dataSource;

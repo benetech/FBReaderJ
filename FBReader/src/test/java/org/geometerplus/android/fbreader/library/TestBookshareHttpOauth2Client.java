@@ -37,7 +37,7 @@ public class TestBookshareHttpOauth2Client {
         String response = httpClient.requestData(urlConnection);
         JSONObject jsonResponse = new JSONObject(response);
         String accessToken = jsonResponse.getString(BookshareHttpOauth2Client.ACCESS_TOKEN_CODE);
-        JSONArray readingLists = httpClient.getReadingLists(accessToken);
+        JSONObject readingLists = httpClient.getReadingLists(accessToken);
         assertFalse("Should contain atleast one readingList?", readingLists.length() == 0);
     }
 }

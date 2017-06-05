@@ -2,11 +2,14 @@ package org.geometerplus.fbreader.library;
 
 import android.util.Log;
 
+import org.geometerplus.android.fbreader.PermissionConstants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by animal@martus.org on 3/2/16.
@@ -25,6 +28,7 @@ public class ReadingList {
 
     private String bookshareId;
     private ArrayList<ReadingListBook> readingListBooks;
+    private Set<String> allows;
     private JSONObject readingListJson;
 
     public ReadingList() {
@@ -79,6 +83,12 @@ public class ReadingList {
             JSONObject titleJson = titlesArray.getJSONObject(index);
             readingListBooks.add(new ReadingListBook(titleJson));
         }
+        allows = new HashSet<>();
+        JSONArray allowsArray = readingListJson.optJSONArray(PermissionConstants.JSON_CODE_ALLOWS);
+        for (int index = 0; index < allowsArray.length(); ++index) {
+            allows.add(allowsArray.get(0).toString());
+        }
+
     }
 
     public JSONObject toJSONObject(){
@@ -100,6 +110,8 @@ public class ReadingList {
             }
         } catch (JSONException e){
             Log.e("JSONEXCEPTION", "error creating json representation of ReadingList", e);
+
+
         }
         return ans;
     }

@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -89,7 +90,7 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
                 }
             }
 
-            ReadingListTitleItem newItem = new ReadingListTitleItem(bookId, bean.getTitle(), concatinatedAuthors, downloadDate, book);
+            ReadingListTitleItem newItem = new ReadingListTitleItem(bookId, bean.getTitle(), concatinatedAuthors, downloadDate, book, new HashSet<String>());
             if(!bookRowItems.contains(newItem)){ //this will prevent us from adding duplicates unless they are actually different books for bookshare
                 bookRowItems.add(newItem);
             }

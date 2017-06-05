@@ -12,7 +12,7 @@ import javax.net.ssl.HttpsURLConnection;
 /**
  * Created by animal@martus.org on 4/19/16.
  */
-public class DownLoadReadingListsTask extends AsyncTask<Void, Void, JSONArray> {
+public class DownLoadReadingListsTask extends AsyncTask<Void, Void, JSONObject> {
 
     private AsyncResponse asyncResponse;
     private String userName;
@@ -25,7 +25,7 @@ public class DownLoadReadingListsTask extends AsyncTask<Void, Void, JSONArray> {
     }
 
     @Override
-    protected JSONArray doInBackground(Void... params) {
+    protected JSONObject doInBackground(Void... params) {
         try {
             BookshareHttpOauth2Client client =  new BookshareHttpOauth2Client();
             HttpsURLConnection urlConnection = client.createBookshareApiUrlConnection(getUserName(), getPassword());
@@ -37,12 +37,12 @@ public class DownLoadReadingListsTask extends AsyncTask<Void, Void, JSONArray> {
             return client.getReadingLists(accessToken);
         } catch (Exception e) {
             Log.e(getClass().getSimpleName(), e.getMessage(), e);
-            return new JSONArray();
+            return new JSONObject();
         }
     }
 
     @Override
-    protected void onPostExecute(JSONArray readingListJsonArray) {
+    protected void onPostExecute(JSONObject readingListJsonArray) {
         super.onPostExecute(readingListJsonArray);
 
         asyncResponse.processFinish(readingListJsonArray);

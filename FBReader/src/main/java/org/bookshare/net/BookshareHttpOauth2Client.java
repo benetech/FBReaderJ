@@ -54,8 +54,10 @@ public class BookshareHttpOauth2Client {
     private static final String BOOK_TITLES_FOR_READING_LIST_URL = "https://"  + HOST_NAME + "/v2/lists/" + READINGLIST_ID_REPLACEMENT_TOKEN + "/titles?"+READING_LISTS_LIMIT_PARAM+"&api_key=ytvs9pzsd62bv7rzamwdkthe";
 
     private static final String JSON_CODE_LISTS = "lists";
+    private static final String JSON_CODE_ALLOWS = "allows";
     private static final String JSON_CODE_READING_LIST_ID = "readingListId";
     public static final String JSON_CODE_READING_LIST_NAME = "name";
+    public static final String JSON_CODE_READING_LIST_LIST = "lists";
     private static final String JSON_CODE_TITLES = "titles";
 
     public HttpsURLConnection createBookshareApiUrlConnection(String userNameToUse, String passwordToUse) throws Exception {
@@ -71,14 +73,15 @@ public class BookshareHttpOauth2Client {
         return urlConnection;
     }
 
-    public JSONArray getReadingLists(String accessToken) throws Exception {
+    public JSONObject getReadingLists(String accessToken) throws Exception {
         HttpsURLConnection urlConnection = createConnection(READING_LISTS_URL, accessToken);
         final String rawResponseWithReadingLists = requestData(urlConnection);
 
         JSONObject readingListJson = new JSONObject(rawResponseWithReadingLists);
         JSONArray readingListsJsonArray = readingListJson.optJSONArray(JSON_CODE_LISTS);
+        JSONArray allowsJsonArray = readingListJson.optJSONArray(JSON_CODE_ALLOWS);
         if (readingListsJsonArray == null)
-            return new JSONArray();
+            return new JSONObject();
 
         JSONArray readingLists = new JSONArray();
         for (int index = 0; index < readingListsJsonArray.length(); ++index) {
@@ -90,7 +93,12 @@ public class BookshareHttpOauth2Client {
             readingLists.put(readingListDetailsJson);
         }
 
-        return readingLists;
+        JSONObject ans = new JSONObject();
+
+        ans.put(JSON_CODE_ALLOWS, allowsJsonArray);
+        ans.put(JSON_CODE_READING_LIST_LIST, readingLists);
+
+        return ans;
     }
 
     public boolean postTitleToReadingList(String accessToken, String readingListId, String titleId) throws Exception {

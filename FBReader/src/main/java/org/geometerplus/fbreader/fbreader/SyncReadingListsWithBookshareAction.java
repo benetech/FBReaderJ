@@ -19,8 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.benetech.android.R;
+import org.bookshare.net.BookshareHttpOauth2Client;
 import org.geometerplus.android.fbreader.FBAndroidAction;
 import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.android.fbreader.PermissionConstants;
 import org.geometerplus.android.fbreader.benetech.AsyncResponse;
 import org.geometerplus.android.fbreader.benetech.DownLoadReadingListsTask;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
@@ -29,12 +31,15 @@ import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction.SyncType.FIRST_STARTUP;
 
 /**
  * Created by animal@martus.org on 3/22/16.
  */
-public class SyncReadingListsWithBookshareAction extends FBAndroidAction implements AsyncResponse<JSONArray> {
+public class SyncReadingListsWithBookshareAction extends FBAndroidAction implements AsyncResponse<JSONObject> {
 
     private static final String LOG_TAG = "SyncWithBookshareAction";
     private static final int SECONDS_TO_PAUSE = 15;
@@ -74,7 +79,7 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
     }
 
     @Override
-    public void processFinish(JSONArray readingLists) {
+    public void processFinish(JSONObject readingLists) {
         try {
             insertReadingListsIntoDatabase(readingLists);
         } catch (Exception e) {
@@ -83,9 +88,25 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
         }
     }
 
-    private void insertReadingListsIntoDatabase(JSONArray readingLists) throws Exception{
+    private void insertReadingListsIntoDatabase (JSONObject readingListsResponse) throws Exception{
+
+        JSONArray readingLists = readingListsResponse.getJSONArray(BookshareHttpOauth2Client.JSON_CODE_READING_LIST_LIST);
+        JSONArray allows = readingListsResponse.getJSONArray(PermissionConstants.JSON_CODE_ALLOWS);
+
+        Set<String> allowsSet = new HashSet<>();
+
+        for(int i = 0; i < allows.length(); i++){
+            allowsSet.add(allows.get(0).toString());
+        }
+        // Obtain the application wide SharedPreferences object and store the login information
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseActivity().getApplicationContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putStringSet(FBReader.READING_LIST_ALLOWS_KEY, allowsSet);
+        editor.commit();
+
         SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
         database.clearReadingLists();
+
         for (int index = 0; index < readingLists.length(); ++index) {
             JSONObject readingListJson = readingLists.getJSONObject(index);
             database.insertReadingList(readingListJson);
