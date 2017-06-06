@@ -30,7 +30,7 @@ import android.widget.TextView;
 import org.apache.commons.io.FileUtils;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.FBReader;
-import org.geometerplus.android.fbreader.PermissionConstants;
+import org.geometerplus.android.fbreader.AllowanceConstants;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.library.Book;
@@ -76,7 +76,7 @@ public class MyBooksActivity extends AppCompatActivity {
         final SharedPreferences login_preference = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext());
         Set<String> allows = login_preference.getStringSet(FBReader.READING_LIST_ALLOWS_KEY, new HashSet<String>());
-        canCreateReadingLists = allows.contains(PermissionConstants.POST);
+        canCreateReadingLists = allows.contains(AllowanceConstants.POST);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         initTabs();

@@ -2,7 +2,7 @@ package org.geometerplus.fbreader.library;
 
 import android.util.Log;
 
-import org.geometerplus.android.fbreader.PermissionConstants;
+import org.geometerplus.android.fbreader.AllowanceConstants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,7 +84,7 @@ public class ReadingList {
             readingListBooks.add(new ReadingListBook(titleJson));
         }
         allows = new HashSet<>();
-        JSONArray allowsArray = readingListJson.optJSONArray(PermissionConstants.JSON_CODE_ALLOWS);
+        JSONArray allowsArray = readingListJson.optJSONArray(AllowanceConstants.JSON_CODE_ALLOWS);
         for (int index = 0; index < allowsArray.length(); ++index) {
             allows.add(allowsArray.get(0).toString());
         }
@@ -114,5 +114,9 @@ public class ReadingList {
 
         }
         return ans;
+    }
+
+    public boolean allowsAdditions(){
+        return allows != null && allows.contains(AllowanceConstants.POST);
     }
 }

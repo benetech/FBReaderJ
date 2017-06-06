@@ -1,6 +1,6 @@
 package org.geometerplus.android.fbreader.benetech;
 
-import org.geometerplus.android.fbreader.PermissionConstants;
+import org.geometerplus.android.fbreader.AllowanceConstants;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 
@@ -81,8 +81,6 @@ public class ReadingListTitleItem extends AbstractTitleListRowItem {
 
     @Override
     public boolean canDeleteFromReadinglist() {
-        return allows.contains(PermissionConstants.DELETE);
+        return allows.contains(AllowanceConstants.DELETE);
     }
-
-
 }

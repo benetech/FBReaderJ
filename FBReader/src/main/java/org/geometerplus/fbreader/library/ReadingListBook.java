@@ -3,7 +3,7 @@ package org.geometerplus.fbreader.library;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import org.geometerplus.android.fbreader.PermissionConstants;
+import org.geometerplus.android.fbreader.AllowanceConstants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +38,7 @@ public class ReadingListBook {
         title = jsonToFillFrom.optString(JSON_CODE_TITLE);
         dateAdded = dateFromJson(jsonToFillFrom.optString(JSON_CODE_DATEADDED));
         allows = new HashSet<>();
-        JSONArray allowsArray = jsonToFillFrom.optJSONArray(PermissionConstants.JSON_CODE_ALLOWS);
+        JSONArray allowsArray = jsonToFillFrom.optJSONArray(AllowanceConstants.JSON_CODE_ALLOWS);
         for (int index = 0; index < allowsArray.length(); ++index) {
             allows.add(allowsArray.get(0).toString());
         }

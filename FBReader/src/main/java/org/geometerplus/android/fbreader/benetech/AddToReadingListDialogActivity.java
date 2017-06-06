@@ -83,9 +83,10 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
     private void fillListAdapter(ArrayList<ReadingList> readingLists) {
         for (int index = 0; index < readingLists.size(); ++index) {
             ReadingList readingList = readingLists.get(index);
-            readingListsItems.add(new ReadingListsItem(readingList));
+            if(readingList.allowsAdditions()){
+                readingListsItems.add(new ReadingListsItem(readingList));
+            }
         }
-
         mListView.setAdapter(new ReadingListsAdapter(this, readingListsItems));
     }
 

@@ -22,7 +22,7 @@ import org.benetech.android.R;
 import org.bookshare.net.BookshareHttpOauth2Client;
 import org.geometerplus.android.fbreader.FBAndroidAction;
 import org.geometerplus.android.fbreader.FBReader;
-import org.geometerplus.android.fbreader.PermissionConstants;
+import org.geometerplus.android.fbreader.AllowanceConstants;
 import org.geometerplus.android.fbreader.benetech.AsyncResponse;
 import org.geometerplus.android.fbreader.benetech.DownLoadReadingListsTask;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
@@ -91,7 +91,7 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
     private void insertReadingListsIntoDatabase (JSONObject readingListsResponse) throws Exception{
 
         JSONArray readingLists = readingListsResponse.getJSONArray(BookshareHttpOauth2Client.JSON_CODE_READING_LIST_LIST);
-        JSONArray allows = readingListsResponse.getJSONArray(PermissionConstants.JSON_CODE_ALLOWS);
+        JSONArray allows = readingListsResponse.getJSONArray(AllowanceConstants.JSON_CODE_ALLOWS);
 
         Set<String> allowsSet = new HashSet<>();
 
