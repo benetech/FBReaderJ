@@ -3,7 +3,7 @@ package org.geometerplus.fbreader.library;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import org.geometerplus.android.fbreader.AllowanceConstants;
+import org.geometerplus.android.fbreader.ReadingListAllowanceHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +12,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -37,13 +36,9 @@ public class ReadingListBook {
         bookId = jsonToFillFrom.getInt(JSON_CODE_BOOKSHARE_ID);
         title = jsonToFillFrom.optString(JSON_CODE_TITLE);
         dateAdded = dateFromJson(jsonToFillFrom.optString(JSON_CODE_DATEADDED));
-        allows = new HashSet<>();
-        JSONArray allowsArray = jsonToFillFrom.optJSONArray(AllowanceConstants.JSON_CODE_ALLOWS);
-        if(allowsArray != null) {
-            for (int index = 0; index < allowsArray.length(); ++index) {
-                allows.add(allowsArray.get(0).toString());
-            }
-        }
+        JSONArray allowsArray = jsonToFillFrom.optJSONArray(ReadingListAllowanceHelper.JSON_CODE_ALLOWS);
+        allows = ReadingListAllowanceHelper.allowsFromJson(allowsArray);
+
         fillAuthorsList(jsonToFillFrom.optJSONArray(JSON_CODE_AUTHORS));
     }
 

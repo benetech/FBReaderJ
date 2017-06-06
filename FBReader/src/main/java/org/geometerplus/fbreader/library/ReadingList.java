@@ -2,13 +2,12 @@ package org.geometerplus.fbreader.library;
 
 import android.util.Log;
 
-import org.geometerplus.android.fbreader.AllowanceConstants;
+import org.geometerplus.android.fbreader.ReadingListAllowanceHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -83,14 +82,8 @@ public class ReadingList {
             JSONObject titleJson = titlesArray.getJSONObject(index);
             readingListBooks.add(new ReadingListBook(titleJson));
         }
-        allows = new HashSet<>();
-        JSONArray allowsArray = readingListJson.optJSONArray(AllowanceConstants.JSON_CODE_ALLOWS);
-        if(allowsArray != null) {
-            for (int index = 0; index < allowsArray.length(); ++index) {
-                allows.add(allowsArray.get(0).toString());
-            }
-        }
-
+        JSONArray allowsArray = readingListJson.optJSONArray(ReadingListAllowanceHelper.JSON_CODE_ALLOWS);
+        allows = ReadingListAllowanceHelper.allowsFromJson(allowsArray);
     }
 
     public JSONObject toJSONObject(){
@@ -119,6 +112,6 @@ public class ReadingList {
     }
 
     public boolean allowsAdditions(){
-        return allows != null && allows.contains(AllowanceConstants.POST);
+        return allows != null && allows.contains(ReadingListAllowanceHelper.POST);
     }
 }

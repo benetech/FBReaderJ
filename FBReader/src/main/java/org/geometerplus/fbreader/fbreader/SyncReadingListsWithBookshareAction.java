@@ -20,9 +20,9 @@ import android.widget.Toast;
 
 import org.benetech.android.R;
 import org.bookshare.net.BookshareHttpOauth2Client;
+import org.geometerplus.android.fbreader.ReadingListAllowanceHelper;
 import org.geometerplus.android.fbreader.FBAndroidAction;
 import org.geometerplus.android.fbreader.FBReader;
-import org.geometerplus.android.fbreader.AllowanceConstants;
 import org.geometerplus.android.fbreader.benetech.AsyncResponse;
 import org.geometerplus.android.fbreader.benetech.DownLoadReadingListsTask;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
@@ -31,7 +31,6 @@ import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import static org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction.SyncType.FIRST_STARTUP;
@@ -91,15 +90,9 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
     private void insertReadingListsIntoDatabase (JSONObject readingListsResponse) throws Exception{
 
         JSONArray readingLists = readingListsResponse.getJSONArray(BookshareHttpOauth2Client.JSON_CODE_READING_LIST_LIST);
-        JSONArray allows = readingListsResponse.optJSONArray(AllowanceConstants.JSON_CODE_ALLOWS);
+        JSONArray allows = readingListsResponse.optJSONArray(ReadingListAllowanceHelper.JSON_CODE_ALLOWS);
 
-        Set<String> allowsSet = new HashSet<>();
-
-        if(allows != null) {
-            for (int i = 0; i < allows.length(); i++) {
-                allowsSet.add(allows.get(0).toString());
-            }
-        }
+        Set<String> allowsSet = ReadingListAllowanceHelper.allowsFromJson(allows);
         // Obtain the application wide SharedPreferences object and store the login information
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseActivity().getApplicationContext());
         SharedPreferences.Editor editor = preferences.edit();
