@@ -123,6 +123,7 @@ public final class FBReaderApp extends ZLApplication {
 	private final String myArg0;
 
 	public FBReaderApp(String arg) {
+		super();
 		myArg0 = arg;
 
 		addAction(ActionCode.INCREASE_FONT, new ChangeFontSizeAction(this, +1));

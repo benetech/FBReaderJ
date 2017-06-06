@@ -22,7 +22,7 @@ package org.geometerplus.android.fbreader.preferences;
 import android.content.Context;
 import android.content.Intent;
 
-import org.geometerplus.android.fbreader.library.BookInfoActivity;
+import org.geometerplus.android.fbreader.library.DownloadedBookInfoActivity;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
@@ -100,7 +100,7 @@ public class EditBookInfoActivity extends ZLPreferenceActivity {
 			new SQLiteBooksDatabase(this);
 		}
 
-		final String path = intent.getStringExtra(BookInfoActivity.CURRENT_BOOK_PATH_KEY);
+		final String path = intent.getStringExtra(DownloadedBookInfoActivity.CURRENT_BOOK_PATH_KEY);
 		final ZLFile file = ZLFile.createFileByPath(path);
 		myBook = Book.getByFile(file);
 

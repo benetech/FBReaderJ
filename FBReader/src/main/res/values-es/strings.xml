@@ -27,7 +27,7 @@
     <string name="login_signup">Crear cuenta!</string>
 
 
-    <!-- Bookshare_Book_Details -->
+    <!-- OnlineBookDetailActivity -->
     <string name="book_details_removefromreadinglist_title">Eliminar libro</string>
     <string name="book_details_removefromreadinglist_message">Desea eliminar este libro?</string>
     <string name="book_details_removefromreadinglist_button_list">Eliminar de la lista de lectura</string>

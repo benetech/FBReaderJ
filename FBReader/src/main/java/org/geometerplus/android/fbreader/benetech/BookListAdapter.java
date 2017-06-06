@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.benetech.android.R;
-import org.geometerplus.android.fbreader.library.BookInfoActivity;
+import org.geometerplus.android.fbreader.library.DownloadedBookInfoActivity;
 import org.geometerplus.fbreader.library.Library;
 import org.geometerplus.zlibrary.core.image.ZLImage;
 import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
@@ -49,7 +49,7 @@ public class BookListAdapter  extends ArrayAdapter<AbstractTitleListRowItem> {
         AbstractTitleListRowItem item = getItem(position);
         ZLImage bookCover = Library.getCover(item.getBookZlFile());
 
-        BookInfoActivity.setCover(getActivity().getWindowManager(), viewHolder.bookCover, bookCover);
+        DownloadedBookInfoActivity.setCover(getActivity().getWindowManager(), viewHolder.bookCover, bookCover);
         viewHolder.bookTitle.setText(item.getBookTitle());
         viewHolder.bookAuthors.setText(item.getAuthors());
 

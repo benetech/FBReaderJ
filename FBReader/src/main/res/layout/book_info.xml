@@ -51,11 +51,24 @@
 			android:orientation="horizontal"
 		/>
 	</LinearLayout>
+	<Button
+		android:id="@+id/bookshare_btn_readinglist_bottom"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="4dip"
+		android:layout_marginBottom="2dip"
+		android:text="@string/book_details_readinglist_button"
+		android:textStyle="bold"
+		android:focusable="true"
+		android:visibility="visible"
+		android:layout_above="@id/book_info_button_panel"
+		/>
+
 	<ScrollView
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
 		android:layout_alignParentTop="true"
-		android:layout_above="@id/book_info_button_panel"
+		android:layout_above="@id/bookshare_btn_readinglist_bottom"
 		android:layout_marginBottom="4dip"
 	>
 		<LinearLayout

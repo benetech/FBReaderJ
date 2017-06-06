@@ -301,7 +301,7 @@ public class Bookshare_Books_Listing extends ListActivity{
                     // Retrieve the book ID from the entry that is clicked
                     if(bean.getId().equalsIgnoreCase(bookId.getText().toString())){
                         String bookshare_ID = bean.getId();
-                        Intent intent = new Intent(getApplicationContext(),Bookshare_Book_Details.class);
+                        Intent intent = new Intent(getApplicationContext(),OnlineBookDetailActivity.class);
                         String uri;
                         if(isFree)
                             uri = URI_BOOKSHARE_ID_SEARCH + bookshare_ID + "?api_key="+developerKey;

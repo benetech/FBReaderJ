@@ -81,13 +81,13 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
 	private final int START_BOOKSHARE_BOOKS_LISTING_ACTIVITY = 0;
 	private final int BOOKSHARE_BOOKS_LISTING_FINISHED = 2;
 	private final int BOOKSHARE_MENU_FINISHED = 1;
-	
+
 	private final int START_BOOKSHARE_PERIODICAL_LISTING_ACTIVITY = 3; //This is to start listing periodicals (thushv)
 	private final int BOOKSHARE_PERIODICAL_LISTING_FINISHED=4;
 
 	private String username;
 	private String password;
-	private boolean isFree = false; 
+	private boolean isFree = false;
 	private String developerKey = BookshareDeveloperKey.DEVELOPER_KEY;
     private final Activity myActivity = this;
 
@@ -365,7 +365,7 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
 			  Intent intent = new Intent(getApplicationContext(),Bookshare_Webservice_Login.class);
 				intent.putExtra("disable_no_login", true);
 		    dialog.dismiss();
-		    
+
 		    startActivity(intent);
 		  }
 		});
@@ -379,34 +379,34 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
 		});
 		AlertDialog alert = builder.create();
 		return alert;
-		
+
 	}
-	
+
     private void showAuthorSearch() {
         intent = new Intent(getApplicationContext(),Bookshare_Books_Listing.class);
         intent.putExtra(REQUEST_TYPE, AUTHOR_SEARCH_REQUEST);
-        showSearch(R.string.search_dialog_title_author, R.string.search_dialog_label_author, 
-            R.string.search_dialog_example_author, R.string.search_dialog_description_author, AUTHOR_SEARCH_REQUEST, 
+        showSearch(R.string.search_dialog_title_author, R.string.search_dialog_label_author,
+            R.string.search_dialog_example_author, R.string.search_dialog_description_author, AUTHOR_SEARCH_REQUEST,
             InputType.TYPE_CLASS_TEXT);
     }
 
     private void showTitleSearch() {
         intent = new Intent(getApplicationContext(),Bookshare_Books_Listing.class);
         intent.putExtra(REQUEST_TYPE, TITLE_SEARCH_REQUEST);
-        showSearch(R.string.search_dialog_title_title, R.string.search_dialog_label_title, 
-            R.string.search_dialog_example_title, R.string.search_dialog_description_title, TITLE_SEARCH_REQUEST, 
+        showSearch(R.string.search_dialog_title_title, R.string.search_dialog_label_title,
+            R.string.search_dialog_example_title, R.string.search_dialog_description_title, TITLE_SEARCH_REQUEST,
             InputType.TYPE_CLASS_TEXT);
     }
 
     private void showISBNSearch() {
-        intent = new Intent(getApplicationContext(),Bookshare_Book_Details.class);
+        intent = new Intent(getApplicationContext(),OnlineBookDetailActivity.class);
         intent.putExtra(REQUEST_TYPE, ISBN_SEARCH_REQUEST);
-        showSearch(R.string.search_dialog_title_isbn, R.string.search_dialog_label_isbn, 
-            R.string.search_dialog_example_isbn, R.string.search_dialog_description_isbn, ISBN_SEARCH_REQUEST, 
+        showSearch(R.string.search_dialog_title_isbn, R.string.search_dialog_label_isbn,
+            R.string.search_dialog_example_isbn, R.string.search_dialog_description_isbn, ISBN_SEARCH_REQUEST,
             InputType.TYPE_CLASS_NUMBER);
     }
-    
-    private void showSearch(int titleId, int labelId, int exampleId, int contentDescriptionId, int queryType, 
+
+    private void showSearch(int titleId, int labelId, int exampleId, int contentDescriptionId, int queryType,
             int inputType) {
         // Clear the EditText box of any previous text
         dialog_search_term.setText("");
@@ -500,13 +500,13 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
 
         startActivityForResult(intent, START_BOOKSHARE_BOOKS_LISTING_ACTIVITY);
     }
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data){
 		if(requestCode == START_BOOKSHARE_BOOKS_LISTING_ACTIVITY){
 			if(resultCode == BOOKSHARE_BOOKS_LISTING_FINISHED){
 				setResult(BOOKSHARE_MENU_FINISHED);
-				finish();              
+				finish();
 			} else if (resultCode == InternalReturnCodes.NO_BOOK_FOUND) {
                 // can only get here from failed ISBN search (other search return no books found)
                 // take back to ISBN search since we assume user mistake
@@ -514,7 +514,7 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
             } else if (resultCode == InternalReturnCodes.NO_BOOKS_FOUND) {
                 // go back to either title or author search
                 if (query_type == TITLE_SEARCH_REQUEST) {
-                    showTitleSearch();    
+                    showTitleSearch();
                 } else if (query_type == AUTHOR_SEARCH_REQUEST) {
                     showAuthorSearch();
                 }
@@ -528,7 +528,7 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
                 int resource, String[] from, int[] to) {
             super(context, data, resource, from, to);
         }
-		
+
         /**
          * Retrieves view for the item in the adapter, at the
          * specified position and populates it with data.

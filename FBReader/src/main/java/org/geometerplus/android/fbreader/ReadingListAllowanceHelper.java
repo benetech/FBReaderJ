@@ -18,11 +18,11 @@ public class ReadingListAllowanceHelper {
 
     public static Set<String> allowsFromJson(JSONObject base) throws Exception {
         Set<String> allowsSet = new HashSet<>();
-        if(!base.has(ReadingListAllowanceHelper.JSON_CODE_ALLOWS)){
+        JSONArray allows = base.optJSONArray(ReadingListAllowanceHelper.JSON_CODE_ALLOWS);
+        if(allows == null){
             return allowsSet;
         }
 
-        JSONArray allows = base.optJSONArray(ReadingListAllowanceHelper.JSON_CODE_ALLOWS);
         for (int i = 0; i < allows.length(); i++) {
             allowsSet.add(allows.get(i).toString());
         }

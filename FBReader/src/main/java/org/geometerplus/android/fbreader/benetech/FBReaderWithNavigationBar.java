@@ -30,7 +30,7 @@ import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.TOCActivity;
 import org.geometerplus.android.fbreader.api.ApiServerImplementation;
 import org.geometerplus.android.fbreader.api.TextPosition;
-import org.geometerplus.android.fbreader.library.BookInfoActivity;
+import org.geometerplus.android.fbreader.library.DownloadedBookInfoActivity;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
@@ -254,7 +254,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             }
         }
         else if(requestCode == REPAINT_CODE){
-            if(resultCode == BookInfoActivity.RESULT_BOOK_DELETED){
+            if(resultCode == DownloadedBookInfoActivity.RESULT_BOOK_DELETED){
                 postDeleteBook();
             }
         }
