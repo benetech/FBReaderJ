@@ -91,12 +91,14 @@ public class SyncReadingListsWithBookshareAction extends FBAndroidAction impleme
     private void insertReadingListsIntoDatabase (JSONObject readingListsResponse) throws Exception{
 
         JSONArray readingLists = readingListsResponse.getJSONArray(BookshareHttpOauth2Client.JSON_CODE_READING_LIST_LIST);
-        JSONArray allows = readingListsResponse.getJSONArray(AllowanceConstants.JSON_CODE_ALLOWS);
+        JSONArray allows = readingListsResponse.optJSONArray(AllowanceConstants.JSON_CODE_ALLOWS);
 
         Set<String> allowsSet = new HashSet<>();
 
-        for(int i = 0; i < allows.length(); i++){
-            allowsSet.add(allows.get(0).toString());
+        if(allows != null) {
+            for (int i = 0; i < allows.length(); i++) {
+                allowsSet.add(allows.get(0).toString());
+            }
         }
         // Obtain the application wide SharedPreferences object and store the login information
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseActivity().getApplicationContext());

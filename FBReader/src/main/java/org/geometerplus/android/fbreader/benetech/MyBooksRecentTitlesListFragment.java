@@ -116,8 +116,10 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
 
     private void recreateAdapterWithUpdatedRows() {
         sortListItems();
-        BookListAdapter adapter = new BookListAdapter(getActivity(), bookRowItems);
-        adapter.notifyDataSetChanged();
-        setListAdapter(adapter);
+        if(getActivity() != null) {
+            BookListAdapter adapter = new BookListAdapter(getActivity(), bookRowItems);
+            adapter.notifyDataSetChanged();
+            setListAdapter(adapter);
+        }
     }
 }

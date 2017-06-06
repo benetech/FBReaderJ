@@ -85,8 +85,10 @@ public class ReadingList {
         }
         allows = new HashSet<>();
         JSONArray allowsArray = readingListJson.optJSONArray(AllowanceConstants.JSON_CODE_ALLOWS);
-        for (int index = 0; index < allowsArray.length(); ++index) {
-            allows.add(allowsArray.get(0).toString());
+        if(allowsArray != null) {
+            for (int index = 0; index < allowsArray.length(); ++index) {
+                allows.add(allowsArray.get(0).toString());
+            }
         }
 
     }

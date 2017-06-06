@@ -39,8 +39,10 @@ public class ReadingListBook {
         dateAdded = dateFromJson(jsonToFillFrom.optString(JSON_CODE_DATEADDED));
         allows = new HashSet<>();
         JSONArray allowsArray = jsonToFillFrom.optJSONArray(AllowanceConstants.JSON_CODE_ALLOWS);
-        for (int index = 0; index < allowsArray.length(); ++index) {
-            allows.add(allowsArray.get(0).toString());
+        if(allowsArray != null) {
+            for (int index = 0; index < allowsArray.length(); ++index) {
+                allows.add(allowsArray.get(0).toString());
+            }
         }
         fillAuthorsList(jsonToFillFrom.optJSONArray(JSON_CODE_AUTHORS));
     }
