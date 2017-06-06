@@ -1,9 +1,7 @@
 package org.geometerplus.android.fbreader;
 
-import android.util.Log;
-
 import org.json.JSONArray;
-import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -18,17 +16,15 @@ public class ReadingListAllowanceHelper {
     public static final String PUT = "PUT";
     public static final String DELETE = "DELETE";
 
-    public static Set<String> allowsFromJson(JSONArray allows) {
+    public static Set<String> allowsFromJson(JSONObject base) throws Exception {
         Set<String> allowsSet = new HashSet<>();
+        if(!base.has(ReadingListAllowanceHelper.JSON_CODE_ALLOWS)){
+            return allowsSet;
+        }
 
-        if(allows != null) {
-            try {
-                for (int i = 0; i < allows.length(); i++) {
-                    allowsSet.add(allows.get(i).toString());
-                }
-            } catch (JSONException e) {
-                Log.e(ReadingListAllowanceHelper.class.getSimpleName(), e.getMessage(), e);
-            }
+        JSONArray allows = base.optJSONArray(ReadingListAllowanceHelper.JSON_CODE_ALLOWS);
+        for (int i = 0; i < allows.length(); i++) {
+            allowsSet.add(allows.get(i).toString());
         }
         return allowsSet;
     }

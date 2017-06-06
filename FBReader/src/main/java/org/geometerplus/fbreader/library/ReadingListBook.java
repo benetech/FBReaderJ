@@ -36,8 +36,7 @@ public class ReadingListBook {
         bookId = jsonToFillFrom.getInt(JSON_CODE_BOOKSHARE_ID);
         title = jsonToFillFrom.optString(JSON_CODE_TITLE);
         dateAdded = dateFromJson(jsonToFillFrom.optString(JSON_CODE_DATEADDED));
-        JSONArray allowsArray = jsonToFillFrom.optJSONArray(ReadingListAllowanceHelper.JSON_CODE_ALLOWS);
-        allows = ReadingListAllowanceHelper.allowsFromJson(allowsArray);
+        allows = ReadingListAllowanceHelper.allowsFromJson(jsonToFillFrom);
 
         fillAuthorsList(jsonToFillFrom.optJSONArray(JSON_CODE_AUTHORS));
     }

@@ -82,8 +82,7 @@ public class ReadingList {
             JSONObject titleJson = titlesArray.getJSONObject(index);
             readingListBooks.add(new ReadingListBook(titleJson));
         }
-        JSONArray allowsArray = readingListJson.optJSONArray(ReadingListAllowanceHelper.JSON_CODE_ALLOWS);
-        allows = ReadingListAllowanceHelper.allowsFromJson(allowsArray);
+        allows = ReadingListAllowanceHelper.allowsFromJson(readingListJson);
     }
 
     public JSONObject toJSONObject(){
