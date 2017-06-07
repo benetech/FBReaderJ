@@ -48,9 +48,6 @@ public class BookDetailActivity extends Activity {
                         .setPositiveButton(R.string.accept, null)
                         .show();
             }
-            if(ZLApplication.Instance() != null){
-                ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
-            }
         }
     }
 
