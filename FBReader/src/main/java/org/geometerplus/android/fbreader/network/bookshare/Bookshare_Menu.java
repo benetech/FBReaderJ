@@ -187,7 +187,9 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
         inflater.inflate(R.menu.search_action_bar_menu, menu);
         // Associate searchable configuration with the SearchView
         setupSearchView(menu);
-        return optionsMenuHandler.onCreateOptionsMenu(menu, myPluginActions);
+        optionsMenuHandler.onCreateOptionsMenu(menu, myPluginActions);
+        menu.findItem(R.id.empty).setVisible(false);
+        return true;
     }
 
     private void setupSearchView(Menu menu){
