@@ -47,7 +47,7 @@ public class BookshareHttpOauth2Client {
     private static final String UTF_8 = "UTF-8";
 
     private static final String READING_LISTS_LIMIT_PARAM = "limit=100";
-    private static final String READING_LISTS_URL = "https://" + HOST_NAME + "/v2/lists?"+READING_LISTS_LIMIT_PARAM+"&api_key=" + API_KEY;
+    private static final String READING_LISTS_URL = "https://" + HOST_NAME + "/v2/mylists?"+READING_LISTS_LIMIT_PARAM+"&api_key=" + API_KEY;
     public static final String ACCESS_TOKEN_CODE = "access_token";
 
     private static final String READINGLIST_ID_REPLACEMENT_TOKEN = "%s";
@@ -120,7 +120,7 @@ public class BookshareHttpOauth2Client {
 
     public boolean postReadingList(String accessToken, String readingListName, String description) throws Exception {
 
-        String url = String.format("https://%s/v2/lists/?api_key=%s",HOST_NAME, API_KEY);
+        String url = String.format("https://%s/v2/mylists/?api_key=%s",HOST_NAME, API_KEY);
 
         HttpsURLConnection urlConnection = createHttpsUrlConnection(url, POST_REQUESTE_METHOD);
         setAccessToken(accessToken, urlConnection);
