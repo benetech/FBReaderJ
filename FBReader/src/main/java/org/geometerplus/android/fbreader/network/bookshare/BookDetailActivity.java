@@ -4,15 +4,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.benetech.AddToReadingListDialogActivity;
+import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.fbreader.ActionCode;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
+import org.geometerplus.fbreader.library.ReadingList;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
+
+import java.util.ArrayList;
 
 /**
  * Shows the details of a selected book. Will also show a download option if applicable.
@@ -21,6 +28,7 @@ public class BookDetailActivity extends Activity {
 
     protected Bookshare_Metadata_Bean metadata_bean;
     protected Button btnReadingList;
+    boolean hasAvailableReadingLists = false;
 
     protected final int START_READINGLIST_DIALOG = 1;
 
@@ -29,6 +37,24 @@ public class BookDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
+
+    private void determineAvailableReadingLists() {
+        if(hasAvailableReadingLists) return; //if we already determined user has available RLs no need to recalculate. If he didnt last time it's worth to check if he has now
+        SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
+        try {
+            ArrayList<ReadingList> readingLists = database.getAllReadingLists();
+            for (int index = 0; index < readingLists.size(); ++index) {
+                ReadingList readingList = readingLists.get(index);
+                if(readingList.allowsAdditions()){
+                    hasAvailableReadingLists = true;
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            Log.e(getClass().getCanonicalName(), e.getMessage(), e);
+        }
+    }
+
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         if (requestCode == START_READINGLIST_DIALOG) {
@@ -55,6 +81,10 @@ public class BookDetailActivity extends Activity {
     protected void onStart() {
         super.onStart();
         ((ZLAndroidApplication) getApplication()).startTracker(this);
+        determineAvailableReadingLists();
+        if(btnReadingList != null){
+            btnReadingList.setVisibility(hasAvailableReadingLists? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override
