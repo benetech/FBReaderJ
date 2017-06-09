@@ -36,7 +36,6 @@ public class BookDetailActivity extends Activity {
 
     private boolean hasAvailableReadingLists() {
         if(hasAvailableReadingLists) return true; //if we already determined user has available RLs no need to recalculate. If he didnt last time it's worth to check if he has now
-        boolean ans = false;
         SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
         ArrayList<ReadingList> readingLists = new ArrayList<>();
         try {
@@ -47,11 +46,10 @@ public class BookDetailActivity extends Activity {
         for (int index = 0; index < readingLists.size(); ++index) {
             ReadingList readingList = readingLists.get(index);
             if(readingList.allowsAdditions()){
-                ans = true;
-                break;
+                return true;
             }
         }
-        return ans;
+        return false;
     }
 
     @Override
