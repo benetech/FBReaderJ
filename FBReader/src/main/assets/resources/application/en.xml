@@ -283,10 +283,10 @@
 			<node name="continue" value="Continue"/>
 			<node name="editUrl" value="Edit URL"/>
 			<node name="tryAgain" value="Try again"/>
-			<node name="openBook" value="Read"/>
+			<node name="openBook" value="Read Book"/>
 			<node name="editInfo" value="Edit"/>
 			<node name="reloadInfo" value="Reload"/>
-			<node name="removeBook" value="Remove"/>
+			<node name="removeBook" value="Remove from Device"/>
 			<node name="topup" value="Top up"/>
 			<node name="pay" value="Pay"/>
 			<node name="refresh" value="Refresh"/>

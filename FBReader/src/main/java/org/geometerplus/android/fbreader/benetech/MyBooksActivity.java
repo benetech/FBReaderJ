@@ -29,6 +29,8 @@ import android.widget.TextView;
 
 import org.apache.commons.io.FileUtils;
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.FBReader;
+import org.geometerplus.android.fbreader.ReadingListAllowanceHelper;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.Paths;
 import org.geometerplus.fbreader.library.Book;
@@ -41,6 +43,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by animal@martus.org on 4/4/16.
@@ -58,8 +62,7 @@ public class MyBooksActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private static final String SHARE_PREFERENCE_CURRENT_PAGE_INDEX_TAG = "my_books_current_page_index";
     private HashMap<Long, Book> bookHashMap = null;
-    private boolean isOM; //Organization member
-    private boolean isIM; //Independent member
+    private boolean canCreateReadingLists = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +75,8 @@ public class MyBooksActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         final SharedPreferences login_preference = PreferenceManager
                 .getDefaultSharedPreferences(getApplicationContext());
-        isOM = login_preference.getBoolean("isOM", false);
-        isIM = login_preference.getBoolean("isIM", false);
+        Set<String> allows = login_preference.getStringSet(FBReader.READING_LIST_ALLOWS_KEY, new HashSet<String>());
+        canCreateReadingLists = allows.contains(ReadingListAllowanceHelper.POST);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         initTabs();
@@ -108,13 +111,11 @@ public class MyBooksActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    public boolean isOM() {
-        return isOM;
+
+    public boolean canCreate(){
+        return canCreateReadingLists;
     }
 
-    public boolean isIM() {
-        return isIM;
-    }
     private void initSortByPopup(){
         SORT_ORDER order = SortUtil.getCurrentSortOrder();
         ContentFrameLayout base = (ContentFrameLayout)findViewById(android.R.id.content);

@@ -278,10 +278,10 @@
 			<node name="continue" value="Continuar" />
 			<node name="editUrl" value="Editar URL" />
 			<node name="tryAgain" value="Intentar de nuevo" />
-			<node name="openBook" value="Leer" />
+			<node name="openBook" value="Leer Libro" />
 			<node name="editInfo" value="Editar" />
 			<node name="reloadInfo" value="Recargar" />
-			<node name="removeBook" value="Eliminar"/>
+			<node name="removeBook" value="Eliminar del Dispositivo"/>
 			<node name="topup" value="Completar"/>
 			<node name="pay" value="Pagar"/>
 			<node name="refresh" value="Actualizar"/>

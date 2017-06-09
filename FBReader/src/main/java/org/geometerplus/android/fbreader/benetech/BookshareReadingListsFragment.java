@@ -236,16 +236,11 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
     }
 
     private boolean canCreate(){
-        /* The server is not currently handling roles in a satisfactory manner. So for now we'll allow this actions for everyone,
-        and if they fail it means it wasn't allowed.
-        In the future the code to determine wether or not to + button stuff will go here
-         */
-
-        boolean isIm = false;
+        boolean ans = false;
         if(getActivity() instanceof MyBooksActivity){
-            isIm = ((MyBooksActivity) getActivity()).isIM();
+            ans = ((MyBooksActivity) getActivity()).canCreate();
         }
-        return isIm;
+        return ans;
     }
 
     private void addCreateButton(ViewGroup root){

@@ -24,7 +24,10 @@ import org.bookshare.net.BookshareHttpOauth2Client;
 import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
+import org.geometerplus.fbreader.fbreader.ActionCode;
+import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.fbreader.library.ReadingList;
+import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -83,9 +86,10 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
     private void fillListAdapter(ArrayList<ReadingList> readingLists) {
         for (int index = 0; index < readingLists.size(); ++index) {
             ReadingList readingList = readingLists.get(index);
-            readingListsItems.add(new ReadingListsItem(readingList));
+            if(readingList.allowsAdditions()){
+                readingListsItems.add(new ReadingListsItem(readingList));
+            }
         }
-
         mListView.setAdapter(new ReadingListsAdapter(this, readingListsItems));
     }
 
@@ -156,6 +160,7 @@ public class AddToReadingListDialogActivity extends AppCompatActivity implements
             ToDo Change when the server is fixed
             */
             AddToReadingListDialogActivity.this.handleResult(true, readingList);
+            ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
         }
     }
 

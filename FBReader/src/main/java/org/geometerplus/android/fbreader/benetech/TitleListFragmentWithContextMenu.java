@@ -17,12 +17,11 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import org.accessibility.VoiceableDialog;
 import org.geometerplus.android.fbreader.AlertHelper;
 import org.geometerplus.android.fbreader.FBReader;
-import org.geometerplus.android.fbreader.library.BookInfoActivity;
+import org.geometerplus.android.fbreader.library.DownloadedBookInfoActivity;
 import org.geometerplus.android.fbreader.network.bookshare.BookshareDeveloperKey;
-import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Book_Details;
+import org.geometerplus.android.fbreader.network.bookshare.OnlineBookDetailActivity;
 import org.geometerplus.android.fbreader.network.bookshare.Bookshare_Webservice_Login;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.Library;
@@ -171,8 +170,8 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment impl
     }
 
     protected void showBookInfo(Book book) {
-        Intent intent = new Intent(getActivity().getApplicationContext(), BookInfoActivity.class);
-        intent.putExtra(BookInfoActivity.CURRENT_BOOK_PATH_KEY, book.File.getPath());
+        Intent intent = new Intent(getActivity().getApplicationContext(), DownloadedBookInfoActivity.class);
+        intent.putExtra(DownloadedBookInfoActivity.CURRENT_BOOK_PATH_KEY, book.File.getPath());
         startActivityForResult(intent, BOOK_INFO_REQUEST);
     }
 
@@ -216,8 +215,8 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment impl
 
         AbstractTitleListRowItem clickedRowItem = bookRowItems.get(position);
         if (clickedRowItem.isDownloadedBook()) {
-            Intent intent = new Intent(getActivity().getApplicationContext(), BookInfoActivity.class);
-            intent.putExtra(BookInfoActivity.CURRENT_BOOK_PATH_KEY, clickedRowItem.getBookFilePath());
+            Intent intent = new Intent(getActivity().getApplicationContext(), DownloadedBookInfoActivity.class);
+            intent.putExtra(DownloadedBookInfoActivity.CURRENT_BOOK_PATH_KEY, clickedRowItem.getBookFilePath());
             startActivity(intent);
         }
         else {
@@ -229,7 +228,7 @@ abstract public class TitleListFragmentWithContextMenu extends ListFragment impl
         SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String username = defaultSharedPreferences.getString(Bookshare_Webservice_Login.USER, "");
         String password = defaultSharedPreferences.getString(Bookshare_Webservice_Login.PASSWORD, "");
-        Intent intent = new Intent(getActivity().getApplicationContext(),Bookshare_Book_Details.class);
+        Intent intent = new Intent(getActivity().getApplicationContext(),OnlineBookDetailActivity.class);
         String uri;
 //FIXME urgent alyways setting isDownloadable to true.  This needs to change to mimic current book details behavior.
         // Update by Miguel Villalobos: Going with the following logic. If user is logged in keep old behavior of always downloadable.

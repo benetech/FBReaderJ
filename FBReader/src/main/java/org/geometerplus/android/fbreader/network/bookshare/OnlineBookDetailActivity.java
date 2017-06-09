@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -16,12 +15,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -36,17 +33,13 @@ import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
 import org.bookshare.net.BookshareWebServiceClient;
 import org.geometerplus.android.fbreader.FBReader;
-import org.geometerplus.android.fbreader.benetech.AddToReadingListDialogActivity;
 import org.geometerplus.android.fbreader.benetech.Analytics;
 import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.network.BookDownloaderService;
 import org.geometerplus.android.fbreader.network.bookshare.subscription.BookDetailsFetechedResultsHandler;
 import org.geometerplus.fbreader.Paths;
-import org.geometerplus.fbreader.fbreader.ActionCode;
-import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.fbreader.library.Book;
-import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.core.filesystem.ZLFile;
 import org.geometerplus.zlibrary.core.resources.ZLResource;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
@@ -57,7 +50,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,19 +61,15 @@ import javax.net.ssl.HttpsURLConnection;
 /**
  * Shows the details of a selected book. Will also show a download option if applicable.
  */
-public class Bookshare_Book_Details extends Activity implements OnClickListener, BookDetailsFetechedResultsHandler {
+public class OnlineBookDetailActivity extends BookDetailActivity implements OnClickListener, BookDetailsFetechedResultsHandler {
 
     private String LOG_TAG = FBReader.LOG_LABEL;
-
-    Context mcontext = this;
 
     private String username;
 
     private String password;
 
     protected Bookshare_Metadata_Bean metadata_bean;
-
-    private InputStream inputStream;
 
     private BookshareWebServiceClient bws = new BookshareWebServiceClient(Bookshare_Webservice_Login.BOOKSHARE_API_HOST);
 
@@ -118,8 +106,6 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener,
     private TextView subscribe_described_text;
 
     private Button btnDownload;
-
-    private Button btnReadingList;
 
     private Button btnDownloadWithImages;
 
@@ -168,7 +154,6 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.bookshare_blank_page);
         Log.i(LOG_TAG, developerKey);
         resources = getApplicationContext().getResources();
@@ -252,7 +237,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener,
             bookshare_download_not_available_text = (TextView) findViewById(R.id.bookshare_download_not_available_msg);
 
             btnReadingList = (Button) findViewById(isIM?R.id.bookshare_btn_readinglist_bottom:R.id.bookshare_btn_readinglist_top);
-            btnReadingList.setOnClickListener(Bookshare_Book_Details.this);
+            btnReadingList.setOnClickListener(OnlineBookDetailActivity.this);
 
             bookshare_book_detail_language.setNextFocusDownId(R.id.bookshare_book_detail_category);
             bookshare_book_detail_category.setNextFocusDownId(R.id.bookshare_book_detail_publish_date);
@@ -280,8 +265,8 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener,
                 bookshare_book_detail_authors.setNextFocusDownId(R.id.bookshare_btn_download);
 
                 btnReadingList.setVisibility(View.VISIBLE);
-                btnDownload.setOnClickListener(Bookshare_Book_Details.this);
-                btnDownloadWithImages.setOnClickListener(Bookshare_Book_Details.this);
+                btnDownload.setOnClickListener(OnlineBookDetailActivity.this);
+                btnDownloadWithImages.setOnClickListener(OnlineBookDetailActivity.this);
 
             }
             if (!imagesAvailable) {
@@ -450,7 +435,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener,
     // Start downlading task if the OM download password has been received
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-        if (requestCode == START_BOOKSHARE_OM_LIST) {
+         if (requestCode == START_BOOKSHARE_OM_LIST) {
             if (data != null) {
                 memberId = data.getStringExtra(Bookshare_OM_Member_Bean.MEMBER_ID);
                 firstName = data.getStringExtra(Bookshare_OM_Member_Bean.FIRST_NAME);
@@ -458,37 +443,9 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener,
                 new DownloadFilesTask().execute();
             }
         }
-        else if (requestCode == START_READINGLIST_DIALOG) {
-            if(resultCode == AddToReadingListDialogActivity.RESULT_CODE_SUCCESS){
-                String listName = "";
-                if(data != null){
-                    listName = data.getStringExtra(AddToReadingListDialogActivity.EXTRA_READINGLIST_NAME);
-                }
-                btnReadingList.setText(
-                        String.format("%s %s", getString(R.string.added_to_readinglist_success), listName));
-
-            }
-            else if(resultCode == AddToReadingListDialogActivity.RESULT_CODE_FAIL){
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.added_to_readinglist_fail_title)
-                        .setMessage(R.string.added_to_readinglist_fail_message)
-                        .setPositiveButton(R.string.accept, null)
-                        .show();
-            }
-            ZLApplication.Instance().doAction(ActionCode.SYNC_WITH_BOOKSHARE, SyncReadingListsWithBookshareAction.SyncType.SILENT_STARTUP);
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        ((ZLAndroidApplication) getApplication()).startTracker(this);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        ((ZLAndroidApplication) getApplication()).stopTracker(this);
     }
 
     private void showAlert(String msg) {
@@ -871,7 +828,7 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener,
     @Override
     public void onClick(View v) {
         if(v.getId() == btnReadingList.getId()) {
-            showReadingListsDialog();
+            showReadingListsDialog(metadata_bean.getBookshareId());
         }
         else {
             switch (v.getId()) {
@@ -887,12 +844,6 @@ public class Bookshare_Book_Details extends Activity implements OnClickListener,
             }
             downloadPressed();
         }
-    }
-
-    private void showReadingListsDialog(){
-        Intent intent = new Intent(this, AddToReadingListDialogActivity.class);
-        intent.putExtra(AddToReadingListDialogActivity.EXTRA_BOOK_ID, metadata_bean.getBookshareId());
-        startActivityForResult(intent, START_READINGLIST_DIALOG);
     }
 
     // called after the download button is pressed, after onClick method

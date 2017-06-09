@@ -27,7 +27,7 @@
     <string name="login_signup">Sign up!</string>
 
 
-    <!-- Bookshare_Book_Details -->
+    <!-- OnlineBookDetailActivity -->
     <string name="book_details_removefromreadinglist_title">Remove book</string>
     <string name="book_details_removefromreadinglist_message">Do you want to remove this book?</string>
     <string name="book_details_removefromreadinglist_button_list">Remove from reading list</string>
@@ -234,6 +234,7 @@
     <string name="create_new_readinglist_message">Enter reading list name</string>
     <string name="create_new_readinglist_error">You are not authorized to create a Reading List.</string>
     <string name="delete_from_readinglist_error">You are not authorized to remove books from this Reading List.</string>
+    <string name="no_reading_lists">There are no reading lists that you may add this title to.</string>
     <!-- Delete from reading list -->
     <string name="remove_from_reading_list">Delete</string>
     <string name="delete_fromreadinglist_progress_title">Removing the title from reading list</string>

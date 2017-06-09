@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
-import org.geometerplus.android.fbreader.library.BookInfoActivity;
+import org.geometerplus.android.fbreader.library.DownloadedBookInfoActivity;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import static org.geometerplus.android.fbreader.library.BookInfoActivity.REQUEST_BOOK_INFO;
+import static org.geometerplus.android.fbreader.library.DownloadedBookInfoActivity.REQUEST_BOOK_INFO;
 
 /**
  * Created by animal@martus.org on 4/26/16.
@@ -52,8 +52,8 @@ public class GoReadTabMainTabContent extends ListFragment implements SortUtil.So
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if(requestCode == BookInfoActivity.REQUEST_BOOK_INFO){
-            if(resultCode == BookInfoActivity.RESULT_BOOK_DELETED){
+        if(requestCode == DownloadedBookInfoActivity.REQUEST_BOOK_INFO){
+            if(resultCode == DownloadedBookInfoActivity.RESULT_BOOK_DELETED){
                 fillListAdapter();
             }
         }
@@ -86,8 +86,8 @@ public class GoReadTabMainTabContent extends ListFragment implements SortUtil.So
         super.onListItemClick(l, v, position, id);
 
         AbstractTitleListRowItem clickedRowItem = downloadedBooksList.get(position);
-        Intent intent = new Intent(getActivity().getApplicationContext(), BookInfoActivity.class);
-        intent.putExtra(BookInfoActivity.CURRENT_BOOK_PATH_KEY, clickedRowItem.getBookFilePath());
+        Intent intent = new Intent(getActivity().getApplicationContext(), DownloadedBookInfoActivity.class);
+        intent.putExtra(DownloadedBookInfoActivity.CURRENT_BOOK_PATH_KEY, clickedRowItem.getBookFilePath());
         startActivityForResult(intent, REQUEST_BOOK_INFO);
     }
 

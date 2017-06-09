@@ -180,14 +180,14 @@ public class LibraryActivity extends TreeActivity implements MenuItem.OnMenuItem
 	}
 
 	//
-	// show BookInfoActivity
+	// show DownloadedBookInfoActivity
 	//
 	private static final int BOOK_INFO_REQUEST = 1;
 
 	protected void showBookInfo(Book book) {
 		startActivityForResult(
-			new Intent(getApplicationContext(), BookInfoActivity.class)
-				.putExtra(BookInfoActivity.CURRENT_BOOK_PATH_KEY, book.File.getPath()),
+			new Intent(getApplicationContext(), DownloadedBookInfoActivity.class)
+				.putExtra(DownloadedBookInfoActivity.CURRENT_BOOK_PATH_KEY, book.File.getPath()),
 			BOOK_INFO_REQUEST
 		);
 	}
@@ -195,14 +195,14 @@ public class LibraryActivity extends TreeActivity implements MenuItem.OnMenuItem
 	@Override
 	protected void onActivityResult(int requestCode, int returnCode, Intent intent) {
 		if (requestCode == BOOK_INFO_REQUEST && intent != null) {
-			final String path = intent.getStringExtra(BookInfoActivity.CURRENT_BOOK_PATH_KEY);
+			final String path = intent.getStringExtra(DownloadedBookInfoActivity.CURRENT_BOOK_PATH_KEY);
 			final Book book = Book.getByFile(ZLFile.createFileByPath(path));
 			myLibrary.refreshBookInfo(book);
 			getListView().invalidateViews();
 		} else {
 			super.onActivityResult(requestCode, returnCode, intent);
 		}
-	} 
+	}
 
 	//
 	// Search
@@ -237,7 +237,7 @@ public class LibraryActivity extends TreeActivity implements MenuItem.OnMenuItem
 		final int position = ((AdapterView.AdapterContextMenuInfo)menuInfo).position;
 		final Book book = ((LibraryTree)getListAdapter().getItem(position)).getBook();
 		if (book != null) {
-			createBookContextMenu(menu, book); 
+			createBookContextMenu(menu, book);
 		}
 	}
 
@@ -287,7 +287,7 @@ public class LibraryActivity extends TreeActivity implements MenuItem.OnMenuItem
 		}
 		return false;
 	}
-    
+
     private void notifyFavoritesAction(int messageId) {
         final VoiceableDialog finishedDialog = new VoiceableDialog(myActivity);
         String message = getResources().getString(messageId);

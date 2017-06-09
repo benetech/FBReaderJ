@@ -19,7 +19,6 @@
 
 package org.geometerplus.android.fbreader.library;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,7 +30,6 @@ import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
@@ -43,6 +41,7 @@ import android.widget.Toast;
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.FBReader;
 import org.geometerplus.android.fbreader.benetech.FBReaderWithNavigationBar;
+import org.geometerplus.android.fbreader.network.bookshare.BookDetailActivity;
 import org.geometerplus.fbreader.library.Author;
 import org.geometerplus.fbreader.library.Book;
 import org.geometerplus.fbreader.library.Library;
@@ -63,7 +62,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashSet;
 
-public class BookInfoActivity extends Activity {
+public class DownloadedBookInfoActivity extends BookDetailActivity {
 	public static final int REQUEST_BOOK_INFO = 1001;
 	public static final int RESULT_BOOK_DELETED = 100;
 	private static final boolean ENABLE_EXTENDED_FILE_INFO = false;
@@ -95,8 +94,6 @@ public class BookInfoActivity extends Activity {
 		if (SQLiteBooksDatabase.Instance() == null) {
 			new SQLiteBooksDatabase(this);
 		}
-
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.book_info);
 
 		setResult(1, getIntent());
@@ -106,6 +103,8 @@ public class BookInfoActivity extends Activity {
 
 		ViewGroup rootLayout = (ViewGroup)findViewById(R.id.book_info_root);
 		SortUtil.applyCurrentFontToAllInViewGroup(this, rootLayout);
+
+		btnReadingList = findButton(R.id.bookshare_btn_readinglist_bottom);
 
 	}
 
@@ -123,6 +122,12 @@ public class BookInfoActivity extends Activity {
 		}
 
 
+		btnReadingList.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				showReadingListsDialog(Long.toString(book.getBookshareId()));
+			}
+		});
 
 		setupButton(R.id.book_info_button_open, "openBook", new View.OnClickListener() {
 			public void onClick(View view) {
@@ -147,6 +152,8 @@ public class BookInfoActivity extends Activity {
 		});
 
 
+
+
 		final View root = findViewById(R.id.book_info_root);
 		root.invalidate();
 		root.requestLayout();
@@ -157,10 +164,15 @@ public class BookInfoActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		final Book book = Book.getByFile(myFile);
-		if (book != null) {
-			setupBookInfo(book);
-			myDontReloadBook = false;
+		if(requestCode == START_READINGLIST_DIALOG) {
+			super.onActivityResult(requestCode, resultCode, data);
+		}
+		else {
+			final Book book = Book.getByFile(myFile);
+			if (book != null) {
+				setupBookInfo(book);
+				myDontReloadBook = false;
+			}
 		}
 	}
 
@@ -383,8 +395,8 @@ public class BookInfoActivity extends Activity {
 			final Book book = Book.getByFile(myFile);
 			Library.Instance().removeBook(book, Library.REMOVE_FROM_DISK);
 			((SQLiteBooksDatabase)SQLiteBooksDatabase.Instance()).clearBookStatus(book);
-			BookInfoActivity.this.setResult(RESULT_BOOK_DELETED, getIntent());
-			BookInfoActivity.this.finish();
+			DownloadedBookInfoActivity.this.setResult(RESULT_BOOK_DELETED, getIntent());
+			DownloadedBookInfoActivity.this.finish();
 		}
 	};
 

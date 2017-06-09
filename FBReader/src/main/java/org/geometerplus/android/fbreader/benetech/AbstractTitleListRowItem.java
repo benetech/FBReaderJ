@@ -46,6 +46,8 @@ abstract public class AbstractTitleListRowItem implements Comparable<AbstractTit
 
     abstract public Date getCompareDate();
 
+    abstract public boolean canDeleteFromReadinglist();
+
     @Override
     public boolean equals(Object o) {
         if(o instanceof  AbstractTitleListRowItem){

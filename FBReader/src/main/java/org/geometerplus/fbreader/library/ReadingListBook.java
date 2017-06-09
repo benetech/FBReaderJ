@@ -3,6 +3,7 @@ package org.geometerplus.fbreader.library;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import org.geometerplus.android.fbreader.ReadingListAllowanceHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by animal@martus.org on 4/4/16.
@@ -21,6 +23,7 @@ public class ReadingListBook {
     private int bookId;
     private String title;
     private ArrayList<String> authors;
+    private Set<String> allows;
     private Date dateAdded;
     private static final String JSON_CODE_TITLE = "title";
     private static final String JSON_CODE_AUTHORS = "authors";
@@ -33,6 +36,8 @@ public class ReadingListBook {
         bookId = jsonToFillFrom.getInt(JSON_CODE_BOOKSHARE_ID);
         title = jsonToFillFrom.optString(JSON_CODE_TITLE);
         dateAdded = dateFromJson(jsonToFillFrom.optString(JSON_CODE_DATEADDED));
+        allows = ReadingListAllowanceHelper.allowsFromJson(jsonToFillFrom);
+
         fillAuthorsList(jsonToFillFrom.optJSONArray(JSON_CODE_AUTHORS));
     }
 
@@ -74,6 +79,16 @@ public class ReadingListBook {
     public Date getDateAdded() {
         return dateAdded;
     }
+
+
+    public Set<String> getAllows() {
+        return allows;
+    }
+
+    public void setAllows(Set<String> allows) {
+        this.allows = allows;
+    }
+
 
     public String getAllAuthorsAsString() {
         return getAllAuthorsAsString(this.authors);

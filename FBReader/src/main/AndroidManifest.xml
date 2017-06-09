@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" 
-    package="org.benetech.android" 
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.benetech.android"
     android:installLocation="auto">
-	
-	<uses-sdk 
-	    android:minSdkVersion="14" 
+
+	<uses-sdk
+	    android:minSdkVersion="14"
 	    android:targetSdkVersion="21" />
-	
+
 	<supports-screens android:smallScreens="true" android:normalScreens="true" android:largeScreens="true" android:anyDensity="true" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -104,7 +104,7 @@
 		</activity>
 		<activity android:name="org.geometerplus.android.fbreader.CancelActivity" android:theme="@android:style/Theme.Dialog" android:configChanges="orientation|keyboardHidden"/>
 		<activity android:name="org.geometerplus.android.fbreader.image.ImageViewActivity" android:process=":imageView" android:configChanges="orientation|keyboardHidden"/>
-		<activity android:name="org.geometerplus.android.fbreader.library.BookInfoActivity"
+		<activity android:name="org.geometerplus.android.fbreader.library.DownloadedBookInfoActivity"
 			android:theme="@style/BookDetailTheme" android:configChanges="orientation|keyboardHidden" android:process=":library"  android:label="@string/book_info_activity"/>
 		<receiver android:name="org.geometerplus.android.fbreader.library.KillerCallback" android:process=":library" />
 		<activity android:name="org.geometerplus.android.fbreader.library.LibrarySearchActivity" android:process=":library" android:theme="@android:style/Theme.NoDisplay">
@@ -242,7 +242,7 @@
         <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Books_Listing"
                   android:configChanges="orientation|screenSize|keyboard|keyboardHidden|locale|layoutDirection"
                   android:label="Books Listing" />
-        <activity android:name="org.geometerplus.android.fbreader.network.bookshare.Bookshare_Book_Details"
+        <activity android:name="org.geometerplus.android.fbreader.network.bookshare.OnlineBookDetailActivity"
 			      android:theme="@style/BookDetailTheme"
                   android:configChanges="orientation|screenSize|keyboard|keyboardHidden|locale|layoutDirection"
                   android:label="Book Details" />

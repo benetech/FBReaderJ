@@ -75,4 +75,10 @@ public class DownloadedTitleListRowItem extends AbstractTitleListRowItem {
     public Date getCompareDate(){
         return getBook().getLastAccessedDate();
     }
+
+    @Override
+    public boolean canDeleteFromReadinglist() {
+        return false;
+    }
+
 }
