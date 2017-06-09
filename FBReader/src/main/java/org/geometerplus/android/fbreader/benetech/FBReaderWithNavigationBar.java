@@ -574,7 +574,11 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 }
                 myCurrentSentence = currentSentence;
             }
-
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             if(shouldHighlightSentence){
                 highlightSentence(myCurrentSentence);
             }
@@ -758,7 +762,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         stopTalking();
         playEarcon(FORWARD_EARCON);
         if (myParagraphIndex < myParagraphsNumber) {
-            ++myParagraphIndex;
             final String nextParagraph = getNextParagraph();
             if (wasPlaying) {
                 speakParagraph(nextParagraph);
