@@ -762,6 +762,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         stopTalking();
         playEarcon(FORWARD_EARCON);
         if (myParagraphIndex < myParagraphsNumber) {
+            myParagraphIndex++;
             final String nextParagraph = getNextParagraph();
             if (wasPlaying) {
                 speakParagraph(nextParagraph);
