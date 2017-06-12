@@ -1,5 +1,6 @@
 package org.geometerplus.android.fbreader.benetech;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -31,13 +32,17 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
     protected void fillListAdapter() {
         bookshareHistoryRetriever = new BookshareApiV1UserHistoryRetriever(getActivity(), this);
 
-        final SQLiteBooksDatabase database = (SQLiteBooksDatabase)SQLiteBooksDatabase.Instance();
-        final Map<Long,Book> savedBooksByFileId = database.loadBooks(new FileInfoSet(), true);
         final Map<Long,Book> savedBooksByBookId = new HashMap<>();
-        for (Book book : savedBooksByFileId.values()) {
-            savedBooksByBookId.put(book.getId(), book);
+        final SQLiteBooksDatabase database = (SQLiteBooksDatabase)SQLiteBooksDatabase.Instance();
+        try{
+            savedBooksByBookId.putAll(((MyBooksActivity)getActivity()).getDownloadedBooksMap());
         }
-
+        catch (Exception e){
+            final Map<Long,Book> savedBooksByFileId = database.loadBooks(new FileInfoSet(), true);
+            for (Book book : savedBooksByFileId.values()) {
+                savedBooksByBookId.put(book.getId(), book);
+            }
+        }
         for (long bookId : database.loadRecentBookIds()) {
             Book book = savedBooksByBookId.get(bookId);
             if (book == null) {
@@ -53,7 +58,6 @@ public class MyBooksRecentTitlesListFragment extends TitleListFragmentWithContex
                 bookRowItems.add(new DownloadedTitleListRowItem(book));
             }
         }
-
         recreateAdapterWithUpdatedRows();
     }
 

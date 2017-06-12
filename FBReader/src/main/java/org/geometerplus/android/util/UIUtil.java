@@ -26,6 +26,8 @@ import android.content.Context;
 import android.app.ProgressDialog;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import org.geometerplus.zlibrary.core.resources.ZLResource;
@@ -64,8 +66,13 @@ public abstract class UIUtil {
 			final String message =
 				ZLResource.resource("dialog").getResource("waitMessage").getResource(key).getValue();
 			ourTaskQueue.offer(new Pair(action, message));
-			if (ourProgress == null) {
-				ourProgress = ProgressDialog.show(context, null, message, true, false);
+			if (ourProgress == null ) {
+				try{
+					ourProgress = ProgressDialog.show(context, null, message, true, false);
+				}
+				catch (WindowManager.BadTokenException e){
+					Log.e(UIUtil.class.getCanonicalName(), e.getLocalizedMessage(), e);
+				}
 			} else {
 				return;
 			}
