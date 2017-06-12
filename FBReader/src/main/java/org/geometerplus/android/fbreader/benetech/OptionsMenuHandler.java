@@ -164,10 +164,10 @@ public class OptionsMenuHandler {
         return onCreateOptionsMenu(menu,new LinkedList<PluginApi.ActionInfo>());
     }
 
-    public void hideMainScreenMenuOptions(Menu menu) {
-        menu.findItem(R.id.menu_item_logout_bookshare).setVisible(false);
-        menu.findItem(R.id.menu_item_login_bookshare).setVisible(false);
-        menu.findItem(R.id.menu_item_help).setVisible(false);
-        menu.findItem(R.id.menu_item_sync_with_bookshare).setVisible(false);
+    public void hideMenuOptions(Menu menu, int... ids) {
+        if(ids == null)return;
+        for(int i : ids){
+            menu.findItem(i).setVisible(false);
+        }
     }
 }
