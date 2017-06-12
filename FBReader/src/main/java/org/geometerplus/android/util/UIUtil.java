@@ -66,15 +66,14 @@ public abstract class UIUtil {
 			final String message =
 				ZLResource.resource("dialog").getResource("waitMessage").getResource(key).getValue();
 			ourTaskQueue.offer(new Pair(action, message));
-			if (ourProgress == null ) {
-				try{
-					ourProgress = ProgressDialog.show(context, null, message, true, false);
-				}
-				catch (WindowManager.BadTokenException e){
-					Log.e(UIUtil.class.getCanonicalName(), e.getLocalizedMessage(), e);
-				}
-			} else {
+			if (ourProgress != null ) {
 				return;
+			}
+			try{
+				ourProgress = ProgressDialog.show(context, null, message, true, false);
+			}
+			catch (WindowManager.BadTokenException e){
+				Log.e(UIUtil.class.getCanonicalName(), e.getLocalizedMessage(), e);
 			}
 		}
 		final ProgressDialog currentProgress = ourProgress;

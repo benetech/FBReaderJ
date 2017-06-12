@@ -574,11 +574,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 }
                 myCurrentSentence = currentSentence;
             }
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitForTextPosition();
             if(shouldHighlightSentence){
                 highlightSentence(myCurrentSentence);
             }
@@ -592,6 +588,14 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             disableNextButton();
         }
         return text;
+    }
+
+    private void waitForTextPosition() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+        }
     }
 
     private void speakParagraph(String text) {

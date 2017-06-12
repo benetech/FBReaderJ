@@ -193,10 +193,7 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean ans = super.onPrepareOptionsMenu(menu);
-        menu.findItem(R.id.menu_item_logout_bookshare).setVisible(false);
-        menu.findItem(R.id.menu_item_login_bookshare).setVisible(false);
-        menu.findItem(R.id.menu_item_help).setVisible(false);
-        menu.findItem(R.id.menu_item_sync_with_bookshare).setVisible(false);
+        optionsMenuHandler.hideMainScreenMenuOptions(menu);
         return ans;
     }
 

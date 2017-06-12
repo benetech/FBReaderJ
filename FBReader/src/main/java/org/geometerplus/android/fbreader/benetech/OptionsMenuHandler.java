@@ -163,4 +163,11 @@ public class OptionsMenuHandler {
     public boolean onCreateOptionsMenuWithoutPluginActions(Menu menu){
         return onCreateOptionsMenu(menu,new LinkedList<PluginApi.ActionInfo>());
     }
+
+    public void hideMainScreenMenuOptions(Menu menu) {
+        menu.findItem(R.id.menu_item_logout_bookshare).setVisible(false);
+        menu.findItem(R.id.menu_item_login_bookshare).setVisible(false);
+        menu.findItem(R.id.menu_item_help).setVisible(false);
+        menu.findItem(R.id.menu_item_sync_with_bookshare).setVisible(false);
+    }
 }
