@@ -11,12 +11,8 @@ import android.widget.Button;
 
 import org.benetech.android.R;
 import org.geometerplus.android.fbreader.benetech.AddToReadingListDialogActivity;
-import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
-import org.geometerplus.fbreader.fbreader.ActionCode;
-import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.fbreader.library.ReadingList;
-import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
 
 import java.util.ArrayList;
@@ -38,21 +34,22 @@ public class BookDetailActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
-    private void determineAvailableReadingLists() {
-        if(hasAvailableReadingLists) return; //if we already determined user has available RLs no need to recalculate. If he didnt last time it's worth to check if he has now
+    private boolean hasAvailableReadingLists() {
+        if(hasAvailableReadingLists) return true; //if we already determined user has available RLs no need to recalculate. If he didnt last time it's worth to check if he has now
         SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
+        ArrayList<ReadingList> readingLists = new ArrayList<>();
         try {
-            ArrayList<ReadingList> readingLists = database.getAllReadingLists();
-            for (int index = 0; index < readingLists.size(); ++index) {
-                ReadingList readingList = readingLists.get(index);
-                if(readingList.allowsAdditions()){
-                    hasAvailableReadingLists = true;
-                    break;
-                }
-            }
+            readingLists = database.getAllReadingLists();
         } catch (Exception e) {
             Log.e(getClass().getCanonicalName(), e.getMessage(), e);
         }
+        for (int index = 0; index < readingLists.size(); ++index) {
+            ReadingList readingList = readingLists.get(index);
+            if(readingList.allowsAdditions()){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -81,8 +78,8 @@ public class BookDetailActivity extends Activity {
     protected void onStart() {
         super.onStart();
         ((ZLAndroidApplication) getApplication()).startTracker(this);
-        determineAvailableReadingLists();
         if(btnReadingList != null){
+            hasAvailableReadingLists = hasAvailableReadingLists();
             btnReadingList.setVisibility(hasAvailableReadingLists? View.VISIBLE : View.GONE);
         }
     }
