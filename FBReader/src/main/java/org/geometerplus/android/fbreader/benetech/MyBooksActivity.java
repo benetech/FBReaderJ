@@ -58,7 +58,7 @@ public class MyBooksActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private PopupWindow sortByPopupWindow;
     private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private SwipeOptionalViewPager viewPager;
     private SharedPreferences sharedPreferences;
     private static final String SHARE_PREFERENCE_CURRENT_PAGE_INDEX_TAG = "my_books_current_page_index";
     private HashMap<Long, Book> bookHashMap = null;
@@ -158,7 +158,7 @@ public class MyBooksActivity extends AppCompatActivity {
     };
 
     private void initTabs() {
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager = (SwipeOptionalViewPager) findViewById(R.id.view_pager);
         viewPager.addOnPageChangeListener(new PageChangeHandler(sharedPreferences, SHARE_PREFERENCE_CURRENT_PAGE_INDEX_TAG));
         MyBooksPagerAdapter pagerAdapter = new MyBooksPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
@@ -199,11 +199,13 @@ public class MyBooksActivity extends AppCompatActivity {
     public void onReadingListSelectedWithTitle(String title) {
         tabLayout.setVisibility(View.GONE);
         getSupportActionBar().setTitle(title);
+        viewPager.setPagingEnabled(false);
     }
 
     public void onBookshareReadingListsFragmentAppeared() {
         tabLayout.setVisibility(View.VISIBLE);
         getSupportActionBar().setTitle(getTitle());
+        viewPager.setPagingEnabled(true);
     }
 
     public HashMap<Long, Book> getDownloadedBooksMap() throws Exception{
