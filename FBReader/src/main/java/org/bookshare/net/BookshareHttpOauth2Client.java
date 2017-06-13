@@ -6,6 +6,7 @@ import android.util.Log;
 import org.apache.commons.codec.binary.Base64;
 import org.benetech.android.BuildConfig;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -31,6 +32,8 @@ import javax.net.ssl.SSLSession;
  */
 public class BookshareHttpOauth2Client {
 
+    public static final String JSON_CODE_KEY = "key";
+    public static final String JSON_CODE_ERROR = "ERROR";
     private String userName;
     private String password;
 
@@ -89,8 +92,10 @@ public class BookshareHttpOauth2Client {
             int bookshareReadingListId = jsonElement.getInt(JSON_CODE_READING_LIST_ID);
             String readingListName = jsonElement.optString(JSON_CODE_READING_LIST_NAME);
             JSONObject readingListDetailsJson = getBooksForReadingList(accessToken, bookshareReadingListId);
-            readingListDetailsJson.put(JSON_CODE_READING_LIST_NAME, readingListName);
-            readingLists.put(readingListDetailsJson);
+            if(isValidReadingList(readingListDetailsJson)) {
+                readingListDetailsJson.put(JSON_CODE_READING_LIST_NAME, readingListName);
+                readingLists.put(readingListDetailsJson);
+            }
         }
 
         JSONObject ans = new JSONObject();
@@ -99,6 +104,11 @@ public class BookshareHttpOauth2Client {
         ans.put(JSON_CODE_READING_LIST_LIST, readingLists);
 
         return ans;
+    }
+
+    private boolean isValidReadingList(JSONObject readingListDetailsJson) throws JSONException {
+        return !(readingListDetailsJson.has(JSON_CODE_KEY)
+                && readingListDetailsJson.getString(JSON_CODE_KEY).contains(JSON_CODE_ERROR));
     }
 
     public boolean postTitleToReadingList(String accessToken, String readingListId, String titleId) throws Exception {
