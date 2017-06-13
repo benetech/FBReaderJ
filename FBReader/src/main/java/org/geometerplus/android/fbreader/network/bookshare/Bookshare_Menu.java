@@ -188,8 +188,14 @@ public class Bookshare_Menu extends ZLAndroidActivityforActionBar {
         // Associate searchable configuration with the SearchView
         setupSearchView(menu);
         optionsMenuHandler.onCreateOptionsMenu(menu, myPluginActions);
-        menu.findItem(R.id.empty).setVisible(false);
         return true;
+    }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean ans = super.onPrepareOptionsMenu(menu);
+        optionsMenuHandler.hideMenuOptions(menu, R.id.menu_item_logout_bookshare,
+                R.id.menu_item_login_bookshare, R.id.menu_item_help, R.id.menu_item_sync_with_bookshare);
+        return ans;
     }
 
     private void setupSearchView(Menu menu){

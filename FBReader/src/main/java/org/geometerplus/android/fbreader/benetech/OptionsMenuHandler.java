@@ -163,4 +163,10 @@ public class OptionsMenuHandler {
     public boolean onCreateOptionsMenuWithoutPluginActions(Menu menu){
         return onCreateOptionsMenu(menu,new LinkedList<PluginApi.ActionInfo>());
     }
+
+    public void hideMenuOptions(Menu menu, int... menuItemIds) {
+        for(int menuItemId : menuItemIds){
+            menu.findItem(menuItemId).setVisible(false);
+        }
+    }
 }

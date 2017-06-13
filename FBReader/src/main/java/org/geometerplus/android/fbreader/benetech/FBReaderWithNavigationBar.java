@@ -574,7 +574,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 }
                 myCurrentSentence = currentSentence;
             }
-
+            waitForTextPosition();
             if(shouldHighlightSentence){
                 highlightSentence(myCurrentSentence);
             }
@@ -588,6 +588,14 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             disableNextButton();
         }
         return text;
+    }
+
+    private void waitForTextPosition() {
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            Log.e(LOG_TAG, e.getMessage(), e);
+        }
     }
 
     private void speakParagraph(String text) {
@@ -758,7 +766,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         stopTalking();
         playEarcon(FORWARD_EARCON);
         if (myParagraphIndex < myParagraphsNumber) {
-            ++myParagraphIndex;
+            myParagraphIndex++;
             final String nextParagraph = getNextParagraph();
             if (wasPlaying) {
                 speakParagraph(nextParagraph);
