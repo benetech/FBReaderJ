@@ -10,7 +10,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.benetech.android.R;
+import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
 import org.geometerplus.fbreader.fbreader.FBReaderApp;
+
+import java.util.HashSet;
 
 /**
  * Created by animal@martus.org on 11/3/15.
@@ -28,6 +31,7 @@ public class LogoutFromBookshareAction extends FBAndroidAction {
         editor.putString("password", "");
         editor.putBoolean("isOM", false);
         editor.putBoolean("isIM", false);
+        editor.putStringSet(FBReader.READING_LIST_ALLOWS_KEY, new HashSet<String>());
         editor.commit();
     }
 
@@ -51,6 +55,7 @@ public class LogoutFromBookshareAction extends FBAndroidAction {
                 String toastMessage = getBaseActivity().getString(R.string.bks_menu_log_out);
                 Toast.makeText(getBaseActivity(), toastMessage, Toast.LENGTH_SHORT).show();
                 getBaseActivity().invalidateOptionsMenu();
+                wipeReadingListsFromDevice();
             }
         });
 
@@ -61,5 +66,10 @@ public class LogoutFromBookshareAction extends FBAndroidAction {
             }
         });
         confirmDialog.show();
+    }
+
+    private void wipeReadingListsFromDevice() {
+        SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
+        database.clearReadingLists();
     }
 }
