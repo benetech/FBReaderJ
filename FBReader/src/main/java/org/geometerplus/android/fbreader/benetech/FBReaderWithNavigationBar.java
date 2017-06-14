@@ -828,17 +828,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     @Override
     public void onSwipe(int direction) {
-        myVib.vibrate(VIBE_PATTERN, -1);
-        switch (direction) {
-            case SimpleGestureFilter.SWIPE_RIGHT :
-                goForward();
-                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_NEXT);
-                break;
-            case SimpleGestureFilter.SWIPE_LEFT :
-                goBackward();
-                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_PREV);
-                break;
-        }
+        //Swipe is caught on a different level. On this level we don't want to do anything else.
     }
 
     @Override
