@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Go Read</string>
+    <string name="book_info_activity">Informations sur le livre</string>
+
+	<string name="empty_string"></string>
+	<string name="search_hint">Entrez votre recherche</string>
+
+    <!-- BookmarksActivity -->
+    <string name="bookmark_added">Marque-page ajouté sur la page %1$s</string>
+    <string name="bookmark_page">Page</string>
+
+	<!--  Bookshare_Webservice_login -->
+	<string name="fetch_book_data">Rechercher des livres gratuits</string>
+	<string name="authenticating">Authentification en cours</string>
+    <string name="login_dialog_login_button">Se connecter</string>
+    <string name="login_dialog_password_label">Mot de passe</string>
+    <string name="login_dialog_reset_button">Réinitialiser</string>
+    <string name="login_dialog_skip_login_button">Continuer sans se connecter</string>
+    <string name="login_dialog_username_label">Votre Email ou Identifiant Bookshare</string>
+	<string name="login_error_non_blank_password">Vous devez saisir votre  mot de passe!</string>
+	<string name="login_error_non_blank_password_and_username">Vous devez saisir votre identifiant et votre mot de passe!</string>
+	<string name="login_error_non_blank_username">Vous devez saisir votre identifiant!</string>
+	<string name="login_failed">La connexion a échoué.</string>
+	<string name="login_network_error">Problème de réseau</string>
+    <string name="login_forgot_password">Mot de passe oublié</string>
+    <string name="login_signup">Inscrivez-vous!</string>
+
+
+    <!-- Bookshare_Book_Details -->
+    <string name="book_details_removefromreadinglist_title">Supprimer le livre</string>
+    <string name="book_details_removefromreadinglist_message">Est ce que vous voulez supprimer ce livre?</string>
+    <string name="book_details_removefromreadinglist_button_list">Enlever de la liste de lecture</string>
+    <string name="book_details_removefromreadinglist_button_both">Enlever de la liste et de l\'appareil</string>
+    <string name="book_details_readinglist_button">Ajouter à la liste de lecture</string>
+    <string name="book_details_download_button">Télécharger (seulement le texte)</string>
+     <string name="book_details_download_images">Télécharger le livre avec les images</string>
+    <string name="book_details_download_error">Échec du téléchargement. Téléchargez de nouveau</string>
+    <string name="book_details_download_error_other_member">Échec du téléchargement! Essayez un autre membre</string>
+    <string name="book_details_download_started">Téléchargement démarré</string>
+    <string name="book_details_download_success">Livre téléchargé! Lire le livre</string>
+    <string name="book_details_not_available">Pas Disponible</string>
+    <string name="book_details_open_error">Erreur lors de l\'ouverture du livre</string>
+    <string name="bookshare_book_detail_publish_date">Date ajoutée:\u0020</string>
+    <string name="book_details_download_downloading">Téléchargement du livre en cours...</string>
+
+    <!-- Bookshare_Books_Listing -->
+    <string name="fetching_books">A la recherche de livres. Patientez s\'il vous plaît.</string>
+    <string name="search_complete_with_books">Recherche terminée. Liste des résultats.</string>
+    <string name="search_complete_no_books">Recherche terminée. Aucun livre trouvé.</string>
+
+    <!-- Bookshare_Menu -->
+    <string name="logout_dialog_message">Déconnexion du catalogue Bookshare. Voulez-vous continuer?</string>
+    <string name="search_dialog_title_title">Recherche par titre</string>
+    <string name="search_dialog_label_title">Entrez le titre du livre à rechercher</string>
+    <string name="search_dialog_example_title">Par ex. Madame Bovary ou Le Rouge et le Noir</string>
+    <string name="search_dialog_description_title">Entrez le titre</string>
+    <string name="search_dialog_title_author">Recherche par auteur</string>
+    <string name="search_dialog_label_author">Entrez le nom de l\'auteur à rechercher</string>
+    <string name="search_dialog_example_author">Par ex. Gustave Flaubert ou Molière  </string>
+    <string name="search_dialog_description_author">Entrez le nom de l\'auteur</string>
+    <string name="search_dialog_title_isbn">Recherche par ISBN</string>
+    <string name="search_dialog_label_isbn">Entrez l\'ISBN du livre (10 ou 13 chiffres)</string>
+    <string name="search_dialog_description_isbn">Entrez l\'ISBN du livre</string>
+    <string name="bks_menu_title_label">Recherche par titre</string>
+    <string name="bks_menu_title_description">Recherche par titre</string>
+    <string name="bks_menu_author_label">Recherche par auteur</string>
+    <string name="bks_menu_author_description">Recherche par auteur</string>
+    <string name="bks_menu_isbn_label">Recherche par ISBN</string>
+    <string name="bks_menu_isbn_description">Recherche par ISBN</string>
+    <string name="bks_menu_latest_label">Livres les plus récents</string>
+    <string name="bks_menu_latest_description">Lister les livres les plus récents dans le catalogue</string>
+    <string name="bks_menu_popular_label">Livres populaires</string>
+    <string name="bks_menu_popular_description">Liste de livres populaires</string>
+    <string name="bks_menu_log_in">Connectez-vous à Bookshare</string>
+    <string name="bks_menu_log_out">Se déconnecter de Bookshare</string>
+    <string name="bks_menu_log_out_confirmation">Vous êtes déconnecté!</string>
+    <string name="bks_menu_no_internet">Vous devez d\'abord activer votre connexion Internet!</string>
+    <string name="empty_search_term_error">Le critère de recherche ne peut pas être vide!</string>
+    <string name="accessible_alert_title">Etes-vous sûr? </string>
+
+    <!-- Bookshare Twitter Handler -->
+    <string name="twitter_successful_post">Posté sur twitter</string>
+
+    <!-- Bug Report Activity -->
+    <string name="crash_report_sent">Désolé, nous avons rencontré une erreur. L\'assistance technique a été notifiée.</string>
+
+    <!-- Cancel Activity -->
+    <string name="cancel_menu_title">Vous nous quittez? Choisissez ci-dessous svp...</string>
+
+    <!-- FBReader -->
+    <string name="navigate_dialog_title">Accédez à la page</string>
+    <string name="navigate_dialog_label">Entrez le numéro de page</string>
+    <string name="navigate_dialog_example">La page actuelle %1$s est %2$s de %3$s pages (%4$s)</string>
+    <string name="navigate_dialog_example_non_numeric">(A des numéros de pages non numériques)</string>
+    <string name="page_navigated">Page %1$s</string>
+
+    <!-- AccessibleMainMenuActivity -->
+    <string name="menu_speak">Lire le livre à haute voix</string>
+    <string name="menu_bookshare">Rechercher dans Bookshare</string>
+    <string name="menu_toc">Table des Matières</string>
+    <string name="menu_bookmark">Ajouter un marque-page ici</string>
+    <string name="main_menu">Menu Principal</string>
+    <string name="menu_navigate">Accéder à la page</string>
+    <string name="menu_bookmarks">Marque-pages</string>
+    <string name="menu_search">Chercher un livre</string>
+    <string name="menu_book_info">Informations sur le livre</string>
+    <string name="menu_library">Mes Livres</string>
+    <string name="menu_my_books">Mes livres (NOUVEAU)</string>
+    <string name="menu_network_library">Trouver des livres sur d\'autres catalogues</string>
+    <string name="menu_settings">Réglages</string>
+    <string name="menu_help">Aide</string>
+    <string name="menu_accessibility_settings">Paramètres d\'accessibilité</string>
+    <string name="menu_tts_settings">Réglages de la synthèse vocale</string>
+    <string name="menu_search_bar">Rechercher</string>
+
+    <!-- LibraryActivity -->
+    <string name="library_search_title">Bibliothèque Bookshare</string>
+    <string name="library_search_books_popup">Rechercher dans les livres téléchargés?</string>
+    <string name="library_added_to_favorites">Ajouté aux favoris</string>
+    <string name="library_removed_from_favorites">Supprimé des favoris</string>
+
+    <!-- NetworkLibraryActivity -->
+    <string name="network_library_accessibility_warning">Les autres catalogues n\'ont pas été rendus accessibles aux utilisateurs qui ont des handicaps visuels.</string>
+
+    <!-- SpeakActivity -->
+    <string name="play">Lecture/Pause</string>
+    <string name="next">Prochaine section</string>
+    <string name="previous">Section précédente</string>
+    <string name="toc">Table des Matières</string>
+    <string name="on_press_play">Lecture/Pause</string>
+    <string name="on_press_pause">Pause/Lecture</string>
+    <string name="speak_title_postfix">\u0020- appuyez sur play ou double-cliquez</string>
+
+    <string name="initializing">En cours d\'initialisation&#8230;</string>
+    <string name="failure">L\'initialisation a échouée</string>
+    <string name="speak_menu_item">Lire le livre à haute voix</string>
+    <string name="no_tts_installed">Impossible de se connecter au moteur de synthèse vocale sur votre appareil</string>
+    <string name="no_tts_language">Le moteur de synthèse vocale n\'a pas de voix locale par défaut</string>
+    <string name="initialization_error">Nous n\'avons pas trouvé d\'informations sur ce livre</string>
+    <string name="language_is_not_set">La langue du livre n\'est pas définie. Essayer de lire ce livre en %0.</string>
+    <!-- TOCActivity -->
+    <string name="subheading">\u0020(a %1$d de sous-titres)</string>
+    <string name="toc_view_subheadings">Voir les sous-titres</string>
+    <string name="toc_close_subheadings">Fermer les sous-titres</string>
+    <string name="toc_goto_heading">Aller au titre</string>
+    <string name="bks_menu_periodicals_label">Journaux et magazines</string>
+    <string name="fetching_periodicals">Enlever le livre</string>
+    <string name="search_complete_with_periodicals">Recherche terminée. Liste des périodiques.</string>
+    <string name="login_to_continue">Connectez-vous s\'il vous plaît pour télécharger ce périodique.</string>
+    <string name="edition_details_download_success">Périodique téléchargé. Lire ce périodique.</string>
+    <string name="warning_no_general_downloads_for_periodicals">Attention! Vous n\'êtes pas connecté. Les journaux et magazines ne sont pas disponibles pour les non-membres. Etes-vous sur de vouloir continuer?</string>
+    <string name="share_with_friends">Partagez avec vos amis!</string>
+    <string name="subscription_chk_box">Abonnez-vous à ce périodique</string>
+    <string name="subscribe_chkbox_description">(télécharger automatiquement la dernière édition) </string>
+
+    <string name="drawer_open">Ouvrir l\'onglet de navigation</string>
+    <string name="drawer_close">Fermer l\'onglet de navigation</string>
+    <string name="menu_item_add_to_favorites">Ajouter aux favoris</string>
+    <string name="menu_item_content_description_add_to_favorites">Ajouter ce livre à mes favoris</string>
+    <string name="menu_item_delete_book">Enlever le livre</string>
+    <string name="menu_item_content_description_delete_book">Supprimer le livre actuellement ouvert </string>
+    <string name="menu_item_sync_with_bookshare">Synchroniser avec Bookshare</string>
+
+    <!-- Navigation Drawer Strings -->
+    <string name="nav_draw_search_text">Rechercher du texte</string>
+    <string name="nav_draw_night">Nuit</string>
+    <string name="nav_draw_day">Jour</string>
+    <string name="nav_draw_screen_orientation">Orientation de l\'écran</string>
+    <string name="nav_draw_book_info">Informations sur le livre</string>
+    <string name="nav_draw_add_to_favs">Ajouter aux Favoris</string>
+    <string name="nav_draw_other_cats">Autres Catalogues</string>
+
+
+    <string name="message_cannot_delete_guide">Impossible de supprimer le guide</string>
+    <string name="message_confirm_remove_book">Voulez-vous supprimer le livre de votre appareil? </string>
+    <string name="message_bookmark_already_exists">Le marque-page existe déjà!</string>
+
+    <string name="button_label_delete_book">Supprimer</string>
+    <string name="button_label_cancel">Annuler</string>
+    <string name="button_label_accept">Accepter</string>
+    <string name="button_label_ok">Ok</string>
+    <string name="button_label_done_sync_bookshare">Terminé</string>
+    <string name="title_sync_bookshare_progress_dialog">Synchronisation de Bookshare en cours..</string>
+    <string name="title_sync_bookshare_complete_progress_dialog">Sync. de Bookshare réussie</string>
+    <string name="message_sync_bookshare_progress_dialog">Création des listes de lecture. La liste de lecture par défaut s\'appelle \"Go Read\" et contient les livres téléchargés sur votre appareil. Pour sélectionner une liste de lecture différente, cliquez sur l\'onglet Listes dans Mes livres.\n\nPour synchroniser de nouveau avec Bookshare, sélectionnez Synchroniser avec Bookshare dans le menu Plus d\'actions (⋮).</string>
+    <string name="message_sync_bookshare_reading_lists_complete_progress_dialog">Listes de lecture créées. La liste de lecture par défaut s\'appelle \"Go Read\" et contient les livres téléchargés sur votre appareil. Pour sélectionner une liste de lecture différente, cliquez sur l\'onglet Listes dans Mes livres.\n\nPour synchroniser de nouveau avec Bookshare, sélectionnez Synchroniser avec Bookshare dans le menu Plus d\'actions (⋮).</string>
+    <string name="message_sync_bookshare_reading_lists_short_progress_dialog">Mise à jour des livres et des listes de lecture sur votre compte Bookshare</string>
+    <string name="my_books_tab_go_read">Go Read</string>
+    <string name="my_books_tab_recent">Récent</string>
+    <string name="my_books_tab_favorites">Favoris</string>
+    <string name="my_books_tab_reading_lists">Listes</string>
+
+    <string name="tab_label_section">Sections</string>
+    <string name="tab_label_page">Page</string>
+    <string name="tab_label_bookmark">Marque-page</string>
+
+    <string name="content_description_copy">Copier le texte sélectionné</string>
+    <string name="content_description_share">Partager le texte sélectionné</string>
+    <string name="content_description_translate">Traduire le texte sélectionné</string>
+    <string name="content_description_bookmark">Marquer le texte sélectionné</string>
+    <string name="content_description_clear">Effacer la sélection</string>
+    <string name="content_description_find_previous">Précédent</string>
+    <string name="content_description_clear_search_results">clear_search_results</string>
+    <string name="content_description_find_next">Suivant</string>
+    <string name="content_description_play">Lecture</string>
+    <string name="content_description_pause">Pause</string>
+    <string name="navigation_drawer_title">Bookshare</string>
+    <string name="content_description_navigation_drawer_title">Onglet de navigation</string>
+    <string name="dialog_title_screen_orientation">Orientation de l\'écran</string>
+    <string name="menu_item_settings">Réglages</string>
+    <string name="menu_item_help">Aide</string>
+    <string name="menu_item_about_goread">A propos de Go Read</string>
+    <string name="menu_item_login_bookshare">Se connecter à Bookshare</string>
+    <string name="menu_item_logout_bookshare">Se déconnecter de Bookshare</string>
+
+    <string name="sort_by_title">Trier par titre</string>
+    <string name="sort_by_author">Trier par auteur</string>
+    <string name="sort_by_date">Trier par date</string>
+    <string name="sort_by">Trier par</string>
+
+    <string name="signout_button_title_pattern">Se déconnecter %s</string>
+
+    <string name="book_unavailable_for_download_warning">Ce livre n\'est actuellement pas disponible pour téléchargement sur votre compte. Êtes-vous connecté à Bookshare?</string>
+    <string name="screen_brightness_adjustment">Ajustement de la luminosité de l\'écran</string>
+
+    <string name="added_to_readinglist_success">Ajouté à la liste</string>
+    <string name="added_to_readinglist_fail_title">L\'ajout du titre à la liste a échoué</string>
+    <string name="added_to_readinglist_fail_message">Vous n\'êtes pas autorisé à ajouter des livres à cette liste de lecture.</string>
+    <string name="create_new_readinglist_title">Créer une nouvelle liste de lecture</string>
+    <string name="create_new_readinglist_message">Entrez le nom de la liste de lecture</string>
+    <string name="create_new_readinglist_error">Vous n\'êtes pas autorisé à créer de listes de lecture.</string>
+    <string name="delete_from_readinglist_error">Vous n\'êtes pas autorisé à supprimer des livres d\'une liste de lecture.</string>
+    <!-- Delete from reading list -->
+    <string name="remove_from_reading_list">Supprimer</string>
+    <string name="delete_fromreadinglist_progress_title">Supprimer le livre de la liste de lecture.</string>
+    <string name="delete_fromreadinglist_success">Le livre a été supprimé</string>
+
+    <!-- margins -->
+    <string name="margins_small">Petite</string>
+    <string name="margins_medium">Moyenne</string>
+    <string name="margins_large">Grande</string>
+</resources>
