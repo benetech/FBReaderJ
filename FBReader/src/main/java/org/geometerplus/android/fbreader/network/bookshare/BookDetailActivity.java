@@ -34,6 +34,10 @@ public class BookDetailActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
 
+    protected boolean shouldShowAddToReadingListButton(){
+        return hasAvailableReadingLists();
+    }
+
     private boolean hasAvailableReadingLists() {
         if(hasAvailableReadingLists) return true; //if we already determined user has available RLs no need to recalculate. If he didnt last time it's worth to check if he has now
         SQLiteBooksDatabase database = (SQLiteBooksDatabase) SQLiteBooksDatabase.Instance();
@@ -79,8 +83,7 @@ public class BookDetailActivity extends Activity {
         super.onStart();
         ((ZLAndroidApplication) getApplication()).startTracker(this);
         if(btnReadingList != null){
-            hasAvailableReadingLists = hasAvailableReadingLists();
-            btnReadingList.setVisibility(hasAvailableReadingLists? View.VISIBLE : View.GONE);
+            btnReadingList.setVisibility(shouldShowAddToReadingListButton()? View.VISIBLE : View.GONE);
         }
     }
 
