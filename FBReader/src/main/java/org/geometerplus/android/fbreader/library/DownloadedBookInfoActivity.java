@@ -74,6 +74,7 @@ public class DownloadedBookInfoActivity extends BookDetailActivity {
 	private ZLFile myFile;
 	private ZLImage myImage;
 	private boolean myDontReloadBook;
+	private boolean isBookshareIdAvailable;
 
     //Added for the detecting whether the talkback is on
     private AccessibilityManager accessibilityManager;
@@ -109,11 +110,17 @@ public class DownloadedBookInfoActivity extends BookDetailActivity {
 	}
 
 	@Override
+	protected boolean shouldShowAddToReadingListButton(){
+		if(isBookshareIdAvailable) return super.shouldShowAddToReadingListButton();
+		else return false;
+	}
+
+
+	@Override
 	protected void onStart() {
-		super.onStart();
-
 		final Book book = Book.getByFile(myFile);
-
+		isBookshareIdAvailable = book.getBookshareId() != 0;
+		super.onStart();
 		if (book != null) {
 			setupCover(book);
 			setupBookInfo(book);
