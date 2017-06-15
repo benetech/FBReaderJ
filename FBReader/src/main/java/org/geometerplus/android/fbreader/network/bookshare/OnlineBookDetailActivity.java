@@ -238,6 +238,7 @@ public class OnlineBookDetailActivity extends BookDetailActivity implements OnCl
 
             btnReadingList = (Button) findViewById(isIM?R.id.bookshare_btn_readinglist_bottom:R.id.bookshare_btn_readinglist_top);
             btnReadingList.setOnClickListener(OnlineBookDetailActivity.this);
+            btnReadingList.setVisibility(shouldShowAddToReadingListButton()? View.VISIBLE : View.GONE);
 
             bookshare_book_detail_language.setNextFocusDownId(R.id.bookshare_book_detail_category);
             bookshare_book_detail_category.setNextFocusDownId(R.id.bookshare_book_detail_publish_date);
@@ -250,7 +251,6 @@ public class OnlineBookDetailActivity extends BookDetailActivity implements OnCl
             if (!isDownloadable) {
                 btnDownload.setVisibility(View.GONE);
                 btnDownloadWithImages.setVisibility(View.GONE);
-                btnReadingList.setVisibility(View.GONE);
                 bookshare_book_detail_authors.setNextFocusDownId(R.id.bookshare_download_not_available_msg);
                 bookshare_book_detail_isbn.setNextFocusUpId(R.id.bookshare_download_not_available_msg);
                 bookshare_download_not_available_text.setNextFocusUpId(R.id.bookshare_book_detail_authors);
@@ -264,7 +264,6 @@ public class OnlineBookDetailActivity extends BookDetailActivity implements OnCl
                 btnDownloadWithImages.setNextFocusUpId(R.id.bookshare_btn_download);
                 bookshare_book_detail_authors.setNextFocusDownId(R.id.bookshare_btn_download);
 
-                btnReadingList.setVisibility(View.VISIBLE);
                 btnDownload.setOnClickListener(OnlineBookDetailActivity.this);
                 btnDownloadWithImages.setOnClickListener(OnlineBookDetailActivity.this);
 
