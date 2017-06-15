@@ -38,6 +38,7 @@ import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareAction;
 import org.geometerplus.fbreader.fbreader.SyncReadingListsWithBookshareActionObserver;
 import org.geometerplus.fbreader.library.ReadingList;
 import org.geometerplus.zlibrary.core.application.ZLApplication;
+import org.geometerplus.zlibrary.text.view.style.ZLTextStyleCollection;
 import org.geometerplus.zlibrary.ui.android.util.SortUtil;
 
 import java.util.ArrayList;
@@ -287,6 +288,15 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
             ReadingListsItem item = getItem(position);
             viewHolder.readingListNameTextView.setText(item.readingListName);
             viewHolder.readingListBooksCountTextView.setText(item.readingListBooksCount);
+
+            int userValue = ZLTextStyleCollection.Instance().getBaseStyle().FontSizeOption.getValue();
+            userValue = Math.max(userValue, 18); //these values come from ZLFontSizeListPreference
+            userValue = Math.min(userValue, 30);
+            viewHolder.readingListNameTextView.setTextSize(userValue);
+            double lowerValue = userValue / 1.5;
+            lowerValue = Math.max(lowerValue, 12d);
+            viewHolder.readingListBooksCountTextView.setTextSize(Math.round(lowerValue));
+
 
             return convertView;
         }
