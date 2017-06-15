@@ -105,7 +105,7 @@ public class ReadingListApiManager {
         }
     }
 
-    private class CreateReadingListTask extends AsyncTask<Object, Void, Boolean> {
+    private class CreateReadingListTask extends AsyncTask<Object, Void, Bundle> {
         public String readingListName;
         public ReadinglistAPIListener listener;
 
@@ -114,20 +114,20 @@ public class ReadingListApiManager {
             super.onPreExecute();
         }
 
-        protected Boolean doInBackground(Object... params) {
+        protected Bundle doInBackground(Object... params) {
             try {
                 BookshareHttpOauth2Client client =  new BookshareHttpOauth2Client();
                 return client.postReadingList(accessToken, readingListName, "");
             } catch (Exception e) {
                 Log.e(getClass().getSimpleName(), e.getMessage(), e);
-                return false;
+                return new Bundle();
             }
         }
 
-        protected void onPostExecute(Boolean result) {
-            Bundle results = new Bundle();
-            results.putString(RESULT_SUCCESS, result.toString());
-            if(result){
+        protected void onPostExecute(Bundle results) {
+            boolean success = results.getBoolean(BookshareHttpOauth2Client.CODE_REQUEST_SUCCESS, false);
+            results.putString(RESULT_SUCCESS, Boolean.toString(success));
+            if(success){
                 listener.onAPICallResult(results);
             }
             else {

@@ -1,5 +1,6 @@
 package org.bookshare.net;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -34,6 +35,9 @@ public class BookshareHttpOauth2Client {
 
     public static final String JSON_CODE_KEY = "key";
     public static final String JSON_CODE_ERROR = "ERROR";
+    public static final String CODE_RESPONSE_CODE = "responseCode";
+    public static final String CODE_RESPONSE_MESSAGE = "responseMessage";
+    public static final String CODE_REQUEST_SUCCESS = "codeRequestSuccess";
     private String userName;
     private String password;
 
@@ -128,7 +132,7 @@ public class BookshareHttpOauth2Client {
         return responseCode[0] == HttpURLConnection.HTTP_OK;
     }
 
-    public boolean postReadingList(String accessToken, String readingListName, String description) throws Exception {
+    public Bundle postReadingList(String accessToken, String readingListName, String description) throws Exception {
 
         String url = String.format("https://%s/v2/lists/?api_key=%s",HOST_NAME, API_KEY);
 
@@ -144,7 +148,12 @@ public class BookshareHttpOauth2Client {
         int[] responseCode = new int[1];
         final String rawResponseWithReadingLists = requestData(urlConnection, responseCode);
 
-        return responseCode[0] == HttpURLConnection.HTTP_OK;
+        Bundle response = new Bundle();
+        response.putInt(CODE_RESPONSE_CODE, responseCode[0]);
+        response.putString(CODE_RESPONSE_MESSAGE, rawResponseWithReadingLists);
+        response.putBoolean(CODE_REQUEST_SUCCESS, responseCode[0] == HttpURLConnection.HTTP_OK);
+
+        return response;
     }
 
     public boolean deleteTitleFromReadingList(String accessToken, String readingListId, String titleId) throws Exception {
