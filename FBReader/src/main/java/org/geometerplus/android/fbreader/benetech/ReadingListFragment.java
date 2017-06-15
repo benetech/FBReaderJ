@@ -259,6 +259,9 @@ public class ReadingListFragment extends TitleListFragmentWithContextMenu implem
                 viewHolder.hiddenLayout.setTag(new Integer(position));
                 viewHolder.hiddenLayout.setOnClickListener(deleteListener);
             }
+            if(viewHolder.swipeLayout != null){
+                viewHolder.swipeLayout.close();
+            }
             return convertView;
         }
 
