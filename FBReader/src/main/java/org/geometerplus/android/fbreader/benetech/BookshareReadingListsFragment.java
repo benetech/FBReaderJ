@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import org.accessibility.VoiceableDialog;
 import org.benetech.android.R;
+import org.bookshare.net.BookshareHttpOauth2Client;
 import org.geometerplus.android.fbreader.AlertHelper;
 import org.geometerplus.android.fbreader.library.AbstractSQLiteBooksDatabase;
 import org.geometerplus.android.fbreader.library.SQLiteBooksDatabase;
@@ -49,6 +50,7 @@ import java.util.List;
  */
 public class BookshareReadingListsFragment extends ListFragment implements SortUtil.SortChangesListener{
 
+    public static final String DUPLICATE_LIST_ERROR = "You already have a reading list with that name";
     private ArrayList<ReadingListsItem> readingListsItems;
     private static final String READINGLIST_TAG = "ReadingListFragment";
     private ReadingListFragment myReadingListFragment = null;
@@ -189,7 +191,12 @@ public class BookshareReadingListsFragment extends ListFragment implements SortU
         public void onAPICallError(Bundle results) {
             if(createDialog.isShowing()){
                 createDialog.dismiss();
-                showErrorMessage(getString(R.string.create_new_readinglist_error));
+                if(results.getString(BookshareHttpOauth2Client.CODE_RESPONSE_MESSAGE, "").contains(DUPLICATE_LIST_ERROR)){
+                    showErrorMessage(getString(R.string.create_new_readinglist_error_duplicate));
+                }
+                else {
+                    showErrorMessage(getString(R.string.create_new_readinglist_error));
+                }
             }
         }
     };

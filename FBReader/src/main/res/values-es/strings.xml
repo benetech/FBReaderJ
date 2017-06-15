@@ -229,6 +229,7 @@
     <string name="screen_brightness_adjustment">Ajuste de brillo de la pantalla</string>
     <string name="create_new_readinglist_message">Digite el nombre de la nueva lista</string>
     <string name="create_new_readinglist_error">No está autorizado para crear una nueva lista.</string>
+    <string name="create_new_readinglist_error_duplicate">Ya existe una lista con este nombre.</string>
     <string name="delete_from_readinglist_error">No está autorizado para eliminar títulos de esta lista.</string>
 
     <!-- Delete from reading list -->

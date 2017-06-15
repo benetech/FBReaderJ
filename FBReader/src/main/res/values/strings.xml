@@ -233,6 +233,7 @@
     <string name="create_new_readinglist_title">Create new reading list</string>
     <string name="create_new_readinglist_message">Enter reading list name</string>
     <string name="create_new_readinglist_error">You are not authorized to create a Reading List.</string>
+    <string name="create_new_readinglist_error_duplicate">A Reading List with this name already exists.</string>
     <string name="delete_from_readinglist_error">You are not authorized to remove books from this Reading List.</string>
     <string name="no_reading_lists">There are no reading lists that you may add this title to.</string>
     <!-- Delete from reading list -->
