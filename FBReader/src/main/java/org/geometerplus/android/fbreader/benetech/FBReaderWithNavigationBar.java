@@ -272,7 +272,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         super.onResume();
         try {
             Locale bookLocale = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
+                    && myApi.isModelReady()) {
                 // only for gingerbread and newer versions
                 bookLocale = Locale.forLanguageTag(myApi.getBookLanguage());
             }
@@ -290,7 +291,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             if(accessibilityManager.isEnabled()){
                 enablePlayButton();
             }
-            if (!returnFromOtherScreen) {
+            if (!returnFromOtherScreen && myApi.isModelReady()) {
                 setCurrentLocation();
             }
             returnFromOtherScreen = false;
@@ -828,17 +829,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     @Override
     public void onSwipe(int direction) {
-        myVib.vibrate(VIBE_PATTERN, -1);
-        switch (direction) {
-            case SimpleGestureFilter.SWIPE_RIGHT :
-                goForward();
-                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_NEXT);
-                break;
-            case SimpleGestureFilter.SWIPE_LEFT :
-                goBackward();
-                ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_GESTURE, Analytics.EVENT_LABEL_PREV);
-                break;
-        }
+        //Swipe is caught on a different level. On this level we don't want to do anything else.
     }
 
     @Override
