@@ -336,4 +336,8 @@ public class ApiServerImplementation extends ApiInterface.Stub implements Api, A
         }
         return indices;
     }
+
+    public boolean isModelReady(){
+		return myReader.Model != null && myReader.Model.Book != null;
+	}
 }

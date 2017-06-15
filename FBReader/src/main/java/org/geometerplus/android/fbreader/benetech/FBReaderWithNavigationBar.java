@@ -272,7 +272,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         super.onResume();
         try {
             Locale bookLocale = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
+                    && myApi.isModelReady()) {
                 // only for gingerbread and newer versions
                 bookLocale = Locale.forLanguageTag(myApi.getBookLanguage());
             }
@@ -290,7 +291,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             if(accessibilityManager.isEnabled()){
                 enablePlayButton();
             }
-            if (!returnFromOtherScreen) {
+            if (!returnFromOtherScreen && myApi.isModelReady()) {
                 setCurrentLocation();
             }
             returnFromOtherScreen = false;
