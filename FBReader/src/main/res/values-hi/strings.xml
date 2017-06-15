@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">गो रीड</string>
+    <string name="book_info_activity">पुस्तक जानकारी</string>
+
+	<string name="empty_string"></string>
+	<string name="search_hint">खोज का विषय भरें</string>
+
+    <!-- BookmarksActivity -->
+    <string name="bookmark_added">पृष्ठ संख्या %1$s पर बुकमार्क लगाया गया है</string>
+    <string name="bookmark_page">पृष्ठ</string>
+
+	<!--  Bookshare_Webservice_login -->
+	<string name="fetch_book_data">मुफ्त पुस्तकों की जानकारी लोड हो रही है।</string>
+	<string name="authenticating">प्रमाणीकरण जारी है</string>
+    <string name="login_dialog_login_button">लॉगिन</string>
+    <string name="login_dialog_password_label">पासवर्ड</string>
+    <string name="login_dialog_reset_button">रीसेट करें</string>
+    <string name="login_dialog_skip_login_button">बिना लॉगिन के आगे बढ़ें</string>
+    <string name="login_dialog_username_label">बुकशेयर ईमेल या उपयोगकर्ता का नाम</string>
+	<string name="login_error_non_blank_password">पासवर्ड खाली नही रह सकता !</string>
+	<string name="login_error_non_blank_password_and_username">उपयोगकर्ता का नाम / पासवर्ड खाली नही रह सकता!</string>
+	<string name="login_error_non_blank_username">उपयोगकर्ता का नाम खाली नही रह सकता !</string>
+	<string name="login_failed">लॉगिन में असफलता !</string>
+	<string name="login_network_error">नेटवर्क में त्रुटि</string>
+    <string name="login_forgot_password">भूल गए पासवर्ड</string>
+    <string name="login_signup">साइन अप करें !</string>
+
+
+    <!-- Bookshare_Book_Details -->
+    <string name="book_details_removefromreadinglist_title">पुस्तक हटाएं</string>
+    <string name="book_details_removefromreadinglist_message">क्या आप यह पुस्तक हटाना चाहते हैं ?</string>
+    <string name="book_details_removefromreadinglist_button_list">पठन सूची से हटाएं</string>
+    <string name="book_details_removefromreadinglist_button_both">सूची और उपकरण से हटाएं</string>
+    <string name="book_details_readinglist_button">पठन सूची में संकलित करें</string>
+    <string name="book_details_download_button">डाउनलोड करें (केवल पाठ)</string>
+     <string name="book_details_download_images">पुस्तक को चित्र के साथ डाउनलोड करें</string>
+    <string name="book_details_download_error">डाउनलोड में असफलता ! दोबारा डाउनलोड करें </string>
+    <string name="book_details_download_error_other_member">डाउनलोड में असफलता ! कोई और सदस्य प्रयत्न करें</string>
+    <string name="book_details_download_started">डाउनलोड शुरू</string>
+    <string name="book_details_download_success">पुस्तक डाउनलोड हो चुकी है ! पुस्तक पढ़ें</string>
+    <string name="book_details_not_available">उपलब्ध नहीं है</string>
+    <string name="book_details_open_error">पुस्तक खुलने में त्रुटि !</string>
+    <string name="bookshare_book_detail_publish_date">तारीख संकलित हुई : \u0020</string>
+    <string name="book_details_download_downloading">पुस्तक डाउनलोड हो रही है ...</string>
+
+    <!-- Bookshare_Books_Listing -->
+    <string name="fetching_books">पुस्तकें लोड हो रही है। कृप्या प्रतीक्षा करें।</string>
+    <string name="search_complete_with_books">खोज पूरी हुई। पुस्तक सूची निम्नलिखित है। </string>
+    <string name="search_complete_no_books">खोज पूरी हुई। कोई पुस्तक नही मिली। </string>
+
+    <!-- Bookshare_Menu -->
+    <string name="logout_dialog_message">आप बुकशेयर से लोग आउट हो रहे हैं। क्या आप आगे बढ़ना चाहते हैं?</string>
+    <string name="search_dialog_title_title">पुस्तक शीर्षक से ढूँडें</string>
+    <string name="search_dialog_label_title">खोज करने हेतु पुस्तक शीर्षक भरें</string>
+    <string name="search_dialog_example_title">उदाहरण - मोबी डिक या पॉटर</string>
+    <string name="search_dialog_description_title">शीर्षक भरें </string>
+    <string name="search_dialog_title_author">लेखक/लेखिका ढूँडें</string>
+    <string name="search_dialog_label_author">खोज करने हेतु लेखक/लेखिका का नाम भरें </string>
+    <string name="search_dialog_example_author">उदाहरण - मार्क ट्वेन या लुईस</string>
+    <string name="search_dialog_description_author">लेखक/लेखिका का नाम भरें</string>
+    <string name="search_dialog_title_isbn">ISBN ढूँडें</string>
+    <string name="search_dialog_label_isbn">10 या 13 अंक ISBN भरें</string>
+    <string name="search_dialog_description_isbn">ISBN भरें</string>
+    <string name="bks_menu_title_label">शीर्षक ढूँडें</string>
+    <string name="bks_menu_title_description">शीर्षक से ढूँडें</string>
+    <string name="bks_menu_author_label">लेखक/लेखिका ढूँडें</string>
+    <string name="bks_menu_author_description">लेखक/लेखिका से ढूँडें</string>
+    <string name="bks_menu_isbn_label">ISBN ढूँडें</string>
+    <string name="bks_menu_isbn_description">पुस्तक के ISBN अंक से ढूँडें</string>
+    <string name="bks_menu_latest_label">नयी पुस्तकें</string>
+    <string name="bks_menu_latest_description">नयी पुस्तकें सूची देखें</string>
+    <string name="bks_menu_popular_label">लोकप्रिय पुस्तकें</string>
+    <string name="bks_menu_popular_description">लोकप्रिय पुस्तकें सूची</string>
+    <string name="bks_menu_log_in">बुकशेयर में लॉगिन करें</string>
+    <string name="bks_menu_log_out">बुकशेयर में लोग आउट करें</string>
+    <string name="bks_menu_log_out_confirmation">आप लोग आउट हो गए हैं !</string>
+    <string name="bks_menu_no_internet">आप पहले इन्टरनेट चालू करें ।</string>
+    <string name="empty_search_term_error">खोज का विषय खाली नहीं रह सकता !</string>
+    <string name="accessible_alert_title">क्या आप निश्चित हैं?</string>
+
+    <!-- Bookshare Twitter Handler -->
+    <string name="twitter_successful_post">ट्विटर पर पोस्ट हो गया है</string>
+
+    <!-- Bug Report Activity -->
+    <string name="crash_report_sent">त्रुटि के लिए खेद है। सम्बंधित लोगों को अधिसूचित कर दिया गया है ॥</string>
+
+    <!-- Cancel Activity -->
+    <string name="cancel_menu_title">हमें छोड़ रहे हैं ? निम्न लिखित में से चुनें...</string>
+
+    <!-- FBReader -->
+    <string name="navigate_dialog_title">पृष्ठ पर जाएँ</string>
+    <string name="navigate_dialog_label">पृष्ठ संख्या भरें</string>
+    <string name="navigate_dialog_example">यह पृष्ठ संख्या %1$s , कुल %3$s पृष्ठों में से %2$s संख्या का पृष्ठ है। %4$s</string>
+    <string name="navigate_dialog_example_non_numeric">( इसमें संख्यात्मक पृष्ठ संख्या नहीं है )</string>
+    <string name="page_navigated">पृष्ठ %1$s</string>
+
+    <!-- AccessibleMainMenuActivity -->
+    <string name="menu_speak">मुझे पढ़ के सुनाओ</string>
+    <string name="menu_bookshare">बुकशेयर में ढूँडें </string>
+    <string name="menu_toc">विषयसूची</string>
+    <string name="menu_bookmark">यहाँ बुकमार्क लगाएं</string>
+    <string name="main_menu">मुख्य मेनू</string>
+    <string name="menu_navigate">पृष्ठ पर जाएँ</string>
+    <string name="menu_bookmarks">बुकमार्क</string>
+    <string name="menu_search">पुस्तक ढूँडें</string>
+    <string name="menu_book_info">पुस्तक की जानकारी</string>
+    <string name="menu_library">मेरी पुस्तकें</string>
+    <string name="menu_my_books">मेरी पुस्तकें (नयी)</string>
+    <string name="menu_network_library">अन्य सूचियों से पुस्तकें प्राप्त करें</string>
+    <string name="menu_settings">सेटिंग्स</string>
+    <string name="menu_help">सहायता</string>
+    <string name="menu_accessibility_settings">पहुंच सेटिंग्स</string>
+    <string name="menu_tts_settings">लिखे हुए को बोलने में बदलने की सेटिंग्स</string>
+    <string name="menu_search_bar">ढूँडें</string>
+
+    <!-- LibraryActivity -->
+    <string name="library_search_title">बुकशेयर पुस्तकालय</string>
+    <string name="library_search_books_popup">डाउनलोड की गई पुस्तकों में ढूँडें ?</string>
+    <string name="library_added_to_favorites">पसंदीदा में संकलित हो गई है</string>
+    <string name="library_removed_from_favorites">पसंदीदा से हटा दी गई है</string>
+
+    <!-- NetworkLibraryActivity -->
+    <string name="network_library_accessibility_warning">अन्य सूचियां दृष्टि बाधित उपयोगकर्ता के लिए अभी उपलब्ध नही की गई हैं।</string>
+
+    <!-- SpeakActivity -->
+    <string name="play">प्ले करें / रोकें</string>
+    <string name="next">अगला भाग</string>
+    <string name="previous">पिछला भाग</string>
+    <string name="toc">विषय - सूची</string>
+    <string name="on_press_play">प्ले करें/ रोकें</string>
+    <string name="on_press_pause">रोकें / प्ले करें</string>
+    <string name="speak_title_postfix">\u0020- प्ले का बटन दबाएं या स्क्रीन पर दो बार दबाएं</string>
+
+    <string name="initializing">प्रारम्भ हो रहा है&#8230;</string>
+    <string name="failure">प्रारम्भ होने में असफलता</string>
+    <string name="speak_menu_item">मुझे पढ़ के सुनाओ</string>
+    <string name="no_tts_installed">आपके उपकरण में TTS इंजन से कनेक्शन नही हो पाया</string>
+    <string name="no_tts_language">TTS इंजन में स्थानीय भाषा की आवाज़ नही है</string>
+    <string name="initialization_error">पुस्तक की जानकारी नहीं लोड हो पाई</string>
+    <string name="language_is_not_set">पुस्तक की भाषा नहीं चुनी गई है। %0 भाषा में पढ़ने की कोशिश की जा रही है।</string>
+    <string name="no_data_for_language" formatted="false">%0 a भाषा की लिखे हुए को बोलने में बदलने की जानकारी इनस्टॉल नहीं की गई है। %1 भाषा में पढ़ने की कोशिश की जा रही है।</string>
+
+    <!-- TOCActivity -->
+    <string name="subheading">\u0020( %1$d उपशीर्षक हैं)</string>
+    <string name="toc_view_subheadings">उपशीर्षक देखें</string>
+    <string name="toc_close_subheadings">उपशीर्षक बंद करें</string>
+    <string name="toc_goto_heading">शीर्षक पर जाएँ</string>
+    <string name="bks_menu_periodicals_label">समाचार पत्र और पत्रिका</string>
+    <string name="fetching_periodicals">पत्रिकाएं लोड हो रही है। कृप्या प्रतीक्षा करें।</string>
+    <string name="search_complete_with_periodicals">खोज पूरी हुई। पत्रिकाएं निम्नलिखित है। </string>
+    <string name="login_to_continue">इस पत्रिका को डाउनलोड करने के लिए कृप्या लॉगिन करें।</string>
+    <string name="edition_details_download_success">पत्रिका डाउनलोड हो चुकी है ! पत्रिका पढ़ें।</string>
+    <string name="warning_no_general_downloads_for_periodicals">चेतावनी ! आप अभी लॉगिन नहीं हैं। समाचार-पत्र &amp; पत्रिकाएं अतिथियों के डाउनलोड के लिए उपलब्ध नहीं हैं। क्या आप निश्चित रूप से आगे बढ़ना चाहते हैं ?</string>
+    <string name="share_with_friends">दोस्तों के साथ शेयर करें !</string>
+    <string name="subscription_chk_box">इस पत्रिका की सदस्यता लें</string>
+    <string name="subscribe_chkbox_description">(ऑटोमैटिक सब से विलंबित प्रकाशन डाउनलोड करें)</string>
+
+    <string name="drawer_open">दराज मेनू खोलें</string>
+    <string name="drawer_close">दराज मेनू बंद करें</string>
+    <string name="menu_item_add_to_favorites">पसंदीदा में संकलित करें</string>
+    <string name="menu_item_content_description_add_to_favorites">इस खुली पुस्तक को पसंदीदा में संकलित करें</string>
+    <string name="menu_item_delete_book">पुस्तक हटाएं</string>
+    <string name="menu_item_content_description_delete_book">खुली हुई पुस्तक हटाएं</string>
+    <string name="menu_item_sync_with_bookshare">बुकशेयर से समक्रमिक करें</string>
+
+    <!-- Navigation Drawer Strings -->
+    <string name="nav_draw_search_text">खोज का विषय</string>
+    <string name="nav_draw_night">रात</string>
+    <string name="nav_draw_day">दिन</string>
+    <string name="nav_draw_screen_orientation">स्क्रीन की दिशा</string>
+    <string name="nav_draw_book_info">पुस्तक की जानकारी</string>
+    <string name="nav_draw_add_to_favs">पसंदीदा में संकलित करें</string>
+    <string name="nav_draw_other_cats">अन्य सूचियां</string>
+
+
+    <string name="message_cannot_delete_guide">मार्गदर्शिका हटाई नही जा सकती !</string>
+    <string name="message_confirm_remove_book">क्या आप इस पुस्तक को उपकरण में से हटाना चाहते हैं ?</string>
+    <string name="message_bookmark_already_exists">इस पृष्ठ पर बुकमार्क पहले से है !</string>
+
+    <string name="button_label_delete_book">हटाएं</string>
+    <string name="button_label_cancel">रद्द करें</string>
+    <string name="button_label_accept">स्वीकार करें</string>
+    <string name="button_label_ok">ठीक</string>
+    <string name="button_label_done_sync_bookshare">पूर्ण</string>
+    <string name="title_sync_bookshare_progress_dialog">बुकशेयर समक्रमिक हो रही है ...</string>
+    <string name="title_sync_bookshare_complete_progress_dialog">बुकशेयर समक्रमिक पूर्ण</string>
+    <string name="message_sync_bookshare_progress_dialog">पाठन सूचियां बनाई जा रही हैं। डिफ़ॉल्ट पाठन सूची का नाम \"गो रीड\" है। इसमें आपके उपकरण में लोडेड पुस्तकें सम्मिलित हैं। अन्य पाठन सूची चुन्ने के लिए \'मेरी पुस्तकें\' में जाएँ और \'सूचियां\' मेनू दबाएं।\n\n बुकशेयर से पुनः समक्रमिक करने के लिए \'अन्य कार्य ( ⋮ )\' मेनू में जाकर \'बुकशेयर से समक्रमिक करें\' चुनें॥</string>
+    <string name="message_sync_bookshare_reading_lists_complete_progress_dialog">पाठन सूचियां बन गई हैं। डिफ़ॉल्ट पाठन सूची का नाम \"गो रीड\" है। इसमें आपके उपकरण में लोडेड पुस्तकें सम्मिलित हैं। अन्य पाठन सूची चुन्ने के लिए \'मेरी पुस्तकें\' में जाएँ और \'सूचियां\' मेनू दबाएं।\n\n बुकशेयर से पुनः समक्रमिक करने के लिए \'अन्य कार्य ( ⋮ )\' मेनू में जाकर \'बुकशेयर से समक्रमिक करें\' चुनें॥</string>
+    <string name="message_sync_bookshare_reading_lists_short_progress_dialog">आपके बुकशेयर के खाते से पुस्तकें व पाठ सूचियां अद्यतन हो रही हैं।</string>
+    <string name="my_books_tab_go_read">गो रीड</string>
+    <string name="my_books_tab_recent">हाल का</string>
+    <string name="my_books_tab_favorites">पसंदीदा</string>
+    <string name="my_books_tab_reading_lists">सूचियां</string>
+
+    <string name="tab_label_section">भाग</string>
+    <string name="tab_label_page">पृष्ठ</string>
+    <string name="tab_label_bookmark">बुकमार्क करें</string>
+
+    <string name="content_description_copy">चयनित पाठ को कॉपी करें</string>
+    <string name="content_description_share">चयनित पाठ को शेयर करें</string>
+    <string name="content_description_translate">चयनित पाठ का अनुवाद करें</string>
+    <string name="content_description_bookmark">चयनित पाठ को बुकमार्क करें</string>
+    <string name="content_description_clear">चयन हटाएं</string>
+    <string name="content_description_find_previous">पिछला ढूंढ़ो </string>
+    <string name="content_description_clear_search_results">खोज का परिणाम हटाएं</string>
+    <string name="content_description_find_next">अगला ढूंढ़ो</string>
+    <string name="content_description_play">प्ले</string>
+    <string name="content_description_pause">रोकें</string>
+    <string name="navigation_drawer_title">बुकशेयर</string>
+    <string name="content_description_navigation_drawer_title">नेविगेशन दराज</string>
+    <string name="dialog_title_screen_orientation">स्क्रीन की दिशा</string>
+    <string name="menu_item_settings">सेटिंग्स</string>
+    <string name="menu_item_help">सहायता</string>
+    <string name="menu_item_about_goread">गो रीड के बारे में</string>
+    <string name="menu_item_login_bookshare">बुकशेयर में लॉगिन करें</string>
+    <string name="menu_item_logout_bookshare">बुकशेयर से लोग आउट करें</string>
+
+    <string name="sort_by_title">शीर्षक के क्रम से लगाएं</string>
+    <string name="sort_by_author">लेखक/लेखिका के क्रम से लगाएं</string>
+    <string name="sort_by_date">दिनांक के क्रम से लगाएं</string>
+    <string name="sort_by">इसके अनुसार क्रमबद्ध करें</string>
+
+    <string name="signout_button_title_pattern">लोग आउट%s</string>
+
+    <string name="book_unavailable_for_download_warning">यह पुस्तक अभी आपके अकाउंट से डाउनलोड के लिए उपलब्ध नहीं है। क्या आपने बुकशेयर पर लॉगिन कर रखा है ?</string>
+    <string name="screen_brightness_adjustment">स्क्रीन की चमक अनुकूलित करें</string>
+
+    <string name="added_to_readinglist_success">सूची में संकलित हो गया</string>
+    <string name="added_to_readinglist_fail_title">सूची में संकलित होने में असफलता </string>
+    <string name="added_to_readinglist_fail_message">आपको इस पठन सूची में पुस्तक संकलित करने का अधिकार नही है।</string>
+    <string name="create_new_readinglist_title">नयी पठन सूची बनाएं</string>
+    <string name="create_new_readinglist_message">पठन सूची का नाम भरें</string>
+    <string name="create_new_readinglist_error">आपको पठन सूची बनाने का अधिकार नही है।</string>
+    <string name="delete_from_readinglist_error">आपको इस पठन सूची से पुस्तक हटाने का अधिकार नही है।</string>
+    <!-- Delete from reading list -->
+    <string name="remove_from_reading_list">हटाएं</string>
+    <string name="delete_fromreadinglist_progress_title">पुस्तक का शीर्षक पठन सूची से हटाया जा रहा है</string>
+    <string name="delete_fromreadinglist_success">शीर्षक हटा दिया गया है I</string>
+
+    <!-- margins -->
+    <string name="margins_small">छोटा</string>
+    <string name="margins_medium">मध्यम</string>
+    <string name="margins_large">बड़ा</string>
+</resources>

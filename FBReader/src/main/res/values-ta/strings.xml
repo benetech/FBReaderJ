@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Go Read</string>
+    <string name="book_info_activity">புத்தக தகவல்</string>
+
+	<string name="empty_string"></string>
+	<string name="search_hint">தேடல் கேள்வி நுழைய</string>
+
+    <!-- BookmarksActivity -->
+    <string name="bookmark_added">%1$s பக்கத்தில், புக்மார்க் சேர்க்கப்பட்டது</string>
+    <string name="bookmark_page">பக்கம்</string>
+
+	<!--  Bookshare_Webservice_login -->
+	<string name="fetch_book_data">இலவச புத்தகங்கள் தரவு பெறுவதில்</string>
+	<string name="authenticating">அங்கீகரிக்கும்</string>
+    <string name="login_dialog_login_button">உள்ளே செல்ல</string>
+    <string name="login_dialog_password_label">கடவுச்சொல்</string>
+    <string name="login_dialog_reset_button">மீட்டமை</string>
+    <string name="login_dialog_skip_login_button">உள்நுழைந்து இல்லாமல் தொடர்ந்து</string>
+    <string name="login_dialog_username_label">Bookshare மின்னஞ்சல் அல்லது பயனர் பெயர்</string>
+	<string name="login_error_non_blank_password">கடவுச்சொல்லை துறையில் காலியாக இருக்க முடியாது</string>
+	<string name="login_error_non_blank_password_and_username">பயனர் பெயர்/கடவுச்சொல்லை துறையில் காலியாக இருக்க முடியாது</string>
+	<string name="login_error_non_blank_username">பயனர் பெயர் காலியாக இருக்க முடியாது</string>
+	<string name="login_failed">உள்நுழைவு தோல்வியடைந்தது !</string>
+	<string name="login_network_error">பிணைய பிழை</string>
+    <string name="login_forgot_password">கடவுச்சொல்லை மறந்துவிட்டேன்</string>
+    <string name="login_signup">பதிவு!</string>
+
+
+    <!-- Bookshare_Book_Details -->
+    <string name="book_details_removefromreadinglist_title">புத்தக நீக்கு</string>
+    <string name="book_details_removefromreadinglist_message">நீங்கள் இந்த புத்தகத்தை நீக்க வேண்டுமா?</string>
+    <string name="book_details_removefromreadinglist_button_list">வாசிப்பு பட்டியலில் இருந்து நீக்க</string>
+    <string name="book_details_removefromreadinglist_button_both">பட்டியலில் மற்றும் சாதனத்தில் இருந்து நீக்க</string>
+    <string name="book_details_readinglist_button">வாசிப்பு பட்டியலில் சேர்க்க</string>
+    <string name="book_details_download_button">பதிவிறக்க (உரை மட்டும்)</string>
+     <string name="book_details_download_images"> படங்களை கொண்ட புத்தக பதிவிறக்கம்</string>
+    <string name="book_details_download_error">பதிவிறக்கம் தோல்வியடைந்தது! மீண்டும் பதிவிறக்க</string>
+    <string name="book_details_download_error_other_member">பதிவிறக்கம் தோல்வியடைந்தது! மற்றொரு உறுப்பினர் முயற்சி</string>
+    <string name="book_details_download_started">பதிவிறக்கம் தொடங்கியது</string>
+    <string name="book_details_download_success">புத்தகம் பதிவிறக்கம் செய்யப்பட்டுள்ளது! புத்தகம் படிக்க</string>
+    <string name="book_details_not_available">கிடைக்கவில்லை</string>
+    <string name="book_details_open_error">திறப்பு புத்தகத்தில் பிழை!</string>
+    <string name="bookshare_book_detail_publish_date">சேர்த்த தேதி:\u0020</string>
+    <string name="book_details_download_downloading">பதிவிறக்க புத்தகம்</string>
+
+    <!-- Bookshare_Books_Listing -->
+    <string name="fetching_books"> புத்தகங்கள் எடுக்க காத்திருக்கவும்</string>
+    <string name="search_complete_with_books">தேடல் நிறைவு. பட்டியல் புத்தகங்கள்</string>
+    <string name="search_complete_no_books">தேடல் நிறைவு.புத்தகங்கள் இல்லை</string>
+
+    <!-- Bookshare_Menu -->
+    <string name="logout_dialog_message">Bookshare அட்டவணை வெளியேறு. நீங்கள் தொடர விரும்புகிறீர்களா?</string>
+    <string name="search_dialog_title_title">புத்தக தலைப்பு மூலம் தேடல்</string>
+    <string name="search_dialog_label_title">புத்தக தலைப்பை உள்ளிட்டு ஆராயப்பட வேண்டும்</string>
+    <string name="search_dialog_example_title">உதாரணமாக மோபி டிக் அல்லது பாட்டர்</string>
+    <string name="search_dialog_description_title">தலைப்பு நிரப்ப</string>
+    <string name="search_dialog_title_author">ஆசிரியர் தேடல்</string>
+    <string name="search_dialog_label_author">ஆசிரியர் பெயரை உள்ளிடவும் ஆராயப்பட வேண்டும்</string>
+    <string name="search_dialog_example_author">உதாரணமாக மார்க் ட்வைன் அல்லது லூயிஸ்</string>
+    <string name="search_dialog_description_author">ஆசிரியர் பெயரை உள்ளிடவும்</string>
+    <string name="search_dialog_title_isbn">ஐஎஸ்பிஎன் தேடு</string>
+    <string name="search_dialog_label_isbn">10 அல்லது 13 இலக்க ஐஎஸ்பிஎன் நுழைய</string>
+    <string name="search_dialog_description_isbn">ஐஎஸ்பிஎன் நுழைய</string>
+    <string name="bks_menu_title_label">தலைப்பு தேடல்</string>
+    <string name="bks_menu_title_description">தலைப்பு மூலம் தேடல்</string>
+    <string name="bks_menu_author_label">ஆசிரியர் தேடல்</string>
+    <string name="bks_menu_author_description">ஆசிரியர் தேடல்</string>
+    <string name="bks_menu_isbn_label">ஐஎஸ்பிஎன் தேடு</string>
+    <string name="bks_menu_isbn_description">புத்தகத்தின் ஐஎஸ்பிஎன் மூலம் தேடல்</string>
+    <string name="bks_menu_latest_label">சமீபத்திய புத்தகங்கள்</string>
+    <string name="bks_menu_latest_description">அட்டவணை சமீபத்திய பட்டியலிட</string>
+    <string name="bks_menu_popular_label">பிரபலமான புத்தகங்களை</string>
+    <string name="bks_menu_popular_description">பிரபலமான புத்தகங்களை பட்டியலிட</string>
+    <string name="bks_menu_log_in">Bookshare உள்ளே செல்ல</string>
+    <string name="bks_menu_log_out">Bookshare வெளியேற்றுவோம்</string>
+    <string name="bks_menu_log_out_confirmation">வெளியேற்றப்படுவீர்கள்!</string>
+    <string name="bks_menu_no_internet">நீங்கள் முதல் இணைய இணைப்பு செயல்படுத்த வேண்டும்!</string>
+    <string name="empty_search_term_error">தேடல் கால காலியாக இருக்க முடியாது!</string>
+    <string name="accessible_alert_title">நீ சொல்வது உறுதியா ?</string>
+
+    <!-- Bookshare Twitter Handler -->
+    <string name="twitter_successful_post">ட்விட்டர் வலைதளத்தில்தான்</string>
+
+    <!-- Bug Report Activity -->
+    <string name="crash_report_sent">மன்னிக்கவும், ஒரு பிழை இருந்தது. ஆதரவுக்கு அறிவிக்கப்பட்டது.</string>
+
+    <!-- Cancel Activity -->
+    <string name="cancel_menu_title">நம்மை விட்டு செல்கிறாய்? கீழே தேர்வு ...</string>
+
+    <!-- FBReader -->
+    <string name="navigate_dialog_title">பக்கம் செல்லவும்</string>
+    <string name="navigate_dialog_label">பக்கம் எண் நுழை</string>
+    <string name="navigate_dialog_example">தற்போதைய %1$s பக்கம் %2$s என்ற %3$s. %4$s</string>
+    <string name="navigate_dialog_example_non_numeric">(எண்அ ல்லாத பக்கம் எண்கள் உள்ளன)</string>
+    <string name="page_navigated">பக்கம் %1$s</string>
+
+    <!-- AccessibleMainMenuActivity -->
+    <string name="menu_speak">எனக்கு படி</string>
+    <string name="menu_bookshare">Bookshare தேடு</string>
+    <string name="menu_toc">பொருளடக்கத்தை</string>
+    <string name="menu_bookmark">இங்கே பக்க குறி சேர்க்க</string>
+    <string name="main_menu">முதன்மை பட்டியல்</string>
+    <string name="menu_navigate">பக்கம் செல்லவும்</string>
+    <string name="menu_bookmarks">பக்க குறிகள்</string>
+    <string name="menu_search">புத்தகத்தில் தேடல்</string>
+    <string name="menu_book_info">புத்தக தகவல்</string>
+    <string name="menu_library">என்புத்தகங்கள்</string>
+    <string name="menu_my_books">என்புத்தகங்கள்(புதிய)</string>
+    <string name="menu_network_library">பிற பட்டியல்களில் இருந்து புத்தகங்கள் பெற</string>
+    <string name="menu_settings">அமைப்புகளை</string>
+    <string name="menu_help">உதவு</string>
+    <string name="menu_accessibility_settings">அணுகல்தன்மை அமைப்புகள்</string>
+    <string name="menu_tts_settings">பேச்சு அமைப்புகளை உரை</string>
+    <string name="menu_search_bar">தேடு</string>
+
+    <!-- LibraryActivity -->
+    <string name="library_search_title">Bookshare நூலகம்</string>
+    <string name="library_search_books_popup">பதிவிறக்க புத்தகங்கள் தேடுதல்?</string>
+    <string name="library_added_to_favorites">பிடித்தவையில் சேர்க்கப்பட்டது</string>
+    <string name="library_removed_from_favorites">பிடித்தவற்றிலிருந்து அகற்றப்பட்டது</string>
+
+    <!-- NetworkLibraryActivity -->
+    <string name="network_library_accessibility_warning">பிற பட்டியல்கள் பார்வை குறைபாடு உள்ளவர்கள் அணுக ஏதுவாக செய்யப்படவில்லை.</string>
+
+    <!-- SpeakActivity -->
+    <string name="play">ஆரம்பி/ இடைநிறுத்த</string>
+    <string name="next">அடுத்த பகுதி</string>
+    <string name="previous">முந்தைய பகுதி</string>
+    <string name="toc">பொருளடக்கத்தை</string>
+    <string name="on_press_play">ஆரம்பி/ இடைநிறுத்த</string>
+    <string name="on_press_pause">இடைநிறுத்த/ஆரம்பி</string>
+    <string name="speak_title_postfix">\u0020- ஆரம்ப பொத்தானை அழுத்தவும் அல்லது திரைமீது இரட்டை கிளிக் செய்யவும்</string>
+
+    <string name="initializing">ஆரம்பிக்கும்&#8230;</string>
+    <string name="failure">துவக்கும் தோல்வி</string>
+    <string name="speak_menu_item">எனக்கு படி</string>
+    <string name="no_tts_installed">உங்கள் சாதனத்தில் TTS இயந்திரம் இணைக்க முடியவில்லை.</string>
+    <string name="no_tts_language">TTS இயந்திரம் இயல்புநிலை உள்ளூர் குரல் காணவில்லை.</string>
+    <string name="initialization_error">புத்தகம் தரவு பெற முடியவில்லை</string>
+    <string name="language_is_not_set">புத்தக மொழி அமைக்கப்படவில்லை. புத்தகம் படிக்க %0 முயற்சிக்கவும்.</string>
+    <string name="no_data_for_language" formatted="false">உரை-பேச்சு தரவு %0 a நிறுவப்பட்ட இல்லை. புத்தகம் படிக்க முயற்சி %1.</string>
+
+    <!-- TOCActivity -->
+    <string name="subheading">\u0020(%1$d உபதலைப்புகள் உள்ளது)</string>
+    <string name="toc_view_subheadings">உபதலைப்புகளைக்கூட பார்வையிடவும்</string>
+    <string name="toc_close_subheadings">உபதலைப்புகள் மூடவும் </string>
+    <string name="toc_goto_heading">தலைப்பு செல்ல</string>
+    <string name="bks_menu_periodicals_label">செய்தித்தாள்கள் &amp; இதழ்கள்</string>
+    <string name="fetching_periodicals">வெளியீடுகள் பெறுகிறது. தயவு செய்து காத்திருக்கவும்.</string>
+    <string name="search_complete_with_periodicals">வெளியீடுகள் பட்டியல்.தேடல் நிறைவு. </string>
+    <string name="login_to_continue">இந்த வெளியீடு பதிவிறக்க தயவு செய்து உள்நுழையவும்.</string>
+    <string name="edition_details_download_success">வெளியீடு பதிவிறக்கம்! வெளியீடு படிக்க. </string>
+    <string name="warning_no_general_downloads_for_periodicals">எச்சரிக்கை! நீங்கள் இன்னும் உள்நுழைவு தொடங்கவில்லை செய்தித்தாள்கள் மற்றும் இதழ்கள்கி விருந்தினர்கள் பதிவிறக்க கிடைக்கவில்லை. நீங்கள் தொடர விரும்புகிறீர்களா?</string>
+    <string name="share_with_friends">நண்பர்களுடன் பகிருங்கள்!</string>
+    <string name="subscription_chk_box">இந்த வெளியிடுக்கு பதிவு செய்</string>
+    <string name="subscribe_chkbox_description">(தானாக சமீபத்திய வெளியீடு பதிவிறக்க)</string>
+
+    <string name="drawer_open">அலமாரியை மெனு திறக்க</string>
+    <string name="drawer_close">அலமாரியை மெனு மூட</string>
+    <string name="menu_item_add_to_favorites">பிடித்தவையில் சேர்</string>
+    <string name="menu_item_content_description_add_to_favorites">திறந்த புத்தகத்தை பிடித்தவையில் சேர்</string>
+    <string name="menu_item_delete_book">புத்தக நீக்கு</string>
+    <string name="menu_item_content_description_delete_book">தற்போதைய திறந்த புத்தகம் நீக்கு</string>
+    <string name="menu_item_sync_with_bookshare">Bookshare ஒத்திசை</string>
+
+    <!-- Navigation Drawer Strings -->
+    <string name="nav_draw_search_text">உரை தேடல்</string>
+    <string name="nav_draw_night">இரவு</string>
+    <string name="nav_draw_day">நாள்</string>
+    <string name="nav_draw_screen_orientation">திரை திசையமைப்பு</string>
+    <string name="nav_draw_book_info">புத்தக தகவல்</string>
+    <string name="nav_draw_add_to_favs">பிடித்தவையில் சேர்</string>
+    <string name="nav_draw_other_cats">மற்ற பட்டியல்கள்</string>
+
+
+    <string name="message_cannot_delete_guide">வழிகாட்டி நீக்க முடியவில்லை!</string>
+    <string name="message_confirm_remove_book">சாதனத்தில் இருந்து புத்தகம் நீக்க?</string>
+    <string name="message_bookmark_already_exists">புக்மார்க் ஏற்கனவே உள்ளது</string>
+
+    <string name="button_label_delete_book">நீக்கு</string>
+    <string name="button_label_cancel">ரத்துசெய்</string>
+    <string name="button_label_accept">ஏற்றுக்கொள்</string>
+    <string name="button_label_ok">சரி</string>
+    <string name="button_label_done_sync_bookshare">முடிந்தது</string>
+    <string name="title_sync_bookshare_progress_dialog">முன்னேற்றம் Bookshare ஒத்திசைவு ...</string>
+    <string name="title_sync_bookshare_complete_progress_dialog">Bookshare ஒத்திசைவு முடிந்தது</string>
+    <string name="message_sync_bookshare_progress_dialog">வாசிப்புப் பட்டியலை உருவாக்குதல். இயல்புநிலை வாசிப்பு பட்டியலில் \"Go Read\" என்று அழைக்கப்படுகிறது மற்றும் உங்கள் சாதனத்தில் ஏற்றப்படும் புத்தகங்கள் கொண்டிருக்கிறது. ஒரு வித்தியாசமான வாசிப்பு பட்டியலில் தேர்வு, என் புத்தகங்களில் பட்டியல்கள் தாவலை கிளிக் செய்யவும். \ n \ n ஒத்திசைவு மீண்டும் Bookshare கொண்டு, மேலும் செயல்கள் (⋮) மெனுவிலிருந்து Bookshare ஒத்திசைவு தேர்ந்தெடுக்கவும்.</string>
+    <string name="message_sync_bookshare_reading_lists_complete_progress_dialog">வாசிப்பு பட்டியல்களில் உருவாக்கப்பட்ட. இயல்புநிலை வாசிப்பு பட்டியலில் \"Go Read\" என்று அழைக்கப்படுகிறது மற்றும் உங்கள் சாதனத்தில் ஏற்றப்படும் புத்தகங்கள் கொண்டிருக்கிறது. ஒரு வித்தியாசமான வாசிப்பு பட்டியலில் தேர்வு, என் புத்தகங்களில் பட்டியல்கள் தாவலை கிளிக் செய்யவும். \n\nBookshare கொண்டு மீண்டும் ஒத்திசைக்க, மேலும் செயல்கள் (⋮) மெனுவிலிருந்து Bookshare ஒத்திசைவு தேர்ந்தெடுக்கவும்.</string>
+    <string name="message_sync_bookshare_reading_lists_short_progress_dialog">உங்கள் Bookshare கணக்கில் இருந்து புத்தகங்கள் மற்றும் வாசிப்பு பட்டியல்கள் புதுப்பிக்கிறது.</string>
+    <string name="my_books_tab_go_read">Go Read</string>
+    <string name="my_books_tab_recent">அண்மையில்</string>
+    <string name="my_books_tab_favorites">பிடித்த</string>
+    <string name="my_books_tab_reading_lists">பட்டியல்கள்</string>
+
+    <string name="tab_label_section">பகுதி</string>
+    <string name="tab_label_page">பக்கம்</string>
+    <string name="tab_label_bookmark">புக்மார்க்</string>
+
+    <string name="content_description_copy">தேர்ந்தெடுக்கப்பட்ட உரையை நகலெடுத்து</string>
+    <string name="content_description_share">பங்கு தேர்ந்தெடுக்கப்பட்ட உரை</string>
+    <string name="content_description_translate">தேர்வு செய்யப்பட்ட உரை மொழிபெயர்</string>
+    <string name="content_description_bookmark">புக்மார்க் தேர்ந்தெடுக்கப்பட்ட உரை</string>
+    <string name="content_description_clear">தேர்வை அகற்ற</string>
+    <string name="content_description_find_previous">முந்தைய கண்டுபிடிக்க</string>
+    <string name="content_description_clear_search_results">தெளிவான_தேடல்மு_டிவுகளை</string>
+    <string name="content_description_find_next">அடுத்ததை தேடு</string>
+    <string name="content_description_play">தொடர்</string>
+    <string name="content_description_pause">இடைநிறுத்தப்பட்டு</string>
+    <string name="navigation_drawer_title">Bookshare</string>
+    <string name="content_description_navigation_drawer_title">வழிசெலுத்தல் அலமாரியை</string>
+    <string name="dialog_title_screen_orientation">திரை திசையமைப்பு</string>
+    <string name="menu_item_settings">அமைப்புகளை</string>
+    <string name="menu_item_help">உதவு</string>
+    <string name="menu_item_about_goread">Go Read பற்றி</string>
+    <string name="menu_item_login_bookshare">Bookshare உள்ளே செல்ல</string>
+    <string name="menu_item_logout_bookshare">Bookshare வெளியேற்றுவோம்</string>
+
+    <string name="sort_by_title">தலைப்பு வாரியாக</string>
+    <string name="sort_by_author">ஆசிரியர் வாரியாக</string>
+    <string name="sort_by_date">தேதி வாரியாக</string>
+    <string name="sort_by">வகைப்படுத்து</string>
+
+    <string name="signout_button_title_pattern">வெளியேறு %s</string>
+
+    <string name="book_unavailable_for_download_warning">இந்த புத்தகம் தற்சமயம் உங்கள் கணக்கில் பதிவிறக்க கிடைக்கவில்லை. நீங்கள் Bookshare இல் உள்நுழைந்துள்ளீர்கள்?</string>
+    <string name="screen_brightness_adjustment">திரை ஒளிர்வு சரிசெய்தல்</string>
+
+    <string name="added_to_readinglist_success">பட்டியலில் சேர்க்க</string>
+    <string name="added_to_readinglist_fail_title">பட்டியலிட தலைப்பு சேர்க்க முடியவில்லை</string>
+    <string name="added_to_readinglist_fail_message">இந்த வாசிப்புப் பட்டியலில் புத்தகங்கள் சேர்க்க அங்கீகாரம் இல்லை.</string>
+    <string name="create_new_readinglist_title">புதிய வாசிப்பு பட்டியலை உருவாக்க</string>
+    <string name="create_new_readinglist_message">வாசிப்பு பட்டியலில் பெயரை உள்ளிடவும்</string>
+    <string name="create_new_readinglist_error">வாசிப்பு பட்டியலில் உருவாக்க உங்களுக்கு அதிகாரம் இல்லை.</string>
+    <string name="delete_from_readinglist_error">இந்த வாசிப்பு பட்டியல் இருந்து புத்தகங்கள் நீக்க அதிகாரம் இல்லை.</string>
+    <!-- Delete from reading list -->
+    <string name="remove_from_reading_list">நீக்க</string>
+    <string name="delete_fromreadinglist_progress_title">வாசிப்பு பட்டியலில் இருந்து தலைப்பு நீக்குதல்</string>
+    <string name="delete_fromreadinglist_success">தலைப்பு நீக்கப்பட்டது.</string>
+
+    <!-- margins -->
+    <string name="margins_small">சிறிய</string>
+    <string name="margins_medium">நடுத்தர</string>
+    <string name="margins_large">பெரிய</string>
+</resources>
