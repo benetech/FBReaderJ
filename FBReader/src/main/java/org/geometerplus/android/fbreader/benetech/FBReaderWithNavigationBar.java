@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
@@ -305,6 +306,14 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         } catch (Exception e) {
             Log.e("GoRead", "Error on resuming of speak activity", e);
         }
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                FBReaderApp.Instance().getViewWidget().repaint();
+                toggleDisplayBars();
+            }
+        }, 800);
     }
 
     private void setCurrentLocation() {
