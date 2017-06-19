@@ -10,7 +10,7 @@ android {
     project.ext.set("versionMinor", "3")
     project.ext.set("versionRevision", "10")
     project.ext.set("internalReleaseDate", getDate())
-    project.ext.set("versionCode","93")
+    project.ext.set("versionCode","94")
     
     //NOTE: Changing the app name here will cause Jenkins to fail copying to anitfactory.
     //See the build Jenkins -> Configure -> Published Artifacts field
