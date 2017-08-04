@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
@@ -38,6 +40,7 @@ import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.text.view.ZLTextRegion;
 import org.geometerplus.zlibrary.text.view.ZLTextWordRegionSoul;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
+import org.geometerplus.zlibrary.ui.android.view.ZLAndroidWidget;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -272,7 +275,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         super.onResume();
         try {
             Locale bookLocale = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
+            if (android.os.Build.VERSION.SDK_INT >=
+                    android.os.Build.VERSION_CODES.LOLLIPOP
                     && myApi.isModelReady()) {
                 // only for gingerbread and newer versions
                 bookLocale = Locale.forLanguageTag(myApi.getBookLanguage());
@@ -305,6 +309,19 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         } catch (Exception e) {
             Log.e("GoRead", "Error on resuming of speak activity", e);
         }
+
+        postRepaint();
+    }
+
+    private void postRepaint() {
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                        FBReaderApp.Instance().getViewWidget().repaint();
+                        toggleDisplayBars();
+                    }
+            }, 800);
     }
 
     private void setCurrentLocation() {
