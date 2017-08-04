@@ -232,7 +232,7 @@ public class MyBooksActivity extends AppCompatActivity {
                     }
                 }
                 else
-                    Log.e(this.getClass().getSimpleName(), "Book file exists but could not create Book object from it");
+                    Log.e(this.getClass().getSimpleName(), "Book file exists but could not create Book object from it : "  +bookFile);
             }
 
         }
