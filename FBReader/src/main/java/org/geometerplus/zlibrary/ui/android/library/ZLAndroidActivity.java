@@ -144,6 +144,7 @@ public abstract class ZLAndroidActivity extends ZLAndroidActivityWithNavigationD
 	@Override
 	public void onResume() {
 		super.onResume();
+		getLibrary().setActivity(this);
 		switchWakeLock(
 			getLibrary().BatteryLevelToTurnScreenOffOption.getValue() <
 			ZLApplication.Instance().getBatteryLevel()
