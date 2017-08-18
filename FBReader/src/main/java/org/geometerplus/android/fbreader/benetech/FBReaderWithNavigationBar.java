@@ -302,11 +302,13 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             if (bookLocale == null)
                 return;
 
-            if (myTTS != null) {
-                if(myTTS.isLanguageAvailable(bookLocale) == TextToSpeech.LANG_AVAILABLE) {
-                    myTTS.setLanguage(bookLocale);
-                }
+            if (myTTS == null)
+                return;
+
+            if(myTTS.isLanguageAvailable(bookLocale) == TextToSpeech.LANG_AVAILABLE) {
+                myTTS.setLanguage(bookLocale);
             }
+
         } catch (Exception e) {
             throw new Exception("failed fetching locale", e);
         }
