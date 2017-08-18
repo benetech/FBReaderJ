@@ -315,9 +315,16 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private Locale getBookLocale() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && myApi.isModelReady()) {
+        String bookLanguage = myApi.getBookLanguage();
+        if (bookLanguage == null)
+            return null;
+
+        if (!myApi.isModelReady())
+            return null;
+        
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             // only for gingerbread and newer versions
-            return Locale.forLanguageTag(myApi.getBookLanguage());
+            return Locale.forLanguageTag(bookLanguage);
         }
 
         return null;
