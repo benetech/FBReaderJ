@@ -322,15 +322,14 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         if (!myApi.isModelReady())
             return null;
 
-        if (isAndroidVersionLollipopOrNewer()) {
-            return Locale.forLanguageTag(bookLanguage);
-        }
+        if (isAndroidVersionOlderThanLollipop())
+            return null;
 
-        return null;
+        return Locale.forLanguageTag(bookLanguage);
     }
 
-    private boolean isAndroidVersionLollipopOrNewer() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP;
+    private boolean isAndroidVersionOlderThanLollipop() {
+        return android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP;
     }
 
     private void postRepaint() {
