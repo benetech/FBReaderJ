@@ -296,7 +296,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         postRepaint();
     }
 
-    private void saftelySetTtsToBookLocale() {
+    private void saftelySetTtsToBookLocale() throws Exception {
         try {
             Locale bookLocale = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && myApi.isModelReady()) {
@@ -309,7 +309,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 }
             }
         } catch (Exception e) {
-            Log.e("FBReaderWNavBar", "failed fetching locale", e);
+            throw new Exception("failed fetching locale", e);
         }
     }
 
