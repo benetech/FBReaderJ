@@ -273,22 +273,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     public void onResume() {
         super.onResume();
         try {
-            Locale bookLocale = null;
-            if (android.os.Build.VERSION.SDK_INT >=
-                    android.os.Build.VERSION_CODES.LOLLIPOP
-                    && myApi.isModelReady()) {
-                // only for gingerbread and newer versions
-                bookLocale = Locale.forLanguageTag(myApi.getBookLanguage());
-            }
-            if (myTTS != null){
-                try{
-                    if(myTTS.isLanguageAvailable(bookLocale) == TextToSpeech.LANG_AVAILABLE) {
-                        myTTS.setLanguage(bookLocale);
-                    }
-                } catch (Exception e){
-                    Log.e("FBReaderWNavBar", "failed fetching locale", e);
-                }
-            }
+            saftelySetTtsToBookLocale();
             findViewById(R.id.navigation_bar_play).requestFocus();
             if(accessibilityManager.isEnabled()){
                 enablePlayButton();
@@ -309,6 +294,25 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
 
         postRepaint();
+    }
+
+    private void saftelySetTtsToBookLocale() {
+        Locale bookLocale = null;
+        if (android.os.Build.VERSION.SDK_INT >=
+                android.os.Build.VERSION_CODES.LOLLIPOP
+                && myApi.isModelReady()) {
+            // only for gingerbread and newer versions
+            bookLocale = Locale.forLanguageTag(myApi.getBookLanguage());
+        }
+        if (myTTS != null){
+            try{
+                if(myTTS.isLanguageAvailable(bookLocale) == TextToSpeech.LANG_AVAILABLE) {
+                    myTTS.setLanguage(bookLocale);
+                }
+            } catch (Exception e){
+                Log.e("FBReaderWNavBar", "failed fetching locale", e);
+            }
+        }
     }
 
     private void postRepaint() {
