@@ -297,21 +297,19 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private void saftelySetTtsToBookLocale() {
-        Locale bookLocale = null;
-        if (android.os.Build.VERSION.SDK_INT >=
-                android.os.Build.VERSION_CODES.LOLLIPOP
-                && myApi.isModelReady()) {
-            // only for gingerbread and newer versions
-            bookLocale = Locale.forLanguageTag(myApi.getBookLanguage());
-        }
-        if (myTTS != null){
-            try{
+        try {
+            Locale bookLocale = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && myApi.isModelReady()) {
+                // only for gingerbread and newer versions
+                bookLocale = Locale.forLanguageTag(myApi.getBookLanguage());
+            }
+            if (myTTS != null) {
                 if(myTTS.isLanguageAvailable(bookLocale) == TextToSpeech.LANG_AVAILABLE) {
                     myTTS.setLanguage(bookLocale);
                 }
-            } catch (Exception e){
-                Log.e("FBReaderWNavBar", "failed fetching locale", e);
             }
+        } catch (Exception e) {
+            Log.e("FBReaderWNavBar", "failed fetching locale", e);
         }
     }
 
