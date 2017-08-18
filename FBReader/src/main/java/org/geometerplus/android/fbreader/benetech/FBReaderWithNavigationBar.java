@@ -303,7 +303,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 // only for gingerbread and newer versions
                 bookLocale = Locale.forLanguageTag(myApi.getBookLanguage());
             }
-            if (myTTS != null) {
+            if (myTTS != null && bookLocale != null) {
                 if(myTTS.isLanguageAvailable(bookLocale) == TextToSpeech.LANG_AVAILABLE) {
                     myTTS.setLanguage(bookLocale);
                 }
