@@ -298,11 +298,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private void saftelySetTtsToBookLocale() throws Exception {
         try {
-            Locale bookLocale = null;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && myApi.isModelReady()) {
-                // only for gingerbread and newer versions
-                bookLocale = Locale.forLanguageTag(myApi.getBookLanguage());
-            }
+            Locale bookLocale = getBookLocale(bookLocale);
             if (myTTS != null && bookLocale != null) {
                 if(myTTS.isLanguageAvailable(bookLocale) == TextToSpeech.LANG_AVAILABLE) {
                     myTTS.setLanguage(bookLocale);
@@ -311,6 +307,14 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         } catch (Exception e) {
             throw new Exception("failed fetching locale", e);
         }
+    }
+
+    private Locale getBookLocale(Locale bookLocale) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP && myApi.isModelReady()) {
+            // only for gingerbread and newer versions
+            bookLocale = Locale.forLanguageTag(myApi.getBookLanguage());
+        }
+        return bookLocale;
     }
 
     private void postRepaint() {
