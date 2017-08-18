@@ -40,7 +40,6 @@ import org.geometerplus.zlibrary.core.application.ZLApplication;
 import org.geometerplus.zlibrary.text.view.ZLTextRegion;
 import org.geometerplus.zlibrary.text.view.ZLTextWordRegionSoul;
 import org.geometerplus.zlibrary.ui.android.library.ZLAndroidApplication;
-import org.geometerplus.zlibrary.ui.android.view.ZLAndroidWidget;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -290,7 +289,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                     Log.e("FBReaderWNavBar", "failed fetching locale", e);
                 }
             }
-
             findViewById(R.id.navigation_bar_play).requestFocus();
             if(accessibilityManager.isEnabled()){
                 enablePlayButton();
@@ -319,7 +317,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 @Override
                 public void run() {
                         FBReaderApp.Instance().getViewWidget().repaint();
-                        toggleDisplayBars();
                     }
             }, 800);
     }
@@ -700,7 +697,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         if(getSupportActionBar() != null){
             View playBar = findViewById(R.id.navigation_bar_id);
             if(playBar != null){
-                playBar.setVisibility(getSupportActionBar().isShowing()?View.GONE:View.VISIBLE);
+                playBar.setVisibility(getSupportActionBar().isShowing() ? View.GONE : View.VISIBLE);
             }
             if(getSupportActionBar().isShowing()){
                 getSupportActionBar().hide();
@@ -745,6 +742,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             myApi.setPageStart(stPos);
 
         myApi.highlightArea(stPos, edPos);
+        postRepaint();
     }
 
     private void enablePlayButton() {
