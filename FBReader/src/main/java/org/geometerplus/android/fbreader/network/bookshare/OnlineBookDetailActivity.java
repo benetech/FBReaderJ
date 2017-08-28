@@ -809,7 +809,7 @@ public class OnlineBookDetailActivity extends BookDetailActivity implements OnCl
             return;
         }
 
-        isDownloadable = (!availableToDownloadValue.equals("0"));
+        isDownloadable = (availableToDownloadValue.equals("1"));
     }
 
     private void setImagesAvailable(final Bookshare_Metadata_Bean bean) {
