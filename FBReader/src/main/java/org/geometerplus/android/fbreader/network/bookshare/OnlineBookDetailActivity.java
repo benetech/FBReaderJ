@@ -154,6 +154,7 @@ public class OnlineBookDetailActivity extends BookDetailActivity implements OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.bookshare_blank_page);
         Log.i(LOG_TAG, developerKey);
         resources = getApplicationContext().getResources();
@@ -171,8 +172,7 @@ public class OnlineBookDetailActivity extends BookDetailActivity implements OnCl
         }
         // Obtain the application wide SharedPreferences object and store the
         // login information
-        final SharedPreferences login_preference = PreferenceManager
-                .getDefaultSharedPreferences(getApplicationContext());
+        final SharedPreferences login_preference = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         isOM = login_preference.getBoolean("isOM", false);
         isIM = login_preference.getBoolean("isIM", false);
         isLoggedIn = login_preference.getString("username", null) != null;
@@ -802,11 +802,14 @@ public class OnlineBookDetailActivity extends BookDetailActivity implements OnCl
         super.onConfigurationChanged(newConfig);
     }
 
-    // Determine whether the book is downloadable.
     private void setIsDownloadable(final Bookshare_Metadata_Bean bean) {
-        // isDownloadable = (bean.getDownloadFormats() != null && bean
-        // .getDownloadFormats().length > 0);
-        isDownloadable = (!bean.getAvailableToDownload().equals("0"));
+        String availableToDownloadValue = bean.getAvailableToDownload();
+        if (availableToDownloadValue == null) {
+            isDownloadable = false;
+            return;
+        }
+
+        isDownloadable = (!availableToDownloadValue.equals("0"));
     }
 
     private void setImagesAvailable(final Bookshare_Metadata_Bean bean) {
