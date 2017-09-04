@@ -275,6 +275,7 @@ public class PreferenceActivity extends ZLPreferenceActivity {
         final Screen moreSettingsScreen = createPreferenceScreen("moresettings");
         myScreen.removePreference(dictionaryScreen.myScreen);
         myScreen.removePreference(imagesScreen.myScreen);
+        moreSettingsScreen.addOption(fbReader.NavigateBySentenceOption, "navigateBySentence");
         moreSettingsScreen.addPreference(dictionaryScreen.myScreen);
         moreSettingsScreen.addPreference(imagesScreen.myScreen);
     }

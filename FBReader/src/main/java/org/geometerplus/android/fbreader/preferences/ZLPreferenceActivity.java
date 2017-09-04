@@ -27,7 +27,7 @@ import android.preference.PreferenceScreen;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 
 import org.benetech.android.R;
 import org.geometerplus.zlibrary.core.options.ZLBooleanOption;
@@ -166,7 +166,7 @@ abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 		if(dialog != null) {
 			Toolbar bar;
 
-			LinearLayout root = (LinearLayout) dialog.findViewById(android.R.id.list).getParent();
+			ViewGroup root = (ViewGroup) dialog.findViewById(android.R.id.list).getParent();
 			bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.sub_settings, root, false);
 			root.addView(bar, 0); // insert at top
 

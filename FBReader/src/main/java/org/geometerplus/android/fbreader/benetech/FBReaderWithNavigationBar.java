@@ -45,15 +45,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements TextToSpeech.OnInitListener, TextToSpeech.OnUtteranceCompletedListener, SimpleGestureFilter.SimpleGestureListener, AsyncResponse<Boolean>  {
 
     private static final String LOG_TAG ="FBRsWithNavigationBar";
     private static final String ACTIVITY_RESUMING_STATE ="ACTIVITY_RESUMING_STATE";
+    private static final int PARAGRAPH_ID_SHIFT = 16;
     private ApiServerImplementation myApi;
     private TextToSpeech myTTS;
     private int myParagraphIndex = -1;
@@ -87,16 +90,18 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private TtsSentenceExtractor.SentenceIndex mySentences[] = new TtsSentenceExtractor.SentenceIndex[0];
     private static int myCurrentSentence = 0;
-    private static final String UTTERANCE_ID = "GoReadTTS";
-    private static HashMap<String, String> myCallbackMap;
     private volatile int myInitializationStatus;
     private final static int TTS_INITIALIZED = 2;
     private final static int FULLY_INITIALIZED =  TTS_INITIALIZED;
     private volatile PowerManager.WakeLock myWakeLock;
     private static final String IS_FIRST_TIME_RUNNING_PREFERENCE_TAG = "first_time_running";
 
+    private final Set<String> utterancesInProgress = new HashSet<>();
+    private final Handler handler = new Handler(Looper.getMainLooper());
+
     private boolean activityResuming = false; // this means that the activity is resuming from being in background or orientation change and not created fresh
     private boolean isFirstTimeRunningApp;
+    private static int idCounter = 0;
     static {
         initCompatibility();
     }
@@ -108,6 +113,27 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         } catch (NoSuchMethodException nsme) {
             /* failure, must be older device */
         }
+    }
+
+    private static String makeStringIdForParagraphAndSentence(
+            int paragraphIndex, int sentenceNumber) {
+        idCounter++;
+        long longId = (((long) idCounter) << 32)
+                | (paragraphIndex << PARAGRAPH_ID_SHIFT) | sentenceNumber;
+
+        return Long.toString(longId);
+    }
+
+    private static int sentenceNumberFromId(String stringId) {
+        long longId = Long.parseLong(stringId);
+        int intId = (int) longId;
+        return intId & ((1 << PARAGRAPH_ID_SHIFT) - 1);
+    }
+
+    private static int paragraphNumberFromId(String stringId) {
+        long longId = Long.parseLong(stringId);
+        int intId = (int) longId;
+        return intId >> PARAGRAPH_ID_SHIFT;
     }
 
     @Override
@@ -142,7 +168,11 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         setListener(R.id.navigation_bar_skip_previous, new View.OnClickListener() {
             public void onClick(View v) {
                 ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_PREV);
-                goBackward();
+                if (fbReader.NavigateBySentenceOption.getValue()) {
+                    goBackwardOneSentence();
+                } else {
+                    goBackwardOneParagraph();
+                }
             }
         });
 
@@ -158,7 +188,11 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         setListener(R.id.navigation_bar_skip_next, new View.OnClickListener() {
             public void onClick(View v) {
                 ((ZLAndroidApplication) getApplication()).trackGoogleAnalyticsEvent(Analytics.EVENT_CATEGORY_UI, Analytics.EVENT_ACTION_BUTTON, Analytics.EVENT_LABEL_NEXT);
-                goForward();
+                if (fbReader.NavigateBySentenceOption.getValue()) {
+                    goForwardOneSentence();
+                } else {
+                    goForwardOneParagraph();
+                }
             }
         });
 
@@ -173,10 +207,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
         setActive(false);
 
-        if (myCallbackMap == null) {
-            myCallbackMap = new HashMap<String, String>();
-            myCallbackMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, UTTERANCE_ID);
-        }
         myApi = new ApiServerImplementation();
         try {
             startActivityForResult(new Intent(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA), CHECK_TTS_INSTALLED);
@@ -285,7 +315,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
             if (isPaused() && !screenLockEventOccurred) {
                 playEarcon(START_READING_EARCON);
-                //speakParagraph(getNextParagraph());
             } else {
                 screenLockEventOccurred = false;
             }
@@ -333,7 +362,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private void postRepaint() {
-        Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -496,6 +524,12 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     private void highlightParagraph()  {
         if (0 <= myParagraphIndex && myParagraphIndex < myParagraphsNumber) {
+            TextPosition paragraphStart = new TextPosition(myParagraphIndex, 0, 0);
+            TextPosition paragraphEnd = new TextPosition(myParagraphIndex, Integer.MAX_VALUE, 0);
+            if (paragraphStart.compareTo(myApi.getPageStart()) < 0
+                    || paragraphEnd.compareTo(myApi.getPageEnd()) > 0) {
+                myApi.setPageStart(paragraphStart);
+            }
             myApi.highlightArea(
                     new TextPosition(myParagraphIndex, 0, 0),
                     new TextPosition(myParagraphIndex, Integer.MAX_VALUE, 0)
@@ -509,6 +543,8 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         setIsPaused();
         setActive(false);
         enablePlayButton();
+        // Prevent us reacting to callback from speech we are canceling
+        utterancesInProgress.clear();
         if (myTTS != null) {
             myTTS.stop();
         }
@@ -538,8 +574,10 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
     }
 
     private void speakString(String text, final int sentenceNumber) {
-        HashMap<String, String> callbackMap = new HashMap<String, String>();
-        callbackMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, Integer.toString(sentenceNumber));
+        String utteranceId = makeStringIdForParagraphAndSentence(myParagraphIndex, sentenceNumber);
+        HashMap<String, String> callbackMap = new HashMap<>();
+        callbackMap.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, utteranceId);
+        utterancesInProgress.add(utteranceId);
         myTTS.speak(text, TextToSpeech.QUEUE_ADD, callbackMap);
     }
 
@@ -567,7 +605,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         final FBReaderApp fbReader = (FBReaderApp)FBReaderApp.Instance();
         ZLTextRegion region = fbReader.getTextView().getDoubleTapSelectedRegion();
 
-        boolean shouldHighlightSentence = false;
+        boolean shouldHighlightSentence = fbReader.NavigateBySentenceOption.getValue();
         if(region == null && fbReader.getTextView().didScroll()){
             region = fbReader.getTextView().getTopOfPageRegion();
             shouldHighlightSentence = true;
@@ -610,7 +648,6 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
                 }
                 myCurrentSentence = currentSentence;
             }
-            waitForTextPosition();
             if(shouldHighlightSentence){
                 highlightSentence(myCurrentSentence);
             }
@@ -651,7 +688,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         int sentenceNumber = 0;
         int numWordIndices = sentenceList.size();
 
-        if (isPaused()) {
+        if (isPaused() || fbReader.NavigateBySentenceOption.getValue()) {
             enablePauseButton();
             setIsPlaying();
             if (myCurrentSentence > 0 && numWordIndices > myCurrentSentence) {
@@ -678,16 +715,32 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
 
     @Override
     public void onUtteranceCompleted(String uttId) {
-        String lastSentenceID = Integer.toString(lastSentence);
-        if (isActive() && uttId.equals(lastSentenceID)) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                onUtteranceCompletedUiThread(uttId);
+            }
+        });
+    }
+
+    private void onUtteranceCompletedUiThread(String uttId) {
+        if (!utterancesInProgress.contains(uttId)) {
+            return;
+        }
+        utterancesInProgress.remove(uttId);
+        int sentenceNumber = sentenceNumberFromId(uttId);
+        if (isActive() && (sentenceNumber == lastSentence)) {
             ++myParagraphIndex;
-            speakParagraph(getNextParagraph());
+            myCurrentSentence = 0;
+            String text = getNextParagraph();
+            speakParagraph(text);
             if (myParagraphIndex >= myParagraphsNumber) {
                 stopTalking();
             }
         } else {
-            myCurrentSentence = Integer.parseInt(uttId);
+            myCurrentSentence = sentenceNumber;
             if (isActive()) {
+                // The next sentence is already scheduled. Highlight it.
                 int listSize = mySentences.length;
                 if (listSize > 1 && myCurrentSentence < listSize) {
                     highlightSentence(myCurrentSentence);
@@ -746,17 +799,24 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         setIsPaused();
     }
 
-    private void highlightSentence(int myCurrentSentence) {
-        if (myCurrentSentence >= mySentences.length) {
+    static boolean init = false;
+    static int lastpp = 0;
+    static int lastsentence = 0;
+    private void highlightSentence(int sentenceIndexInCurrentParagraph) {
+        init = true;
+        lastpp = myParagraphIndex;
+        lastsentence = sentenceIndexInCurrentParagraph;
+        if (sentenceIndexInCurrentParagraph >= mySentences.length) {
             return;
         }
-        int endEI = myCurrentSentence < mySentences.length-1 ? mySentences[myCurrentSentence+1].i-1: Integer.MAX_VALUE;
+        int endEI = (sentenceIndexInCurrentParagraph < mySentences.length - 1)
+                ? mySentences[sentenceIndexInCurrentParagraph+1].i - 1 : Integer.MAX_VALUE;
 
         TextPosition stPos;
-        if (myCurrentSentence == 0)
+        if (sentenceIndexInCurrentParagraph == 0)
             stPos = new TextPosition(myParagraphIndex, 0, 0);
         else
-            stPos = new TextPosition(myParagraphIndex, mySentences[myCurrentSentence].i, 0);
+            stPos = new TextPosition(myParagraphIndex, mySentences[sentenceIndexInCurrentParagraph].i, 0);
 
         TextPosition edPos = new TextPosition(myParagraphIndex, endEI, 0);
         if (stPos.compareTo(myApi.getPageStart()) < 0 || edPos.compareTo(myApi.getPageEnd()) > 0)
@@ -798,12 +858,13 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         return R.drawable.ic_pause_white_24dp;
     }
 
-    private void goForward() {
+    private void goForwardOneParagraph() {
         boolean wasPlaying = isPlaying();
         stopTalking();
         playEarcon(FORWARD_EARCON);
         if (myParagraphIndex < myParagraphsNumber) {
             myParagraphIndex++;
+            myCurrentSentence = 0;
             final String nextParagraph = getNextParagraph();
             if (wasPlaying) {
                 speakParagraph(nextParagraph);
@@ -811,15 +872,57 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
         }
     }
 
-    private void goBackward() {
+    private void goForwardOneSentence() {
+        final boolean wasPlaying = isPlaying();
+        stopTalking();
+        playEarcon(FORWARD_EARCON);
+        final int nextSentence = myCurrentSentence + 1;
+        final String nextParagraph;
+        if (nextSentence < mySentences.length) {
+            nextParagraph = getNextParagraph();
+            myCurrentSentence = nextSentence;
+        } else {
+            myParagraphIndex++;
+            nextParagraph = getNextParagraph();
+            myCurrentSentence = 0;
+        }
+        if (wasPlaying) {
+            speakParagraph(nextParagraph);
+        }
+        highlightSentence(myCurrentSentence);
+    }
+
+    private void goBackwardOneParagraph() {
         boolean wasPlaying = isPlaying();
         stopTalking();
         playEarcon(BACK_EARCON);
         gotoPreviousParagraph();
         final String nextParagraph = getNextParagraph();
+        myCurrentSentence = 0;
+        if (wasPlaying) {
+            speakParagraph(nextParagraph);
+        } else {
+            highlightSentence(myCurrentSentence);
+        }
+    }
+
+    private void goBackwardOneSentence() {
+        boolean wasPlaying = isPlaying();
+        stopTalking();
+        playEarcon(BACK_EARCON);
+        final String nextParagraph;
+        if (myCurrentSentence == 0) {
+            gotoPreviousParagraph();
+            nextParagraph = getNextParagraph();
+            myCurrentSentence = mySentences.length - 1;
+        } else {
+            nextParagraph = getNextParagraph();
+            myCurrentSentence--;
+        }
         if (wasPlaying) {
             speakParagraph(nextParagraph);
         }
+        highlightSentence(myCurrentSentence);
     }
 
     private void showMainMenu() {
@@ -890,6 +993,7 @@ public class FBReaderWithNavigationBar extends FBReaderWithPinchZoom implements 
             }
             finish();
         }
+
         return super.onKeyDown(keyCode, event);
     }
 

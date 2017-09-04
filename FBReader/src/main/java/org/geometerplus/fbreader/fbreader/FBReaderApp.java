@@ -113,6 +113,9 @@ public final class FBReaderApp extends ZLApplication {
 	public final ZLBooleanOption ShowPositionsInCancelMenuOption =
 		new ZLBooleanOption("CancelMenu", "positions", true);
 
+	public final ZLBooleanOption NavigateBySentenceOption =
+			new ZLBooleanOption("Options", "NavigateBySentence", false);
+
 	private final ZLKeyBindings myBindings = new ZLKeyBindings("Keys");
 
 	public final FBView BookTextView;
