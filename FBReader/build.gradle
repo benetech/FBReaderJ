@@ -28,6 +28,7 @@ android {
 
         ndk {
             moduleName "DeflatingDecompressor-v2"
+            abiFilters "armeabi", "armeabi-v7a", "x86"
         }
 
         signingConfigs {
@@ -50,6 +51,15 @@ android {
             }
         }
 
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include "armeabi", 'armeabi-v7a', 'x86'
+            universalApk true
+        }
     }
 
     def apkFileName = project.ext.get("appName") + "-" + "${version}"
