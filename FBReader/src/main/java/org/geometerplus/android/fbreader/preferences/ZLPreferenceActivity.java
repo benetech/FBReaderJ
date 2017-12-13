@@ -28,7 +28,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import org.benetech.android.R;
 import org.geometerplus.zlibrary.core.options.ZLBooleanOption;
@@ -169,8 +168,7 @@ abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 
 			ViewGroup root = (ViewGroup) dialog.findViewById(android.R.id.list).getParent();
 			bar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.sub_settings, root, false);
-			root.addView(bar, 0); // insert at top
-
+			root.addView(bar, getInsertPositionWithAndroidOrepBehaviorChange(root));
 			bar.setTitle(preferenceScreen.getTitle());
 
 			bar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -182,5 +180,13 @@ abstract class ZLPreferenceActivity extends SettingsPreferencesActivity {
 		}
 	}
 
+	private int getInsertPositionWithAndroidOrepBehaviorChange(ViewGroup root) {
+		if (root.getChildCount() == 1) {
+			final int INSERT_USING_DEFAULT_BEHAVIOR = -1;
+			return INSERT_USING_DEFAULT_BEHAVIOR;
+		}
 
+		final int INSERT_AT_TOP_POSITION = 0;
+		return INSERT_AT_TOP_POSITION;
+	}
 }
