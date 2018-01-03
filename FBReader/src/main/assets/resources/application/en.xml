@@ -483,6 +483,10 @@
 			</node>
 			<node name="moresettings" value="More settings">
 				<node name="summary" value="Dictionary, Images"/>
+				<node name="navigateBySentence" value="Navigation">
+					<node name="summaryOn" value="Navigate by sentence"/>
+					<node name="summaryOff" value="Navigate by paragraph"/>
+				</node>
 			</node>
 			<node name="dictionary" value="Dictionary">
 				<node name="summary" value="Dictionary settings"/>
